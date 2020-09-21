@@ -89,19 +89,20 @@ export default class UIReady extends UIBase {
     DuihuanBtn: Laya.Image;
     Notice: Laya.Image;
     Combine: Laya.Image;
-    Draw:Laya.Image;
-    CharmValue:Laya.Label;
+    Draw: Laya.Image;
+    CharmValue: Laya.Label;
+    ShopBtn: Laya.Image;
     onInit() {
         ADManager.TAPoint(TaT.PageEnter, "mainpage");
 
         //UIMgr.show("UIRecommend");//每日推荐
         //this.CheckPickReward();
         //UIMgr.show("UIPickReward");
-        this.CharmValue=this.vars("CharmValue") as Laya.Label;
-        this.CharmValue.text="魅力值:0";
+        this.CharmValue = this.vars("CharmValue") as Laya.Label;
+        this.CharmValue.text = "魅力值:0";
 
-        this.Draw=this.vars("Draw")as Laya.Image;
-        this.btnEv("Draw",()=>{
+        this.Draw = this.vars("Draw") as Laya.Image;
+        this.btnEv("Draw", () => {
             UIMgr.show("UIDraw");
         })
         this.btnEv("Combine", () => {
@@ -113,6 +114,12 @@ export default class UIReady extends UIBase {
         this.btnEv("Notice", () => {
             UIMgr.show("UINotice");
         })
+
+        // this.ShopBtn = this.vars("ShopBtn") as Laya.Image;
+     
+        // this.btnEv("ShopBtn", () => {
+        //     UIMgr.show("UIShop")
+        // })
 
         this.DuihuanBtn = this.vars("DuihuanBtn") as Laya.Image;
         this.btnEv("DuihuanBtn", () => {
@@ -214,7 +221,7 @@ export default class UIReady extends UIBase {
         }
         else {
             GameDataController.setFirstLoginTime();
-            this.UICombine.visible=true;
+            this.UICombine.visible = true;
             RecordManager.startAutoRecord();
         }
 
@@ -275,8 +282,7 @@ export default class UIReady extends UIBase {
         }
 
         let havesign = GameDataController.TodaySign;
-        if (havesign)
-        {
+        if (havesign) {
             if (havesign == "1") {
 
             }
@@ -453,7 +459,7 @@ export default class UIReady extends UIBase {
 
     onShow() {
 
-        
+
         // this.FenxiangBtnShake()
         ADManager.TAPoint(TaT.BtnShow, "fenxiang_click");
         ADManager.TAPoint(TaT.BtnShow, "paizhao_click");
@@ -599,8 +605,7 @@ export default class UIReady extends UIBase {
     //     this.isLeftMove=true;
     // }
 
-    Refresh() 
-    {
+    Refresh() {
         //更新橱窗套装信息
         GameDataController.ClothPackge2.cloths1.forEach((v, i) => {
             let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths1[i].ID]
@@ -621,8 +626,7 @@ export default class UIReady extends UIBase {
         GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths3[0].GetType2, this.str2)//第三套
 
     }
-    CharmValueShow()
-    {
-        this.CharmValue.text="魅力值:"+GameDataController.CharmValue;
+    CharmValueShow() {
+        this.CharmValue.text = "魅力值:" + GameDataController.CharmValue;
     }
 }

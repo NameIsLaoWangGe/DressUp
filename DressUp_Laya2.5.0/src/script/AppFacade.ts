@@ -24,6 +24,7 @@ import UICombine from "./Game/UI/UICombine";
 import UIDuiHuan from "./Game/UI/UIDuiHuan";
 import UINotice from "./Game/UI/UINotice";
 import UIDraw from "./Game/UI/UIDraw";
+import UIShop from "./Game/UI/UIShop";
 
 G["Game_Init"] = Game_Init;
 G["Game_Ready"] = Game_Ready;
@@ -38,27 +39,25 @@ G["UIActive"] = UIActive;
 G["UISubMoneyEf"] = UISubMoneyEf;
 G["UISign"] = UISign;
 G["UIPhotos"] = UIPhotos;
-G["UITest"]=UITest;
-G["UIWing"]=UIWing;
-G["UITip"]=UITip;
-G["UIPick"]=UIPick;
-G["UIRank"]=UIRank;
-G["UIPickLoading"]=UIPickLoading;
-G["UIPickReward"]=UIPickReward;
-G["UICombine"]=UICombine;
-G["UIDuiHuan"]=UIDuiHuan;
-G["UINotice"]=UINotice;
-G["UIDraw"]=UIDraw;
+G["UITest"] = UITest;
+G["UIWing"] = UIWing;
+G["UITip"] = UITip;
+G["UIPick"] = UIPick;
+G["UIRank"] = UIRank;
+G["UIPickLoading"] = UIPickLoading;
+G["UIPickReward"] = UIPickReward;
+G["UICombine"] = UICombine;
+G["UIDuiHuan"] = UIDuiHuan;
+G["UINotice"] = UINotice;
+G["UIDraw"] = UIDraw;
+G["UIShop"] = UIShop;
 
-export default class AppFacade extends Laya.View
-{
-    constructor()
-    {
+export default class AppFacade extends Laya.View {
+    constructor() {
         super();
     }
 
-    onOpened()
-    {
+    onOpened() {
         GameMgr.start();
     }
 }

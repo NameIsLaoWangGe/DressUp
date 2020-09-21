@@ -25,6 +25,9 @@ import UpList from "./script/Game/UI/Bag/UpList"
 import DownList from "./script/Game/UI/Bag/DownList"
 import ClothBtn from "./script/Game/UI/Bag/ClothBtn"
 import BagListController from "./script/Game/UI/Bag/BagListController"
+import UITask_GetAward from "./../../../../../../LayaAirIDE2.5.0/LayaAirIDE (1)/resources/app/out/vs/layaEditor/src/script/Game/UITask_GetAward"
+import NativeAd from "./../../../../../../LayaAirIDE2.5.0/LayaAirIDE (1)/resources/app/out/vs/layaEditor/src/script/TJ/NativeAd"
+import UITask from "./../../../../../../LayaAirIDE2.5.0/LayaAirIDE (1)/resources/app/out/vs/layaEditor/src/script/Game/UITask"
 import ProgressBar from "./script/Game/UI/ProgressBar"
 /*
 * 游戏初始化配置;
@@ -36,7 +39,7 @@ export default class GameConfig{
     static screenMode:string="none";
     static alignV:string="top";
     static alignH:string="left";
-    static startScene:any="sys/UIInit.scene";
+    static startScene:any="sys/UIShop.scene";
     static sceneRoot:string="";
     static debug:boolean=false;
     static stat:boolean=false;
@@ -71,6 +74,9 @@ export default class GameConfig{
         reg("script/Game/UI/Bag/DownList.ts",DownList);
         reg("script/Game/UI/Bag/ClothBtn.ts",ClothBtn);
         reg("script/Game/UI/Bag/BagListController.ts",BagListController);
+        reg("../../../../../../LayaAirIDE2.5.0/LayaAirIDE (1)/resources/app/out/vs/layaEditor/src/script/Game/UITask_GetAward.ts",UITask_GetAward);
+        reg("../../../../../../LayaAirIDE2.5.0/LayaAirIDE (1)/resources/app/out/vs/layaEditor/src/script/TJ/NativeAd.ts",NativeAd);
+        reg("../../../../../../LayaAirIDE2.5.0/LayaAirIDE (1)/resources/app/out/vs/layaEditor/src/script/Game/UITask.ts",UITask);
         reg("script/Game/UI/ProgressBar.ts",ProgressBar);
     }
 }

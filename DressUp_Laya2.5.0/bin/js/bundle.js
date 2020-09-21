@@ -10305,6 +10305,12 @@
         }
     }
 
+    class UIShop extends UIBase {
+        onInit() {
+            console.log('打开商店界面！');
+        }
+    }
+
     G["Game_Init"] = Game_Init;
     G["Game_Ready"] = Game_Ready;
     G["Game_Main"] = Game_Main;
@@ -10328,6 +10334,7 @@
     G["UIDuiHuan"] = UIDuiHuan;
     G["UINotice"] = UINotice;
     G["UIDraw"] = UIDraw;
+    G["UIShop"] = UIShop;
     class AppFacade extends Laya.View {
         constructor() {
             super();
@@ -10406,7 +10413,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "sys/UIInit.scene";
+    GameConfig.startScene = "sys/UIShop.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;
