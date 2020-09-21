@@ -1,0 +1,189 @@
+import ListItem from "./ListItem";
+import AccList from "./AccList";
+import HairList from "./HairList";
+import DressList from "./DressList";
+import UpList from "./UpList";
+import DownList from "./DownList";
+import SockList from "./SockList";
+import ShoesList from "./ShoesList";
+
+import ClothChange from "../../ClothChange";
+import ClothBtn from "./ClothBtn";
+
+export default class BagListController extends Laya.Script
+{
+    static Instance: BagListController;
+    listtype = ListType.HairList;//默认打开头发
+    Bag: Laya.Image;//背包总结点
+    BtnBar: Laya.Box;//按钮合集
+    ShowView: Laya.Panel;//展示界面
+
+    hairList: Laya.List;
+    dressList: Laya.List;
+    shirtList: Laya.List;
+    trousersList: Laya.List;
+    socksList: Laya.List;
+    shoesList: Laya.List;
+    ornamentList: Laya.List;
+
+    Up: Laya.Image;
+    Hair: Laya.Image;
+    Down: Laya.Image;
+    Shoes: Laya.Image;
+    Dress: Laya.Image;
+    Acc: Laya.Image;
+    Sock: Laya.Image;
+
+    ListMap: Map<ListType, ListItem> = new Map<ListType, ListItem>();
+    ListBtn: Laya.List;
+    SelectIndex: number = 0;
+
+    onAwake()
+    {
+        BagListController.Instance = this;
+        this.Bag = this.owner as Laya.Image;
+        this.BtnBar = this.Bag.getChildByName("BtnBar") as Laya.Box;
+        this.ShowView = this.Bag.getChildByName("ShowView") as Laya.Panel;
+        this.ListBtn = this.BtnBar.getChildByName("ListBtn") as Laya.List;
+        this.hairList = this.ShowView.getChildByName("hair").getChildByName("hairList") as Laya.List;
+        let _hairList = this.hairList.getComponent(HairList);
+
+        this.dressList = this.ShowView.getChildByName("dress").getChildByName("dressList") as Laya.List;
+        let _dressList = this.dressList.getComponent(DressList);
+
+        this.shirtList = this.ShowView.getChildByName("shirt").getChildByName("shirtList") as Laya.List;
+        let _shirtList = this.shirtList.getComponent(UpList);
+
+        this.trousersList = this.ShowView.getChildByName("trousers").getChildByName("trousersList") as Laya.List;
+        let _trousersList = this.trousersList.getComponent(DownList);
+
+        this.socksList = this.ShowView.getChildByName("socks").getChildByName("socksList") as Laya.List;
+        let _socksList = this.socksList.getComponent(SockList);
+
+        this.shoesList = this.ShowView.getChildByName("shose").getChildByName("shoseList") as Laya.List;
+        let _shoesList = this.shoesList.getComponent(ShoesList);
+
+        this.ornamentList = this.ShowView.getChildByName("ornament").getChildByName("ornamentList") as Laya.List;
+        let _ornamentList = this.ornamentList.getComponent(AccList);
+
+
+        this.ListMap.set(ListType.HairList, _hairList);
+        this.ListMap.set(ListType.DressList, _dressList);
+        this.ListMap.set(ListType.ShirtList, _shirtList);
+        this.ListMap.set(ListType.TrousersList, _trousersList);
+        this.ListMap.set(ListType.SocksList, _socksList);
+        this.ListMap.set(ListType.ShoesList, _shoesList);
+        this.ListMap.set(ListType.OrnamentList, _ornamentList);
+        console.log("BagListControllerOnawake", this.ListMap);
+
+
+        this.Up = this.BtnBar.getChildByName("Up") as Laya.Image;
+        this.Down = this.BtnBar.getChildByName("Down") as Laya.Image;
+        this.Hair = this.BtnBar.getChildByName("Hair") as Laya.Image;
+        this.Acc = this.BtnBar.getChildByName("Acc") as Laya.Image;
+        this.Shoes = this.BtnBar.getChildByName("Shoes") as Laya.Image;
+        this.Dress = this.BtnBar.getChildByName("Dress") as Laya.Image;
+        this.Sock = this.BtnBar.getChildByName("Sock") as Laya.Image;
+
+
+
+        this.BtnBarListFell();
+    }
+
+    Data = ["Btnbar/hair",
+        "Btnbar/dress",
+        "Btnbar/shirt",
+        "Btnbar/trousers",
+        "Btnbar/socks",
+        "Btnbar/shose",
+        "Btnbar/ornament"]
+
+    BtnBarListFell()
+    {
+        this.ListBtn.hScrollBarSkin = "";
+        this.ListBtn.array = this.Data;
+        this.ListBtn.renderHandler = new Laya.Handler(this, this.onWrapItem);
+    }
+    onWrapItem(cell: Laya.Box, index: number)
+    {
+        cell.getComponent(ClothBtn).fell(this.Data[index], index);
+    }
+    onStart()
+    {
+        this.ClothesPageChange(0);
+    }
+    btnev(img: Laya.Image, fun: Function)
+    {
+        img.on(Laya.Event.CLICK, this, fun);
+    }
+    ClothesPageChange(index: number)
+    {
+        this.SelectIndex = index;
+        switch (index)
+        {
+            case ListType.HairList:
+                this.showList(ListType.HairList);
+                break;
+            case ListType.DressList:
+                this.showList(ListType.DressList);
+                break;
+            case ListType.ShoesList:
+                this.showList(ListType.ShoesList);
+                break;
+            case ListType.OrnamentList:
+                this.showList(ListType.OrnamentList);
+                break;
+            case ListType.SocksList:
+                this.showList(ListType.SocksList);
+                break;
+            case ListType.TrousersList:
+                this.showList(ListType.TrousersList);
+                break;
+            case ListType.ShirtList:
+                this.showList(ListType.ShirtList);
+                break;
+        }
+        this.ListBtn.refresh();
+    }
+
+    listnameitem = ListType.HairList;
+    showList(listname: ListType = this.listnameitem)
+    {
+        this.listnameitem = listname;
+        this.ListMap.forEach((v, k) =>
+        {
+            if (k == listname)
+            {
+                (v.owner.parent as Laya.Box).visible = true;
+                v._refresh();
+            }
+            else
+            {
+                (v.owner.parent as Laya.Box).visible = false;
+            }
+        });
+    }
+    getlist(listnumber: number): ListItem
+    {
+        return this.ListMap.get(listnumber);
+    }
+    refresh()
+    {
+        this.ListMap.forEach((v, k) =>
+        {
+            v._refresh();
+        });
+    }
+}
+export enum ListType
+{
+    HairList,
+    DressList,
+    CoatList,
+    ShirtList,
+    TrousersList,
+    SocksList,
+    ShoesList,
+    OrnamentList
+}
+

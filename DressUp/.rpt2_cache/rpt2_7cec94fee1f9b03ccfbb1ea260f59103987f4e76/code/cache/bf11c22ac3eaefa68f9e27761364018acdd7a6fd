@@ -1,0 +1,10 @@
+{
+  "code": "import ListItem from \"./ListItem\";\r\nimport SkinItem from \"./SkinItem\";\r\nimport GameDataController from \"../../GameDataController\";\r\nexport default class AccList extends ListItem {\r\n    onAwake() {\r\n        super.onAwake();\r\n        this._refresh();\r\n        this.List.dataSource = this.Data;\r\n        this.List.renderHandler = new Laya.Handler(this, this.onWrapItem);\r\n    }\r\n    onWrapItem(cell, index) {\r\n        cell.getComponent(SkinItem).fell(this.Data[index]);\r\n    }\r\n    show() {\r\n        this._refresh();\r\n        this.List.dataSource = this.Data;\r\n    }\r\n    refresh() {\r\n        this.Data = GameDataController.OrnamentData;\r\n        this.List.refresh();\r\n    }\r\n    hide() {\r\n        super.hide();\r\n    }\r\n}\r\n//# sourceMappingURL=AccList.js.map",
+  "references": [
+    "D:/新建文件夹/src/script/Game/UI/Bag/ListItem.ts",
+    "D:/新建文件夹/src/script/Game/UI/Bag/SkinItem.ts",
+    "D:/新建文件夹/src/script/Game/ClothData.ts",
+    "D:/新建文件夹/src/script/Game/GameDataController.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"AccList.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../../src/script/Game/UI/Bag/AccList.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,QAAQ,MAAM,YAAY,CAAC;AAClC,OAAO,QAAQ,MAAM,YAAY,CAAC;AAElC,OAAO,kBAAkB,MAAM,0BAA0B,CAAC;AAE1D,MAAM,CAAC,OAAO,OAAO,OAAQ,SAAQ,QAAQ;IAMzC,OAAO;QAEH,KAAK,CAAC,OAAO,EAAE,CAAC;QAChB,IAAI,CAAC,QAAQ,EAAE,CAAC;QAChB,IAAI,CAAC,IAAI,CAAC,UAAU,GAAG,IAAI,CAAC,IAAI,CAAC;QACjC,IAAI,CAAC,IAAI,CAAC,aAAa,GAAG,IAAI,IAAI,CAAC,OAAO,CAAC,IAAI,EAAE,IAAI,CAAC,UAAU,CAAC,CAAC;IACtE,CAAC;IACD,UAAU,CAAC,IAAc,EAAE,KAAa;QAEpC,IAAI,CAAC,YAAY,CAAC,QAAQ,CAAC,CAAC,IAAI,CAAC,IAAI,CAAC,IAAI,CAAC,KAAK,CAAC,CAAC,CAAC;IACvD,CAAC;IACD,IAAI;QAEA,IAAI,CAAC,QAAQ,EAAE,CAAC;QAChB,IAAI,CAAC,IAAI,CAAC,UAAU,GAAG,IAAI,CAAC,IAAI,CAAC;IACrC,CAAC;IACD,OAAO;QAEH,IAAI,CAAC,IAAI,GAAG,kBAAkB,CAAC,YAAY,CAAC;QAC5C,IAAI,CAAC,IAAI,CAAC,OAAO,EAAE,CAAC;IACxB,CAAC;IACD,IAAI;QAEA,KAAK,CAAC,IAAI,EAAE,CAAC;IAEjB,CAAC;CACJ\"}"
+}

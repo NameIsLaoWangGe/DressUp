@@ -1,0 +1,289 @@
+import GameDataController, { ClothPackgeData } from "./GameDataController";
+import ClothData from "./ClothData";
+import { EventMgr } from "../Frame/Core";
+import { clothtype } from "./ClothChange";
+
+export default class ConfigData extends Laya.Script
+{
+
+
+    LoadXml()
+    {
+        let self = this;
+        let _res = [
+            { url: "config/ClothInfo.xml" },
+        ];
+
+        let loadXml = function ()
+        {
+            //解析xml代码
+            self.LoadXml2()
+        }
+
+        Laya.loader.load(_res, Laya.Handler.create(this, function ()
+        {
+            //加载完毕
+            loadXml();
+        }));
+    }
+
+    LoadXml2()
+    {
+        let xmlDom = Laya.Loader.getRes("config/ClothInfo.xml");
+        console.log(xmlDom);
+        let attr = xmlDom.childNodes[0].childNodes;
+        let pack1 = new ClothPackgeData();
+        let pack2 = new ClothPackgeData();
+        let pack3 = new ClothPackgeData();
+        for (var i = 0; i < attr.length; i++)
+        {
+            //console.log("/------------" + i + "-------------/");
+            //console.log(attr[i]);
+            // console.log(attr[i].attributes[0].nodeValue);
+            let temp = new ClothData();
+            for (var j = 0; j < attr[i].attributes.length; j++)
+            {
+                if (attr[i].attributes[j].nodeName == "ID")
+                {
+                    temp.ID = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Name")
+                {
+                    temp.Name = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "NeedItems")
+                {
+                    temp.NeedItems = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "Gender")
+                {
+                    temp.Gender = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Type")
+                {
+                    temp.Type = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Level")
+                {
+                    temp.Level = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Position")
+                {
+                    temp.Position = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "Position2")
+                {
+                    temp.Position2 = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "Label1")
+                {
+                    temp.Label1 = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "Label2")
+                {
+                    temp.Label2 = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "Sort1")
+                {
+                    temp.Sort1 = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Sort2")
+                {
+                    temp.Sort2 = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Price")
+                {
+                    temp.Price = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "IconPath1")
+                {
+                    temp.IconPath1 = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "IconPath2")
+                {
+                    temp.IconPath2 = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "Star")
+                {
+                    temp.Star = parseInt(attr[i].attributes[j].nodeValue);
+                }
+                else if (attr[i].attributes[j].nodeName == "Type2")
+                {
+                    temp.Type2 = attr[i].attributes[j].nodeValue;
+                }
+                else if (attr[i].attributes[j].nodeName == "num")
+                {
+                    temp.num = attr[i].attributes[j].nodeValue;
+                }
+
+            }
+            if (temp.ID == 10000 || temp.ID == 10001 || temp.ID == 10002)
+            {
+
+
+            }
+            else
+            {
+                switch (temp.Type)
+                {
+                    case clothtype.Hair:
+                        GameDataController.HairData.push(temp);
+                        break;
+                    case clothtype.Dress:
+                        GameDataController.DressData.push(temp);
+                        break;
+                    case clothtype.Shirt:
+                        GameDataController.ShirtData.push(temp);
+                        break;
+                    case clothtype.Trousers:
+                        GameDataController.TrousersData.push(temp);
+                        break;
+                    case clothtype.Socks:
+                        GameDataController.SocksData.push(temp);
+                        break;
+                    case clothtype.Shose:
+                        GameDataController.ShoseData.push(temp);
+                        break;
+                    case clothtype.Ornament:
+                        GameDataController.OrnamentData.push(temp);
+                        break;
+                }
+            }
+            if (temp.Type2 != null)//添加套装属性
+            {
+                let a = temp.Type2;
+                let arr = a.split("_");
+                if (arr[0] == "1")
+                {
+                    if (arr[1] == "1")
+                    {
+                        pack1.cloths1.push(temp);
+                    }
+                    if (arr[1] == "2")
+                    {
+                        pack1.cloths2.push(temp);
+
+                    }
+                    if (arr[1] == "3")
+                    {
+                        pack1.cloths3.push(temp);
+
+                    }
+                    if (arr[1] == "4")
+                    {
+                        pack1.cloths4.push(temp);
+
+                    }
+                }
+                else if (arr[0] == "2")
+                {
+                    if (arr[1] == "1")
+                    {
+                        pack2.cloths1.push(temp);
+                    }
+                    if (arr[1] == "2")
+                    {
+                        pack2.cloths2.push(temp);
+
+                    }
+                    if (arr[1] == "3")
+                    {
+                        pack2.cloths3.push(temp);
+
+                    }
+                    if (arr[1] == "4")
+                    {
+                        pack2.cloths4.push(temp);
+                    }
+                }
+                else if (arr[0] == "3")
+                {
+                    if (arr[1] == "1")
+                    {
+                        pack3.cloths1.push(temp);
+                    }
+                    if (arr[1] == "2")
+                    {
+                        pack3.cloths2.push(temp);
+
+                    }
+                    if (arr[1] == "3")
+                    {
+                        pack3.cloths3.push(temp);
+
+                    }
+                    if (arr[1] == "4")
+                    {
+                        pack3.cloths4.push(temp);
+                    }
+                }
+
+            }
+            GameDataController.ClothPackge1 = pack1;
+            GameDataController.ClothPackge2 = pack2;
+            GameDataController.ClothPackge3 = pack3;
+            GameDataController._clothData.set(temp.ID, temp);
+
+            GameDataController.ClothDataAsy[temp.ID] = temp.Price == 0 ? 0 : 1;
+        }
+
+
+        console.log("===========》 版本替换");
+        let firstuse = Laya.LocalStorage.getItem("firstuse");//第一次初始化
+        if (firstuse)
+        {
+            if (firstuse == "0")//非彩蛋版本 第一次添加
+            {
+                Laya.LocalStorage.setJSON("ClothData", GameDataController.ClothDataAsy);
+                Laya.LocalStorage.setItem("firstuse", "1");
+            }
+            else
+            {
+                let Update = {};
+                let oldClothData = Laya.LocalStorage.getJSON("ClothData");
+                let newClothData = GameDataController.ClothDataAsy;
+                for (let k in newClothData)
+                {
+                    let value = GameDataController.ClothDataRefresh[k];
+                    if (value!=null)
+                    {
+                        Update[k] = value;
+                    }
+                    else
+                    {
+                        console.log("新ID",k)
+                        Update[k] = 0;
+                    }
+                }
+                Laya.LocalStorage.setJSON("ClothData",Update);
+            }
+        }
+        else
+        {
+            Laya.LocalStorage.setJSON("ClothData", GameDataController.ClothDataAsy);
+            Laya.LocalStorage.setItem("firstuse", "1");
+        }
+        console.log("===========》");
+        console.log("_ClothData", GameDataController._ClothData);
+        // console.log("HairData", GameDataController.HairData);
+        // console.log("DressData", GameDataController.DressData);
+        // console.log("ShirtData", GameDataController.ShirtData);
+        // console.log("TrousersData", GameDataController.TrousersData);
+        // console.log("SocksData", GameDataController.SocksData);
+        // console.log("ShoseData", GameDataController.ShoseData);
+        // console.log("OrnamentData", GameDataController.OrnamentData);
+        // console.log("ClothPackge1", GameDataController.ClothPackge1);
+        // console.log("ClothPackge2", GameDataController.ClothPackge2);
+        // console.log("ClothPackge3", GameDataController.ClothPackge3);
+
+        GameDataController._ClothData.forEach((v) =>
+        {
+            if (v.GetPath1())
+            {
+                Laya.loader.load(v.GetPath1());
+            }
+        })
+        EventMgr.notify("sgl1");
+    }
+}
+

@@ -1,0 +1,10 @@
+[
+  {
+    "flatMessage": "Cannot find module '../Formula'.",
+    "formatted": "\u001b[96mE:/ClothGame/src/script/Game/State/Game_Settle.ts\u001b[0m:\u001b[93m2\u001b[0m:\u001b[93m27\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2307: \u001b[0mCannot find module '../Formula'.\r\n\r\n\u001b[7m2\u001b[0m import { GameEvent } from \"../Formula\";\r\n\u001b[7m \u001b[0m \u001b[91m                          ~~~~~~~~~~~~\u001b[0m\r\n",
+    "category": 1,
+    "code": 2307,
+    "type": "semantic",
+    "fileLine": "E:/ClothGame/src/script/Game/State/Game_Settle.ts(2,27)"
+  }
+]

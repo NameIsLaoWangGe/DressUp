@@ -1,0 +1,18 @@
+[
+  {
+    "flatMessage": "Cannot find module './BgSkinItem'.",
+    "formatted": "\u001b[96m../../../../NewProject/src/script/Game/UI/Bag/BagListController.ts\u001b[0m:\u001b[93m13\u001b[0m:\u001b[93m24\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2307: \u001b[0mCannot find module './BgSkinItem'.\r\n\r\n\u001b[7m13\u001b[0m import BgSkinItem from \"./BgSkinItem\";\r\n\u001b[7m  \u001b[0m \u001b[91m                       ~~~~~~~~~~~~~~\u001b[0m\r\n\u001b[96m../../../../NewProject/src/script/Game/UI/Bag/BagListController.ts\u001b[0m:\u001b[93m14\u001b[0m:\u001b[93m28\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2307: \u001b[0mCannot find module './BackgroundList'.\r\n\r\n\u001b[7m14\u001b[0m import BackgroundList from \"./BackgroundList\";\r\n\u001b[7m  \u001b[0m \u001b[91m                           ~~~~~~~~~~~~~~~~~~\u001b[0m\r\n",
+    "category": 1,
+    "code": 2307,
+    "type": "semantic",
+    "fileLine": "D:/NewProject/src/script/Game/UI/Bag/BagListController.ts(13,24)"
+  },
+  {
+    "flatMessage": "Cannot find module './BackgroundList'.",
+    "formatted": "\u001b[96m../../../../NewProject/src/script/Game/UI/Bag/BagListController.ts\u001b[0m:\u001b[93m13\u001b[0m:\u001b[93m24\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2307: \u001b[0mCannot find module './BgSkinItem'.\r\n\r\n\u001b[7m13\u001b[0m import BgSkinItem from \"./BgSkinItem\";\r\n\u001b[7m  \u001b[0m \u001b[91m                       ~~~~~~~~~~~~~~\u001b[0m\r\n\u001b[96m../../../../NewProject/src/script/Game/UI/Bag/BagListController.ts\u001b[0m:\u001b[93m14\u001b[0m:\u001b[93m28\u001b[0m - \u001b[91merror\u001b[0m\u001b[90m TS2307: \u001b[0mCannot find module './BackgroundList'.\r\n\r\n\u001b[7m14\u001b[0m import BackgroundList from \"./BackgroundList\";\r\n\u001b[7m  \u001b[0m \u001b[91m                           ~~~~~~~~~~~~~~~~~~\u001b[0m\r\n",
+    "category": 1,
+    "code": 2307,
+    "type": "semantic",
+    "fileLine": "D:/NewProject/src/script/Game/UI/Bag/BagListController.ts(14,28)"
+  }
+]

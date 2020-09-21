@@ -1,0 +1,7 @@
+{
+  "code": "export default class GameDataController extends Laya.Script {\r\n    static get ClothData() {\r\n        return this._ClothData;\r\n    }\r\n}\r\nGameDataController._ClothData = new Map();\r\n//# sourceMappingURL=GameDataController.js.map",
+  "references": [
+    "E:/CookingGame514/src/script/Game/ClothData.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"GameDataController.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/script/Game/GameDataController.ts\"],\"names\":[],\"mappings\":\"AAEA,MAAM,CAAC,OAAO,OAAO,kBAAmB,SAAQ,IAAI,CAAC,MAAM;IAEhD,MAAM,KAAK,SAAS;QAEvB,OAAO,IAAI,CAAC,UAAU,CAAC;IAC3B,CAAC;;AACM,6BAAU,GAA2B,IAAI,GAAG,EAAE,CAAC\"}"
+}
