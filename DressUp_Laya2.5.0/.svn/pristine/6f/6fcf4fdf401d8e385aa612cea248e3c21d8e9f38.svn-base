@@ -1,5 +1,0 @@
-{
-  "code": "export default class ActiveItem extends Laya.Script {\r\n}\r\n//# sourceMappingURL=ActiveItem.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"ActiveItem.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/ActiveItem.ts\"],\"names\":[],\"mappings\":\"AAAA,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,IAAI,CAAC,MAAM;CAIlD\"}"
-}

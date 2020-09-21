@@ -1,7 +1,0 @@
-{
-  "code": "export default class GameDataController extends Laya.Script {\r\n    static get _ClothData() {\r\n        return this._clothData;\r\n    }\r\n}\r\nGameDataController._clothData = new Map();\r\nGameDataController.HairData = [];\r\nGameDataController.DressData = [];\r\nGameDataController.ShirtData = [];\r\nGameDataController.TrousersData = [];\r\nGameDataController.SocksData = [];\r\nGameDataController.ShoseData = [];\r\nGameDataController.OrnamentData = [];\r\n//# sourceMappingURL=GameDataController.js.map",
-  "references": [
-    "E:/ClothGame/src/script/Game/ClothData.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"GameDataController.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../src/script/Game/GameDataController.ts\"],\"names\":[],\"mappings\":\"AAEA,MAAM,CAAC,OAAO,OAAO,kBAAmB,SAAQ,IAAI,CAAC,MAAM;IAEhD,MAAM,KAAK,UAAU;QAExB,OAAO,IAAI,CAAC,UAAU,CAAC;IAC3B,CAAC;;AACM,6BAAU,GAA2B,IAAI,GAAG,EAAE,CAAC;AAI/C,2BAAQ,GAAgB,EAAE,CAAC;AAC3B,4BAAS,GAAgB,EAAE,CAAC;AAC5B,4BAAS,GAAgB,EAAE,CAAC;AAC5B,+BAAY,GAAgB,EAAE,CAAC;AAC/B,4BAAS,GAAgB,EAAE,CAAC;AAC5B,4BAAS,GAAgB,EAAE,CAAC;AAC5B,+BAAY,GAAgB,EAAE,CAAC\"}"
-}
