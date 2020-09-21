@@ -27,7 +27,7 @@ import Scene=Laya.Scene;]]>   </codeImportsTS>
    <picHeight>512   </picHeight>
    <power2>false   </power2>
    <trimempty>true   </trimempty>
-   <startScene>sys/UIShop.scene   </startScene>
+   <startScene>sys/UIInit.scene   </startScene>
    <engineType>2D   </engineType>
    <scaleMode>fixedauto   </scaleMode>
    <screenMode>none   </screenMode>

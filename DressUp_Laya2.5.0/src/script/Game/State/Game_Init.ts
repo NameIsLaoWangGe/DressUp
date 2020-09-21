@@ -24,7 +24,6 @@ export default class Game_Init extends BaseState
         }
         Laya.MouseManager.multiTouchEnabled = false;
         UIMgr.show("UIPreload");
-
     }
 
     onEnter(args?: any)

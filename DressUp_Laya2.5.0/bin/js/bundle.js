@@ -7278,6 +7278,10 @@
             this.btnEv("Notice", () => {
                 UIMgr.show("UINotice");
             });
+            this.ShopBtn = this.vars("ShopBtn");
+            this.btnEv("ShopBtn", () => {
+                UIMgr.show("UIShop");
+            });
             this.DuihuanBtn = this.vars("DuihuanBtn");
             this.btnEv("DuihuanBtn", () => {
                 UIMgr.show("UIDuiHuan");
@@ -10305,9 +10309,196 @@
         }
     }
 
+    var Task;
+    (function (Task) {
+        Task._taskData = {
+            arr: [
+                {
+                    name: 'PK3次',
+                    taskType: 'PK',
+                    condition: 3,
+                    resCondition: 0,
+                    rewardType: 'ticket',
+                    rewardNum: 1,
+                },
+                {
+                    name: '观看一个视频',
+                    taskType: 'ads',
+                    condition: 1,
+                    resCondition: 0,
+                    rewardType: 'ticket',
+                    rewardNum: 1,
+                },
+                {
+                    name: '观看两个视频',
+                    taskType: 'ads',
+                    condition: 2,
+                    resCondition: 0,
+                    rewardType: 'ticket',
+                    rewardNum: 1,
+                },
+                {
+                    name: '观看3个视频',
+                    taskType: 'ads',
+                    condition: 3,
+                    resCondition: 0,
+                    rewardType: 'ticket',
+                    rewardNum: 1,
+                },
+            ],
+        };
+        Task.todayData = {
+            get date() {
+                return Laya.LocalStorage.getItem('Task_todayData') ? Number(Laya.LocalStorage.getItem('Task_todayData')) : null;
+            },
+            set date(date) {
+                Laya.LocalStorage.setItem('Task_todayData', date.toString());
+            }
+        };
+        0;
+        function getTaskProperty(ClassName, name, property) {
+            let pro = null;
+            let arr = getTaskClassArr(ClassName);
+            for (let index = 0; index < arr.length; index++) {
+                const element = arr[index];
+                if (element['name'] === name) {
+                    pro = element[property];
+                    break;
+                }
+            }
+            if (pro !== null) {
+                return pro;
+            }
+            else {
+                console.log(name + '找不到属性:' + property, pro);
+                return null;
+            }
+        }
+        Task.getTaskProperty = getTaskProperty;
+        function setTaskProperty(ClassName, name, property, value) {
+            let arr = getTaskClassArr(ClassName);
+            for (let index = 0; index < arr.length; index++) {
+                const element = arr[index];
+                if (element['name'] === name) {
+                    element[property] = value;
+                    break;
+                }
+            }
+            let data = {};
+            data[ClassName] = arr;
+            Laya.LocalStorage.setJSON(ClassName, JSON.stringify(data));
+            if (Task._TaskList) {
+                Task._TaskList.refresh();
+            }
+        }
+        Task.setTaskProperty = setTaskProperty;
+        function getTaskClassArr(ClassName) {
+            let arr = [];
+            switch (ClassName) {
+                case TaskClass.everyday:
+                    arr = Task.everydayTask;
+                    break;
+                case TaskClass.perpetual:
+                    arr = Task.perpetualTask;
+                    break;
+                default:
+                    break;
+            }
+            return arr;
+        }
+        Task.getTaskClassArr = getTaskClassArr;
+        function doDetectionTask(calssName, name, number) {
+            if (!number) {
+                number = 1;
+            }
+            let resCondition = Task.getTaskProperty(calssName, name, Task.TaskProperty.resCondition);
+            let condition = Task.getTaskProperty(calssName, name, Task.TaskProperty.condition);
+            if (Task.getTaskProperty(calssName, name, Task.TaskProperty.get) !== -1) {
+                if (condition <= resCondition + number) {
+                    Task.setTaskProperty(calssName, name, Task.TaskProperty.resCondition, condition);
+                    Task.setTaskProperty(calssName, name, Task.TaskProperty.get, 1);
+                    if (Task._TaskList) {
+                        Task._TaskList.refresh();
+                    }
+                    return 1;
+                }
+                else {
+                    Task.setTaskProperty(calssName, name, Task.TaskProperty.resCondition, resCondition + number);
+                    if (Task._TaskList) {
+                        Task._TaskList.refresh();
+                    }
+                    return 0;
+                }
+            }
+            else {
+                return -1;
+            }
+        }
+        Task.doDetectionTask = doDetectionTask;
+        let TaskProperty;
+        (function (TaskProperty) {
+            TaskProperty["name"] = "name";
+            TaskProperty["explain"] = "explain";
+            TaskProperty["taskType"] = "taskType";
+            TaskProperty["condition"] = "condition";
+            TaskProperty["resCondition"] = "resCondition";
+            TaskProperty["rewardType"] = "rewardType";
+            TaskProperty["rewardNum"] = "rewardNum";
+            TaskProperty["arrange"] = "arrange";
+            TaskProperty["time"] = "time";
+            TaskProperty["get"] = "get";
+        })(TaskProperty = Task.TaskProperty || (Task.TaskProperty = {}));
+        let TaskClass;
+        (function (TaskClass) {
+            TaskClass["everyday"] = "Task_Everyday";
+            TaskClass["perpetual"] = "Task_Perpetual";
+        })(TaskClass = Task.TaskClass || (Task.TaskClass = {}));
+        let EventType;
+        (function (EventType) {
+            EventType["getAward"] = "getAward";
+            EventType["adsGetAward_Every"] = "adsGetAward_Every";
+            EventType["useSkins"] = "useSkins";
+            EventType["victory"] = "victory";
+            EventType["adsTime"] = "adsTime";
+            EventType["victoryBox"] = "victoryBox";
+        })(EventType = Task.EventType || (Task.EventType = {}));
+        let TaskType;
+        (function (TaskType) {
+            TaskType["ads"] = "ads";
+            TaskType["victory"] = "victory";
+            TaskType["useSkins"] = "useSkins";
+            TaskType["treasureBox"] = "treasureBox";
+        })(TaskType = Task.TaskType || (Task.TaskType = {}));
+        let TaskName;
+        (function (TaskName) {
+            TaskName["\u89C2\u770B\u5E7F\u544A\u83B7\u5F97\u91D1\u5E01"] = "\u89C2\u770B\u5E7F\u544A\u83B7\u5F97\u91D1\u5E01";
+            TaskName["\u6BCF\u65E5\u670D\u52A110\u4F4D\u5BA2\u4EBA"] = "\u6BCF\u65E5\u670D\u52A110\u4F4D\u5BA2\u4EBA";
+            TaskName["\u6BCF\u65E5\u89C2\u770B\u4E24\u4E2A\u5E7F\u544A"] = "\u6BCF\u65E5\u89C2\u770B\u4E24\u4E2A\u5E7F\u544A";
+            TaskName["\u6BCF\u65E5\u4F7F\u75285\u79CD\u76AE\u80A4"] = "\u6BCF\u65E5\u4F7F\u75285\u79CD\u76AE\u80A4";
+            TaskName["\u6BCF\u65E5\u5F00\u542F10\u4E2A\u5B9D\u7BB1"] = "\u6BCF\u65E5\u5F00\u542F10\u4E2A\u5B9D\u7BB1";
+        })(TaskName = Task.TaskName || (Task.TaskName = {}));
+        function initTask() {
+            if (Task.todayData.date !== (new Date).getDate()) {
+                Task.everydayTask = Laya.loader.getRes('GameData/Task/everydayTask.json')['RECORDS'];
+                console.log('不是同一天，每日任务重制！');
+                Task.todayData.date = (new Date).getDate();
+            }
+            else {
+                console.log('是同一天！，继续每日任务');
+            }
+        }
+        Task.initTask = initTask;
+    })(Task || (Task = {}));
     class UIShop extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+        }
         onInit() {
-            console.log('打开商店界面！');
+            console.log(Task._taskData.arr);
+            this.btnEv("BackBtn", () => {
+                this.hide();
+            });
         }
     }
 
@@ -10413,7 +10604,7 @@
     GameConfig.screenMode = "none";
     GameConfig.alignV = "top";
     GameConfig.alignH = "left";
-    GameConfig.startScene = "sys/UIShop.scene";
+    GameConfig.startScene = "sys/UIInit.scene";
     GameConfig.sceneRoot = "";
     GameConfig.debug = false;
     GameConfig.stat = false;

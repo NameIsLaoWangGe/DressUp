@@ -115,11 +115,10 @@ export default class UIReady extends UIBase {
             UIMgr.show("UINotice");
         })
 
-        // this.ShopBtn = this.vars("ShopBtn") as Laya.Image;
-     
-        // this.btnEv("ShopBtn", () => {
-        //     UIMgr.show("UIShop")
-        // })
+        this.ShopBtn = this.vars("ShopBtn") as Laya.Image;
+        this.btnEv("ShopBtn", () => {
+            UIMgr.show("UIShop")
+        })
 
         this.DuihuanBtn = this.vars("DuihuanBtn") as Laya.Image;
         this.btnEv("DuihuanBtn", () => {
