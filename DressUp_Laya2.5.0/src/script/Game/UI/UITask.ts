@@ -213,7 +213,6 @@ export module Task {
         /**永久性任务*/
         perpetual = 'Task_Perpetual',
     }
-
     /**奖励类型*/
     export enum RewardType {
         /**刮刮券*/
@@ -223,7 +222,7 @@ export module Task {
         /**钻石*/
         diamond = 'diamond',
     }
-    /**事件名称*/
+    /**事件类型*/
     export enum EventType {
         /**领取奖励*/
         getAward = 'Task_getAward',
@@ -281,8 +280,76 @@ export module Task {
     }
 }
 
+/**刮刮乐模块*/
+export module Scratchers {
+    /**一共中了那些奖，界面关闭清空*/
+    export let _scratchersArr: Array<number> = [];
+    /**总共挂了几次奖*/
+    export let _scratchersNum = {
+        /**获取存储的日期*/
+        get num(): number {
+            return Laya.LocalStorage.getItem('Scratchers_scratchersNum') ? Number(Laya.LocalStorage.getItem('Scratchers_scratchersNum')) : 0;
+        },
+        /**设置存储的日期*/
+        set num(number: number) {
+            Laya.LocalStorage.setItem('Scratchers_scratchersNum', number.toString());
+        }
+    }
+    /**记录当前正在进行刮奖的奖品*/
+    export let _presentReward: string;
+    /**奖品种类*/
+    export enum _RewardType {
+        tedeng = '未解锁高星级衣服一件',
+        yideng = '未解锁底衣服一件',
+        erdeng = '魅力值10',
+        zailai = '再开一次',
+        xiexie = '谢谢惠顾',
+    }
+    /**图片名称*/
+    export enum _Word {
+        tedeng = 'tedeng',
+        yideng = 'yideng',
+        erdeng = 'erdeng',
+        zailai = 'zailai',
+        xiexie = 'xiexie',
+    }
+    /**事件类型*/
+    export enum EventType {
+        /**开始刮奖*/
+        startScratcher = 'startScratcher',
+        /**结束刮奖*/
+        endScratcher = 'endScratcher',
+    }
+    /**
+     * 随机出一个奖励类型
+     * */
+    export function _randomReward(): string {
+        let ran = Math.floor(Math.random() * 100);
+        if (_scratchersNum.num % 5 == 0) {
+            return _Word.tedeng;
+        } else {
+            if (0 <= ran && ran < 2) {
+                return _Word.tedeng;
+            } else if (2 <= ran && ran < 5) {
+                return _Word.yideng;
+            } else if (5 <= ran && ran < 35) {
+                return _Word.erdeng;
+            } else if (35 <= ran && ran < 65) {
+                return _Word.zailai;
+            } else if (65 <= ran && ran < 100) {
+                return _Word.xiexie;
+            } else {
+                console.log('概率计算错误');
+                return _Word.xiexie;
+            }
+        }
+    }
+}
+
 export default class UITask extends UIBase {
     _openType = OpenType.Attach;
+    Scratchers: Laya.Image;
+    Scrape: Laya.Image;
     onInit(): void {
         this.btnEv("BackBtn", () => {
             this.hide();
@@ -294,10 +361,63 @@ export default class UITask extends UIBase {
             Task.doDetection(Task.Classify.perpetual, name);
         })
         EventMgr.reg(Task.EventType.getAward, this, (name: string) => {
-            // Task.getReward(Task.Classify.perpetual, name);
-            ADManager.ShowReward(()=>{
-            })
-            console.log(Task.getReward(Task.Classify.perpetual, name));
+            Task.getReward(Task.Classify.perpetual, name);
+        })
+
+        this.Scratchers = this.vars('Scratchers') as Laya.Image;
+        this.Scratchers.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => { e.stopPropagation });
+        this.btnEv('BtnScratchersClose', () => {
+            this.Scratchers.x = -800, this.Scrape;
+            if (this.DrawSp) {
+                Tools.node_RemoveAllChildren(this.DrawSp);
+                this.DrawSp = null;
+            }
+        })
+        EventMgr.reg(Scratchers.EventType.startScratcher, this, () => {
+            let name = Scratchers._randomReward();
+            Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [name]);
+            this.Scratchers.x = 0;
+        })
+        EventMgr.reg(Scratchers.EventType.endScratcher, this, () => {
+        })
+        this.scratchers();
+    }
+
+    DrawSp: Laya.Image;
+    Drawlength: number;
+    DrawPosArr: Laya.Point;
+    scratchers(): void {
+        this.Scrape = this.vars('Scrape');
+        this.Scrape.cacheAs = "bitmap";
+        this.vars('Scrape').on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
+            // 初始化一个绘制节点
+            if (!this.DrawSp) {
+                this.Drawlength = 0;
+                this.DrawSp = new Laya.Image();
+                this.Scrape.addChild(this.DrawSp);
+                this.DrawSp.name = 'DrawSp';
+                this.DrawSp.pos(0, 0);
+                this.DrawSp = this.DrawSp;
+                this.DrawSp.blendMode = "destination-out";
+            }
+            // 初始位置
+            this.DrawPosArr = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+        })
+        this.vars('Scrape').on(Laya.Event.MOUSE_MOVE, this, (e: Laya.Event) => {
+            let localPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+            // 画线
+            if (this.DrawPosArr) {
+                (this.DrawSp as Laya.Image).graphics.drawLine(this.DrawPosArr.x, this.DrawPosArr.y, localPos.x, localPos.y, "#000000", 60);
+                this.DrawSp.graphics.drawCircle(localPos.x, localPos.y, 30, "#000000");
+                this.owner['Drawlength'] += this.DrawPosArr.distance(localPos.x, localPos.x);
+                this.DrawPosArr = localPos;
+            }
+        })
+        this.vars('Scrape').on(Laya.Event.MOUSE_UP, this, () => {
+            this.DrawPosArr = null;
+        })
+        this.vars('Scrape').on(Laya.Event.MOUSE_OUT, this, () => {
+            this.DrawPosArr = null;
         })
     }
 

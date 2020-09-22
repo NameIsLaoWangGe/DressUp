@@ -945,256 +945,6 @@
     }
     P106.style = "P106";
 
-    class GameDataController extends Laya.Script {
-        static get _ClothData() {
-            return this._clothData;
-        }
-        static GetFirstLoginTime() {
-            let time = Laya.LocalStorage.getItem("Get");
-            if (time) {
-            }
-            else {
-                Laya.LocalStorage.setItem("Get", "1562730819957");
-                time = Laya.LocalStorage.getItem("Get");
-            }
-            return parseFloat(time);
-        }
-        static setFirstLoginTime() {
-            let time = Date.now();
-            Laya.LocalStorage.setItem("Get", time + "");
-        }
-        static ClothdatapackSet(k, v) {
-            Laya.LocalStorage.setJSON(k, v);
-        }
-        static ClothdatapackGet(k) {
-            return Laya.LocalStorage.getJSON(k);
-        }
-        static ClothdatapackRemove(k) {
-            return Laya.LocalStorage.removeItem(k);
-        }
-        static set ClothDataRefresh(v) {
-            Laya.LocalStorage.setJSON("ClothData", v);
-        }
-        static get ClothDataRefresh() {
-            let a = Laya.LocalStorage.getJSON("ClothData");
-            return a;
-        }
-        static ClothAlllockNum(strs) {
-            let num = Object.keys(strs).length;
-            console.log(Object.keys(strs).length);
-            for (let i in strs) {
-                if (strs[i] == 1) {
-                }
-                else {
-                    num--;
-                }
-            }
-            return num;
-        }
-        static ClothAllLockArr(strs) {
-            let num = Object.keys(strs).length;
-            console.log(Object.keys(strs).length);
-            let temp = [];
-            for (let i in strs) {
-                if (strs[i] == 1) {
-                    temp.push(i);
-                }
-                else {
-                }
-            }
-            console.log(temp);
-            return temp;
-        }
-        static ClothCanUse(Id) {
-            if (this._clothData.has(Id)) {
-                let data = this._clothData.get(Id);
-                if (data.GetType2) {
-                    let str = this.ClothdatapackGet(data.GetType2);
-                    if (str != null) {
-                        if ((data.GetType2.split('_'))[0] == "1") {
-                            let str = this.ClothDataRefresh[Id];
-                            console.log(str);
-                            if (str != null) {
-                                if (GameDataController.ClothDataRefresh[Id] == 1) {
-                                    return false;
-                                }
-                                else {
-                                    return true;
-                                }
-                            }
-                        }
-                        else if ((data.GetType2.split('_'))[0] == "2") {
-                            let num = GameDataController.ClothAlllockNum(str);
-                            if (num > 0) {
-                                return false;
-                            }
-                            else {
-                                return true;
-                            }
-                        }
-                        else if ((data.GetType2.split('_'))[0] == "3") {
-                            let str = this.ClothDataRefresh[Id];
-                            console.log(str);
-                            if (str != null) {
-                                if (GameDataController.ClothDataRefresh[Id] == 1) {
-                                    return false;
-                                }
-                                else {
-                                    return true;
-                                }
-                            }
-                        }
-                        else if ((data.GetType2.split('_'))[0] == "4") {
-                            let str = this.ClothDataRefresh[Id];
-                            console.log(str);
-                            if (str != null) {
-                                if (GameDataController.ClothDataRefresh[Id] == 1) {
-                                    return false;
-                                }
-                                else {
-                                    return true;
-                                }
-                            }
-                        }
-                        else {
-                            return true;
-                        }
-                    }
-                    else {
-                        console.log("无当前衣服套装", Id);
-                        return false;
-                    }
-                }
-                else {
-                    let str = this.ClothDataRefresh[Id];
-                    console.log(str);
-                    if (str != null) {
-                        if (GameDataController.ClothDataRefresh[Id] == 1) {
-                            return false;
-                        }
-                        else {
-                            return true;
-                        }
-                    }
-                    else {
-                        return false;
-                    }
-                }
-            }
-            else {
-                return false;
-            }
-        }
-        static GetFirstToNow() {
-            let FirstDay = this.GetFirstLoginTime();
-            let NowDay = Date.now();
-            let FirstDayTo1 = Math.ceil((NowDay - FirstDay) / (24 * 60 * 60 * 1000));
-            console.log("两天之间的天数", FirstDayTo1);
-            return FirstDayTo1;
-        }
-        static set PhotosData(v) {
-            Laya.LocalStorage.setJSON("PhotosData", v);
-        }
-        static get PhotosData() {
-            let a = Laya.LocalStorage.getJSON("PhotosData");
-            if (a) {
-            }
-            else {
-                Laya.LocalStorage.setJSON("PhotosData", null);
-            }
-            return a;
-        }
-        static set PhotosIDarr(v) {
-            Laya.LocalStorage.setJSON("PhotosIDarr", v);
-        }
-        static get PhotosIDarr() {
-            let a = Laya.LocalStorage.getJSON("PhotosIDarr");
-            if (a) {
-            }
-            else {
-                Laya.LocalStorage.setJSON("PhotosIDarr", null);
-            }
-            return a;
-        }
-        static SetLastTime() {
-            let item = Date.now();
-            Laya.LocalStorage.setItem("LastTime", item + "");
-        }
-        static GetLastTime() {
-            let time = Laya.LocalStorage.getItem("LastTime");
-            if (time != null) {
-            }
-            else {
-                Laya.LocalStorage.setItem("LastTime", "1562730819957");
-                time = Laya.LocalStorage.getItem("LastTime");
-            }
-            return parseFloat(time);
-        }
-        static IsNewDay() {
-            let oldtime = this.GetLastTime();
-            let olddate = new Date(oldtime);
-            let oy = olddate.getFullYear();
-            let om = olddate.getMonth();
-            let od = olddate.getDate();
-            let curTime = Date.now();
-            let nowDate = new Date();
-            let ny = nowDate.getFullYear();
-            let nm = nowDate.getMonth();
-            let nd = nowDate.getDate();
-            return (curTime > oldtime) && (ny > oy || nm > om || nd > od);
-        }
-        static set TodayHeCheng(v) {
-            Laya.LocalStorage.setItem("TodayHeCheng", v);
-        }
-        static get TodayHeCheng() {
-            return Laya.LocalStorage.getItem("TodayHeCheng");
-        }
-        static set TodaySign(v) {
-            Laya.LocalStorage.setItem("TodaySign", v);
-        }
-        static get TodaySign() {
-            return Laya.LocalStorage.getItem("TodaySign");
-        }
-        static set PickNum(v) {
-            Laya.LocalStorage.setItem("PickNum", v);
-        }
-        static get PickNum() {
-            return Laya.LocalStorage.getItem("PickNum");
-        }
-        static set TodayWinNum(v) {
-            Laya.LocalStorage.setItem("TodayWinNum", v);
-        }
-        static get TodayWinNum() {
-            return Laya.LocalStorage.getItem("TodayWinNum");
-        }
-        static set CharmValue(v) {
-            Laya.LocalStorage.setItem("CharmValue", v);
-        }
-        static get CharmValue() {
-            return Laya.LocalStorage.getItem("CharmValue");
-        }
-    }
-    GameDataController._clothData = new Map();
-    GameDataController.HairData = [];
-    GameDataController.DressData = [];
-    GameDataController.ShirtData = [];
-    GameDataController.TrousersData = [];
-    GameDataController.SocksData = [];
-    GameDataController.ShoseData = [];
-    GameDataController.OrnamentData = [];
-    GameDataController.PetData = [];
-    GameDataController.PickData = [];
-    GameDataController.ClothDataAsy = {};
-    class ClothPackgeData extends Laya.Script {
-        constructor() {
-            super(...arguments);
-            this.cloths1 = [];
-            this.cloths2 = [];
-            this.cloths3 = [];
-            this.cloths4 = [];
-        }
-    }
-
     var GameEvent;
     (function (GameEvent) {
         GameEvent["preloadStep"] = "preloadStep";
@@ -5018,6 +4768,459 @@
         ListType[ListType["PetList"] = 8] = "PetList";
     })(ListType || (ListType = {}));
 
+    var Tools;
+    (function (Tools) {
+        function taskCircleCountdown(parent, startAngle, endAngle) {
+            parent.cacheAs = "bitmap";
+            if (parent.numChildren > 0) {
+                let drawPieSpt = parent.getChildAt(0);
+                console.log("endAngle", endAngle);
+                let drawPie = drawPieSpt.graphics.drawPie(parent.width / 2, parent.height / 2, parent.width / 2 + 10, startAngle, endAngle, "#000000");
+                return drawPie;
+            }
+            else {
+                let drawPieSpt = new Laya.Sprite();
+                parent.addChild(drawPieSpt);
+                let drawPie = drawPieSpt.graphics.drawPie(parent.width / 2, parent.height / 2, parent.width / 2 + 10, startAngle, endAngle, "#000000");
+                return drawPie;
+            }
+        }
+        Tools.taskCircleCountdown = taskCircleCountdown;
+        function arrayRandomGetOut(arr, num) {
+            if (!num) {
+                num = 1;
+            }
+            let arrCopy = Tools.array_Copy(arr);
+            let arr0 = [];
+            if (num > arrCopy.length) {
+                return '数组长度小于取出的数！';
+            }
+            else {
+                for (let index = 0; index < num; index++) {
+                    let ran = Math.round(Math.random() * (arrCopy.length - 1));
+                    let a1 = arrCopy[ran];
+                    arrCopy.splice(ran, 1);
+                    arr0.push(a1);
+                }
+                return arr0;
+            }
+        }
+        Tools.arrayRandomGetOut = arrayRandomGetOut;
+        function array_Copy(arr1) {
+            var arr = [];
+            for (var i = 0; i < arr1.length; i++) {
+                arr.push(arr1[i]);
+            }
+            return arr;
+        }
+        Tools.array_Copy = array_Copy;
+        function obj_DeepCopy(source) {
+            var sourceCopy = {};
+            for (var item in source)
+                sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
+            return sourceCopy;
+        }
+        Tools.obj_DeepCopy = obj_DeepCopy;
+        function objArray_Copy(source) {
+            var sourceCopy = source instanceof Array ? [] : {};
+            for (var item in source) {
+                sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
+            }
+            return sourceCopy;
+        }
+        Tools.objArray_Copy = objArray_Copy;
+        function dataCompareDifferent(data1, data2, property) {
+            var result = [];
+            for (var i = 0; i < data1.length; i++) {
+                var obj1 = data1[i];
+                var obj1Name = obj1[property];
+                var isExist = false;
+                for (var j = 0; j < data2.length; j++) {
+                    var obj2 = data2[j];
+                    var obj2Name = obj2[property];
+                    if (obj2Name == obj1Name) {
+                        isExist = true;
+                        break;
+                    }
+                }
+                if (!isExist) {
+                    result.push(obj1);
+                }
+            }
+            return result;
+        }
+        Tools.dataCompareDifferent = dataCompareDifferent;
+        function data1AddToData2(data1, data2) {
+            for (let index = 0; index < data2.length; index++) {
+                const element = data2[index];
+                data1.push(element);
+            }
+        }
+        Tools.data1AddToData2 = data1AddToData2;
+        function dataCompare(arr, storageName, propertyName) {
+            let dataArr;
+            if (Laya.LocalStorage.getJSON(storageName)) {
+                dataArr = JSON.parse(Laya.LocalStorage.getJSON(storageName))[storageName];
+                console.log(storageName + '从本地缓存中获取到数据,将和文件夹的json文件进行对比');
+                try {
+                    let dataArr_0 = arr;
+                    if (dataArr_0.length >= dataArr.length) {
+                        let diffArray = Tools.dataCompareDifferent(dataArr_0, dataArr, propertyName);
+                        console.log('两个数据的差值为：', diffArray);
+                        Tools.data1AddToData2(dataArr, diffArray);
+                    }
+                    else {
+                        console.log(storageName + '数据表填写有误，长度不能小于之前的长度');
+                    }
+                }
+                catch (error) {
+                    console.log(storageName, '数据赋值失败！请检查数据表或者手动赋值！');
+                }
+            }
+            else {
+                try {
+                    dataArr = arr;
+                }
+                catch (error) {
+                    console.log(storageName + '数据赋值失败！请检查数据表或者手动赋值！');
+                }
+            }
+            let data = {};
+            data[storageName] = dataArr;
+            Laya.LocalStorage.setJSON(storageName, JSON.stringify(data));
+            return dataArr;
+        }
+        Tools.dataCompare = dataCompare;
+        function node_RemoveAllChildren(node) {
+            if (node.numChildren > 0) {
+                node.removeChildren(0, node.numChildren - 1);
+            }
+        }
+        Tools.node_RemoveAllChildren = node_RemoveAllChildren;
+        function node_2DShowExcludedChild(node, childNameArr, bool) {
+            for (let i = 0; i < node.numChildren; i++) {
+                let Child = node.getChildAt(i);
+                for (let j = 0; j < childNameArr.length; j++) {
+                    if (Child.name == childNameArr[j]) {
+                        if (bool || bool == undefined) {
+                            Child.visible = true;
+                        }
+                        else {
+                            Child.visible = false;
+                        }
+                    }
+                    else {
+                        if (bool || bool == undefined) {
+                            Child.visible = false;
+                        }
+                        else {
+                            Child.visible = true;
+                        }
+                    }
+                }
+            }
+        }
+        Tools.node_2DShowExcludedChild = node_2DShowExcludedChild;
+    })(Tools || (Tools = {}));
+
+    class GameDataController extends Laya.Script {
+        static get _ClothData() {
+            return this._clothData;
+        }
+        static GetFirstLoginTime() {
+            let time = Laya.LocalStorage.getItem("Get");
+            if (time) {
+            }
+            else {
+                Laya.LocalStorage.setItem("Get", "1562730819957");
+                time = Laya.LocalStorage.getItem("Get");
+            }
+            return parseFloat(time);
+        }
+        static setFirstLoginTime() {
+            let time = Date.now();
+            Laya.LocalStorage.setItem("Get", time + "");
+        }
+        static ClothdatapackSet(k, v) {
+            Laya.LocalStorage.setJSON(k, v);
+        }
+        static ClothdatapackGet(k) {
+            return Laya.LocalStorage.getJSON(k);
+        }
+        static ClothdatapackRemove(k) {
+            return Laya.LocalStorage.removeItem(k);
+        }
+        static set ClothDataRefresh(v) {
+            Laya.LocalStorage.setJSON("ClothData", v);
+        }
+        static get ClothDataRefresh() {
+            let a = Laya.LocalStorage.getJSON("ClothData");
+            return a;
+        }
+        static ClothAlllockNum(strs) {
+            let num = Object.keys(strs).length;
+            console.log(Object.keys(strs).length);
+            for (let i in strs) {
+                if (strs[i] == 1) {
+                }
+                else {
+                    num--;
+                }
+            }
+            return num;
+        }
+        static ClothAllLockArr(strs) {
+            let num = Object.keys(strs).length;
+            console.log(Object.keys(strs).length);
+            let temp = [];
+            for (let i in strs) {
+                if (strs[i] == 1) {
+                    temp.push(i);
+                }
+                else {
+                }
+            }
+            console.log(temp);
+            return temp;
+        }
+        static ClothCanUse(Id) {
+            if (this._clothData.has(Id)) {
+                let data = this._clothData.get(Id);
+                if (data.GetType2) {
+                    let str = this.ClothdatapackGet(data.GetType2);
+                    if (str != null) {
+                        if ((data.GetType2.split('_'))[0] == "1") {
+                            let str = this.ClothDataRefresh[Id];
+                            console.log(str);
+                            if (str != null) {
+                                if (GameDataController.ClothDataRefresh[Id] == 1) {
+                                    return false;
+                                }
+                                else {
+                                    return true;
+                                }
+                            }
+                        }
+                        else if ((data.GetType2.split('_'))[0] == "2") {
+                            let num = GameDataController.ClothAlllockNum(str);
+                            if (num > 0) {
+                                return false;
+                            }
+                            else {
+                                return true;
+                            }
+                        }
+                        else if ((data.GetType2.split('_'))[0] == "3") {
+                            let str = this.ClothDataRefresh[Id];
+                            console.log(str);
+                            if (str != null) {
+                                if (GameDataController.ClothDataRefresh[Id] == 1) {
+                                    return false;
+                                }
+                                else {
+                                    return true;
+                                }
+                            }
+                        }
+                        else if ((data.GetType2.split('_'))[0] == "4") {
+                            let str = this.ClothDataRefresh[Id];
+                            console.log(str);
+                            if (str != null) {
+                                if (GameDataController.ClothDataRefresh[Id] == 1) {
+                                    return false;
+                                }
+                                else {
+                                    return true;
+                                }
+                            }
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    else {
+                        console.log("无当前衣服套装", Id);
+                        return false;
+                    }
+                }
+                else {
+                    let str = this.ClothDataRefresh[Id];
+                    console.log(str);
+                    if (str != null) {
+                        if (GameDataController.ClothDataRefresh[Id] == 1) {
+                            return false;
+                        }
+                        else {
+                            return true;
+                        }
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+            else {
+                return false;
+            }
+        }
+        static GetFirstToNow() {
+            let FirstDay = this.GetFirstLoginTime();
+            let NowDay = Date.now();
+            let FirstDayTo1 = Math.ceil((NowDay - FirstDay) / (24 * 60 * 60 * 1000));
+            console.log("两天之间的天数", FirstDayTo1);
+            return FirstDayTo1;
+        }
+        static set PhotosData(v) {
+            Laya.LocalStorage.setJSON("PhotosData", v);
+        }
+        static get PhotosData() {
+            let a = Laya.LocalStorage.getJSON("PhotosData");
+            if (a) {
+            }
+            else {
+                Laya.LocalStorage.setJSON("PhotosData", null);
+            }
+            return a;
+        }
+        static set PhotosIDarr(v) {
+            Laya.LocalStorage.setJSON("PhotosIDarr", v);
+        }
+        static get PhotosIDarr() {
+            let a = Laya.LocalStorage.getJSON("PhotosIDarr");
+            if (a) {
+            }
+            else {
+                Laya.LocalStorage.setJSON("PhotosIDarr", null);
+            }
+            return a;
+        }
+        static SetLastTime() {
+            let item = Date.now();
+            Laya.LocalStorage.setItem("LastTime", item + "");
+        }
+        static GetLastTime() {
+            let time = Laya.LocalStorage.getItem("LastTime");
+            if (time != null) {
+            }
+            else {
+                Laya.LocalStorage.setItem("LastTime", "1562730819957");
+                time = Laya.LocalStorage.getItem("LastTime");
+            }
+            return parseFloat(time);
+        }
+        static IsNewDay() {
+            let oldtime = this.GetLastTime();
+            let olddate = new Date(oldtime);
+            let oy = olddate.getFullYear();
+            let om = olddate.getMonth();
+            let od = olddate.getDate();
+            let curTime = Date.now();
+            let nowDate = new Date();
+            let ny = nowDate.getFullYear();
+            let nm = nowDate.getMonth();
+            let nd = nowDate.getDate();
+            return (curTime > oldtime) && (ny > oy || nm > om || nd > od);
+        }
+        static set TodayHeCheng(v) {
+            Laya.LocalStorage.setItem("TodayHeCheng", v);
+        }
+        static get TodayHeCheng() {
+            return Laya.LocalStorage.getItem("TodayHeCheng");
+        }
+        static set TodaySign(v) {
+            Laya.LocalStorage.setItem("TodaySign", v);
+        }
+        static get TodaySign() {
+            return Laya.LocalStorage.getItem("TodaySign");
+        }
+        static set PickNum(v) {
+            Laya.LocalStorage.setItem("PickNum", v);
+        }
+        static get PickNum() {
+            return Laya.LocalStorage.getItem("PickNum");
+        }
+        static set TodayWinNum(v) {
+            Laya.LocalStorage.setItem("TodayWinNum", v);
+        }
+        static get TodayWinNum() {
+            return Laya.LocalStorage.getItem("TodayWinNum");
+        }
+        static set CharmValue(v) {
+            Laya.LocalStorage.setItem("CharmValue", v);
+        }
+        static get CharmValue() {
+            return Laya.LocalStorage.getItem("CharmValue");
+        }
+        static Get_All_UnLock_Cloth() {
+            let arr = [];
+            for (let k in GameDataController.ClothDataAsy) {
+                if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2) {
+                    if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
+                        arr.push(k);
+                    }
+                }
+            }
+            return arr;
+        }
+        static Get_All_UnLock_HighStarCloth() {
+            let arr = [];
+            for (let k in GameDataController.ClothDataAsy) {
+                if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2 && GameDataController._ClothData.get(parseInt(k)).Star == 3) {
+                    if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
+                        arr.push(k);
+                    }
+                }
+            }
+            let t = Tools.arrayRandomGetOut(arr, 1);
+            let cloth = GameDataController._ClothData.get(parseInt(t));
+            GameDataController.ClothDataRefresh[cloth.ID] == 0;
+            BagListController.Instance.showList();
+            BagListController.Instance.refresh();
+            return cloth;
+        }
+        static Get_All_UnLock_LowStarCloth() {
+            let arr = [];
+            for (let k in GameDataController.ClothDataAsy) {
+                if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2 && GameDataController._ClothData.get(parseInt(k)).Star == 1 || GameDataController._ClothData.get(parseInt(k)).Star == 2) {
+                    if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
+                        arr.push(k);
+                    }
+                }
+            }
+            let t = Tools.arrayRandomGetOut(arr, 1);
+            let cloth = GameDataController._ClothData.get(parseInt(t));
+            GameDataController.ClothDataRefresh[cloth.ID] == 0;
+            BagListController.Instance.showList();
+            BagListController.Instance.refresh();
+            return cloth;
+        }
+        static AddCharmValue(num) {
+            let a = parseInt(GameDataController.CharmValue);
+            GameDataController.CharmValue = (a + num).toString();
+            UIMgr.get("UIReady").CharmValueShow();
+        }
+    }
+    GameDataController._clothData = new Map();
+    GameDataController.HairData = [];
+    GameDataController.DressData = [];
+    GameDataController.ShirtData = [];
+    GameDataController.TrousersData = [];
+    GameDataController.SocksData = [];
+    GameDataController.ShoseData = [];
+    GameDataController.OrnamentData = [];
+    GameDataController.PetData = [];
+    GameDataController.PickData = [];
+    GameDataController.ClothDataAsy = {};
+    class ClothPackgeData extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.cloths1 = [];
+            this.cloths2 = [];
+            this.cloths3 = [];
+            this.cloths4 = [];
+        }
+    }
+
     class ActiveItem extends Laya.Script {
         constructor() {
             super(...arguments);
@@ -7196,131 +7399,6 @@
         }
     }
 
-    var Tools;
-    (function (Tools) {
-        function taskCircleCountdown(parent, startAngle, endAngle) {
-            parent.cacheAs = "bitmap";
-            if (parent.numChildren > 0) {
-                let drawPieSpt = parent.getChildAt(0);
-                console.log("endAngle", endAngle);
-                let drawPie = drawPieSpt.graphics.drawPie(parent.width / 2, parent.height / 2, parent.width / 2 + 10, startAngle, endAngle, "#000000");
-                return drawPie;
-            }
-            else {
-                let drawPieSpt = new Laya.Sprite();
-                parent.addChild(drawPieSpt);
-                let drawPie = drawPieSpt.graphics.drawPie(parent.width / 2, parent.height / 2, parent.width / 2 + 10, startAngle, endAngle, "#000000");
-                return drawPie;
-            }
-        }
-        Tools.taskCircleCountdown = taskCircleCountdown;
-        function arrayRandomGetOut(arr, num) {
-            if (!num) {
-                num = 1;
-            }
-            let arrCopy = Tools.array_Copy(arr);
-            let arr0 = [];
-            if (num > arrCopy.length) {
-                return '数组长度小于取出的数！';
-            }
-            else {
-                for (let index = 0; index < num; index++) {
-                    let ran = Math.round(Math.random() * (arrCopy.length - 1));
-                    let a1 = arrCopy[ran];
-                    arrCopy.splice(ran, 1);
-                    arr0.push(a1);
-                }
-                return arr0;
-            }
-        }
-        Tools.arrayRandomGetOut = arrayRandomGetOut;
-        function array_Copy(arr1) {
-            var arr = [];
-            for (var i = 0; i < arr1.length; i++) {
-                arr.push(arr1[i]);
-            }
-            return arr;
-        }
-        Tools.array_Copy = array_Copy;
-        function obj_DeepCopy(source) {
-            var sourceCopy = {};
-            for (var item in source)
-                sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
-            return sourceCopy;
-        }
-        Tools.obj_DeepCopy = obj_DeepCopy;
-        function objArray_Copy(source) {
-            var sourceCopy = source instanceof Array ? [] : {};
-            for (var item in source) {
-                sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
-            }
-            return sourceCopy;
-        }
-        Tools.objArray_Copy = objArray_Copy;
-        function dataCompareDifferent(data1, data2, property) {
-            var result = [];
-            for (var i = 0; i < data1.length; i++) {
-                var obj1 = data1[i];
-                var obj1Name = obj1[property];
-                var isExist = false;
-                for (var j = 0; j < data2.length; j++) {
-                    var obj2 = data2[j];
-                    var obj2Name = obj2[property];
-                    if (obj2Name == obj1Name) {
-                        isExist = true;
-                        break;
-                    }
-                }
-                if (!isExist) {
-                    result.push(obj1);
-                }
-            }
-            return result;
-        }
-        Tools.dataCompareDifferent = dataCompareDifferent;
-        function data1AddToData2(data1, data2) {
-            for (let index = 0; index < data2.length; index++) {
-                const element = data2[index];
-                data1.push(element);
-            }
-        }
-        Tools.data1AddToData2 = data1AddToData2;
-        function dataCompare(arr, storageName, propertyName) {
-            let dataArr;
-            if (Laya.LocalStorage.getJSON(storageName)) {
-                dataArr = JSON.parse(Laya.LocalStorage.getJSON(storageName))[storageName];
-                console.log(storageName + '从本地缓存中获取到数据,将和文件夹的json文件进行对比');
-                try {
-                    let dataArr_0 = arr;
-                    if (dataArr_0.length >= dataArr.length) {
-                        let diffArray = Tools.dataCompareDifferent(dataArr_0, dataArr, propertyName);
-                        console.log('两个数据的差值为：', diffArray);
-                        Tools.data1AddToData2(dataArr, diffArray);
-                    }
-                    else {
-                        console.log(storageName + '数据表填写有误，长度不能小于之前的长度');
-                    }
-                }
-                catch (error) {
-                    console.log(storageName, '数据赋值失败！请检查数据表或者手动赋值！');
-                }
-            }
-            else {
-                try {
-                    dataArr = arr;
-                }
-                catch (error) {
-                    console.log(storageName + '数据赋值失败！请检查数据表或者手动赋值！');
-                }
-            }
-            let data = {};
-            data[storageName] = dataArr;
-            Laya.LocalStorage.setJSON(storageName, JSON.stringify(data));
-            return dataArr;
-        }
-        Tools.dataCompare = dataCompare;
-    })(Tools || (Tools = {}));
-
     var Task;
     (function (Task) {
         Task._taskPerpetualData = [
@@ -7534,6 +7612,67 @@
         }
         Task.refreshTask = refreshTask;
     })(Task || (Task = {}));
+    var Scratchers;
+    (function (Scratchers) {
+        Scratchers._scratchersArr = [];
+        Scratchers._scratchersNum = {
+            get num() {
+                return Laya.LocalStorage.getItem('Scratchers_scratchersNum') ? Number(Laya.LocalStorage.getItem('Scratchers_scratchersNum')) : 0;
+            },
+            set num(number) {
+                Laya.LocalStorage.setItem('Scratchers_scratchersNum', number.toString());
+            }
+        };
+        let _RewardType;
+        (function (_RewardType) {
+            _RewardType["tedeng"] = "\u672A\u89E3\u9501\u9AD8\u661F\u7EA7\u8863\u670D\u4E00\u4EF6";
+            _RewardType["yideng"] = "\u672A\u89E3\u9501\u5E95\u8863\u670D\u4E00\u4EF6";
+            _RewardType["erdeng"] = "\u9B45\u529B\u503C10";
+            _RewardType["zailai"] = "\u518D\u5F00\u4E00\u6B21";
+            _RewardType["xiexie"] = "\u8C22\u8C22\u60E0\u987E";
+        })(_RewardType = Scratchers._RewardType || (Scratchers._RewardType = {}));
+        let _Word;
+        (function (_Word) {
+            _Word["tedeng"] = "tedeng";
+            _Word["yideng"] = "yideng";
+            _Word["erdeng"] = "erdeng";
+            _Word["zailai"] = "zailai";
+            _Word["xiexie"] = "xiexie";
+        })(_Word = Scratchers._Word || (Scratchers._Word = {}));
+        let EventType;
+        (function (EventType) {
+            EventType["startScratcher"] = "startScratcher";
+            EventType["endScratcher"] = "endScratcher";
+        })(EventType = Scratchers.EventType || (Scratchers.EventType = {}));
+        function _randomReward() {
+            let ran = Math.floor(Math.random() * 100);
+            if (Scratchers._scratchersNum.num % 5 == 0) {
+                return _Word.tedeng;
+            }
+            else {
+                if (0 <= ran && ran < 2) {
+                    return _Word.tedeng;
+                }
+                else if (2 <= ran && ran < 5) {
+                    return _Word.yideng;
+                }
+                else if (5 <= ran && ran < 35) {
+                    return _Word.erdeng;
+                }
+                else if (35 <= ran && ran < 65) {
+                    return _Word.zailai;
+                }
+                else if (65 <= ran && ran < 100) {
+                    return _Word.xiexie;
+                }
+                else {
+                    console.log('概率计算错误');
+                    return _Word.xiexie;
+                }
+            }
+        }
+        Scratchers._randomReward = _randomReward;
+    })(Scratchers || (Scratchers = {}));
     class UITask extends UIBase {
         constructor() {
             super(...arguments);
@@ -7550,7 +7689,55 @@
                 Task.doDetection(Task.Classify.perpetual, name);
             });
             EventMgr.reg(Task.EventType.getAward, this, (name) => {
-                console.log(Task.getReward(Task.Classify.perpetual, name));
+                Task.getReward(Task.Classify.perpetual, name);
+            });
+            this.Scratchers = this.vars('Scratchers');
+            this.Scratchers.on(Laya.Event.MOUSE_DOWN, this, (e) => { e.stopPropagation; });
+            this.btnEv('BtnScratchersClose', () => {
+                this.Scratchers.x = -800, this.Scrape;
+                if (this.DrawSp) {
+                    Tools.node_RemoveAllChildren(this.DrawSp);
+                    this.DrawSp = null;
+                }
+            });
+            EventMgr.reg(Scratchers.EventType.startScratcher, this, () => {
+                let name = Scratchers._randomReward();
+                Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [name]);
+                this.Scratchers.x = 0;
+            });
+            EventMgr.reg(Scratchers.EventType.endScratcher, this, () => {
+            });
+            this.scratchers();
+        }
+        scratchers() {
+            this.Scrape = this.vars('Scrape');
+            this.Scrape.cacheAs = "bitmap";
+            this.vars('Scrape').on(Laya.Event.MOUSE_DOWN, this, (e) => {
+                if (!this.DrawSp) {
+                    this.Drawlength = 0;
+                    this.DrawSp = new Laya.Image();
+                    this.Scrape.addChild(this.DrawSp);
+                    this.DrawSp.name = 'DrawSp';
+                    this.DrawSp.pos(0, 0);
+                    this.DrawSp = this.DrawSp;
+                    this.DrawSp.blendMode = "destination-out";
+                }
+                this.DrawPosArr = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+            });
+            this.vars('Scrape').on(Laya.Event.MOUSE_MOVE, this, (e) => {
+                let localPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+                if (this.DrawPosArr) {
+                    this.DrawSp.graphics.drawLine(this.DrawPosArr.x, this.DrawPosArr.y, localPos.x, localPos.y, "#000000", 60);
+                    this.DrawSp.graphics.drawCircle(localPos.x, localPos.y, 30, "#000000");
+                    this.owner['Drawlength'] += this.DrawPosArr.distance(localPos.x, localPos.x);
+                    this.DrawPosArr = localPos;
+                }
+            });
+            this.vars('Scrape').on(Laya.Event.MOUSE_UP, this, () => {
+                this.DrawPosArr = null;
+            });
+            this.vars('Scrape').on(Laya.Event.MOUSE_OUT, this, () => {
+                this.DrawPosArr = null;
             });
         }
         onShow() {
@@ -10708,7 +10895,7 @@
             });
             this.BtnGet.on(Laya.Event.MOUSE_UP, this, (e) => {
                 e.currentTarget.scale(1, 1);
-                EventMgr.notify(Task.EventType.getAward, [this.owner['_dataSource']['name']]);
+                EventMgr.notify(Scratchers.EventType.startScratcher);
             });
             this.BtnGet.on(Laya.Event.MOUSE_OUT, this, (e) => {
                 e.currentTarget.scale(1, 1);

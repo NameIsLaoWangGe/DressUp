@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":36,
+    "selectedBox":41,
+    "selecteID":44,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":37,
+    "maxID":54,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -315,6 +315,129 @@
                     "child":[
                         ],
                     "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Ticket,Ticket",
+                    "props":{"y":664,"x":362,"width":655,"var":"Ticket","skin":"UITask/di.png","pivotY":158,"pivotX":328,"name":"Ticket","height":316},
+                    "nodeParent":33,
+                    "label":"Ticket",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":41,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,PrizeLevel,PrizeLevel",
+                            "props":{"y":89,"x":114,"width":427,"var":"PrizeLevel","name":"PrizeLevel","height":137},
+                            "nodeParent":41,
+                            "label":"PrizeLevel",
+                            "isOpen":false,
+                            "isDirectory":true,
+                            "isAniNode":true,
+                            "hasChild":true,
+                            "compId":44,
+                            "child":[
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,xiexie",
+                                    "props":{"y":28.5,"x":22.5,"skin":"UITask/xiexie.png","name":"xiexie"},
+                                    "nodeParent":44,
+                                    "label":"xiexie",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":43,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,erdeng",
+                                    "props":{"y":29.5,"x":72.5,"skin":"UITask/erdeng.png","name":"erdeng"},
+                                    "nodeParent":44,
+                                    "label":"erdeng",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":46,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,tedeng",
+                                    "props":{"y":29.5,"x":72.5,"skin":"UITask/tedeng.png","name":"tedeng"},
+                                    "nodeParent":44,
+                                    "label":"tedeng",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":47,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,yideng",
+                                    "props":{"y":29.5,"x":72.5,"skin":"UITask/yideng.png","name":"yideng"},
+                                    "nodeParent":44,
+                                    "label":"yideng",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":48,
+                                    "child":[
+                                        ]
+                                },
+                                {
+                                    "type":"Image",
+                                    "searchKey":"Image,zailai",
+                                    "props":{"y":29,"x":23,"skin":"UITask/zailai.png","name":"zailai"},
+                                    "nodeParent":44,
+                                    "label":"zailai",
+                                    "isDirectory":false,
+                                    "isAniNode":true,
+                                    "hasChild":false,
+                                    "compId":49,
+                                    "child":[
+                                        ]
+                                }]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,Scrape,Scrape",
+                            "props":{"y":27,"x":59.5,"var":"Scrape","skin":"UITask/gua2.png","name":"Scrape"},
+                            "nodeParent":41,
+                            "label":"Scrape",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":42,
+                            "child":[
+                                ],
+                            "$HIDDEN":false
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,BtnScratchersClose,BtnScratchersClose",
+                    "props":{"y":536,"x":659,"width":79,"var":"BtnScratchersClose","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"BtnScratchersClose","height":79},
+                    "nodeParent":33,
+                    "label":"BtnScratchersClose",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":53,
+                    "child":[
+                        ]
                 }]
         }],
     "animations":[

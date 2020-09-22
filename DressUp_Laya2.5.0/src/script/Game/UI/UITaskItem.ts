@@ -1,6 +1,6 @@
 import ADManager from "../../Admanager";
 import { EventMgr } from "../../Frame/Core";
-import { Task } from "./UITask";
+import { Scratchers, Task } from "./UITask";
 
 export default class UITaskItem extends Laya.Script {
     BtnAds: Laya.Image;
@@ -28,7 +28,7 @@ export default class UITaskItem extends Laya.Script {
         })
         this.BtnGet.on(Laya.Event.MOUSE_UP, this, (e: Laya.Event) => {
             e.currentTarget.scale(1, 1);
-            EventMgr.notify(Task.EventType.getAward, [this.owner['_dataSource']['name']])
+            EventMgr.notify(Scratchers.EventType.startScratcher);
         })
         this.BtnGet.on(Laya.Event.MOUSE_OUT, this, (e: Laya.Event) => {
             e.currentTarget.scale(1, 1);
