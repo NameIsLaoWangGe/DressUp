@@ -69,7 +69,27 @@ export module Tools {
         }
         return arr;
     }
+    /**
+     * 对象的拷贝
+     * @param source 需要拷贝的对象
+     */
+    export function obj_DeepCopy(source) {
+        var sourceCopy = {};
+        for (var item in source) sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
+        return sourceCopy;
+    }
 
+    /**
+     * 对象数组的拷贝
+     * @param ObjArray 需要拷贝的对象数组 
+     */
+    export function objArray_Copy(source): any {
+        var sourceCopy = source instanceof Array ? [] : {};
+        for (var item in source) {
+            sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
+        }
+        return sourceCopy;
+    }
     /**
      * 对比两个对象数组中的对象属性，返回相对第一个数组中，第二个数组没有这个属性的对象
      * @param data1 对象数组1

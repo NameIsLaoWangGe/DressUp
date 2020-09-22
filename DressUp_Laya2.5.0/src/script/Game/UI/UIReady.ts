@@ -91,7 +91,7 @@ export default class UIReady extends UIBase {
     Combine: Laya.Image;
     Draw: Laya.Image;
     CharmValue: Laya.Label;
-    ShopBtn: Laya.Image;
+    TaskBtn: Laya.Image;
     onInit() {
         ADManager.TAPoint(TaT.PageEnter, "mainpage");
 
@@ -115,8 +115,8 @@ export default class UIReady extends UIBase {
             UIMgr.show("UINotice");
         })
 
-        this.ShopBtn = this.vars("ShopBtn") as Laya.Image;
-        this.btnEv("ShopBtn", () => {
+        this.TaskBtn = this.vars("TaskBtn") as Laya.Image;
+        this.btnEv("TaskBtn", () => {
             UIMgr.show("UITask")
         })
 

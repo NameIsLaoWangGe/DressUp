@@ -277,10 +277,10 @@
                 {
                     "x":30,
                     "type":"Image",
-                    "searchKey":"Image,ShopBtn,ShopBtn",
-                    "props":{"y":245,"x":132,"width":115,"var":"ShopBtn","skin":"UIShop/gua.png","pivotY":39,"pivotX":58,"name":"ShopBtn","height":78},
+                    "searchKey":"Image,TaskBtn,TaskBtn",
+                    "props":{"y":245,"x":132,"width":115,"var":"TaskBtn","skin":"UITask/gua.png","pivotY":39,"pivotX":58,"name":"TaskBtn","height":78},
                     "nodeParent":518,
-                    "label":"ShopBtn",
+                    "label":"TaskBtn",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,

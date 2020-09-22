@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":12,
-    "selecteID":13,
+    "selectedBox":2,
+    "selecteID":36,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":33,
+    "maxID":37,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -62,7 +62,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,SceneContent,SceneContent",
-            "props":{"width":651,"var":"SceneContent","top":115,"skin":"UITask/board.png","sizeGrid":"206,0,114,0","name":"SceneContent","height":993,"centerX":0,"alpha":1},
+            "props":{"width":651,"var":"SceneContent","top":115,"skin":"UITask/board.png","sizeGrid":"206,0,114,0","name":"SceneContent","height":993,"centerX":4,"alpha":1},
             "nodeParent":2,
             "label":"SceneContent",
             "isOpen":true,
@@ -200,7 +200,7 @@
                                     "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,AwardNum,AwardNum",
-                                    "props":{"y":108,"x":79,"width":87,"var":"AwardNum","valign":"middle","text":"x45","strokeColor":"#ffffff","stroke":2,"pivotY":11,"pivotX":51,"name":"AwardNum","height":21,"fontSize":20,"color":"#216b18","bold":true,"align":"right"},
+                                    "props":{"y":164,"x":137,"width":87,"var":"AwardNum","valign":"middle","strokeColor":"#ffffff","stroke":2,"pivotY":11,"pivotX":51,"name":"AwardNum","height":21,"fontSize":20,"color":"#216b18","bold":true,"align":"right"},
                                     "nodeParent":13,
                                     "label":"AwardNum",
                                     "isDirectory":false,
@@ -286,6 +286,36 @@
                         ]
                 }],
             "$HIDDEN":false
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,Scratchers,Scratchers",
+            "props":{"y":0,"x":-720,"width":720,"var":"Scratchers","name":"Scratchers","height":1280},
+            "nodeParent":2,
+            "label":"Scratchers",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":33,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,ScratchersBg,ScratchersBg",
+                    "props":{"y":0,"x":0,"var":"ScratchersBg","top":0,"skin":"common/black.png","right":0,"name":"ScratchersBg","left":0,"bottom":0,"alpha":0.7},
+                    "nodeParent":33,
+                    "label":"ScratchersBg",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":34,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                }]
         }],
     "animations":[
         {

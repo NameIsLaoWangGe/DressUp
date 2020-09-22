@@ -7242,6 +7242,21 @@
             return arr;
         }
         Tools.array_Copy = array_Copy;
+        function obj_DeepCopy(source) {
+            var sourceCopy = {};
+            for (var item in source)
+                sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
+            return sourceCopy;
+        }
+        Tools.obj_DeepCopy = obj_DeepCopy;
+        function objArray_Copy(source) {
+            var sourceCopy = source instanceof Array ? [] : {};
+            for (var item in source) {
+                sourceCopy[item] = typeof source[item] === 'object' ? obj_DeepCopy(source[item]) : source[item];
+            }
+            return sourceCopy;
+        }
+        Tools.objArray_Copy = objArray_Copy;
         function dataCompareDifferent(data1, data2, property) {
             var result = [];
             for (var i = 0; i < data1.length; i++) {
@@ -7317,6 +7332,7 @@
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
                 ticketNum: 0,
+                get: 0,
             },
             {
                 name: '观看一个视频',
@@ -7326,6 +7342,7 @@
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
                 ticketNum: 0,
+                get: 0,
             },
             {
                 name: '观看两个视频',
@@ -7335,6 +7352,7 @@
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
                 ticketNum: 0,
+                get: 0,
             },
             {
                 name: '观看3个视频',
@@ -7344,14 +7362,15 @@
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
                 ticketNum: 0,
+                get: 0,
             },
         ];
         Task._today = {
             get date() {
-                return Laya.LocalStorage.getItem('Task__todayData') ? Number(Laya.LocalStorage.getItem('Task__todayData')) : null;
+                return Laya.LocalStorage.getItem('Task_todayDate') ? Number(Laya.LocalStorage.getItem('Task_todayDate')) : null;
             },
-            set date(date) {
-                Laya.LocalStorage.setItem('Task__todayData', date.toString());
+            set date(d) {
+                Laya.LocalStorage.setItem('Task_todayDate', d.toString());
             }
         };
         function getProperty(ClassName, name, property) {
@@ -7393,10 +7412,10 @@
         function getClassArr(ClassName) {
             let arr = [];
             switch (ClassName) {
-                case Class.everyday:
+                case Classify.everyday:
                     arr = Task._everydayTask;
                     break;
-                case Class.perpetual:
+                case Classify.perpetual:
                     arr = Task._perpetualTask;
                     break;
                 default:
@@ -7411,28 +7430,43 @@
             }
             let resCondition = Task.getProperty(calssName, name, Task.Property.resCondition);
             let condition = Task.getProperty(calssName, name, Task.Property.condition);
+            let num = -1;
+            console.log(resCondition, condition);
             if (Task.getProperty(calssName, name, Task.Property.get) !== -1) {
                 if (condition <= resCondition + number) {
                     Task.setProperty(calssName, name, Task.Property.resCondition, condition);
                     Task.setProperty(calssName, name, Task.Property.get, 1);
-                    if (Task._TaskList) {
-                        Task._TaskList.refresh();
-                    }
-                    return 1;
+                    num = 1;
                 }
                 else {
                     Task.setProperty(calssName, name, Task.Property.resCondition, resCondition + number);
-                    if (Task._TaskList) {
-                        Task._TaskList.refresh();
-                    }
-                    return 0;
+                    num = 0;
                 }
             }
+            if (Task._TaskList) {
+                Task._TaskList.refresh();
+            }
+            return num;
+        }
+        Task.doDetection = doDetection;
+        function getReward(Classify, name) {
+            let data = {};
+            let rewardType = getProperty(Classify, name, Property.rewardType);
+            let rewardNum = getProperty(Classify, name, Property.rewardNum);
+            let get = getProperty(Classify, name, Property.get);
+            if (get == 1) {
+                setProperty(Classify, name, Property.get, -1);
+                return data = {
+                    rewardType: rewardType,
+                    rewardNum: rewardNum,
+                };
+            }
             else {
+                console.log('领取条件不足');
                 return -1;
             }
         }
-        Task.doDetection = doDetection;
+        Task.getReward = getReward;
         let Property;
         (function (Property) {
             Property["name"] = "name";
@@ -7446,11 +7480,11 @@
             Property["time"] = "time";
             Property["get"] = "get";
         })(Property = Task.Property || (Task.Property = {}));
-        let Class;
-        (function (Class) {
-            Class["everyday"] = "Task_Everyday";
-            Class["perpetual"] = "Task_Perpetual";
-        })(Class = Task.Class || (Task.Class = {}));
+        let Classify;
+        (function (Classify) {
+            Classify["everyday"] = "Task_Everyday";
+            Classify["perpetual"] = "Task_Perpetual";
+        })(Classify = Task.Classify || (Task.Classify = {}));
         let RewardType;
         (function (RewardType) {
             RewardType["scratchTicket"] = "scratchTicket";
@@ -7463,7 +7497,7 @@
             EventType["adsGetAward_Every"] = "Task_adsGetAward_Every";
             EventType["useSkins"] = "Task_useSkins";
             EventType["victory"] = "Task_victory";
-            EventType["adsTime"] = "Task_adsTime";
+            EventType["watchAds"] = "Task_watchAds";
             EventType["victoryBox"] = "Task_victoryBox";
             EventType["PK"] = "Task_PK";
         })(EventType = Task.EventType || (Task.EventType = {}));
@@ -7477,23 +7511,28 @@
         })(CompeletType = Task.CompeletType || (Task.CompeletType = {}));
         let name;
         (function (name) {
-            name[name["PK3\u6B21"] = 0] = "PK3\u6B21";
-            name[name["\u89C2\u770B\u4E00\u4E2A\u89C6\u9891"] = 1] = "\u89C2\u770B\u4E00\u4E2A\u89C6\u9891";
-            name[name["\u89C2\u770B\u4E24\u4E2A\u89C6\u9891"] = 2] = "\u89C2\u770B\u4E24\u4E2A\u89C6\u9891";
-            name[name["\u89C2\u770B3\u4E2A\u89C6\u9891"] = 3] = "\u89C2\u770B3\u4E2A\u89C6\u9891";
+            name["PK3\u6B21"] = "PK3\u6B21";
+            name["\u89C2\u770B\u4E00\u4E2A\u89C6\u9891"] = "\u89C2\u770B\u4E00\u4E2A\u89C6\u9891";
+            name["\u89C2\u770B\u4E24\u4E2A\u89C6\u9891"] = "\u89C2\u770B\u4E24\u4E2A\u89C6\u9891";
+            name["\u89C2\u770B3\u4E2A\u89C6\u9891"] = "\u89C2\u770B3\u4E2A\u89C6\u9891";
         })(name = Task.name || (Task.name = {}));
         function init() {
-            console.log('任务模块初始化！');
-            Task._perpetualTask = Tools.dataCompare(Task._taskPerpetualData, Class.perpetual, Property.name);
+            Task._perpetualTask = Tools.dataCompare(Tools.objArray_Copy(Task._taskPerpetualData), Classify.perpetual, Property.name);
             EventMgr.reg(EventType.PK, Task, () => {
-                doDetection(Class.perpetual, name[0]);
+                doDetection(Classify.perpetual, name.PK3次);
             });
         }
         Task.init = init;
-        function refreshData() {
-            Task._perpetualTask = Task._taskPerpetualData;
+        function refreshTask() {
+            let data = {};
+            data[Classify.perpetual] = Tools.objArray_Copy(Task._taskPerpetualData);
+            Laya.LocalStorage.setJSON(Classify.perpetual, JSON.stringify(data));
+            Task._TaskList.array = Task._perpetualTask = Tools.objArray_Copy(Task._taskPerpetualData);
+            if (Task._TaskList) {
+                Task._TaskList.refresh();
+            }
         }
-        Task.refreshData = refreshData;
+        Task.refreshTask = refreshTask;
     })(Task || (Task = {}));
     class UITask extends UIBase {
         constructor() {
@@ -7501,35 +7540,50 @@
             this._openType = OpenType.Attach;
         }
         onInit() {
-            console.log(Task._taskPerpetualData);
             this.btnEv("BackBtn", () => {
                 this.hide();
             });
+            this.btnEv('refreshBtn', () => {
+                Task.refreshTask();
+            });
+            EventMgr.reg(Task.EventType.watchAds, this, (name) => {
+                Task.doDetection(Task.Classify.perpetual, name);
+            });
+            EventMgr.reg(Task.EventType.getAward, this, (name) => {
+                console.log(Task.getReward(Task.Classify.perpetual, name));
+            });
+        }
+        onShow() {
             Task._TaskList = this.vars('ShopList');
             Task._TaskList.selectEnable = true;
             Task._TaskList.vScrollBarSkin = "";
             Task._TaskList.array = Task._perpetualTask;
-            Task._TaskList.selectHandler = new Laya.Handler(this, (index) => {
-                console.log(index);
-            });
+            Task._TaskList.selectHandler = new Laya.Handler(this, (index) => { });
             Task._TaskList.renderHandler = new Laya.Handler(this, (cell, index) => {
                 let dataSource = cell.dataSource;
                 let Name = cell.getChildByName('Name');
                 Name.text = dataSource.name;
                 let BtnGet = cell.getChildByName('BtnGet');
-                if (dataSource.get === 0) {
-                    BtnGet.skin = 'UI/UITask/weiwancheng.png';
+                if (dataSource.get == 0) {
+                    BtnGet.skin = 'UITask/weiwancheng.png';
                 }
-                else if (dataSource.get === 1) {
-                    BtnGet.skin = 'UI/UITask/linqu.png';
+                else if (dataSource.get == 1) {
+                    BtnGet.skin = 'UITask/lingqu.png';
                 }
-                else if (dataSource.get === -1) {
-                    BtnGet.skin = 'UI/UITask/yilingqu.png';
+                else if (dataSource.get == -1) {
+                    BtnGet.skin = 'UITask/yilingqu.png';
                 }
                 let ProNum = cell.getChildByName('ProNum');
                 ProNum.text = '(' + dataSource.resCondition + '/' + dataSource.condition + ')';
-                let AwardNum = cell.getChildByName('AwardNum');
-                AwardNum.text = dataSource.rewardNum;
+                let BtnAds = cell.getChildByName('BtnAds');
+                if (dataSource.name == Task.name.PK3次) {
+                    BtnAds.visible = false;
+                    ProNum.x = 270;
+                }
+                else {
+                    BtnAds.visible = true;
+                    ProNum.x = 370;
+                }
             });
         }
     }
@@ -7617,8 +7671,8 @@
             this.btnEv("Notice", () => {
                 UIMgr.show("UINotice");
             });
-            this.ShopBtn = this.vars("ShopBtn");
-            this.btnEv("ShopBtn", () => {
+            this.TaskBtn = this.vars("TaskBtn");
+            this.btnEv("TaskBtn", () => {
                 UIMgr.show("UITask");
             });
             this.DuihuanBtn = this.vars("DuihuanBtn");
@@ -10636,13 +10690,28 @@
     class UITaskItem extends Laya.Script {
         onAwake() {
             this.BtnAds = this.owner.getChildByName('BtnAds');
-            this.BtnGet = this.owner.getChildByName('BtnGet');
-            console.log(this.BtnAds);
-            this.BtnAds.on(Laya.Event.MOUSE_UP, this, () => {
-                console.log('看广告！');
+            this.BtnAds.on(Laya.Event.MOUSE_DOWN, this, (e) => {
+                e.currentTarget.scale(1.1, 1.1);
             });
-            this.BtnGet.on(Laya.Event.MOUSE_UP, this, () => {
-                console.log('领取奖励！');
+            this.BtnAds.on(Laya.Event.MOUSE_UP, this, (e) => {
+                e.currentTarget.scale(1, 1);
+                EventMgr.notify(Task.EventType.watchAds, [this.owner['_dataSource']['name']]);
+                ADManager.ShowReward(() => {
+                });
+            });
+            this.BtnAds.on(Laya.Event.MOUSE_OUT, this, (e) => {
+                e.currentTarget.scale(1, 1);
+            });
+            this.BtnGet = this.owner.getChildByName('BtnGet');
+            this.BtnGet.on(Laya.Event.MOUSE_DOWN, this, (e) => {
+                e.currentTarget.scale(1.1, 1.1);
+            });
+            this.BtnGet.on(Laya.Event.MOUSE_UP, this, (e) => {
+                e.currentTarget.scale(1, 1);
+                EventMgr.notify(Task.EventType.getAward, [this.owner['_dataSource']['name']]);
+            });
+            this.BtnGet.on(Laya.Event.MOUSE_OUT, this, (e) => {
+                e.currentTarget.scale(1, 1);
             });
         }
     }
