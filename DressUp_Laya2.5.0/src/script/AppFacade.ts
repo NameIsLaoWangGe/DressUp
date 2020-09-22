@@ -24,7 +24,8 @@ import UICombine from "./Game/UI/UICombine";
 import UIDuiHuan from "./Game/UI/UIDuiHuan";
 import UINotice from "./Game/UI/UINotice";
 import UIDraw from "./Game/UI/UIDraw";
-import UIShop from "./Game/UI/UIShop";
+import UITask from "./Game/UI/UITask";
+
 
 G["Game_Init"] = Game_Init;
 G["Game_Ready"] = Game_Ready;
@@ -50,7 +51,7 @@ G["UICombine"] = UICombine;
 G["UIDuiHuan"] = UIDuiHuan;
 G["UINotice"] = UINotice;
 G["UIDraw"] = UIDraw;
-G["UIShop"] = UIShop;
+G["UITask"] = UITask;
 
 export default class AppFacade extends Laya.View {
     constructor() {

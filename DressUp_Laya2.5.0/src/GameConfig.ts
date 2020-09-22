@@ -25,6 +25,7 @@ import UpList from "./script/Game/UI/Bag/UpList"
 import DownList from "./script/Game/UI/Bag/DownList"
 import ClothBtn from "./script/Game/UI/Bag/ClothBtn"
 import BagListController from "./script/Game/UI/Bag/BagListController"
+import UITaskItem from "./script/Game/UI/UITaskItem"
 import ProgressBar from "./script/Game/UI/ProgressBar"
 /*
 * 游戏初始化配置;
@@ -71,6 +72,7 @@ export default class GameConfig{
         reg("script/Game/UI/Bag/DownList.ts",DownList);
         reg("script/Game/UI/Bag/ClothBtn.ts",ClothBtn);
         reg("script/Game/UI/Bag/BagListController.ts",BagListController);
+        reg("script/Game/UI/UITaskItem.ts",UITaskItem);
         reg("script/Game/UI/ProgressBar.ts",ProgressBar);
     }
 }

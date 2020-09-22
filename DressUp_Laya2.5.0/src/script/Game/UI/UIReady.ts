@@ -117,7 +117,7 @@ export default class UIReady extends UIBase {
 
         this.ShopBtn = this.vars("ShopBtn") as Laya.Image;
         this.btnEv("ShopBtn", () => {
-            UIMgr.show("UIShop")
+            UIMgr.show("UITask")
         })
 
         this.DuihuanBtn = this.vars("DuihuanBtn") as Laya.Image;

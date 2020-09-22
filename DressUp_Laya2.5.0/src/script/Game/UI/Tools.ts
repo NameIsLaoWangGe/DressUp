@@ -1,7 +1,6 @@
 
-export module Tools
-{
-    
+export module Tools {
+
 
     /**
    * 为一个节点创建一个扇形遮罩
@@ -9,23 +8,20 @@ export module Tools
    * @param startAngle 扇形的初始角度
    * @param endAngle 扇形结束角度
   */
-    export function taskCircleCountdown(parent: Laya.Image, startAngle, endAngle): Laya.DrawPieCmd
-    {
+    export function taskCircleCountdown(parent: Laya.Image, startAngle, endAngle): Laya.DrawPieCmd {
         // 父节点cacheAs模式必须为"bitmap"
         parent.cacheAs = "bitmap";
         //新建一个sprite作为绘制扇形节点
-        if (parent.numChildren > 0)
-        {
+        if (parent.numChildren > 0) {
             let drawPieSpt = parent.getChildAt(0) as Laya.Sprite;
             //drawPieSpt.blendMode = "destination-out";
             // 加入父节点
             // 绘制扇形，位置在中心位置，大小略大于父节点，保证完全遮住
-            console.log("endAngle",endAngle);
+            console.log("endAngle", endAngle);
             let drawPie = drawPieSpt.graphics.drawPie(parent.width / 2, parent.height / 2, parent.width / 2 + 10, startAngle, endAngle, "#000000");
             return drawPie;
         }
-        else
-        {
+        else {
             let drawPieSpt = new Laya.Sprite();
             //设置叠加模式
             //drawPieSpt.blendMode = "destination-out";
@@ -62,10 +58,10 @@ export module Tools
             return arr0;
         }
     }
-     /**
-     * 普通数组复制 
-     * @param arr1 被复制的数组
-     */
+    /**
+    * 普通数组复制 
+    * @param arr1 被复制的数组
+    */
     export function array_Copy(arr1): Array<any> {
         var arr = [];
         for (var i = 0; i < arr1.length; i++) {
@@ -74,5 +70,84 @@ export module Tools
         return arr;
     }
 
+    /**
+     * 对比两个对象数组中的对象属性，返回相对第一个数组中，第二个数组没有这个属性的对象
+     * @param data1 对象数组1
+     * @param data2 对象数组2
+     * @param property 需要对比的属性名称
+    */
+    export function dataCompareDifferent(data1: Array<any>, data2: Array<any>, property: string): Array<any> {
+        var result = [];
+        for (var i = 0; i < data1.length; i++) {
+            var obj1 = data1[i];
+            var obj1Name = obj1[property];
+            var isExist = false;
 
+            for (var j = 0; j < data2.length; j++) {
+                var obj2 = data2[j];
+                var obj2Name = obj2[property];
+                if (obj2Name == obj1Name) {
+                    isExist = true;
+                    break;
+                }
+            }
+
+            if (!isExist) {
+                result.push(obj1);
+            }
+        }
+        return result;
+    }
+
+    /**
+       * 往第一个数组中陆续添加第二个数组中的元素
+       * @param data1  
+       * @param data2 
+       */
+    export function data1AddToData2(data1, data2): void {
+        for (let index = 0; index < data2.length; index++) {
+            const element = data2[index];
+            data1.push(element);
+        }
+    }
+
+    /**
+      * 获取本地存储数据并且和文件中数据表对比,对比后会上传
+      * @param arr 本地数据表
+      * @param storageName 本地存储中的json名称
+      * @param propertyName 数组中每个对象中同一个属性名，通过这个名称进行对比
+      */
+    export function dataCompare(arr: Array<any>, storageName: string, propertyName: string): Array<any> {
+        // 第一步，先尝试从本地缓存获取数据，
+        // 第二步，如果本地缓存有，那么需要和数据表中的数据进行对比，把缓存没有的新增对象复制进去
+        // 第三步，如果本地缓存没有，那么直接从数据表获取
+        let dataArr;
+        if (Laya.LocalStorage.getJSON(storageName)) {
+            dataArr = JSON.parse(Laya.LocalStorage.getJSON(storageName))[storageName];
+            console.log(storageName + '从本地缓存中获取到数据,将和文件夹的json文件进行对比');
+            try {
+                let dataArr_0: Array<any> = arr;
+                // 如果本地数据条数大于json条数，说明json减东西了，不会对比，json只能增加不能删减
+                if (dataArr_0.length >= dataArr.length) {
+                    let diffArray = Tools.dataCompareDifferent(dataArr_0, dataArr, propertyName);
+                    console.log('两个数据的差值为：', diffArray);
+                    Tools.data1AddToData2(dataArr, diffArray);
+                } else {
+                    console.log(storageName + '数据表填写有误，长度不能小于之前的长度');
+                }
+            } catch (error) {
+                console.log(storageName, '数据赋值失败！请检查数据表或者手动赋值！')
+            }
+        } else {
+            try {
+                dataArr = arr;
+            } catch (error) {
+                console.log(storageName + '数据赋值失败！请检查数据表或者手动赋值！')
+            }
+        }
+        let data = {};
+        data[storageName] = dataArr;
+        Laya.LocalStorage.setJSON(storageName, JSON.stringify(data));
+        return dataArr;
+    }
 }
