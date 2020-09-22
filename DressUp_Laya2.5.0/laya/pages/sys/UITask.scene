@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":41,
-    "selecteID":44,
+    "selectedBox":55,
+    "selecteID":61,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":54,
+    "maxID":64,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -65,14 +65,13 @@
             "props":{"width":651,"var":"SceneContent","top":115,"skin":"UITask/board.png","sizeGrid":"206,0,114,0","name":"SceneContent","height":993,"centerX":4,"alpha":1},
             "nodeParent":2,
             "label":"SceneContent",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":8,
             "child":[
                 {
-                    "x":30,
                     "type":"Sprite",
                     "searchKey":"Sprite,Logo,Logo",
                     "props":{"y":128,"x":330,"width":422,"var":"Logo","texture":"UITask/kai.png","pivotY":21,"pivotX":211,"name":"Logo","height":42},
@@ -86,7 +85,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,TapBtn,TapBtn",
                     "props":{"y":103,"x":602,"width":57,"var":"TapBtn","skin":"UITask/gailv.png","sizeGrid":"0,98,0,76","pivotY":29,"pivotX":29,"name":"TapBtn","height":57},
@@ -100,7 +98,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"List",
                     "searchKey":"List,ShopList,ShopList",
                     "props":{"y":228,"x":26,"width":599,"var":"ShopList","spaceY":5,"repeatY":3,"name":"ShopList","height":645,"alpha":1},
@@ -113,7 +110,6 @@
                     "compId":12,
                     "child":[
                         {
-                            "x":45,
                             "type":"Box",
                             "searchKey":"Box",
                             "props":{"y":0,"x":0,"width":595,"renderType":"render","height":208},
@@ -126,7 +122,6 @@
                             "compId":13,
                             "child":[
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,BoardLang",
                                     "props":{"y":0,"x":0,"width":596,"skin":"UITask/board2.png","sizeGrid":"25,36,24,34","name":"BoardLang","height":203,"alpha":1},
@@ -141,7 +136,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,BoardSmall",
                                     "props":{"y":25,"x":20.5,"width":160,"skin":"sign/kuang.png","sizeGrid":"46,20,52,32","name":"BoardSmall","height":158},
@@ -155,7 +149,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,Name,Name",
                                     "props":{"y":83,"x":198,"width":224,"var":"Name","valign":"middle","text":"每日登陆游戏","pivotY":19,"name":"Name","height":37,"fontSize":28,"color":"#fd6892","bold":true,"align":"left"},
@@ -169,7 +162,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,ProNum",
                                     "props":{"y":67,"x":359,"width":90,"valign":"middle","text":"（1/2）","name":"ProNum","height":32,"fontSize":28,"color":"#fd6892","bold":true,"align":"center"},
@@ -183,7 +175,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,BtnGet,BtnGet",
                                     "props":{"y":164,"x":503,"var":"BtnGet","skin":"UITask/weiwancheng.png","pivotY":36,"pivotX":70,"name":"BtnGet"},
@@ -197,7 +188,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Label",
                                     "searchKey":"Label,AwardNum,AwardNum",
                                     "props":{"y":164,"x":137,"width":87,"var":"AwardNum","valign":"middle","strokeColor":"#ffffff","stroke":2,"pivotY":11,"pivotX":51,"name":"AwardNum","height":21,"fontSize":20,"color":"#216b18","bold":true,"align":"right"},
@@ -211,7 +201,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,AwardIcon,AwardIcon",
                                     "props":{"y":65,"x":43,"var":"AwardIcon","skin":"UITask/gua.png","name":"AwardIcon"},
@@ -225,7 +214,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Sprite",
                                     "searchKey":"Sprite,BtnAds",
                                     "props":{"y":81,"x":471,"width":44,"texture":"UITask/shiping.png","pivotY":19,"pivotX":22,"name":"BtnAds","height":38},
@@ -239,7 +227,6 @@
                                         ]
                                 },
                                 {
-                                    "x":60,
                                     "type":"Script",
                                     "switchAble":true,
                                     "source":"src/script/Game/UI/UITaskItem.ts",
@@ -258,7 +245,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":899,"x":31.5,"skin":"UITask/tishi.png"},
@@ -272,7 +258,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,refreshBtn,refreshBtn",
                     "props":{"y":1072,"width":262,"var":"refreshBtn","skin":"UITask/shuaxin.png","pivotY":53,"pivotX":131,"name":"refreshBtn","height":106,"centerX":0},
@@ -291,7 +276,7 @@
             "x":15,
             "type":"Image",
             "searchKey":"Image,Scratchers,Scratchers",
-            "props":{"y":0,"x":-720,"width":720,"var":"Scratchers","name":"Scratchers","height":1280},
+            "props":{"var":"Scratchers","top":0,"right":0,"name":"Scratchers","left":0,"bottom":0},
             "nodeParent":2,
             "label":"Scratchers",
             "isOpen":true,
@@ -438,6 +423,149 @@
                     "compId":53,
                     "child":[
                         ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,GetReward,GetReward",
+            "props":{"visible":false,"var":"GetReward","top":0,"right":0,"name":"GetReward","left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"GetReward",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":54,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,ScratchersBg",
+                    "props":{"top":0,"skin":"common/black.png","right":0,"name":"ScratchersBg","left":0,"bottom":0,"alpha":0.7},
+                    "nodeParent":54,
+                    "label":"ScratchersBg",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":63,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Box",
+                    "searchKey":"Box,GetBox,GetBox",
+                    "props":{"y":0,"x":0,"width":720,"visible":true,"var":"GetBox","name":"GetBox","height":1280,"centerY":0,"centerX":0},
+                    "nodeParent":54,
+                    "label":"GetBox",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":55,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":246,"x":346,"skin":"main/yincan.png"},
+                            "nodeParent":55,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":56,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,Guang,Guang",
+                            "props":{"y":634,"x":363,"var":"Guang","skin":"main/guang.png","name":"Guang","anchorY":0.5,"anchorX":0.5},
+                            "nodeParent":55,
+                            "label":"Guang",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":57,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,ADBtn,ADBtn",
+                            "props":{"y":960,"x":229,"var":"ADBtn","skin":"main/anniu_kanship.png","name":"ADBtn"},
+                            "nodeParent":55,
+                            "label":"ADBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":58,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,Icon",
+                            "props":{"y":623,"x":360,"skin":"Cloth/Dress/40602.png","name":"Icon","anchorY":0.5,"anchorX":0.5},
+                            "nodeParent":55,
+                            "label":"Icon",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":59,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":128,"x":168.5,"skin":"main/biaoti.png"},
+                            "nodeParent":55,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":60,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,GetRewardCloseBtn,GetRewardCloseBtn",
+                            "props":{"y":36,"x":616,"visible":false,"var":"GetRewardCloseBtn","skin":"sign/X.png","name":"GetRewardCloseBtn"},
+                            "nodeParent":55,
+                            "label":"GetRewardCloseBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":61,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,ShareBtn",
+                            "props":{"y":965,"x":229,"visible":false,"skin":"PK/anniu_fenxaing.png","name":"ShareBtn"},
+                            "nodeParent":55,
+                            "label":"ShareBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":62,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":false
                 }]
         }],
     "animations":[

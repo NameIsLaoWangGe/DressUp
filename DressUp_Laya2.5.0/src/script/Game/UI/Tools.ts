@@ -1,8 +1,7 @@
 
 export module Tools {
 
-
-    /**
+  /**
    * 为一个节点创建一个扇形遮罩
    * @param parent 被遮罩的节点，也是父节点
    * @param startAngle 扇形的初始角度
@@ -31,8 +30,6 @@ export module Tools {
             let drawPie = drawPieSpt.graphics.drawPie(parent.width / 2, parent.height / 2, parent.width / 2 + 10, startAngle, endAngle, "#000000");
             return drawPie;
         }
-
-
     }
 
     /**

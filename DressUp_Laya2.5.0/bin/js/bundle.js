@@ -7611,6 +7611,9 @@
             }
         }
         Task.refreshTask = refreshTask;
+        class UIabc {
+        }
+        Task.UIabc = UIabc;
     })(Task || (Task = {}));
     var Scratchers;
     (function (Scratchers) {
@@ -7646,7 +7649,7 @@
         })(EventType = Scratchers.EventType || (Scratchers.EventType = {}));
         function _randomReward() {
             let ran = Math.floor(Math.random() * 100);
-            if (Scratchers._scratchersNum.num % 5 == 0) {
+            if (Scratchers._scratchersNum.num % 5 == 0 && Scratchers._scratchersNum.num !== 0) {
                 return _Word.tedeng;
             }
             else {
@@ -7679,42 +7682,62 @@
             this._openType = OpenType.Attach;
         }
         onInit() {
+            this.Scratchers = this.vars('Scratchers');
+            this.Scrape = this.vars('Scrape');
+            this.GetReward = this.vars('GetReward');
+            this.GetRewardCloseBtn = this.vars('GetRewardCloseBtn');
+            Task._TaskList = this.vars('ShopList');
+            this.Scratchers.visible = false;
+            this.GetReward.visible = false;
             this.btnEv("BackBtn", () => {
                 this.hide();
+                EventMgr.offAll(this);
+                Laya.timer.clearAll(this);
             });
             this.btnEv('refreshBtn', () => {
                 Task.refreshTask();
             });
+            this.btnEv('GetRewardCloseBtn', this.closeGetReward);
+            this.btnEv('BtnScratchersClose', this.closeScratchers);
             EventMgr.reg(Task.EventType.watchAds, this, (name) => {
                 Task.doDetection(Task.Classify.perpetual, name);
             });
             EventMgr.reg(Task.EventType.getAward, this, (name) => {
                 Task.getReward(Task.Classify.perpetual, name);
             });
-            this.Scratchers = this.vars('Scratchers');
-            this.Scratchers.on(Laya.Event.MOUSE_DOWN, this, (e) => { e.stopPropagation; });
-            this.btnEv('BtnScratchersClose', () => {
-                this.Scratchers.x = -800, this.Scrape;
-                if (this.DrawSp) {
-                    Tools.node_RemoveAllChildren(this.DrawSp);
-                    this.DrawSp = null;
-                }
-            });
             EventMgr.reg(Scratchers.EventType.startScratcher, this, () => {
+                Scratchers._scratchersNum.num++;
                 let name = Scratchers._randomReward();
                 Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [name]);
-                this.Scratchers.x = 0;
-            });
-            EventMgr.reg(Scratchers.EventType.endScratcher, this, () => {
+                this.Scratchers.visible = true;
             });
             this.scratchers();
         }
+        closeScratchers() {
+            this.Scratchers.visible = false;
+            if (this.DrawSp) {
+                Tools.node_RemoveAllChildren(this.Scrape);
+                this.DrawSp = null;
+                this.drawlength = null;
+                this.drawFrontPos = null;
+            }
+        }
+        openGetReward() {
+            this.closeScratchers();
+            this.GetReward.visible = true;
+            Laya.timer.once(2000, this, () => {
+                this.GetRewardCloseBtn.visible = true;
+            });
+        }
+        closeGetReward() {
+            this.GetReward.visible = false;
+            this.GetRewardCloseBtn.visible = false;
+        }
         scratchers() {
-            this.Scrape = this.vars('Scrape');
             this.Scrape.cacheAs = "bitmap";
-            this.vars('Scrape').on(Laya.Event.MOUSE_DOWN, this, (e) => {
+            this.Scrape.on(Laya.Event.MOUSE_DOWN, this, (e) => {
                 if (!this.DrawSp) {
-                    this.Drawlength = 0;
+                    this.drawlength = 0;
                     this.DrawSp = new Laya.Image();
                     this.Scrape.addChild(this.DrawSp);
                     this.DrawSp.name = 'DrawSp';
@@ -7722,26 +7745,25 @@
                     this.DrawSp = this.DrawSp;
                     this.DrawSp.blendMode = "destination-out";
                 }
-                this.DrawPosArr = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+                this.drawFrontPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
             });
-            this.vars('Scrape').on(Laya.Event.MOUSE_MOVE, this, (e) => {
+            this.Scrape.on(Laya.Event.MOUSE_MOVE, this, (e) => {
                 let localPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
-                if (this.DrawPosArr) {
-                    this.DrawSp.graphics.drawLine(this.DrawPosArr.x, this.DrawPosArr.y, localPos.x, localPos.y, "#000000", 60);
+                if (this.drawFrontPos) {
+                    this.DrawSp.graphics.drawLine(this.drawFrontPos.x, this.drawFrontPos.y, localPos.x, localPos.y, "#000000", 60);
                     this.DrawSp.graphics.drawCircle(localPos.x, localPos.y, 30, "#000000");
-                    this.owner['Drawlength'] += this.DrawPosArr.distance(localPos.x, localPos.x);
-                    this.DrawPosArr = localPos;
+                    this.drawlength += this.drawFrontPos.distance(localPos.x, localPos.x);
+                    this.drawFrontPos = localPos;
+                    if (this.drawlength > 30000) {
+                        this.openGetReward();
+                    }
                 }
             });
-            this.vars('Scrape').on(Laya.Event.MOUSE_UP, this, () => {
-                this.DrawPosArr = null;
-            });
-            this.vars('Scrape').on(Laya.Event.MOUSE_OUT, this, () => {
-                this.DrawPosArr = null;
+            this.Scrape.on(Laya.Event.MOUSE_UP, this, () => {
+                this.drawFrontPos = null;
             });
         }
         onShow() {
-            Task._TaskList = this.vars('ShopList');
             Task._TaskList.selectEnable = true;
             Task._TaskList.vScrollBarSkin = "";
             Task._TaskList.array = Task._perpetualTask;
@@ -10498,7 +10520,8 @@
             this.DrawBox = this.vars("DrawBox");
             this.imgGou = this.vars("imgGou");
             this.btnClear = this.vars("btnClear");
-            this.GetBox = this.vars("GetBox");
+            this.Get = this.vars("Get");
+            this.GetBox = this.Get.getChildByName("GetBox");
             this.Guang = this.GetBox.getChildByName("Guang");
             this.ADBtn = this.GetBox.getChildByName("ADBtn");
             this.Icon = this.GetBox.getChildByName("Icon");
@@ -10555,7 +10578,7 @@
             Laya.timer.once(3000, this, () => {
                 this.BackBtn.visible = true;
             });
-            this.GetBox.visible = false;
+            this.Get.visible = false;
             this.CloseBtn.visible = false;
             this.ADBtn.visible = true;
             this.ShareBtn.visible = false;
@@ -10563,7 +10586,7 @@
         onHide() {
             RecordManager.stopAutoRecord();
             this.onClickClear();
-            this.GetBox.visible = false;
+            this.Get.visible = false;
             this.CloseBtn.visible = false;
             this.BackBtn.visible = false;
         }
@@ -10581,7 +10604,7 @@
             console.log(this.data);
         }
         GetBoxShow() {
-            this.GetBox.visible = true;
+            this.Get.visible = true;
             Laya.timer.loop(10, this, this.GuangRot);
             this.Icon.skin = this.data.GetPath1();
             Laya.timer.once(3000, this, () => {

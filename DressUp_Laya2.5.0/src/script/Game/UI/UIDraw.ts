@@ -66,6 +66,7 @@ export default class UIDraw extends UIBase
         //随机
         trySkinCount:number;
 
+        Get:Laya.Image;
         GetBox:Laya.Box;
         Guang:Laya.Image;
         ADBtn:Laya.Image;
@@ -104,7 +105,8 @@ export default class UIDraw extends UIBase
             this.imgGou = this.vars("imgGou");
             this.btnClear = this.vars("btnClear");
 
-            this.GetBox=this.vars("GetBox") as Laya.Box;
+            this.Get=this.vars("Get") as Laya.Image;
+            this.GetBox=this.Get.getChildByName("GetBox") as Laya.Box;
             this.Guang=this.GetBox.getChildByName("Guang") as Laya.Image;
             this.ADBtn=this.GetBox.getChildByName("ADBtn") as Laya.Image;
             this.Icon=this.GetBox.getChildByName("Icon") as Laya.Image;
@@ -177,7 +179,7 @@ export default class UIDraw extends UIBase
             Laya.timer.once(3000,this,()=>{
                 this.BackBtn.visible=true;
             })
-            this.GetBox.visible=false;
+            this.Get.visible=false;
             this.CloseBtn.visible=false;
             this.ADBtn.visible=true;
             this.ShareBtn.visible=false;
@@ -186,7 +188,7 @@ export default class UIDraw extends UIBase
         {
             RecordManager.stopAutoRecord();//停止录屏
             this.onClickClear();//清除画板
-            this.GetBox.visible=false;
+            this.Get.visible=false;
             this.CloseBtn.visible=false;
             this.BackBtn.visible=false;
         }
@@ -208,7 +210,7 @@ export default class UIDraw extends UIBase
         }
         GetBoxShow()
         {
-            this.GetBox.visible=true;
+            this.Get.visible=true;
             Laya.timer.loop(10,this,this.GuangRot);
             this.Icon.skin= this.data.GetPath1();
             Laya.timer.once(3000,this,()=>{

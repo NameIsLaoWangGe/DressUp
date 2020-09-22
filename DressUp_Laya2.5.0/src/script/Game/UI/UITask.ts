@@ -1,5 +1,6 @@
 import ADManager from "../../Admanager";
-import { EventMgr, OpenType, UIBase } from "../../Frame/Core";
+import { EventMgr, OpenType, UIBase, UIMgr } from "../../Frame/Core";
+import GameDataController from "../GameDataController";
 import { Tools } from "./Tools";
 /**任务模块*/
 export module Task {
@@ -278,6 +279,9 @@ export module Task {
             _TaskList.refresh();
         }
     }
+    export class UIabc {
+
+    }
 }
 
 /**刮刮乐模块*/
@@ -325,7 +329,7 @@ export module Scratchers {
      * */
     export function _randomReward(): string {
         let ran = Math.floor(Math.random() * 100);
-        if (_scratchersNum.num % 5 == 0) {
+        if (_scratchersNum.num % 5 == 0 && _scratchersNum.num !== 0) {
             return _Word.tedeng;
         } else {
             if (0 <= ran && ran < 2) {
@@ -350,49 +354,106 @@ export default class UITask extends UIBase {
     _openType = OpenType.Attach;
     Scratchers: Laya.Image;
     Scrape: Laya.Image;
+    GetReward: Laya.Image;
+    GetRewardCloseBtn: Laya.Image;
     onInit(): void {
+        this.Scratchers = this.vars('Scratchers') as Laya.Image;
+        this.Scrape = this.vars('Scrape') as Laya.Image;
+        this.GetReward = this.vars('GetReward') as Laya.Image;
+        this.GetRewardCloseBtn = this.vars('GetRewardCloseBtn') as Laya.Image;
+        Task._TaskList = this.vars('ShopList') as Laya.List;
+
+        this.Scratchers.visible = false;
+        this.GetReward.visible = false;
+
         this.btnEv("BackBtn", () => {
             this.hide();
+            EventMgr.offAll(this);
+            Laya.timer.clearAll(this);
         });
         this.btnEv('refreshBtn', () => {
             Task.refreshTask();
         })
+        this.btnEv('GetRewardCloseBtn', this.closeGetReward)
+        this.btnEv('BtnScratchersClose', this.closeScratchers);
         EventMgr.reg(Task.EventType.watchAds, this, (name: string) => {
             Task.doDetection(Task.Classify.perpetual, name);
         })
         EventMgr.reg(Task.EventType.getAward, this, (name: string) => {
             Task.getReward(Task.Classify.perpetual, name);
         })
-
-        this.Scratchers = this.vars('Scratchers') as Laya.Image;
-        this.Scratchers.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => { e.stopPropagation });
-        this.btnEv('BtnScratchersClose', () => {
-            this.Scratchers.x = -800, this.Scrape;
-            if (this.DrawSp) {
-                Tools.node_RemoveAllChildren(this.DrawSp);
-                this.DrawSp = null;
-            }
-        })
         EventMgr.reg(Scratchers.EventType.startScratcher, this, () => {
-            let name = Scratchers._randomReward();
-            Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [name]);
-            this.Scratchers.x = 0;
-        })
-        EventMgr.reg(Scratchers.EventType.endScratcher, this, () => {
+            Scratchers._scratchersNum.num++;
+            Scratchers._presentReward = Scratchers._randomReward();
+            Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [Scratchers._presentReward]);
+            this.Scratchers.visible = true;
         })
         this.scratchers();
     }
 
+    /**关闭刮奖界面*/
+    closeScratchers(): void {
+        this.Scratchers.visible = false;
+        if (this.DrawSp) {
+            Tools.node_RemoveAllChildren(this.Scrape);
+            this.DrawSp = null;
+            this.drawlength = null;
+            this.drawFrontPos = null;
+        }
+    }
+    /**开启奖励领取界面*/
+    openGetReward(): void {
+        let Icon: Laya.Image;
+        let data;
+        var open = () => {
+            this.GetReward.visible = true;
+            Laya.timer.once(2000, this, () => {
+                this.GetRewardCloseBtn.visible = true;
+            })
+        }
+        switch (Scratchers._presentReward) {
+            case Scratchers._Word.tedeng:
+                Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon') as Laya.Image;
+                data = GameDataController.Get_All_UnLock_HighStarCloth();
+                Icon.skin = data.GetPath1();
+                open();
+                break;
+            case Scratchers._Word.yideng:
+                Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon') as Laya.Image;
+                data = GameDataController.Get_All_UnLock_LowStarCloth();
+                Icon.skin = data.GetPath1();
+                open();
+                break;
+            case Scratchers._Word.erdeng:
+                UIMgr.tip('增加10点魅力值');
+                break;
+            case Scratchers._Word.zailai:
+
+
+                break;
+            case Scratchers._Word.xiexie:
+                UIMgr.tip('增加10点魅力值');
+                break;
+            default:
+                break;
+        }
+        this.closeScratchers();
+    }
+    /**关闭奖励领取界面*/
+    closeGetReward(): void {
+        this.GetReward.visible = false;
+        this.GetRewardCloseBtn.visible = false;
+    }
+
     DrawSp: Laya.Image;
-    Drawlength: number;
-    DrawPosArr: Laya.Point;
+    drawlength: number;
+    drawFrontPos: Laya.Point;
     scratchers(): void {
-        this.Scrape = this.vars('Scrape');
         this.Scrape.cacheAs = "bitmap";
-        this.vars('Scrape').on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
+        this.Scrape.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
             // 初始化一个绘制节点
             if (!this.DrawSp) {
-                this.Drawlength = 0;
+                this.drawlength = 0;
                 this.DrawSp = new Laya.Image();
                 this.Scrape.addChild(this.DrawSp);
                 this.DrawSp.name = 'DrawSp';
@@ -401,28 +462,27 @@ export default class UITask extends UIBase {
                 this.DrawSp.blendMode = "destination-out";
             }
             // 初始位置
-            this.DrawPosArr = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+            this.drawFrontPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
         })
-        this.vars('Scrape').on(Laya.Event.MOUSE_MOVE, this, (e: Laya.Event) => {
+        this.Scrape.on(Laya.Event.MOUSE_MOVE, this, (e: Laya.Event) => {
             let localPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
             // 画线
-            if (this.DrawPosArr) {
-                (this.DrawSp as Laya.Image).graphics.drawLine(this.DrawPosArr.x, this.DrawPosArr.y, localPos.x, localPos.y, "#000000", 60);
+            if (this.drawFrontPos) {
+                (this.DrawSp as Laya.Image).graphics.drawLine(this.drawFrontPos.x, this.drawFrontPos.y, localPos.x, localPos.y, "#000000", 60);
                 this.DrawSp.graphics.drawCircle(localPos.x, localPos.y, 30, "#000000");
-                this.owner['Drawlength'] += this.DrawPosArr.distance(localPos.x, localPos.x);
-                this.DrawPosArr = localPos;
+                this.drawlength += this.drawFrontPos.distance(localPos.x, localPos.x);
+                this.drawFrontPos = localPos;
+                if (this.drawlength > 30000) {
+                    this.openGetReward();
+                }
             }
         })
-        this.vars('Scrape').on(Laya.Event.MOUSE_UP, this, () => {
-            this.DrawPosArr = null;
-        })
-        this.vars('Scrape').on(Laya.Event.MOUSE_OUT, this, () => {
-            this.DrawPosArr = null;
+        this.Scrape.on(Laya.Event.MOUSE_UP, this, () => {
+            this.drawFrontPos = null;
         })
     }
 
     onShow(): void {
-        Task._TaskList = this.vars('ShopList') as Laya.List;
         Task._TaskList.selectEnable = true;
         Task._TaskList.vScrollBarSkin = "";
         Task._TaskList.array = Task._perpetualTask;
