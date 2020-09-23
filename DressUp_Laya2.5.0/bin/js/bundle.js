@@ -3879,10 +3879,6 @@
             TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
         }
         static ShowReward(rewardAction, fail = null) {
-            if (rewardAction != null) {
-                rewardAction();
-            }
-            return true;
             console.log("?????");
             let p = new TJ.ADS.Param();
             p.extraAd = true;
@@ -7694,6 +7690,7 @@
             this.GetRewardShareBtn = this.vars('GetRewardShareBtn');
             this.GetRewardADBtn = this.vars('GetRewardADBtn');
             Task._TaskList = this.vars('ShopList');
+            console.log(Task._TaskList);
             this.Scratchers.visible = false;
             this.GetReward.visible = false;
             this.event();
@@ -7736,21 +7733,21 @@
             });
             this.btnEv('GetRewardCloseBtn', this.closeGetReward);
             this.btnEv('GetRewardADBtn', () => {
-                UIMgr.tip('衣服已获得！');
-                RecordManager.stopAutoRecord();
-                this.GetRewardShareBtn.visible = true;
-                this.GetRewardADBtn.visible = false;
-                if (this.rewordData) {
-                    console.log(this.rewordData);
-                    GameDataController.unlock(this.rewordData.ID);
-                }
                 ADManager.ShowReward(() => {
+                    UIMgr.tip('衣服已获得！');
+                    RecordManager.stopAutoRecord();
+                    this.GetRewardShareBtn.visible = true;
+                    this.GetRewardADBtn.visible = false;
+                    if (this.rewordData) {
+                        console.log(this.rewordData);
+                        GameDataController.unlock(this.rewordData.ID);
+                    }
                 });
             });
             this.btnEv('GetRewardShareBtn', () => {
-                UIMgr.tip('分享成功！');
-                this.closeGetReward();
                 RecordManager._share(() => {
+                    UIMgr.tip('分享成功！');
+                    this.closeGetReward();
                 });
             });
             this.scratchersClick();
@@ -7826,11 +7823,8 @@
                     this.DrawSp.pos(0, 0);
                     this.DrawSp = this.DrawSp;
                     this.DrawSp.blendMode = "destination-out";
-                    this.drawFrontPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
                 }
-                else {
-                    this.drawFrontPos = null;
-                }
+                this.drawFrontPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
             });
             this.ScratchersScrape.on(Laya.Event.MOUSE_MOVE, this, (e) => {
                 if (this.drawFrontPos && this.drawSwitch) {
@@ -10991,16 +10985,22 @@
             this.BtnAds.on(Laya.Event.MOUSE_DOWN, this, (e) => {
                 e.currentTarget.scale(1.1, 1.1);
             });
+            this.BtnAds.on(Laya.Event.MOUSE_DOWN, this, (e) => {
+                e.currentTarget.scale(1.1, 1.1);
+            });
             this.BtnAds.on(Laya.Event.MOUSE_UP, this, (e) => {
                 e.currentTarget.scale(1, 1);
-                EventMgr.notify(Task.EventType.watchAds, [this.owner['_dataSource']['name']]);
                 ADManager.ShowReward(() => {
+                    EventMgr.notify(Task.EventType.watchAds, [this.owner['_dataSource']['name']]);
                 });
             });
             this.BtnAds.on(Laya.Event.MOUSE_OUT, this, (e) => {
                 e.currentTarget.scale(1, 1);
             });
             this.BtnGet = this.owner.getChildByName('BtnGet');
+            this.BtnGet.on(Laya.Event.MOUSE_DOWN, this, (e) => {
+                e.currentTarget.scale(1.1, 1.1);
+            });
             this.BtnGet.on(Laya.Event.MOUSE_DOWN, this, (e) => {
                 e.currentTarget.scale(1.1, 1.1);
             });

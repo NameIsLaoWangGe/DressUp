@@ -11,10 +11,13 @@ export default class UITaskItem extends Laya.Script {
         this.BtnAds.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
             e.currentTarget.scale(1.1, 1.1);
         })
+        this.BtnAds.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
+            e.currentTarget.scale(1.1, 1.1);
+        })
         this.BtnAds.on(Laya.Event.MOUSE_UP, this, (e: Laya.Event) => {
             e.currentTarget.scale(1, 1);
-            EventMgr.notify(Task.EventType.watchAds, [this.owner['_dataSource']['name']]);
             ADManager.ShowReward(() => {
+                EventMgr.notify(Task.EventType.watchAds, [this.owner['_dataSource']['name']]);
             });
         })
         this.BtnAds.on(Laya.Event.MOUSE_OUT, this, (e: Laya.Event) => {
@@ -22,6 +25,9 @@ export default class UITaskItem extends Laya.Script {
         })
 
         this.BtnGet = this.owner.getChildByName('BtnGet') as Laya.Image;
+        this.BtnGet.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
+            e.currentTarget.scale(1.1, 1.1);
+        })
         this.BtnGet.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
             e.currentTarget.scale(1.1, 1.1);
         })

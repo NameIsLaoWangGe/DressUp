@@ -377,6 +377,7 @@ export default class UITask extends UIBase {
         this.GetRewardADBtn = this.vars('GetRewardADBtn') as Laya.Image;
         Task._TaskList = this.vars('ShopList') as Laya.List;
 
+        console.log(Task._TaskList);
         this.Scratchers.visible = false;
         this.GetReward.visible = false;
 
@@ -423,22 +424,21 @@ export default class UITask extends UIBase {
 
         this.btnEv('GetRewardCloseBtn', this.closeGetReward)
         this.btnEv('GetRewardADBtn', () => {
-            UIMgr.tip('衣服已获得！');
-            RecordManager.stopAutoRecord();
-            this.GetRewardShareBtn.visible = true;
-            this.GetRewardADBtn.visible = false;
-            if (this.rewordData) {
-                console.log(this.rewordData);
-                GameDataController.unlock(this.rewordData.ID);
-            }
             ADManager.ShowReward(() => {
-
+                UIMgr.tip('衣服已获得！');
+                RecordManager.stopAutoRecord();
+                this.GetRewardShareBtn.visible = true;
+                this.GetRewardADBtn.visible = false;
+                if (this.rewordData) {
+                    console.log(this.rewordData);
+                    GameDataController.unlock(this.rewordData.ID);
+                }
             })
         })
         this.btnEv('GetRewardShareBtn', () => {
-            UIMgr.tip('分享成功！');
-            this.closeGetReward();
             RecordManager._share(() => {
+                UIMgr.tip('分享成功！');
+                this.closeGetReward();
             });
         })
         this.scratchersClick();
@@ -528,10 +528,8 @@ export default class UITask extends UIBase {
                 this.DrawSp.pos(0, 0);
                 this.DrawSp = this.DrawSp;
                 this.DrawSp.blendMode = "destination-out";
-                this.drawFrontPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
-            } else {
-                this.drawFrontPos = null;
             }
+            this.drawFrontPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
         })
         this.ScratchersScrape.on(Laya.Event.MOUSE_MOVE, this, (e: Laya.Event) => {
             // 画线

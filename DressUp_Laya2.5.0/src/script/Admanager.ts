@@ -38,11 +38,11 @@ export default class ADManager
     }
     public static ShowReward(rewardAction: Function,fail:Function=null)//展示激励广告，一般是视频
     {
-        if (rewardAction != null)
-        {
-            rewardAction();
-        }
-        return true;
+        // if (rewardAction != null)
+        // {
+        //     rewardAction();
+        // }
+        // return true;
         console.log("?????");
         let p = new TJ.ADS.Param();
         p.extraAd = true;//视频结束后通常会追加一次插屏
