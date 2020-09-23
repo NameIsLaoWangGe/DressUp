@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":55,
-    "selecteID":59,
+    "selectedBox":64,
+    "selecteID":75,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":64,
+    "maxID":98,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -86,10 +86,10 @@
                 },
                 {
                     "type":"Image",
-                    "searchKey":"Image,TapBtn,TapBtn",
-                    "props":{"y":103,"x":602,"width":57,"var":"TapBtn","skin":"UITask/gailv.png","sizeGrid":"0,98,0,76","pivotY":29,"pivotX":29,"name":"TapBtn","height":57},
+                    "searchKey":"Image,ProbabilityBtn,ProbabilityBtn",
+                    "props":{"y":103,"x":602,"width":57,"var":"ProbabilityBtn","skin":"UITask/gailv.png","sizeGrid":"0,98,0,76","pivotY":29,"pivotX":29,"name":"ProbabilityBtn","height":57},
                     "nodeParent":8,
-                    "label":"TapBtn",
+                    "label":"ProbabilityBtn",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
@@ -279,14 +279,13 @@
             "props":{"var":"Scratchers","top":0,"right":0,"name":"Scratchers","left":0,"bottom":0},
             "nodeParent":2,
             "label":"Scratchers",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":33,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ScratchersBg,ScratchersBg",
                     "props":{"y":0,"x":0,"var":"ScratchersBg","top":0,"skin":"common/black.png","right":0,"name":"ScratchersBg","left":0,"bottom":0,"alpha":0.7},
@@ -302,10 +301,9 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Ticket,Ticket",
-                    "props":{"y":664,"x":362,"width":655,"var":"Ticket","skin":"UITask/di.png","pivotY":158,"pivotX":328,"name":"Ticket","height":316},
+                    "props":{"width":655,"var":"Ticket","skin":"UITask/di.png","pivotY":220,"pivotX":328,"name":"Ticket","height":316,"centerY":-30,"centerX":0},
                     "nodeParent":33,
                     "label":"Ticket",
                     "isOpen":true,
@@ -315,7 +313,6 @@
                     "compId":41,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,PrizeLevel,PrizeLevel",
                             "props":{"y":89,"x":114,"width":427,"var":"PrizeLevel","name":"PrizeLevel","height":137},
@@ -394,12 +391,11 @@
                                 }]
                         },
                         {
-                            "x":45,
                             "type":"Image",
-                            "searchKey":"Image,Scrape,Scrape",
-                            "props":{"y":27,"x":59.5,"var":"Scrape","skin":"UITask/gua2.png","name":"Scrape"},
+                            "searchKey":"Image,ScratchersScrape,ScratchersScrape",
+                            "props":{"y":27,"x":60,"var":"ScratchersScrape","skin":"UITask/gua2.png","name":"ScratchersScrape"},
                             "nodeParent":41,
-                            "label":"Scrape",
+                            "label":"ScratchersScrape",
                             "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
@@ -408,22 +404,35 @@
                             "child":[
                                 ],
                             "$HIDDEN":false
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,ScratchersCloseBtn,ScratchersCloseBtn",
+                            "props":{"y":21,"x":626,"width":79,"var":"ScratchersCloseBtn","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"ScratchersCloseBtn","height":79},
+                            "nodeParent":41,
+                            "label":"ScratchersCloseBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":53,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image,ScratchersAgainBtn,ScratchersAgainBtn",
+                            "props":{"y":384,"width":302,"visible":false,"var":"ScratchersAgainBtn","skin":"UITask/zailaiyici.png","pivotY":53,"pivotX":151,"name":"ScratchersAgainBtn","height":106,"centerX":0},
+                            "nodeParent":41,
+                            "label":"ScratchersAgainBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":97,
+                            "child":[
+                                ]
                         }]
-                },
-                {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image,BtnScratchersClose,BtnScratchersClose",
-                    "props":{"y":536,"x":659,"width":79,"var":"BtnScratchersClose","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"BtnScratchersClose","height":79},
-                    "nodeParent":33,
-                    "label":"BtnScratchersClose",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":53,
-                    "child":[
-                        ]
-                }]
+                }],
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -432,14 +441,13 @@
             "props":{"visible":false,"var":"GetReward","top":0,"right":0,"name":"GetReward","left":0,"bottom":0},
             "nodeParent":2,
             "label":"GetReward",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":54,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ScratchersBg",
                     "props":{"top":0,"skin":"common/black.png","right":0,"name":"ScratchersBg","left":0,"bottom":0,"alpha":0.7},
@@ -455,7 +463,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,GetBox,GetBox",
                     "props":{"y":0,"x":0,"width":720,"visible":true,"var":"GetBox","name":"GetBox","height":1280,"centerY":0,"centerX":0},
@@ -468,7 +475,6 @@
                     "compId":55,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":246,"x":346,"skin":"main/yincan.png"},
@@ -482,7 +488,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Guang,Guang",
                             "props":{"y":634,"x":363,"var":"Guang","skin":"main/guang.png","name":"Guang","anchorY":0.5,"anchorX":0.5},
@@ -496,12 +501,11 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
-                            "searchKey":"Image,ADBtn,ADBtn",
-                            "props":{"y":960,"x":229,"var":"ADBtn","skin":"main/anniu_kanship.png","name":"ADBtn"},
+                            "searchKey":"Image,GetRewardADBtn,GetRewardADBtn",
+                            "props":{"y":1013,"x":360,"width":262,"var":"GetRewardADBtn","skin":"main/anniu_kanship.png","pivotY":53,"pivotX":131,"name":"GetRewardADBtn","height":106},
                             "nodeParent":55,
-                            "label":"ADBtn",
+                            "label":"GetRewardADBtn",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
@@ -510,7 +514,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Icon",
                             "props":{"y":623,"x":360,"skin":"Cloth/Dress/40602.png","name":"Icon","anchorY":0.5,"anchorX":0.5},
@@ -524,7 +527,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":128,"x":168.5,"skin":"main/biaoti.png"},
@@ -538,10 +540,9 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,GetRewardCloseBtn,GetRewardCloseBtn",
-                            "props":{"y":36,"x":616,"visible":false,"var":"GetRewardCloseBtn","skin":"sign/X.png","name":"GetRewardCloseBtn"},
+                            "props":{"y":76,"x":656,"width":79,"visible":false,"var":"GetRewardCloseBtn","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"GetRewardCloseBtn","height":79},
                             "nodeParent":55,
                             "label":"GetRewardCloseBtn",
                             "isDirectory":false,
@@ -552,12 +553,11 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
-                            "searchKey":"Image,ShareBtn",
-                            "props":{"y":965,"x":229,"visible":false,"skin":"PK/anniu_fenxaing.png","name":"ShareBtn"},
+                            "searchKey":"Image,GetRewardShareBtn,GetRewardShareBtn",
+                            "props":{"y":1013,"x":360,"width":262,"visible":false,"var":"GetRewardShareBtn","skin":"PK/anniu_fenxaing.png","pivotY":48,"pivotX":131,"name":"GetRewardShareBtn","height":96},
                             "nodeParent":55,
-                            "label":"ShareBtn",
+                            "label":"GetRewardShareBtn",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
@@ -566,7 +566,152 @@
                                 ]
                         }],
                     "$HIDDEN":false
-                }]
+                }],
+            "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,Probability,Probability",
+            "props":{"y":0,"x":0,"visible":false,"var":"Probability","top":0,"right":0,"name":"Probability","left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"Probability",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":64,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,ProbabilityBg",
+                    "props":{"y":0,"x":0,"top":0,"skin":"common/black.png","right":0,"name":"ProbabilityBg","left":0,"bottom":0,"alpha":0.7},
+                    "nodeParent":64,
+                    "label":"ProbabilityBg",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":65,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"width":451,"skin":"UI/dikuang.png","sizeGrid":"64,134,44,125","rotation":0,"height":449,"centerY":-50,"centerX":8},
+                    "nodeParent":64,
+                    "label":"Image",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":75,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,ProbabilityCloseBtn,ProbabilityCloseBtn",
+                            "props":{"y":27,"x":422,"width":79,"var":"ProbabilityCloseBtn","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"ProbabilityCloseBtn","height":79},
+                            "nodeParent":75,
+                            "label":"ProbabilityCloseBtn",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":74,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"y":27,"x":132,"width":187,"valign":"middle","underline":true,"text":"奖品概率","italic":false,"height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
+                            "nodeParent":75,
+                            "label":"Label",
+                            "isOpen":true,
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":76,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"y":106,"x":112,"width":187,"valign":"middle","text":"特等奖：2%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
+                            "nodeParent":75,
+                            "label":"Label",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":82,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"y":158,"x":113,"width":187,"valign":"middle","text":"一等奖：3%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
+                            "nodeParent":75,
+                            "label":"Label",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":83,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"y":212,"x":112,"width":216,"valign":"middle","text":"二等奖：30%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
+                            "nodeParent":75,
+                            "label":"Label",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":84,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"y":268,"x":110,"width":216,"valign":"middle","text":"再来一次：30%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
+                            "nodeParent":75,
+                            "label":"Label",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":85,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Label",
+                            "searchKey":"Label",
+                            "props":{"y":324,"x":110,"width":216,"valign":"middle","text":"谢谢惠顾：35%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
+                            "nodeParent":75,
+                            "label":"Label",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":86,
+                            "child":[
+                                ]
+                        }]
+                }],
+            "$HIDDEN":true
         }],
     "animations":[
         {

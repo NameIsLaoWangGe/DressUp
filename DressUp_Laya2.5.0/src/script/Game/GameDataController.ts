@@ -342,15 +342,10 @@ export default class GameDataController extends Laya.Script {
         }
         let t = Tools.arrayRandomGetOut(arr, 1);
         let cloth: ClothData = GameDataController._ClothData.get(parseInt(t));
-        //解锁
-        GameDataController.ClothDataRefresh[cloth.ID] == 0;
-        BagListController.Instance.showList();
-        BagListController.Instance.refresh();
-
         return cloth;
     }
 
-    //未解锁的低星衣服
+    //低星衣服
     static Get_All_UnLock_LowStarCloth() {
         let arr = [];
         for (let k in GameDataController.ClothDataAsy) {
@@ -362,13 +357,16 @@ export default class GameDataController extends Laya.Script {
         }
         let t = Tools.arrayRandomGetOut(arr, 1);
         let cloth: ClothData = GameDataController._ClothData.get(parseInt(t));
-        //解锁
-        GameDataController.ClothDataRefresh[cloth.ID] == 0;
-        BagListController.Instance.showList();
-        BagListController.Instance.refresh();
-
         return cloth;
     }
+    /**解锁*/
+    static unlock(ID): void {
+        GameDataController.ClothDataRefresh[ID] == 0;
+        BagListController.Instance.showList();
+        BagListController.Instance.refresh();
+    }
+
+
     //增加魅力值
     static AddCharmValue(num: number) {
         let a = parseInt(GameDataController.CharmValue);

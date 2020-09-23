@@ -1,5 +1,6 @@
 import ADManager from "../../Admanager";
 import { EventMgr, OpenType, UIBase, UIMgr } from "../../Frame/Core";
+import RecordManager from "../../RecordManager";
 import GameDataController from "../GameDataController";
 import { Tools } from "./Tools";
 /**任务模块*/
@@ -173,6 +174,9 @@ export module Task {
         let get = getProperty(Classify, name, Property.get);
         if (get == 1) {
             setProperty(Classify, name, Property.get, -1);
+            if (_TaskList) {
+                _TaskList.refresh();
+            }
             return data = {
                 rewardType: rewardType,
                 rewardNum: rewardNum,
@@ -288,7 +292,7 @@ export module Task {
 export module Scratchers {
     /**一共中了那些奖，界面关闭清空*/
     export let _scratchersArr: Array<number> = [];
-    /**总共挂了几次奖*/
+    /**总共刮了几次奖*/
     export let _scratchersNum = {
         /**获取存储的日期*/
         get num(): number {
@@ -353,19 +357,50 @@ export module Scratchers {
 export default class UITask extends UIBase {
     _openType = OpenType.Attach;
     Scratchers: Laya.Image;
-    Scrape: Laya.Image;
+    ScratchersScrape: Laya.Image;
+    ScratchersAgainBtn: Laya.Image;
     GetReward: Laya.Image;
     GetRewardCloseBtn: Laya.Image;
+    GetRewardADBtn: Laya.Image;
+    GetRewardShareBtn: Laya.Image;
+    ProbabilityBtn: Laya.Image;
+    Probability: Laya.Image;
     onInit(): void {
         this.Scratchers = this.vars('Scratchers') as Laya.Image;
-        this.Scrape = this.vars('Scrape') as Laya.Image;
+        this.ScratchersScrape = this.vars('ScratchersScrape') as Laya.Image;
+        this.ScratchersAgainBtn = this.vars('ScratchersAgainBtn') as Laya.Image;
         this.GetReward = this.vars('GetReward') as Laya.Image;
         this.GetRewardCloseBtn = this.vars('GetRewardCloseBtn') as Laya.Image;
+        this.ProbabilityBtn = this.vars('ProbabilityBtn') as Laya.Image;
+        this.Probability = this.vars('Probability') as Laya.Image;
+        this.GetRewardShareBtn = this.vars('GetRewardShareBtn') as Laya.Image;
+        this.GetRewardADBtn = this.vars('GetRewardADBtn') as Laya.Image;
         Task._TaskList = this.vars('ShopList') as Laya.List;
 
         this.Scratchers.visible = false;
         this.GetReward.visible = false;
 
+        this.event();
+        this.btnClick();
+    }
+    event(): void {
+        EventMgr.reg(Task.EventType.watchAds, this, (name: string) => {
+            Task.doDetection(Task.Classify.perpetual, name);
+        })
+        EventMgr.reg(Scratchers.EventType.startScratcher, this, (name) => {
+            RecordManager.stopAutoRecord();
+            RecordManager.startAutoRecord();
+            Scratchers._scratchersNum.num++;
+            Scratchers._presentReward = Scratchers._randomReward();
+            Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [Scratchers._presentReward]);
+            this.Scratchers.visible = true;
+            this.drawSwitch = true;
+            Task.getReward(Task.Classify.perpetual, name);
+        })
+
+    }
+
+    btnClick(): void {
         this.btnEv("BackBtn", () => {
             this.hide();
             EventMgr.offAll(this);
@@ -374,37 +409,60 @@ export default class UITask extends UIBase {
         this.btnEv('refreshBtn', () => {
             Task.refreshTask();
         })
+        this.btnEv('ProbabilityBtn', () => {
+            this.Probability.visible = true;
+        })
+        this.btnEv('ProbabilityCloseBtn', () => {
+            this.Probability.visible = false;
+        })
+        this.btnEv('ScratchersCloseBtn', this.closeScratchers);
+        this.btnEv('ScratchersAgainBtn', () => {
+            this.closeScratchers();
+            EventMgr.notify(Scratchers.EventType.startScratcher);
+        });
+
         this.btnEv('GetRewardCloseBtn', this.closeGetReward)
-        this.btnEv('BtnScratchersClose', this.closeScratchers);
-        EventMgr.reg(Task.EventType.watchAds, this, (name: string) => {
-            Task.doDetection(Task.Classify.perpetual, name);
+        this.btnEv('GetRewardADBtn', () => {
+            UIMgr.tip('衣服已获得！');
+            RecordManager.stopAutoRecord();
+            this.GetRewardShareBtn.visible = true;
+            this.GetRewardADBtn.visible = false;
+            if (this.rewordData) {
+                console.log(this.rewordData);
+                GameDataController.unlock(this.rewordData.ID);
+            }
+            ADManager.ShowReward(() => {
+
+            })
         })
-        EventMgr.reg(Task.EventType.getAward, this, (name: string) => {
-            Task.getReward(Task.Classify.perpetual, name);
+        this.btnEv('GetRewardShareBtn', () => {
+            UIMgr.tip('分享成功！');
+            this.closeGetReward();
+            RecordManager._share(() => {
+            });
         })
-        EventMgr.reg(Scratchers.EventType.startScratcher, this, () => {
-            Scratchers._scratchersNum.num++;
-            Scratchers._presentReward = Scratchers._randomReward();
-            Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [Scratchers._presentReward]);
-            this.Scratchers.visible = true;
-        })
-        this.scratchers();
+        this.scratchersClick();
     }
+
 
     /**关闭刮奖界面*/
     closeScratchers(): void {
         this.Scratchers.visible = false;
+        this.ScratchersAgainBtn.visible = false;
+        this.drawSwitch = false;
         if (this.DrawSp) {
-            Tools.node_RemoveAllChildren(this.Scrape);
+            Tools.node_RemoveAllChildren(this.ScratchersScrape);
             this.DrawSp = null;
             this.drawlength = null;
             this.drawFrontPos = null;
         }
     }
-    /**开启奖励领取界面*/
+
+    /**奖励*/
+    rewordData: any;
+    /**开奖*/
     openGetReward(): void {
         let Icon: Laya.Image;
-        let data;
         var open = () => {
             this.GetReward.visible = true;
             Laya.timer.once(2000, this, () => {
@@ -414,70 +472,84 @@ export default class UITask extends UIBase {
         switch (Scratchers._presentReward) {
             case Scratchers._Word.tedeng:
                 Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon') as Laya.Image;
-                data = GameDataController.Get_All_UnLock_HighStarCloth();
-                Icon.skin = data.GetPath1();
+                this.rewordData = GameDataController.Get_All_UnLock_HighStarCloth();
+                Icon.skin = this.rewordData.GetPath1();
                 open();
+                this.closeScratchers();
                 break;
             case Scratchers._Word.yideng:
                 Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon') as Laya.Image;
-                data = GameDataController.Get_All_UnLock_LowStarCloth();
-                Icon.skin = data.GetPath1();
+                this.rewordData = GameDataController.Get_All_UnLock_LowStarCloth();
+                Icon.skin = this.rewordData.GetPath1();
+                this.closeScratchers();
                 open();
                 break;
             case Scratchers._Word.erdeng:
                 UIMgr.tip('增加10点魅力值');
+                this.closeScratchers();
+                this.rewordData = null;
+                GameDataController.AddCharmValue(10);
                 break;
             case Scratchers._Word.zailai:
-
-
+                this.ScratchersAgainBtn.visible = true;
+                this.rewordData = null;
                 break;
             case Scratchers._Word.xiexie:
-                UIMgr.tip('增加10点魅力值');
+                UIMgr.tip('增加5点魅力值');
+                this.closeScratchers();
+                this.rewordData = null;
+                GameDataController.AddCharmValue(5);
                 break;
             default:
                 break;
         }
-        this.closeScratchers();
     }
     /**关闭奖励领取界面*/
     closeGetReward(): void {
         this.GetReward.visible = false;
         this.GetRewardCloseBtn.visible = false;
+        this.GetRewardShareBtn.visible = false;
+        this.GetRewardADBtn.visible = true;
     }
 
     DrawSp: Laya.Image;
     drawlength: number;
     drawFrontPos: Laya.Point;
-    scratchers(): void {
-        this.Scrape.cacheAs = "bitmap";
-        this.Scrape.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
+    drawSwitch: boolean;
+    scratchersClick(): void {
+        this.ScratchersScrape.cacheAs = "bitmap";
+        this.ScratchersScrape.on(Laya.Event.MOUSE_DOWN, this, (e: Laya.Event) => {
             // 初始化一个绘制节点
-            if (!this.DrawSp) {
+            if (!this.DrawSp && this.drawSwitch) {
                 this.drawlength = 0;
                 this.DrawSp = new Laya.Image();
-                this.Scrape.addChild(this.DrawSp);
+                this.ScratchersScrape.addChild(this.DrawSp);
                 this.DrawSp.name = 'DrawSp';
                 this.DrawSp.pos(0, 0);
                 this.DrawSp = this.DrawSp;
                 this.DrawSp.blendMode = "destination-out";
+                this.drawFrontPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+            } else {
+                this.drawFrontPos = null;
             }
-            // 初始位置
-            this.drawFrontPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
         })
-        this.Scrape.on(Laya.Event.MOUSE_MOVE, this, (e: Laya.Event) => {
-            let localPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+        this.ScratchersScrape.on(Laya.Event.MOUSE_MOVE, this, (e: Laya.Event) => {
             // 画线
-            if (this.drawFrontPos) {
+            if (this.drawFrontPos && this.drawSwitch) {
+                let localPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
                 (this.DrawSp as Laya.Image).graphics.drawLine(this.drawFrontPos.x, this.drawFrontPos.y, localPos.x, localPos.y, "#000000", 60);
                 this.DrawSp.graphics.drawCircle(localPos.x, localPos.y, 30, "#000000");
                 this.drawlength += this.drawFrontPos.distance(localPos.x, localPos.x);
                 this.drawFrontPos = localPos;
-                if (this.drawlength > 30000) {
-                    this.openGetReward();
+                if (this.drawlength > 28000) {
+                    this.drawSwitch = false;
+                    Laya.timer.once(1000, this, () => {
+                        this.openGetReward();
+                    })
                 }
             }
         })
-        this.Scrape.on(Laya.Event.MOUSE_UP, this, () => {
+        this.ScratchersScrape.on(Laya.Event.MOUSE_UP, this, () => {
             this.drawFrontPos = null;
         })
     }

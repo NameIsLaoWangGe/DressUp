@@ -5173,9 +5173,6 @@
             }
             let t = Tools.arrayRandomGetOut(arr, 1);
             let cloth = GameDataController._ClothData.get(parseInt(t));
-            GameDataController.ClothDataRefresh[cloth.ID] == 0;
-            BagListController.Instance.showList();
-            BagListController.Instance.refresh();
             return cloth;
         }
         static Get_All_UnLock_LowStarCloth() {
@@ -5189,10 +5186,12 @@
             }
             let t = Tools.arrayRandomGetOut(arr, 1);
             let cloth = GameDataController._ClothData.get(parseInt(t));
-            GameDataController.ClothDataRefresh[cloth.ID] == 0;
+            return cloth;
+        }
+        static unlock(ID) {
+            GameDataController.ClothDataRefresh[ID] == 0;
             BagListController.Instance.showList();
             BagListController.Instance.refresh();
-            return cloth;
         }
         static AddCharmValue(num) {
             let a = parseInt(GameDataController.CharmValue);
@@ -7534,6 +7533,9 @@
             let get = getProperty(Classify, name, Property.get);
             if (get == 1) {
                 setProperty(Classify, name, Property.get, -1);
+                if (Task._TaskList) {
+                    Task._TaskList.refresh();
+                }
                 return data = {
                     rewardType: rewardType,
                     rewardNum: rewardNum,
@@ -7683,12 +7685,36 @@
         }
         onInit() {
             this.Scratchers = this.vars('Scratchers');
-            this.Scrape = this.vars('Scrape');
+            this.ScratchersScrape = this.vars('ScratchersScrape');
+            this.ScratchersAgainBtn = this.vars('ScratchersAgainBtn');
             this.GetReward = this.vars('GetReward');
             this.GetRewardCloseBtn = this.vars('GetRewardCloseBtn');
+            this.ProbabilityBtn = this.vars('ProbabilityBtn');
+            this.Probability = this.vars('Probability');
+            this.GetRewardShareBtn = this.vars('GetRewardShareBtn');
+            this.GetRewardADBtn = this.vars('GetRewardADBtn');
             Task._TaskList = this.vars('ShopList');
             this.Scratchers.visible = false;
             this.GetReward.visible = false;
+            this.event();
+            this.btnClick();
+        }
+        event() {
+            EventMgr.reg(Task.EventType.watchAds, this, (name) => {
+                Task.doDetection(Task.Classify.perpetual, name);
+            });
+            EventMgr.reg(Scratchers.EventType.startScratcher, this, (name) => {
+                RecordManager.stopAutoRecord();
+                RecordManager.startAutoRecord();
+                Scratchers._scratchersNum.num++;
+                Scratchers._presentReward = Scratchers._randomReward();
+                Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [Scratchers._presentReward]);
+                this.Scratchers.visible = true;
+                this.drawSwitch = true;
+                Task.getReward(Task.Classify.perpetual, name);
+            });
+        }
+        btnClick() {
             this.btnEv("BackBtn", () => {
                 this.hide();
                 EventMgr.offAll(this);
@@ -7697,69 +7723,131 @@
             this.btnEv('refreshBtn', () => {
                 Task.refreshTask();
             });
+            this.btnEv('ProbabilityBtn', () => {
+                this.Probability.visible = true;
+            });
+            this.btnEv('ProbabilityCloseBtn', () => {
+                this.Probability.visible = false;
+            });
+            this.btnEv('ScratchersCloseBtn', this.closeScratchers);
+            this.btnEv('ScratchersAgainBtn', () => {
+                this.closeScratchers();
+                EventMgr.notify(Scratchers.EventType.startScratcher);
+            });
             this.btnEv('GetRewardCloseBtn', this.closeGetReward);
-            this.btnEv('BtnScratchersClose', this.closeScratchers);
-            EventMgr.reg(Task.EventType.watchAds, this, (name) => {
-                Task.doDetection(Task.Classify.perpetual, name);
+            this.btnEv('GetRewardADBtn', () => {
+                UIMgr.tip('衣服已获得！');
+                RecordManager.stopAutoRecord();
+                this.GetRewardShareBtn.visible = true;
+                this.GetRewardADBtn.visible = false;
+                if (this.rewordData) {
+                    console.log(this.rewordData);
+                    GameDataController.unlock(this.rewordData.ID);
+                }
+                ADManager.ShowReward(() => {
+                });
             });
-            EventMgr.reg(Task.EventType.getAward, this, (name) => {
-                Task.getReward(Task.Classify.perpetual, name);
+            this.btnEv('GetRewardShareBtn', () => {
+                UIMgr.tip('分享成功！');
+                this.closeGetReward();
+                RecordManager._share(() => {
+                });
             });
-            EventMgr.reg(Scratchers.EventType.startScratcher, this, () => {
-                Scratchers._scratchersNum.num++;
-                let name = Scratchers._randomReward();
-                Tools.node_2DShowExcludedChild(this.vars('PrizeLevel'), [name]);
-                this.Scratchers.visible = true;
-            });
-            this.scratchers();
+            this.scratchersClick();
         }
         closeScratchers() {
             this.Scratchers.visible = false;
+            this.ScratchersAgainBtn.visible = false;
+            this.drawSwitch = false;
             if (this.DrawSp) {
-                Tools.node_RemoveAllChildren(this.Scrape);
+                Tools.node_RemoveAllChildren(this.ScratchersScrape);
                 this.DrawSp = null;
                 this.drawlength = null;
                 this.drawFrontPos = null;
             }
         }
         openGetReward() {
-            this.closeScratchers();
-            this.GetReward.visible = true;
-            Laya.timer.once(2000, this, () => {
-                this.GetRewardCloseBtn.visible = true;
-            });
+            let Icon;
+            var open = () => {
+                this.GetReward.visible = true;
+                Laya.timer.once(2000, this, () => {
+                    this.GetRewardCloseBtn.visible = true;
+                });
+            };
+            switch (Scratchers._presentReward) {
+                case Scratchers._Word.tedeng:
+                    Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon');
+                    this.rewordData = GameDataController.Get_All_UnLock_HighStarCloth();
+                    Icon.skin = this.rewordData.GetPath1();
+                    open();
+                    this.closeScratchers();
+                    break;
+                case Scratchers._Word.yideng:
+                    Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon');
+                    this.rewordData = GameDataController.Get_All_UnLock_LowStarCloth();
+                    Icon.skin = this.rewordData.GetPath1();
+                    this.closeScratchers();
+                    open();
+                    break;
+                case Scratchers._Word.erdeng:
+                    UIMgr.tip('增加10点魅力值');
+                    this.closeScratchers();
+                    this.rewordData = null;
+                    GameDataController.AddCharmValue(10);
+                    break;
+                case Scratchers._Word.zailai:
+                    this.ScratchersAgainBtn.visible = true;
+                    this.rewordData = null;
+                    break;
+                case Scratchers._Word.xiexie:
+                    UIMgr.tip('增加5点魅力值');
+                    this.closeScratchers();
+                    this.rewordData = null;
+                    GameDataController.AddCharmValue(5);
+                    break;
+                default:
+                    break;
+            }
         }
         closeGetReward() {
             this.GetReward.visible = false;
             this.GetRewardCloseBtn.visible = false;
+            this.GetRewardShareBtn.visible = false;
+            this.GetRewardADBtn.visible = true;
         }
-        scratchers() {
-            this.Scrape.cacheAs = "bitmap";
-            this.Scrape.on(Laya.Event.MOUSE_DOWN, this, (e) => {
-                if (!this.DrawSp) {
+        scratchersClick() {
+            this.ScratchersScrape.cacheAs = "bitmap";
+            this.ScratchersScrape.on(Laya.Event.MOUSE_DOWN, this, (e) => {
+                if (!this.DrawSp && this.drawSwitch) {
                     this.drawlength = 0;
                     this.DrawSp = new Laya.Image();
-                    this.Scrape.addChild(this.DrawSp);
+                    this.ScratchersScrape.addChild(this.DrawSp);
                     this.DrawSp.name = 'DrawSp';
                     this.DrawSp.pos(0, 0);
                     this.DrawSp = this.DrawSp;
                     this.DrawSp.blendMode = "destination-out";
+                    this.drawFrontPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
                 }
-                this.drawFrontPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
+                else {
+                    this.drawFrontPos = null;
+                }
             });
-            this.Scrape.on(Laya.Event.MOUSE_MOVE, this, (e) => {
-                let localPos = this.Scrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
-                if (this.drawFrontPos) {
+            this.ScratchersScrape.on(Laya.Event.MOUSE_MOVE, this, (e) => {
+                if (this.drawFrontPos && this.drawSwitch) {
+                    let localPos = this.ScratchersScrape.globalToLocal(new Laya.Point(e.stageX, e.stageY));
                     this.DrawSp.graphics.drawLine(this.drawFrontPos.x, this.drawFrontPos.y, localPos.x, localPos.y, "#000000", 60);
                     this.DrawSp.graphics.drawCircle(localPos.x, localPos.y, 30, "#000000");
                     this.drawlength += this.drawFrontPos.distance(localPos.x, localPos.x);
                     this.drawFrontPos = localPos;
-                    if (this.drawlength > 30000) {
-                        this.openGetReward();
+                    if (this.drawlength > 28000) {
+                        this.drawSwitch = false;
+                        Laya.timer.once(1000, this, () => {
+                            this.openGetReward();
+                        });
                     }
                 }
             });
-            this.Scrape.on(Laya.Event.MOUSE_UP, this, () => {
+            this.ScratchersScrape.on(Laya.Event.MOUSE_UP, this, () => {
                 this.drawFrontPos = null;
             });
         }
@@ -10918,7 +11006,12 @@
             });
             this.BtnGet.on(Laya.Event.MOUSE_UP, this, (e) => {
                 e.currentTarget.scale(1, 1);
-                EventMgr.notify(Scratchers.EventType.startScratcher);
+                if (this.owner['_dataSource']['get'] == 1) {
+                    EventMgr.notify(Scratchers.EventType.startScratcher, [this.owner['_dataSource']['name']]);
+                }
+                else if (this.owner['_dataSource']['get'] == 0) {
+                    UIMgr.tip('任务未完成！');
+                }
             });
             this.BtnGet.on(Laya.Event.MOUSE_OUT, this, (e) => {
                 e.currentTarget.scale(1, 1);
