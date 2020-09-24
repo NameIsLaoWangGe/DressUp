@@ -9,13 +9,14 @@ import { Task } from "./UITask";
 
 
 
-export default class UIPreload extends UIBase {
-
+export default class UIPreload extends UIBase
+{
+    
     _openType = OpenType.Once;
     _fadeIn = false;
 
     prg: Core.UI.ProgressBar;
-    loading: Laya.Image;
+    loading:Laya.Image;
     // constructor()
     // {
     //     super();
@@ -98,23 +99,27 @@ export default class UIPreload extends UIBase {
     //     Laya.timer.loop(100,this,this.onValueChange);
     // }
 
-    StartLoading() {
+    StartLoading()
+    {
 
 
 
     }
-    onInit() {
+    onInit()
+    { 
         new ZJADMgr();
 
         TJ.API.TA.log = true;
-
-        ADManager.TAPoint(TaT.PageEnter, "UIPreload");
+        Task.init();
+        
+        ADManager.TAPoint(TaT.PageEnter,"UIPreload");
         let cfg = new ConfigData();
-        this.loading = this.vars("loading") as Laya.Image;
+        this.loading=this.vars("loading") as Laya.Image;
         //this.prg=this.vars("Prg")as Core.UI.ProgressBar;
-        Laya.timer.loop(10, this, this.onValueChange);
+        Laya.timer.loop(10,this,this.onValueChange);
 
-        setTimeout(() => {
+        setTimeout(() =>
+        {
 
             console.log("开始加载资源延迟5s");
             Laya.loader.create("Prefab/CoinPref.prefab")
@@ -122,9 +127,10 @@ export default class UIPreload extends UIBase {
             cfg.LoadJson();
 
         }, 500);
-        let callBack = () => {
+        let callBack = () =>
+        {
             GameMgr.fsm.to("Game_Ready", 0);
-            ADManager.TAPoint(TaT.PageLeave, "UIPreload");
+            ADManager.TAPoint(TaT.PageLeave,"UIPreload");
         }
         EventMgr.reg("sgl1", this, callBack);
 
@@ -138,31 +144,38 @@ export default class UIPreload extends UIBase {
         // 因为作为预设加载时，光，相机有时会出现与Untiy观察不一致的状态，
         // 因此预先加载一个包含相机灯光的空场景*/
         // console.log("开始加载资源");
-        Task.init();
+
+
     }
 
-    onValueChange() {
-        if (this.loading.width >= 443) {
-            this.loading.width = 443;
+    onValueChange()
+    {
+        if(this.loading.width>=443)
+        {
+            this.loading.width=443;
         }
-        this.loading.width += 2;
+        this.loading.width+=2;
     }
-    onShow() {
+    onShow()
+    {
         EventMgr.reg(GameEvent.preloadStep, this, this.onLoadStep);
         EventMgr.reg(GameEvent.preloadCpl, this, this.onLoadCpl);
         GameMgr.readyAll();
 
     }
 
-    onHide() {
+    onHide()
+    {
         EventMgr.offCaller(this);
     }
 
-    onLoadStep(value) {
+    onLoadStep(value)
+    {
         //this.prg.addValue(value);
     }
 
-    onLoadCpl() {
+    onLoadCpl()
+    {
         ADManager.initShare();
     }
 
@@ -170,7 +183,7 @@ export default class UIPreload extends UIBase {
 
 
 
-
+   
 
 
 }

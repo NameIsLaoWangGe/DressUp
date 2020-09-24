@@ -122,7 +122,7 @@ export default class GameDataController extends Laya.Script {
                     if ((data.GetType2.split('_'))[0] == "1")//签到获得
                     {
                         let str = this.ClothDataRefresh[Id];
-                        console.log(str);
+                        // console.log(str);
                         if (str != null) {
                             if (GameDataController.ClothDataRefresh[Id] == 1) {
                                 //console.log("当前衣服未解锁", Id);
@@ -150,7 +150,7 @@ export default class GameDataController extends Laya.Script {
                     else if ((data.GetType2.split('_'))[0] == "3")//睡衣
                     {
                         let str = this.ClothDataRefresh[Id];
-                        console.log(str);
+                        // console.log(str);
                         if (str != null) {
                             if (GameDataController.ClothDataRefresh[Id] == 1) {
                                 //console.log("当前衣服未解锁", Id);
@@ -165,7 +165,7 @@ export default class GameDataController extends Laya.Script {
                     else if ((data.GetType2.split('_'))[0] == "4")//每日推荐获得
                     {
                         let str = this.ClothDataRefresh[Id];
-                        console.log(str);
+                        // console.log(str);
                         if (str != null) {
                             if (GameDataController.ClothDataRefresh[Id] == 1) {
                                 //console.log("当前衣服未解锁", Id);
@@ -190,7 +190,7 @@ export default class GameDataController extends Laya.Script {
             else {
                 //不存在此套装 判断是否解锁
                 let str = this.ClothDataRefresh[Id];
-                console.log(str);
+                // console.log(str);
                 if (str != null) {
                     if (GameDataController.ClothDataRefresh[Id] == 1) {
                         //console.log("当前衣服未解锁", Id);
@@ -334,44 +334,44 @@ export default class GameDataController extends Laya.Script {
     static Get_All_UnLock_HighStarCloth() {
         let arr = [];
         for (let k in GameDataController.ClothDataAsy) {
-            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2 && GameDataController._ClothData.get(parseInt(k)).Star == 3) {
+            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2&&GameDataController._ClothData.get(parseInt(k)).Star==3) {
                 if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
                     arr.push(k);
                 }
             }
         }
-        let t = Tools.arrayRandomGetOut(arr, 1);
-        let cloth: ClothData = GameDataController._ClothData.get(parseInt(t));
+        let t=Tools.arrayRandomGetOut(arr,1);
+        let cloth:ClothData=GameDataController._ClothData.get(parseInt(t));
         return cloth;
     }
 
-    //低星衣服
+    //未解锁的低星衣服
     static Get_All_UnLock_LowStarCloth() {
         let arr = [];
         for (let k in GameDataController.ClothDataAsy) {
-            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2 && GameDataController._ClothData.get(parseInt(k)).Star == 1 || GameDataController._ClothData.get(parseInt(k)).Star == 2) {
+            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2&&GameDataController._ClothData.get(parseInt(k)).Star==1||GameDataController._ClothData.get(parseInt(k)).Star==2) {
                 if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
                     arr.push(k);
                 }
             }
         }
-        let t = Tools.arrayRandomGetOut(arr, 1);
-        let cloth: ClothData = GameDataController._ClothData.get(parseInt(t));
+        let t=Tools.arrayRandomGetOut(arr,1);
+        let cloth:ClothData=GameDataController._ClothData.get(parseInt(t));
         return cloth;
     }
     /**解锁*/
-    static unlock(ID): void {
-        GameDataController.ClothDataRefresh[ID] == 0;
-        BagListController.Instance.showList();
-        BagListController.Instance.refresh();
+    static unlock(data): void {
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[data.ID]=0;
+            GameDataController.ClothDataRefresh = dataall;
+            BagListController.Instance.showList();
+            BagListController.Instance.refresh();
     }
-
-
     //增加魅力值
-    static AddCharmValue(num: number) {
-        let a = parseInt(GameDataController.CharmValue);
-        GameDataController.CharmValue = (a + num).toString();
-        (UIMgr.get("UIReady") as UIReady).CharmValueShow();
+    static  AddCharmValue(num:number)
+    {
+        let a=parseInt(GameDataController.CharmValue);
+        GameDataController.CharmValue=(a+num).toString();
     }
 }
 

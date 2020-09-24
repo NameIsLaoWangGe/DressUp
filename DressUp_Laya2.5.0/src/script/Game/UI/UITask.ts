@@ -377,7 +377,6 @@ export default class UITask extends UIBase {
         this.GetRewardADBtn = this.vars('GetRewardADBtn') as Laya.Image;
         Task._TaskList = this.vars('ShopList') as Laya.List;
 
-        console.log(Task._TaskList);
         this.Scratchers.visible = false;
         this.GetReward.visible = false;
 
@@ -431,7 +430,7 @@ export default class UITask extends UIBase {
                 this.GetRewardADBtn.visible = false;
                 if (this.rewordData) {
                     console.log(this.rewordData);
-                    GameDataController.unlock(this.rewordData.ID);
+                    GameDataController.unlock(this.rewordData);
                 }
             })
         })

@@ -1,9 +1,0 @@
-{
-  "code": "import { UIBase } from \"../../Frame/Core\";\r\nexport default class UIWeddingShare extends UIBase {\r\n    onInit() {\r\n        this.ShareBtn = this.vars(\"ShareBtn\");\r\n        this.BackBtn = this.vars(\"BackBtn\");\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UIWeddingShare.js.map",
-  "references": [
-    "D:/NewProject/src/script/Frame/Core.ts",
-    "D:/NewProject/src/script/RecordManager.ts",
-    "D:/NewProject/src/script/Game/UI/UIReady.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"UIWeddingShare.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIWeddingShare.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAY,MAAM,EAAS,MAAM,kBAAkB,CAAC;AAI3D,MAAM,CAAC,OAAO,OAAO,cAAe,SAAQ,MAAM;IAM9C,MAAM;QAEF,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAe,CAAC;QAClD,IAAI,CAAC,OAAO,GAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAe,CAAC;QAGhD,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;QAEhB,CAAC,CAAC,CAAA;IACN,CAAC;CAuBJ\"}"
-}

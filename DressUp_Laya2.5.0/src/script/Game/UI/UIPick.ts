@@ -1,5 +1,5 @@
 import ADManager, { TaT } from "../../Admanager";
-import { Core, TweenMgr, UIBase, UIMgr } from "../../Frame/Core";
+import { Core, EventMgr, TweenMgr, UIBase, UIMgr } from "../../Frame/Core";
 
 import { OpenType } from "../../Frame/Core";
 import Util from "../../Frame/Util";
@@ -10,6 +10,7 @@ import PickClothChange from "../PickClothChange";
 import PickClothChangeT from "../PickClothChangeT";
 import UIRank from "./UIRank";
 import UIReady from "./UIReady";
+import { Task } from "./UITask";
 
 export default class UIPick extends UIBase {
     _openType = OpenType.Attach;
@@ -148,7 +149,8 @@ export default class UIPick extends UIBase {
         this.BackBtn.visible = false;
 
        
-
+        EventMgr.notify(Task.EventType.PK);
+        
         Laya.timer.clear(this, this.PickFuc);
     }
 

@@ -26,7 +26,6 @@ import UINotice from "./Game/UI/UINotice";
 import UIDraw from "./Game/UI/UIDraw";
 import UITask from "./Game/UI/UITask";
 
-
 G["Game_Init"] = Game_Init;
 G["Game_Ready"] = Game_Ready;
 G["Game_Main"] = Game_Main;
@@ -40,25 +39,27 @@ G["UIActive"] = UIActive;
 G["UISubMoneyEf"] = UISubMoneyEf;
 G["UISign"] = UISign;
 G["UIPhotos"] = UIPhotos;
-G["UITest"] = UITest;
-G["UIWing"] = UIWing;
-G["UITip"] = UITip;
-G["UIPick"] = UIPick;
-G["UIRank"] = UIRank;
-G["UIPickLoading"] = UIPickLoading;
-G["UIPickReward"] = UIPickReward;
-G["UICombine"] = UICombine;
-G["UIDuiHuan"] = UIDuiHuan;
-G["UINotice"] = UINotice;
-G["UIDraw"] = UIDraw;
-G["UITask"] = UITask;
-
-export default class AppFacade extends Laya.View {
-    constructor() {
+G["UITest"]=UITest;
+G["UIWing"]=UIWing;
+G["UITip"]=UITip;
+G["UIPick"]=UIPick;
+G["UIRank"]=UIRank;
+G["UIPickLoading"]=UIPickLoading;
+G["UIPickReward"]=UIPickReward;
+G["UICombine"]=UICombine;
+G["UIDuiHuan"]=UIDuiHuan;
+G["UINotice"]=UINotice;
+G["UIDraw"]=UIDraw;
+G["UITask"]=UITask;
+export default class AppFacade extends Laya.View
+{
+    constructor()
+    {
         super();
     }
 
-    onOpened() {
+    onOpened()
+    {
         GameMgr.start();
     }
 }

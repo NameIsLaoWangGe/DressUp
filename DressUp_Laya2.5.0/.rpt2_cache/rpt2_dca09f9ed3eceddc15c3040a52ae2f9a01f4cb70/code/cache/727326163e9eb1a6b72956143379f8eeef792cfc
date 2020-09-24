@@ -1,7 +1,0 @@
-{
-  "code": "import { OpenType, UIBase } from \"../../Frame/Core\";\r\nexport default class UINotice extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.TextArea = this.vars(\"TextArea\");\r\n        this.CLoseBtn = this.vars(\"CloseBtn\");\r\n        this.TextArea.text = \"1: 兑换码功能和大家见面啦！\\n\" +\r\n            \"    输入：111 获得白雪头发 \\n\" +\r\n            \"    输入：222 获得白雪上衣 \\n\" +\r\n            \"    输入：333 获得白雪长袜 \\n\" +\r\n            \"    输入：444 获得白雪鞋子 \\n\" +\r\n            \"    输入：555 获得白雪魔杖 \\n\" +\r\n            \"2: 新增绝版服装\\n\";\r\n        this.btnEv(\"CloseBtn\", () => {\r\n            this.hide();\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UINotice.js.map",
-  "references": [
-    "D:/NewProject/src/script/Frame/Core.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"UINotice.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UINotice.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,EAAE,MAAM,kBAAkB,CAAC;AAEpD,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,MAAM;IAA5C;;QAEI,cAAS,GAAC,QAAQ,CAAC,MAAM,CAAC;IAuB9B,CAAC;IAlBG,MAAM;QAEF,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAe,CAAC;QAClD,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAc,CAAC;QAEjD,IAAI,CAAC,QAAQ,CAAC,IAAI,GAAC,mBAAmB;YACd,sBAAsB;YACtB,sBAAsB;YACtB,sBAAsB;YACtB,sBAAsB;YACtB,sBAAsB;YAC1B,aAAa,CAAA;QAGjC,IAAI,CAAC,KAAK,CAAC,UAAU,EAAC,GAAE,EAAE;YACtB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;IACN,CAAC;CACJ\"}"
-}

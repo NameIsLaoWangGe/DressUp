@@ -1,9 +1,0 @@
-{
-  "code": "import { UIBase, UIMgr } from \"../../Frame/Core\";\r\nimport RecordManager from \"../../RecordManager\";\r\nexport default class UIWeddingShare extends UIBase {\r\n    onInit() {\r\n        this.ShareBtn = this.vars(\"ShareBtn\");\r\n        this.BackBtn = this.vars(\"BackBtn\");\r\n        this.btnEv(\"ShareBtn\", this.onShareBtnClick);\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n        });\r\n    }\r\n    onShareBtnClick() {\r\n        RecordManager.stopAutoRecord();\r\n        RecordManager._share(() => {\r\n            UIMgr.tip(\"分享成功\");\r\n            UIMgr.get(\"UIReady\").ClearLoop();\r\n        }, () => {\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UIWeddingShare.js.map",
-  "references": [
-    "D:/NewProject/src/script/Frame/Core.ts",
-    "D:/NewProject/src/script/RecordManager.ts",
-    "D:/NewProject/src/script/Game/UI/UIReady.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"UIWeddingShare.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIWeddingShare.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAY,MAAM,EAAE,KAAK,EAAE,MAAM,kBAAkB,CAAC;AAC3D,OAAO,aAAa,MAAM,qBAAqB,CAAC;AAGhD,MAAM,CAAC,OAAO,OAAO,cAAe,SAAQ,MAAM;IAM9C,MAAM;QAEF,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAe,CAAC;QAClD,IAAI,CAAC,OAAO,GAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAe,CAAC;QAEhD,IAAI,CAAC,KAAK,CAAC,UAAU,EAAC,IAAI,CAAC,eAAe,CAAC,CAAC;QAC5C,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;QAEhB,CAAC,CAAC,CAAA;IACN,CAAC;IAQD,eAAe;QAEX,aAAa,CAAC,cAAc,EAAE,CAAC;QAC/B,aAAa,CAAC,MAAM,CAAC,GAAE,EAAE;YACrB,KAAK,CAAC,GAAG,CAAC,MAAM,CAAC,CAAC;YACjB,KAAK,CAAC,GAAG,CAAC,SAAS,CAAa,CAAC,SAAS,EAAE,CAAC;QAClD,CAAC,EAAC,GAAE,EAAE;QAEN,CAAC,CAAC,CAAC;IACP,CAAC;CAMJ\"}"
-}

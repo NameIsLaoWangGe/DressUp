@@ -1,7 +1,0 @@
-{
-  "code": "import { UIBase, OpenType, UIMgr } from \"../../Frame/Core\";\r\nexport default class UISweetMoment extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.BackBtn = this.vars(\"BackBtn\");\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n        });\r\n        this.ShareBtn = this.vars(\"ShareBtn\");\r\n        this.btnEv(\"ShareBtn\", () => {\r\n            UIMgr.tip(\"分享成功！\");\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UISweetMoment.js.map",
-  "references": [
-    "D:/NewProject/src/script/Frame/Core.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"UISweetMoment.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UISweetMoment.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,MAAM,EAAE,QAAQ,EAAE,KAAK,EAAE,MAAM,kBAAkB,CAAA;AAC1D,MAAM,CAAC,OAAO,OAAO,aAAc,SAAQ,MAAM;IAAjD;;QACI,cAAS,GAAG,QAAQ,CAAC,MAAM,CAAC;IAchC,CAAC;IAXG,MAAM;QAEF,IAAI,CAAC,OAAO,GAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAe,CAAC;QAChD,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;QACF,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAe,CAAC;QAClD,IAAI,CAAC,KAAK,CAAC,UAAU,EAAC,GAAE,EAAE;YACtB,KAAK,CAAC,GAAG,CAAC,OAAO,CAAC,CAAC;QACvB,CAAC,CAAC,CAAA;IACN,CAAC;CACJ\"}"
-}

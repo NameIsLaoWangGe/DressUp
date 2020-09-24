@@ -1,5 +1,0 @@
-{
-  "code": "export default class PromoOpen extends Laya.Script {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.target = null;\r\n    }\r\n    onClick() {\r\n        this.target.active = this.target.visible = true;\r\n    }\r\n}\r\n//# sourceMappingURL=PromoOpen.js.map",
-  "references": [],
-  "map": "{\"version\":3,\"file\":\"PromoOpen.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/TJ/Promo/script/PromoOpen.ts\"],\"names\":[],\"mappings\":\"AACA,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,IAAI,CAAC,MAAM;IAAlD;;QAII,WAAM,GAAa,IAAI,CAAC;IAO5B,CAAC;IALG,OAAO;QAEH,IAAI,CAAC,MAAM,CAAC,MAAM,GAAG,IAAI,CAAC,MAAM,CAAC,OAAO,GAAG,IAAI,CAAC;IACpD,CAAC;CAEJ\"}"
-}

@@ -1,7 +1,0 @@
-{
-  "code": "import { OpenType, UIBase } from \"../../Frame/Core\";\r\nexport default class UIShop extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UIShop.js.map",
-  "references": [
-    "D:/Game/project/DressUp/Project_Laya2.5.0/DressUp_Laya2.5.0/src/script/Frame/Core.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"UIShop.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIShop.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,EAAE,MAAM,kBAAkB,CAAC;AAEpD,MAAM,CAAC,OAAO,OAAO,MAAO,SAAQ,MAAM;IAA1C;;QACI,cAAS,GAAG,QAAQ,CAAC,MAAM,CAAC;IAOhC,CAAC;IALG,MAAM;QACF,IAAI,CAAC,KAAK,CAAC,SAAS,EAAE,GAAG,EAAE;YACvB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAC;IACP,CAAC;CACJ\"}"
-}

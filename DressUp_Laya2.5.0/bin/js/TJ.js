@@ -5,8 +5,8 @@ var DP =
         appGuid:"69bde3a8-79f2-314b-802f-dc24bfa7e9e9",
         productName:"梦幻大明星百变造型",
         packageName:"com.tomatojoy.mhdmxbbzx.toutiao",
-        versionName:"1.1.2",
-        versionCode:12,
+        versionName:"1.1.3",
+        versionCode:13,
         channel:"ZJTD_AppRt",
     },
     XIAOMI:
@@ -152,7 +152,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 /*
 DESKTOP-ASGHCHR
 Microsoft Windows NT 10.0.18363.0
-中国标准时间 2020/9/18 14:29:20
+中国标准时间 2020/9/21 14:00:26
 */
 var TJ;
 (function (TJ) {

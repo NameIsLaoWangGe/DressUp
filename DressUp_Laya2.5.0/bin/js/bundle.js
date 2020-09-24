@@ -945,6 +945,36 @@
     }
     P106.style = "P106";
 
+    class ListItem extends Laya.Script {
+        onAwake() {
+            this.init();
+        }
+        init() {
+            console.log("ListItem Onawake");
+            this.List = this.owner;
+            this.List.vScrollBarSkin = "";
+        }
+        show() {
+        }
+        ;
+        _show() {
+            this.show();
+        }
+        refresh() {
+        }
+        ;
+        _refresh() {
+            this.refresh();
+        }
+        hide() {
+            this.List.visible = false;
+        }
+        ;
+        _hide() {
+            this.hide();
+        }
+    }
+
     var GameEvent;
     (function (GameEvent) {
         GameEvent["preloadStep"] = "preloadStep";
@@ -3264,36 +3294,6 @@
     let BaseObj = Core.Resource.BaseObj;
     let ObjPool = Core.Resource.ObjPool;
 
-    class ListItem extends Laya.Script {
-        onAwake() {
-            this.init();
-        }
-        init() {
-            console.log("ListItem Onawake");
-            this.List = this.owner;
-            this.List.vScrollBarSkin = "";
-        }
-        show() {
-        }
-        ;
-        _show() {
-            this.show();
-        }
-        refresh() {
-        }
-        ;
-        _refresh() {
-            this.refresh();
-        }
-        hide() {
-            this.List.visible = false;
-        }
-        ;
-        _hide() {
-            this.hide();
-        }
-    }
-
     class RecordManager {
         constructor() {
             this.GRV = null;
@@ -3879,6 +3879,10 @@
             TJ.API.AdService.ShowNormal(new TJ.API.AdService.Param());
         }
         static ShowReward(rewardAction, fail = null) {
+            if (rewardAction != null) {
+                rewardAction();
+            }
+            return true;
             console.log("?????");
             let p = new TJ.ADS.Param();
             p.extraAd = true;
@@ -4250,7 +4254,6 @@
             this.Select.visible = false;
             this.type2 = data.GetType2;
             this.Star.skin = "Btnbar/xing" + data.Star + ".png";
-            console.log(data.ID + "" + data.Star);
             this.Lock.visible = !GameDataController.ClothCanUse(data.ID);
             if (data.GetType2 != null || data.ID == 50404 || data.ID == 40601 || data.ID == 40602 || data.ID == 40603 || data.ID == 40604 || data.ID == 40605 || data.ID == 70201 || data.ID == 70202) {
                 this.Adimage.visible = false;
@@ -4260,7 +4263,6 @@
                 this.Adimage.visible = true;
                 this.smallLock.visible = false;
             }
-            console.log(GameDataController.ClothDataRefresh[data.ID], data.ID);
             switch (this.type) {
                 case clothtype.Hair:
                     if (ClothChange.Instance.nowclothData.Hair == this.ID) {
@@ -4987,7 +4989,6 @@
                     if (str != null) {
                         if ((data.GetType2.split('_'))[0] == "1") {
                             let str = this.ClothDataRefresh[Id];
-                            console.log(str);
                             if (str != null) {
                                 if (GameDataController.ClothDataRefresh[Id] == 1) {
                                     return false;
@@ -5008,7 +5009,6 @@
                         }
                         else if ((data.GetType2.split('_'))[0] == "3") {
                             let str = this.ClothDataRefresh[Id];
-                            console.log(str);
                             if (str != null) {
                                 if (GameDataController.ClothDataRefresh[Id] == 1) {
                                     return false;
@@ -5020,7 +5020,6 @@
                         }
                         else if ((data.GetType2.split('_'))[0] == "4") {
                             let str = this.ClothDataRefresh[Id];
-                            console.log(str);
                             if (str != null) {
                                 if (GameDataController.ClothDataRefresh[Id] == 1) {
                                     return false;
@@ -5041,7 +5040,6 @@
                 }
                 else {
                     let str = this.ClothDataRefresh[Id];
-                    console.log(str);
                     if (str != null) {
                         if (GameDataController.ClothDataRefresh[Id] == 1) {
                             return false;
@@ -5184,15 +5182,16 @@
             let cloth = GameDataController._ClothData.get(parseInt(t));
             return cloth;
         }
-        static unlock(ID) {
-            GameDataController.ClothDataRefresh[ID] == 0;
+        static unlock(data) {
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[data.ID] = 0;
+            GameDataController.ClothDataRefresh = dataall;
             BagListController.Instance.showList();
             BagListController.Instance.refresh();
         }
         static AddCharmValue(num) {
             let a = parseInt(GameDataController.CharmValue);
             GameDataController.CharmValue = (a + num).toString();
-            UIMgr.get("UIReady").CharmValueShow();
         }
     }
     GameDataController._clothData = new Map();
@@ -7690,7 +7689,6 @@
             this.GetRewardShareBtn = this.vars('GetRewardShareBtn');
             this.GetRewardADBtn = this.vars('GetRewardADBtn');
             Task._TaskList = this.vars('ShopList');
-            console.log(Task._TaskList);
             this.Scratchers.visible = false;
             this.GetReward.visible = false;
             this.event();
@@ -7740,7 +7738,7 @@
                     this.GetRewardADBtn.visible = false;
                     if (this.rewordData) {
                         console.log(this.rewordData);
-                        GameDataController.unlock(this.rewordData.ID);
+                        GameDataController.unlock(this.rewordData);
                     }
                 });
             });
@@ -7890,6 +7888,7 @@
         onInit() {
             new ZJADMgr();
             TJ.API.TA.log = true;
+            Task.init();
             ADManager.TAPoint(TaT.PageEnter, "UIPreload");
             let cfg = new ConfigData();
             this.loading = this.vars("loading");
@@ -7904,7 +7903,6 @@
                 ADManager.TAPoint(TaT.PageLeave, "UIPreload");
             };
             EventMgr.reg("sgl1", this, callBack);
-            Task.init();
         }
         onValueChange() {
             if (this.loading.width >= 443) {
@@ -7948,11 +7946,32 @@
         }
         onInit() {
             ADManager.TAPoint(TaT.PageEnter, "mainpage");
-            this.CharmValue = this.vars("CharmValue");
-            this.CharmValue.text = "魅力值:0";
+            this.Shop = this.vars("Shop");
+            this.btnEv("Shop", () => {
+                UIMgr.show("UITask");
+            });
+            this.Charm = this.vars("Charm");
+            this.Charm.getChildByName("CharmValue").value = "0";
             this.Draw = this.vars("Draw");
+            this.AdDraw = this.Draw.getChildByName("AD");
+            if (Laya.LocalStorage.getItem("DrawAd") == "1") {
+                this.AdDraw.visible = true;
+            }
             this.btnEv("Draw", () => {
-                UIMgr.show("UIDraw");
+                if (Laya.LocalStorage.getItem("DrawAd")) {
+                    console.log("存在drawad");
+                    if (Laya.LocalStorage.getItem("DrawAd") == "1") {
+                        ADManager.ShowReward(() => {
+                            UIMgr.show("UIDraw");
+                        });
+                    }
+                }
+                else {
+                    console.log("不存在drawad");
+                    Laya.LocalStorage.setItem("DrawAd", "1");
+                    UIMgr.show("UIDraw");
+                    this.AdDraw.visible = true;
+                }
             });
             this.btnEv("Combine", () => {
                 this.UICombine.visible = true;
@@ -7961,10 +7980,6 @@
             this.Notice = this.vars("Notice");
             this.btnEv("Notice", () => {
                 UIMgr.show("UINotice");
-            });
-            this.TaskBtn = this.vars("TaskBtn");
-            this.btnEv("TaskBtn", () => {
-                UIMgr.show("UITask");
             });
             this.DuihuanBtn = this.vars("DuihuanBtn");
             this.btnEv("DuihuanBtn", () => {
@@ -8290,7 +8305,7 @@
             GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths3[0].GetType2, this.str2);
         }
         CharmValueShow() {
-            this.CharmValue.text = "魅力值:" + GameDataController.CharmValue;
+            this.Charm.getChildByName("CharmValue").value = GameDataController.CharmValue;
         }
     }
 
@@ -9947,6 +9962,7 @@
             this.FemaleRoot.centerX = 492;
             this.FemaleRoot1.centerX = -484;
             this.BackBtn.visible = false;
+            EventMgr.notify(Task.EventType.PK);
             Laya.timer.clear(this, this.PickFuc);
         }
         tweenFRToLeft(t) {
@@ -10162,10 +10178,12 @@
             this.HeCheng = this.vars("HeCheng");
             this.CombineBtn = this.HeCheng.getChildByName("CombineBtn");
             this.Yanzhi = this.HeCheng.getChildByName("Yanzhi");
-            this.Caifu = this.HeCheng.getChildByName("Caifu");
-            this.Zhihui = this.HeCheng.getChildByName("Zhihui");
+            this.Fu = this.HeCheng.getChildByName("Fu");
+            this.QiZhi = this.HeCheng.getChildByName("QiZhi");
             this.Aiqing = this.HeCheng.getChildByName("Aiqing");
             this.Shuidi = this.HeCheng.getChildByName("Shuidi");
+            this.FuHei = this.HeCheng.getChildByName("FuHei");
+            this.Title = this.HeCheng.getChildByName("Title");
             this.CombineBtn.on(Laya.Event.CLICK, this, this.DanShengShow);
             this.HCCloseBtn = this.HeCheng.getChildByName("HCCloseBtn");
             this.HCCloseBtn.on(Laya.Event.CLICK, this, () => {
@@ -10174,10 +10192,12 @@
             });
             this.Wan = this.HeCheng.getChildByName("Wan");
             this.mask = this.vars("Mask");
-            this.Zhihui.on(Laya.Event.CLICK, this, this.ZhihuiClick);
+            this.QiZhi.on(Laya.Event.CLICK, this, this.QiZhiClick);
             this.Yanzhi.on(Laya.Event.CLICK, this, this.YanzhiClick);
-            this.Caifu.on(Laya.Event.CLICK, this, this.CaifuClick);
+            this.Fu.on(Laya.Event.CLICK, this, this.FuClick);
             this.Aiqing.on(Laya.Event.CLICK, this, this.AiqingClick);
+            this.FuHei.on(Laya.Event.CLICK, this, this.FuHeiClick);
+            this.Title.on(Laya.Event.CLICK, this, this.TitleClick);
             this.DanSheng = this.vars("DanSheng");
             this.Guanghuan = this.DanSheng.getChildByName("Guanghuan");
             this.StartBtn = this.DanSheng.getChildByName("StartBtn");
@@ -10223,13 +10243,15 @@
             this.GetAwardBtn.getChildAt(0).visible = this.isWatchAD;
             this.GetAwardBtn.getChildAt(1).visible = !this.isWatchAD;
             this.count = 0;
-            this.Zhihui.on(Laya.Event.CLICK, this, this.ZhihuiClick);
+            this.QiZhi.on(Laya.Event.CLICK, this, this.QiZhiClick);
             this.Yanzhi.on(Laya.Event.CLICK, this, this.YanzhiClick);
-            this.Caifu.on(Laya.Event.CLICK, this, this.CaifuClick);
+            this.Fu.on(Laya.Event.CLICK, this, this.FuClick);
             this.Aiqing.on(Laya.Event.CLICK, this, this.AiqingClick);
-            this.Caifu.getChildAt(0).visible = true;
-            this.Zhihui.getChildAt(0).visible = true;
+            this.Fu.getChildAt(0).visible = true;
+            this.QiZhi.getChildAt(0).visible = true;
             this.Aiqing.getChildAt(0).visible = true;
+            this.FuHei.x = 343;
+            this.FuHei.y = 203;
             this.GetAwardBtn.visible = true;
             this.CheckBtn.visible = true;
             this.StartBtn.x = 393;
@@ -10250,54 +10272,34 @@
         GuangHuanRot() {
             this.Guanghuan.rotation += 2;
         }
-        ZhihuiClick() {
+        QiZhiClick() {
             ADManager.ShowReward(() => {
-                this.Zhihui.getChildAt(0).visible = false;
-                this.owner["ZhihuiAni"].play(0, false);
+                this.QiZhi.getChildAt(0).visible = false;
+                this.owner["QiZhiAni"].play(0, false);
                 this.count++;
-                Laya.timer.frameOnce(60, this, () => {
-                    this.mask.centerY -= 20;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
                 });
-                this.Zhihui.off(Laya.Event.CLICK, this, this.ZhihuiClick);
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.Zhihui.getChildAt(0).visible = false;
-                    this.owner["ZhihuiAni"].play(0, false);
-                    this.count++;
-                    Laya.timer.frameOnce(60, this, () => {
-                        this.mask.centerY -= 20;
-                    });
-                    this.Zhihui.off(Laya.Event.CLICK, this, this.ZhihuiClick);
-                });
+                this.QiZhi.off(Laya.Event.CLICK, this, this.QiZhiClick);
             });
         }
         YanzhiClick() {
             this.owner["YanZhiAni"].play(0, false);
             this.count++;
-            Laya.timer.frameOnce(60, this, () => {
-                this.mask.centerY -= 20;
+            Laya.timer.frameOnce(35, this, () => {
+                this.mask.centerY -= 15;
             });
             this.Yanzhi.off(Laya.Event.CLICK, this, this.YanzhiClick);
         }
-        CaifuClick() {
+        FuClick() {
             ADManager.ShowReward(() => {
-                this.Caifu.getChildAt(0).visible = false;
-                this.owner["CaifuAni"].play(0, false);
+                this.Fu.getChildAt(0).visible = false;
+                this.owner["FuAni"].play(0, false);
                 this.count++;
-                Laya.timer.frameOnce(55, this, () => {
-                    this.mask.centerY -= 20;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
                 });
-                this.Caifu.off(Laya.Event.CLICK, this, this.CaifuClick);
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.Caifu.getChildAt(0).visible = false;
-                    this.owner["CaifuAni"].play(0, false);
-                    this.count++;
-                    Laya.timer.frameOnce(55, this, () => {
-                        this.mask.centerY -= 20;
-                    });
-                    this.Caifu.off(Laya.Event.CLICK, this, this.CaifuClick);
-                });
+                this.Fu.off(Laya.Event.CLICK, this, this.FuClick);
             });
         }
         AiqingClick() {
@@ -10305,21 +10307,26 @@
                 this.Aiqing.getChildAt(0).visible = false;
                 this.owner["AiqingAni"].play(0, false);
                 this.count++;
-                Laya.timer.frameOnce(60, this, () => {
-                    this.mask.centerY -= 20;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
                 });
                 this.Aiqing.off(Laya.Event.CLICK, this, this.AiqingClick);
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.Aiqing.getChildAt(0).visible = false;
-                    this.owner["AiqingAni"].play(0, false);
-                    this.count++;
-                    Laya.timer.frameOnce(60, this, () => {
-                        this.mask.centerY -= 20;
-                    });
-                    this.Aiqing.off(Laya.Event.CLICK, this, this.AiqingClick);
-                });
             });
+        }
+        FuHeiClick() {
+            ADManager.ShowReward(() => {
+                this.FuHei.getChildAt(0).visible = false;
+                this.owner["FuHeiAni"].play(0, false);
+                this.count++;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
+                });
+                this.FuHei.off(Laya.Event.CLICK, this, this.FuHeiClick);
+            });
+        }
+        TitleClick() {
+            this.FuHei.x = 353.5;
+            this.FuHei.y = 902;
         }
         DanShengShow() {
             console.log(this.count);

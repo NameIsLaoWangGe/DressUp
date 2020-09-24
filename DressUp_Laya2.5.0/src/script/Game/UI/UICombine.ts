@@ -18,10 +18,12 @@ export default class UICombine extends UIBase{
     // SuijiBtn:Laya.Image;
     CombineBtn:Laya.Image;
     Yanzhi:Laya.Image;
-    Caifu:Laya.Image;
-    Zhihui:Laya.Image;
+    Fu:Laya.Image;
+    QiZhi:Laya.Image;
     Aiqing:Laya.Image;
     Shuidi:Laya.Image;
+    FuHei:Laya.Image;
+    Title:Laya.Image;
     HCCloseBtn:Laya.Image;
     Wan:Laya.Image;
     mask:Laya.Image;
@@ -47,10 +49,12 @@ export default class UICombine extends UIBase{
         // this.SuijiBtn.on(Laya.Event.CLICK,this,this.SuijiBtnClick);
 
         this.Yanzhi=this.HeCheng.getChildByName("Yanzhi") as Laya.Image;
-        this.Caifu=this.HeCheng.getChildByName("Caifu") as Laya.Image;
-        this.Zhihui=this.HeCheng.getChildByName("Zhihui") as Laya.Image;
+        this.Fu=this.HeCheng.getChildByName("Fu") as Laya.Image;
+        this.QiZhi=this.HeCheng.getChildByName("QiZhi") as Laya.Image;
         this.Aiqing=this.HeCheng.getChildByName("Aiqing") as Laya.Image;
         this.Shuidi=this.HeCheng.getChildByName("Shuidi") as Laya.Image;
+        this.FuHei=this.HeCheng.getChildByName("FuHei") as Laya.Image;
+        this.Title=this.HeCheng.getChildByName("Title") as Laya.Image;
         this.CombineBtn.on(Laya.Event.CLICK,this,this.DanShengShow)
         this.HCCloseBtn=this.HeCheng.getChildByName("HCCloseBtn") as Laya.Image;
         this.HCCloseBtn.on(Laya.Event.CLICK,this,()=>{
@@ -61,10 +65,12 @@ export default class UICombine extends UIBase{
         this.mask=this.vars("Mask") as Laya.Image;
         
 
-        this.Zhihui.on(Laya.Event.CLICK,this,this.ZhihuiClick);
+        this.QiZhi.on(Laya.Event.CLICK,this,this.QiZhiClick);
         this.Yanzhi.on(Laya.Event.CLICK,this,this.YanzhiClick);
-        this.Caifu.on(Laya.Event.CLICK,this,this.CaifuClick);
+        this.Fu.on(Laya.Event.CLICK,this,this.FuClick);
         this.Aiqing.on(Laya.Event.CLICK,this,this.AiqingClick);
+        this.FuHei.on(Laya.Event.CLICK,this,this.FuHeiClick);
+        this.Title.on(Laya.Event.CLICK,this,this.TitleClick);
 
 
         this.DanSheng=this.vars("DanSheng") as Laya.Box;
@@ -120,13 +126,15 @@ export default class UICombine extends UIBase{
         (this.GetAwardBtn.getChildAt(1) as Laya.Image).visible=!this.isWatchAD;
 
         this.count=0;
-        this.Zhihui.on(Laya.Event.CLICK,this,this.ZhihuiClick);
+        this.QiZhi.on(Laya.Event.CLICK,this,this.QiZhiClick);
         this.Yanzhi.on(Laya.Event.CLICK,this,this.YanzhiClick);
-        this.Caifu.on(Laya.Event.CLICK,this,this.CaifuClick);
+        this.Fu.on(Laya.Event.CLICK,this,this.FuClick);
         this.Aiqing.on(Laya.Event.CLICK,this,this.AiqingClick);
-        (this.Caifu.getChildAt(0) as Laya.Image).visible=true;
-        (this.Zhihui.getChildAt(0) as Laya.Image).visible=true;
+        (this.Fu.getChildAt(0) as Laya.Image).visible=true;
+        (this.QiZhi.getChildAt(0) as Laya.Image).visible=true;
         (this.Aiqing.getChildAt(0) as Laya.Image).visible=true;
+        this.FuHei.x=343;
+        this.FuHei.y=203;
 
         this.GetAwardBtn.visible=true;
         this.CheckBtn.visible=true;
@@ -157,60 +165,38 @@ export default class UICombine extends UIBase{
         this.Guanghuan.rotation+=2;
     }
 
-    ZhihuiClick()
+    QiZhiClick()
     {
         ADManager.ShowReward(()=>{
-            (this.Zhihui.getChildAt(0) as Laya.Image).visible=false;
-            (this.owner["ZhihuiAni"] as Laya.FrameAnimation).play(0,false);
+            (this.QiZhi.getChildAt(0) as Laya.Image).visible=false;
+            (this.owner["QiZhiAni"] as Laya.FrameAnimation).play(0,false);
             this.count++;
-            Laya.timer.frameOnce(60,this,()=>{
-                this.mask.centerY-=20;
+            Laya.timer.frameOnce(35,this,()=>{
+                this.mask.centerY-=15;
             })
-            this.Zhihui.off(Laya.Event.CLICK,this,this.ZhihuiClick);
-        },()=>{
-            UIMgr.show("UITip",()=>{
-                (this.Zhihui.getChildAt(0) as Laya.Image).visible=false;
-                (this.owner["ZhihuiAni"] as Laya.FrameAnimation).play(0,false);
-                this.count++;
-                Laya.timer.frameOnce(60,this,()=>{
-                    this.mask.centerY-=20;
-                })
-                this.Zhihui.off(Laya.Event.CLICK,this,this.ZhihuiClick);
-            });
+            this.QiZhi.off(Laya.Event.CLICK,this,this.QiZhiClick);
         })
-        
     }
     YanzhiClick()
     {
         (this.owner["YanZhiAni"] as Laya.FrameAnimation).play(0,false);
         this.count++;
-        Laya.timer.frameOnce(60,this,()=>{
-            this.mask.centerY-=20;
+        Laya.timer.frameOnce(35,this,()=>{
+            this.mask.centerY-=15;
         })
         this.Yanzhi.off(Laya.Event.CLICK,this,this.YanzhiClick);
     }
-    CaifuClick()
+    FuClick()
     {
         ADManager.ShowReward(()=>{
-            (this.Caifu.getChildAt(0) as Laya.Image).visible=false;
-            (this.owner["CaifuAni"] as Laya.FrameAnimation).play(0,false);
+            (this.Fu.getChildAt(0) as Laya.Image).visible=false;
+            (this.owner["FuAni"] as Laya.FrameAnimation).play(0,false);
             this.count++;
-            Laya.timer.frameOnce(55,this,()=>{
-                this.mask.centerY-=20;
+            Laya.timer.frameOnce(35,this,()=>{
+                this.mask.centerY-=15;
             })
-            this.Caifu.off(Laya.Event.CLICK,this,this.CaifuClick);
-        },()=>{
-            UIMgr.show("UITip",()=>{
-                (this.Caifu.getChildAt(0) as Laya.Image).visible=false;
-                (this.owner["CaifuAni"] as Laya.FrameAnimation).play(0,false);
-                this.count++;
-                Laya.timer.frameOnce(55,this,()=>{
-                    this.mask.centerY-=20;
-                })
-                this.Caifu.off(Laya.Event.CLICK,this,this.CaifuClick);
-            })
+            this.Fu.off(Laya.Event.CLICK,this,this.FuClick);
         })
-        
     }
     AiqingClick()
     {
@@ -218,22 +204,29 @@ export default class UICombine extends UIBase{
             (this.Aiqing.getChildAt(0) as Laya.Image).visible=false;
             (this.owner["AiqingAni"] as Laya.FrameAnimation).play(0,false);
             this.count++;
-            Laya.timer.frameOnce(60,this,()=>{
-                this.mask.centerY-=20;
+            Laya.timer.frameOnce(35,this,()=>{
+                this.mask.centerY-=15;
             })
             this.Aiqing.off(Laya.Event.CLICK,this,this.AiqingClick);
-        },()=>{
-            UIMgr.show("UITip",()=>{
-                (this.Aiqing.getChildAt(0) as Laya.Image).visible=false;
-                (this.owner["AiqingAni"] as Laya.FrameAnimation).play(0,false);
-                this.count++;
-                Laya.timer.frameOnce(60,this,()=>{
-                    this.mask.centerY-=20;
-                })
-                this.Aiqing.off(Laya.Event.CLICK,this,this.AiqingClick);
-            })
         })
         
+    }
+    FuHeiClick()
+    {
+        ADManager.ShowReward(()=>{
+            (this.FuHei.getChildAt(0) as Laya.Image).visible=false;
+            (this.owner["FuHeiAni"] as Laya.FrameAnimation).play(0,false);
+            this.count++;
+            Laya.timer.frameOnce(35,this,()=>{
+                this.mask.centerY-=15;
+            })
+            this.FuHei.off(Laya.Event.CLICK,this,this.FuHeiClick);
+        })
+    }
+    TitleClick()
+    {
+        this.FuHei.x=353.5;
+        this.FuHei.y=902;
     }
     
     // SuijiBtnClick()

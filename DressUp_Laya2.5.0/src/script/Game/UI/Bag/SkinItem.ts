@@ -80,7 +80,7 @@ export default class SkinItem extends Laya.Script {
         this.Select.visible = false;
         this.type2 = data.GetType2;
         this.Star.skin = "Btnbar/xing" + data.Star + ".png";
-        console.log(data.ID + "" + data.Star);
+        // console.log(data.ID + "" + data.Star);
         this.Lock.visible = !GameDataController.ClothCanUse(data.ID);
 
         
@@ -103,7 +103,7 @@ export default class SkinItem extends Laya.Script {
             this.Adimage.visible = true;
             this.smallLock.visible = false;
         }
-        console.log(GameDataController.ClothDataRefresh[data.ID], data.ID);
+        // console.log(GameDataController.ClothDataRefresh[data.ID], data.ID);
 
 
         switch (this.type) {
