@@ -3,6 +3,7 @@ import { EventMgr, OpenType, UIBase, UIMgr } from "../../Frame/Core";
 import RecordManager from "../../RecordManager";
 import GameDataController from "../GameDataController";
 import { Tools } from "./Tools";
+import UIReady from "./UIReady";
 /**任务模块*/
 export module Task {
     /**数据表*/
@@ -29,9 +30,9 @@ export module Task {
                 get: 0,
             },
             {
-                name: '观看两个视频',
+                name: '观看一个视频 ',
                 taskType: 'ads',
-                condition: 2,
+                condition: 1,
                 resCondition: 0,
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
@@ -39,9 +40,9 @@ export module Task {
                 get: 0,
             },
             {
-                name: '观看3个视频',
+                name: '观看一个视频  ',
                 taskType: 'ads',
-                condition: 3,
+                condition: 1,
                 resCondition: 0,
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
@@ -216,7 +217,7 @@ export module Task {
         /**每日任务*/
         everyday = 'Task_Everyday',
         /**永久性任务*/
-        perpetual = 'Task_Perpetual',
+        perpetual = 'Task_Perpetual1',
     }
     /**奖励类型*/
     export enum RewardType {
@@ -356,9 +357,9 @@ export module Scratchers {
 
 export default class UITask extends UIBase {
     _openType = OpenType.Attach;
-    Scratchers: Laya.Image;
-    ScratchersScrape: Laya.Image;
-    ScratchersAgainBtn: Laya.Image;
+    Scratchers: Laya.Image;//刮奖界面
+    ScratchersScrape: Laya.Image;//刮奖区域
+    ScratchersAgainBtn: Laya.Image; //再来一次
     GetReward: Laya.Image;
     GetRewardCloseBtn: Laya.Image;
     GetRewardADBtn: Laya.Image;
@@ -407,7 +408,9 @@ export default class UITask extends UIBase {
             Laya.timer.clearAll(this);
         });
         this.btnEv('refreshBtn', () => {
-            Task.refreshTask();
+            ADManager.ShowReward(()=>{
+                Task.refreshTask();
+            })  
         })
         this.btnEv('ProbabilityBtn', () => {
             this.Probability.visible = true;
@@ -488,6 +491,7 @@ export default class UITask extends UIBase {
                 this.closeScratchers();
                 this.rewordData = null;
                 GameDataController.AddCharmValue(10);
+                (UIMgr.get("UIReady")as UIReady).CharmValueShow();
                 break;
             case Scratchers._Word.zailai:
                 this.ScratchersAgainBtn.visible = true;
@@ -498,6 +502,7 @@ export default class UITask extends UIBase {
                 this.closeScratchers();
                 this.rewordData = null;
                 GameDataController.AddCharmValue(5);
+                (UIMgr.get("UIReady")as UIReady).CharmValueShow();
                 break;
             default:
                 break;

@@ -1,0 +1,10 @@
+{
+  "code": "import { UIBase, OpenType } from \"../../Frame/Core\";\r\nimport ADManager, { TaT } from \"../../Admanager\";\r\nexport default class UITest extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n        this.Data = [];\r\n    }\r\n    onAwake() {\r\n        this.Refresh();\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n        });\r\n    }\r\n    onInit() {\r\n    }\r\n    onShow() {\r\n        ADManager.TAPoint(TaT.PageEnter, \"shuiyipage\");\r\n    }\r\n    onHide() {\r\n        ADManager.TAPoint(TaT.PageLeave, \"shuiyipage\");\r\n        this.hide();\r\n    }\r\n    Refresh() {\r\n    }\r\n}\r\n//# sourceMappingURL=UITest.js.map",
+  "references": [
+    "D:/新建文件夹/src/script/Game/ClothData.ts",
+    "D:/新建文件夹/src/script/Frame/Core.ts",
+    "D:/新建文件夹/src/script/Game/GameDataController.ts",
+    "D:/新建文件夹/src/script/Admanager.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"UITest.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UITest.ts\"],\"names\":[],\"mappings\":\"AACA,OAAO,EAAE,MAAM,EAAE,QAAQ,EAAE,MAAM,kBAAkB,CAAC;AAEpD,OAAO,SAAS,EAAE,EAAE,GAAG,EAAE,MAAM,iBAAiB,CAAC;AACjD,MAAM,CAAC,OAAO,OAAO,MAAO,SAAQ,MAAM;IAA1C;;QACI,cAAS,GAAG,QAAQ,CAAC,MAAM,CAAC;QAI5B,SAAI,GAAa,EAAE,CAAC;IA2BxB,CAAC;IAzBG,OAAO;QAEH,IAAI,CAAC,OAAO,EAAE,CAAC;QAEf,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;IACN,CAAC;IACD,MAAM;IAGN,CAAC;IACD,MAAM;QAEF,SAAS,CAAC,OAAO,CAAC,GAAG,CAAC,SAAS,EAAC,YAAY,CAAC,CAAC;IAClD,CAAC;IACD,MAAM;QAEF,SAAS,CAAC,OAAO,CAAC,GAAG,CAAC,SAAS,EAAC,YAAY,CAAC,CAAC;QAC9C,IAAI,CAAC,IAAI,EAAE,CAAC;IAChB,CAAC;IACD,OAAO;IAGP,CAAC;CACJ\"}"
+}

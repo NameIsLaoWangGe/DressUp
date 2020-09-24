@@ -70,14 +70,6 @@ P 710C0EDE white.png
 P BE543C1D xuan.png
 P 1D8D17B1 yellow.png
 D comp
-D DuiHuanMa
-P 0CB4590A 40601.png
-P 5D933D9F 40602.png
-P 01949C94 40603.png
-P 87DB314B 40604.png
-P 79D54E39 40605.png
-R 008D5C04 70201.png
-P 98B3B51B 70202.png
 D DX
 P 39552FA5 img_main_xuanzeyanse.png
 P 51D97561 shipin.png
@@ -213,9 +205,6 @@ R 452E00F0 dikuang.png
 P 15CF5E96 suo.png
 P D688CC20 zi.png
 D UITask
-R 1C14D75D 1.png
-R 297EAF48 2.png
-R D7087938 3.png
 P 9041D5E7 biaoti.png
 R B0C517BA bj.png
 R 39DDE92C board.png

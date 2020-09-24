@@ -631,13 +631,6 @@ export default class ClothChange extends Laya.Script {
         {
             GameDataController.CharmValue="0";
         }
-        console.log(hairCharmValue+"xxxxxxxxxxxx")
-        console.log(coatCharmValue+"xxxxxxxxxxxx")
-        console.log(ornamentCharmValue+"xxxxxxxxxxxx")
-        console.log(shirtCharmValue+"xxxxxxxxxxxx")
-        console.log(shoseCharmValue+"xxxxxxxxxxxx")
-        console.log(socksCharmValue+"xxxxxxxxxxxx")
-        console.log(trousersCharmValue+"xxxxxxxxxxxx")
         let b=hairCharmValue+dressCharmValue+coatCharmValue+ornamentCharmValue+shirtCharmValue+shoseCharmValue+socksCharmValue+trousersCharmValue;
         GameDataController.CharmValue=b.toString();
     }

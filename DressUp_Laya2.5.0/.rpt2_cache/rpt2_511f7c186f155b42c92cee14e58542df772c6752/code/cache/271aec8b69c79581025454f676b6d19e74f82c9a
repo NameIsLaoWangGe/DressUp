@@ -1,0 +1,26 @@
+{
+  "code": "import { G, GameMgr } from \"./Frame/Core\";\r\nimport Game_Init from \"./Game/State/Game_Init\";\r\nimport Game_Ready from \"./Game/State/Game_Ready\";\r\nimport Game_Main from \"./Game/State/Game_Main\";\r\nimport Game_Settle from \"./Game/State/Game_Settle\";\r\nimport UIPreload from \"./Game/UI/UIPreload\";\r\nimport UIReady from \"./Game/UI/UIReady\";\r\nimport UIMain from \"./Game/UI/UIMain\";\r\nimport UISettle from \"./Game/UI/UISettle\";\r\nimport UISubMoneyEf from \"./Game/UI/UISubMoneyEf\";\r\nimport UIActive from \"./Game/UI/UIActive\";\r\nimport UISign from \"./Game/UI/UISign\";\r\nimport UIPhotos from \"./Game/UI/UIPhotos\";\r\nimport UITest from \"./Game/UI/UITest\";\r\nimport UIRecommend from \"./Game/UI/UIRecommend\";\r\nimport UIWing from \"./Game/UI/UIWing\";\r\nimport UITip from \"./Game/UI/UITip\";\r\nimport UIPick from \"./Game/UI/UIPick\";\r\nG[\"Game_Init\"] = Game_Init;\r\nG[\"Game_Ready\"] = Game_Ready;\r\nG[\"Game_Main\"] = Game_Main;\r\nG[\"Game_Settle\"] = Game_Settle;\r\nG[\"UIPreload\"] = UIPreload;\r\nG[\"UIReady\"] = UIReady;\r\nG[\"UIMain\"] = UIMain;\r\nG[\"UISettle\"] = UISettle;\r\nG[\"UIActive\"] = UIActive;\r\nG[\"UISubMoneyEf\"] = UISubMoneyEf;\r\nG[\"UISign\"] = UISign;\r\nG[\"UIPhotos\"] = UIPhotos;\r\nG[\"UITest\"] = UITest;\r\nG[\"UIRecommend\"] = UIRecommend;\r\nG[\"UIWing\"] = UIWing;\r\nG[\"UITip\"] = UITip;\r\nG[\"UIPick\"] = UIPick;\r\nexport default class AppFacade extends Laya.View {\r\n    constructor() {\r\n        super();\r\n    }\r\n    onOpened() {\r\n        GameMgr.start();\r\n    }\r\n}\r\n//# sourceMappingURL=AppFacade.js.map",
+  "references": [
+    "D:/NewProject/src/script/Frame/Core.ts",
+    "D:/NewProject/src/script/Game/State/Game_Init.ts",
+    "D:/NewProject/src/script/Game/State/Game_Ready.ts",
+    "D:/NewProject/src/script/Game/State/Game_Main.ts",
+    "D:/NewProject/src/script/Game/State/Game_Settle.ts",
+    "D:/NewProject/src/script/Game/UI/UIPreload.ts",
+    "D:/NewProject/src/script/Game/UI/UIReady.ts",
+    "D:/NewProject/src/script/Game/UI/UIMain.ts",
+    "D:/NewProject/src/script/Game/UI/UISettle.ts",
+    "D:/NewProject/src/script/Game/UI/UISubTest7.ts",
+    "D:/NewProject/src/script/Game/UI/UISubTest8.ts",
+    "D:/NewProject/src/script/Game/UI/UISubMoneyEf.ts",
+    "D:/NewProject/src/script/Game/UI/UIActive.ts",
+    "D:/NewProject/src/script/Game/UI/UISign.ts",
+    "D:/NewProject/src/script/Game/UI/UIPhotos.ts",
+    "D:/NewProject/src/script/Game/UI/UITest.ts",
+    "D:/NewProject/src/script/Game/UI/UIRecommend.ts",
+    "D:/NewProject/src/script/Game/UI/UIWing.ts",
+    "D:/NewProject/src/script/Game/UI/UITip.ts",
+    "D:/NewProject/src/script/Game/UI/UIPick.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"AppFacade.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/script/AppFacade.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,CAAC,EAAE,OAAO,EAAE,MAAM,cAAc,CAAC;AAC1C,OAAO,SAAS,MAAM,wBAAwB,CAAC;AAC/C,OAAO,UAAU,MAAM,yBAAyB,CAAC;AACjD,OAAO,SAAS,MAAM,wBAAwB,CAAC;AAC/C,OAAO,WAAW,MAAM,0BAA0B,CAAC;AACnD,OAAO,SAAS,MAAM,qBAAqB,CAAC;AAC5C,OAAO,OAAO,MAAM,mBAAmB,CAAC;AACxC,OAAO,MAAM,MAAM,kBAAkB,CAAC;AACtC,OAAO,QAAQ,MAAM,oBAAoB,CAAC;AAG1C,OAAO,YAAY,MAAM,wBAAwB,CAAC;AAClD,OAAO,QAAQ,MAAM,oBAAoB,CAAC;AAC1C,OAAO,MAAM,MAAM,kBAAkB,CAAC;AACtC,OAAO,QAAQ,MAAM,oBAAoB,CAAC;AAC1C,OAAO,MAAM,MAAM,kBAAkB,CAAC;AACtC,OAAO,WAAW,MAAM,uBAAuB,CAAC;AAChD,OAAO,MAAM,MAAM,kBAAkB,CAAC;AACtC,OAAO,KAAK,MAAM,iBAAiB,CAAC;AACpC,OAAO,MAAM,MAAM,kBAAkB,CAAC;AAEtC,CAAC,CAAC,WAAW,CAAC,GAAG,SAAS,CAAC;AAC3B,CAAC,CAAC,YAAY,CAAC,GAAG,UAAU,CAAC;AAC7B,CAAC,CAAC,WAAW,CAAC,GAAG,SAAS,CAAC;AAC3B,CAAC,CAAC,aAAa,CAAC,GAAG,WAAW,CAAC;AAE/B,CAAC,CAAC,WAAW,CAAC,GAAG,SAAS,CAAC;AAC3B,CAAC,CAAC,SAAS,CAAC,GAAG,OAAO,CAAC;AACvB,CAAC,CAAC,QAAQ,CAAC,GAAG,MAAM,CAAC;AACrB,CAAC,CAAC,UAAU,CAAC,GAAG,QAAQ,CAAC;AACzB,CAAC,CAAC,UAAU,CAAC,GAAG,QAAQ,CAAC;AACzB,CAAC,CAAC,cAAc,CAAC,GAAG,YAAY,CAAC;AACjC,CAAC,CAAC,QAAQ,CAAC,GAAG,MAAM,CAAC;AACrB,CAAC,CAAC,UAAU,CAAC,GAAG,QAAQ,CAAC;AACzB,CAAC,CAAC,QAAQ,CAAC,GAAC,MAAM,CAAC;AACnB,CAAC,CAAC,aAAa,CAAC,GAAC,WAAW,CAAC;AAC7B,CAAC,CAAC,QAAQ,CAAC,GAAC,MAAM,CAAC;AACnB,CAAC,CAAC,OAAO,CAAC,GAAC,KAAK,CAAC;AACjB,CAAC,CAAC,QAAQ,CAAC,GAAC,MAAM,CAAC;AAEnB,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,IAAI,CAAC,IAAI;IAE5C;QAEI,KAAK,EAAE,CAAC;IACZ,CAAC;IAED,QAAQ;QAEJ,OAAO,CAAC,KAAK,EAAE,CAAC;IACpB,CAAC;CACJ\"}"
+}

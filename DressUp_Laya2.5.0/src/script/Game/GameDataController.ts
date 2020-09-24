@@ -311,7 +311,14 @@ export default class GameDataController extends Laya.Script {
         return Laya.LocalStorage.getItem("TodayWinNum");
     }
 
-    static set CharmValue(v: string) {
+    static set ShopCharmValue(v: string) { //商店魅力值
+        Laya.LocalStorage.setItem("ShopCharmValue", v);
+    }
+    static get ShopCharmValue(): string {
+        return Laya.LocalStorage.getItem("ShopCharmValue");
+    }
+
+    static set CharmValue(v: string) { //魅力值
         Laya.LocalStorage.setItem("CharmValue", v);
     }
     static get CharmValue(): string {
@@ -370,8 +377,16 @@ export default class GameDataController extends Laya.Script {
     //增加魅力值
     static  AddCharmValue(num:number)
     {
-        let a=parseInt(GameDataController.CharmValue);
-        GameDataController.CharmValue=(a+num).toString();
+        if(!GameDataController.ShopCharmValue)
+        {
+            //GameDataController.ShopCharmValue="0";
+            GameDataController.ShopCharmValue=num.toString();
+        }
+        else
+        {
+            let a=parseInt(GameDataController.ShopCharmValue);
+            GameDataController.ShopCharmValue=(a+num).toString();
+        }   
     }
 }
 

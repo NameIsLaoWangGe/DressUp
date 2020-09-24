@@ -3843,13 +3843,6 @@
             if (!GameDataController.CharmValue) {
                 GameDataController.CharmValue = "0";
             }
-            console.log(hairCharmValue + "xxxxxxxxxxxx");
-            console.log(coatCharmValue + "xxxxxxxxxxxx");
-            console.log(ornamentCharmValue + "xxxxxxxxxxxx");
-            console.log(shirtCharmValue + "xxxxxxxxxxxx");
-            console.log(shoseCharmValue + "xxxxxxxxxxxx");
-            console.log(socksCharmValue + "xxxxxxxxxxxx");
-            console.log(trousersCharmValue + "xxxxxxxxxxxx");
             let b = hairCharmValue + dressCharmValue + coatCharmValue + ornamentCharmValue + shirtCharmValue + shoseCharmValue + socksCharmValue + trousersCharmValue;
             GameDataController.CharmValue = b.toString();
         }
@@ -5139,6 +5132,12 @@
         static get TodayWinNum() {
             return Laya.LocalStorage.getItem("TodayWinNum");
         }
+        static set ShopCharmValue(v) {
+            Laya.LocalStorage.setItem("ShopCharmValue", v);
+        }
+        static get ShopCharmValue() {
+            return Laya.LocalStorage.getItem("ShopCharmValue");
+        }
         static set CharmValue(v) {
             Laya.LocalStorage.setItem("CharmValue", v);
         }
@@ -5190,8 +5189,13 @@
             BagListController.Instance.refresh();
         }
         static AddCharmValue(num) {
-            let a = parseInt(GameDataController.CharmValue);
-            GameDataController.CharmValue = (a + num).toString();
+            if (!GameDataController.ShopCharmValue) {
+                GameDataController.ShopCharmValue = num.toString();
+            }
+            else {
+                let a = parseInt(GameDataController.ShopCharmValue);
+                GameDataController.ShopCharmValue = (a + num).toString();
+            }
         }
     }
     GameDataController._clothData = new Map();
@@ -7417,9 +7421,9 @@
                 get: 0,
             },
             {
-                name: '观看两个视频',
+                name: '观看一个视频 ',
                 taskType: 'ads',
-                condition: 2,
+                condition: 1,
                 resCondition: 0,
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
@@ -7427,9 +7431,9 @@
                 get: 0,
             },
             {
-                name: '观看3个视频',
+                name: '观看一个视频  ',
                 taskType: 'ads',
-                condition: 3,
+                condition: 1,
                 resCondition: 0,
                 rewardType: 'scratchTicket',
                 rewardNum: 1,
@@ -7558,7 +7562,7 @@
         let Classify;
         (function (Classify) {
             Classify["everyday"] = "Task_Everyday";
-            Classify["perpetual"] = "Task_Perpetual";
+            Classify["perpetual"] = "Task_Perpetual1";
         })(Classify = Task.Classify || (Task.Classify = {}));
         let RewardType;
         (function (RewardType) {
@@ -7716,7 +7720,9 @@
                 Laya.timer.clearAll(this);
             });
             this.btnEv('refreshBtn', () => {
-                Task.refreshTask();
+                ADManager.ShowReward(() => {
+                    Task.refreshTask();
+                });
             });
             this.btnEv('ProbabilityBtn', () => {
                 this.Probability.visible = true;
@@ -7789,6 +7795,7 @@
                     this.closeScratchers();
                     this.rewordData = null;
                     GameDataController.AddCharmValue(10);
+                    UIMgr.get("UIReady").CharmValueShow();
                     break;
                 case Scratchers._Word.zailai:
                     this.ScratchersAgainBtn.visible = true;
@@ -7799,6 +7806,7 @@
                     this.closeScratchers();
                     this.rewordData = null;
                     GameDataController.AddCharmValue(5);
+                    UIMgr.get("UIReady").CharmValueShow();
                     break;
                 default:
                     break;
@@ -7951,7 +7959,7 @@
                 UIMgr.show("UITask");
             });
             this.Charm = this.vars("Charm");
-            this.Charm.getChildByName("CharmValue").value = "0";
+            this.CharmValueShow();
             this.Draw = this.vars("Draw");
             this.AdDraw = this.Draw.getChildByName("AD");
             if (Laya.LocalStorage.getItem("DrawAd") == "1") {
@@ -8067,6 +8075,7 @@
                 GameDataController.setFirstLoginTime();
                 this.UICombine.visible = true;
                 RecordManager.startAutoRecord();
+                GameDataController.ShopCharmValue = "0";
             }
             this.btnEv("ClothOpenBtn", this.ClothOpenBtnClick);
             this.btnEv("ActiveBtn", this.ActiveClick);
@@ -8174,6 +8183,7 @@
             UIMgr.show("UIActive");
         }
         onShow() {
+            this.Refresh();
             ADManager.TAPoint(TaT.BtnShow, "fenxiang_click");
             ADManager.TAPoint(TaT.BtnShow, "paizhao_click");
             ADManager.TAPoint(TaT.BtnShow, "chongzhi_click");
@@ -8181,6 +8191,8 @@
             ADManager.TAPoint(TaT.BtnShow, "xiangce_click");
             ADManager.TAPoint(TaT.BtnShow, "pk_main");
             ADManager.TAPoint(TaT.BtnShow, "jiehun_click");
+            GameDataController.CharmValue = "0";
+            this.CharmValueShow();
         }
         onHide() {
         }
@@ -8305,7 +8317,8 @@
             GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths3[0].GetType2, this.str2);
         }
         CharmValueShow() {
-            this.Charm.getChildByName("CharmValue").value = GameDataController.CharmValue;
+            console.log("xxxxxxxxxxxxx");
+            this.Charm.getChildByName("CharmValue").value = (parseInt(GameDataController.CharmValue) + parseInt(GameDataController.ShopCharmValue)).toString();
         }
     }
 
