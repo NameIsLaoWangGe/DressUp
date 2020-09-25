@@ -14,6 +14,9 @@ export default class UICombine extends UIBase{
 
     _openType=OpenType.Attach;
 
+    First:Laya.Box;
+    ConfirmBtn:Laya.Image;
+
     HeCheng:Laya.Box;
     // SuijiBtn:Laya.Image;
     CombineBtn:Laya.Image;
@@ -43,11 +46,15 @@ export default class UICombine extends UIBase{
     onInit()
     {
 
-        this.HeCheng=this.vars("HeCheng") as Laya.Box;
-        // this.SuijiBtn=this.HeCheng.getChildByName("SuijiBtn") as Laya.Image;
-        this.CombineBtn=this.HeCheng.getChildByName("CombineBtn") as Laya.Image;
-        // this.SuijiBtn.on(Laya.Event.CLICK,this,this.SuijiBtnClick);
+        this.First=this.vars("First") as Laya.Box;
+        this.ConfirmBtn=this.vars("ConfirmBtn") as Laya.Image;
+        this.ConfirmBtn.on(Laya.Event.CLICK,this,()=>{
+            this.HeCheng.visible=true;
+            this.First.visible=false;
+        })
 
+        this.HeCheng=this.vars("HeCheng") as Laya.Box;
+        this.CombineBtn=this.HeCheng.getChildByName("CombineBtn") as Laya.Image;
         this.Yanzhi=this.HeCheng.getChildByName("Yanzhi") as Laya.Image;
         this.Fu=this.HeCheng.getChildByName("Fu") as Laya.Image;
         this.QiZhi=this.HeCheng.getChildByName("QiZhi") as Laya.Image;
@@ -106,7 +113,7 @@ export default class UICombine extends UIBase{
     }
     onShow()
     {
-        
+        RecordManager.startAutoRecord();//UI开启 开始录屏    
 
         if(GameDataController.ClothDataRefresh[40201]==0&&GameDataController.ClothDataRefresh[40306]==0&&GameDataController.ClothDataRefresh[40504]==0)
         {
@@ -116,7 +123,8 @@ export default class UICombine extends UIBase{
             this.StartBtn.y=1042;
         }
 
-        this.HeCheng.visible=true;
+        this.First.visible=true;
+        this.HeCheng.visible=false;
         this.Shuidi.visible=false;
         this.DanSheng.visible=false;
 

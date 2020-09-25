@@ -81,7 +81,6 @@ P 87D218F1 qipao.png
 P 115C9A3A tiao1.png
 P 6DF68931 tiao2.png
 P 7D218B95 txt_leiji.png
-D Frame
 D loading
 R 6304CF14 LOGO.png
 P 4FF7BAB9 progressBar$bar.png
@@ -267,40 +266,6 @@ R A5E41F7C ren.png
 R 57E3DAC9 tishi.png
 P 256E2495 tubiao.png
 P F7A1E1BF xiangpi.png
-D Frame/Effects
-P 479E26FC aixin1.png
-P D31680DB aixin2.png
-P BA1DC9D1 hua1.png
-P B2F649D2 hua2.png
-P 11BBE783 hua3.png
-P 1B391CCB hua4.png
-P DA95B77D star1.png
-P CA15C6E9 star2.png
-P 2B464813 star3.png
-P B1AE5A72 star4.png
-P 1292F90D star5.png
-P 53D31D10 xuehua1.png
-P 4A512E89 yezi1.png
-P 274CD6E7 yuan1.png
-P B63DD538 yuanfaguang.png
-D main/UIPickReward1
-P 15542F43 anniu.png
-R 0F5A7F9B di.png
-R F6D13B23 fang.png
-R 5A79A1C9 ren.png
-P 65601150 xing.png
-R B4F36611 zi1.png
-P 3E762EC4 zi2.png
-P 98938A2C zi3.png
-D main/UIWedding
-R FEEBDCAB 1.png
-R DED1A524 2.png
-P A3111EEC anniu.png
-R 708530D8 daxin.png
-R 445E9B24 dise.png
-P 9D0C2FE5 guang1.png
-R DA5CBB03 lALPGoGu-O0e9TXNAtzNAgs_523_732.png
-P 5FFE8821 xin.png
 D TJ/Promo
 D TJ/Promo/image
 P A43D9CBA cnxh.png
