@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":1114,
+    "selectedBox":1115,
+    "selecteID":1171,
     "searchKey":"View",
     "props":{"zOrder":-10,"width":720,"visible":true,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0,"bgColor":"#000000"},
     "nodeParent":-1,
-    "maxID":1159,
+    "maxID":1172,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -2600,14 +2600,13 @@
             "props":{"zOrder":20,"visible":true,"var":"UIPickReward1","top":0,"skin":"PK/heidi.png","right":0,"left":0,"bottom":0},
             "nodeParent":2,
             "label":"UIPickReward1",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1111,
             "child":[
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box",
                     "props":{"width":720,"height":1280,"centerY":0,"centerX":0},
@@ -2620,7 +2619,6 @@
                     "compId":1107,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"skin":"PK/tu_3.png"},
@@ -2634,7 +2632,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,LiKeChuDaoBtn",
                             "props":{"y":1020,"x":231,"var":"LiKeChuDaoBtn","skin":"PK/anniu_like.png"},
@@ -2648,7 +2645,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,CloseBtn",
                             "props":{"y":33,"x":607,"var":"CloseBtn","skin":"sign/X.png"},
@@ -2662,7 +2658,7 @@
                                 ]
                         }]
                 }],
-            "$HIDDEN":false
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -2681,7 +2677,7 @@
                     "x":30,
                     "type":"Box",
                     "searchKey":"Box",
-                    "props":{"width":720,"height":1280,"centerY":0,"centerX":0},
+                    "props":{"y":0,"x":0,"width":720,"height":1280,"centerY":0,"centerX":0},
                     "nodeParent":1114,
                     "label":"Box",
                     "isOpen":true,
@@ -2693,14 +2689,56 @@
                         {
                             "x":45,
                             "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":51,"x":0,"skin":"main/xuancuangtu.png"},
+                            "searchKey":"Image,BG",
+                            "props":{"y":0,"x":-77,"skin":"main/UIWedding/dise.png","name":"BG"},
                             "nodeParent":1115,
-                            "label":"Image",
+                            "label":"BG",
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
-                            "compId":1116,
+                            "compId":1166,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,UIWedding_AiixinEffcet,UIWedding_AiixinEffcet",
+                            "props":{"y":559,"x":379,"width":50,"var":"UIWedding_AiixinEffcet","name":"UIWedding_AiixinEffcet","height":50},
+                            "nodeParent":1115,
+                            "label":"UIWedding_AiixinEffcet",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1171,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,UIWedding_Aiixin,UIWedding_Aiixin",
+                            "props":{"y":350,"x":9,"var":"UIWedding_Aiixin","skin":"main/UIWedding/daxin.png","name":"UIWedding_Aiixin"},
+                            "nodeParent":1115,
+                            "label":"UIWedding_Aiixin",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1167,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,zhujue",
+                            "props":{"y":133,"x":106,"skin":"main/UIWedding/lALPGoGu-O0e9TXNAtzNAgs_523_732.png","name":"zhujue"},
+                            "nodeParent":1115,
+                            "label":"zhujue",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1163,
                             "child":[
                                 ]
                         },
@@ -2708,7 +2746,7 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,UIWedding_EffectParent2,UIWedding_EffectParent2",
-                            "props":{"y":785,"x":153,"width":66,"var":"UIWedding_EffectParent2","name":"UIWedding_EffectParent2","height":65},
+                            "props":{"y":829,"x":150,"width":66,"var":"UIWedding_EffectParent2","name":"UIWedding_EffectParent2","height":65},
                             "nodeParent":1115,
                             "label":"UIWedding_EffectParent2",
                             "isDirectory":false,
@@ -2722,9 +2760,10 @@
                             "x":45,
                             "type":"Image",
                             "searchKey":"Image,UIWedding_EffectParent1,UIWedding_EffectParent1",
-                            "props":{"y":785,"x":524,"width":66,"var":"UIWedding_EffectParent1","name":"UIWedding_EffectParent1","height":65},
+                            "props":{"y":831,"x":521,"width":66,"var":"UIWedding_EffectParent1","name":"UIWedding_EffectParent1","height":65},
                             "nodeParent":1115,
                             "label":"UIWedding_EffectParent1",
+                            "isOpen":true,
                             "isDirectory":false,
                             "isAniNode":true,
                             "hasChild":false,
@@ -2787,7 +2826,49 @@
                             "compId":1158,
                             "child":[
                                 ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,tianmiqixi",
+                            "props":{"y":747,"x":356,"width":618,"skin":"main/UIWedding/2.png","pivotY":38,"pivotX":309,"name":"tianmiqixi","height":76},
+                            "nodeParent":1115,
+                            "label":"tianmiqixi",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1168,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,jiesuohunsha",
+                            "props":{"y":831,"x":361,"width":552,"skin":"main/UIWedding/1.png","pivotY":43,"pivotX":276,"name":"jiesuohunsha","height":109},
+                            "nodeParent":1115,
+                            "label":"jiesuohunsha",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":1169,
+                            "child":[
+                                ]
                         }]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,parent1,parent1",
+                    "props":{"y":838,"x":360,"width":41,"var":"parent1","name":"parent1","height":44},
+                    "nodeParent":1114,
+                    "label":"parent1",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1159,
+                    "child":[
+                        ]
                 }],
             "$HIDDEN":false
         },
@@ -2798,13 +2879,14 @@
             "props":{"zOrder":20,"visible":false,"var":"UIWeddingShare","top":0,"skin":"PK/heidi.png","right":0,"left":0,"bottom":0},
             "nodeParent":2,
             "label":"UIWeddingShare",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":1120,
             "child":[
                 {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box",
                     "props":{"width":720,"height":1280,"centerY":0,"centerX":0},
@@ -2817,6 +2899,7 @@
                     "compId":1123,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":0,"x":0,"skin":"nv/beijing.png"},
@@ -2830,6 +2913,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,ShareBtn",
                             "props":{"y":1068,"x":229,"var":"ShareBtn","skin":"PK/anniu_fenxaing.png"},
@@ -2843,6 +2927,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,WeddingBackBtn",
                             "props":{"y":64,"x":64,"var":"WeddingBackBtn","skin":"main/anniu_xia.png","rotation":90,"anchorY":0.5,"anchorX":0.5},

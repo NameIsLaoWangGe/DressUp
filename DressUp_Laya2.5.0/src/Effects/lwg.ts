@@ -1719,62 +1719,83 @@ export module lwg {
          * 光圈模块
          * */
         export module _Aperture {
+
+            /**光圈模块的图片基类*/
+            export class _ApertureImage extends Laya.Image {
+                constructor(parent: Laya.Sprite, centerPoint?: Laya.Point, width?: number, height?: number, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number) {
+                    super();
+                    parent.addChild(this);
+                    centerPoint ? this.pos(centerPoint.x, centerPoint.y) : this.pos(0, 0);
+                    this.width = width ? width : 100;
+                    this.height = height ? height : 100;
+                    this.pivotX = this.width / 2;
+                    this.pivotY = this.height / 2;
+                    this.rotation = rotation ? Tools.randomOneNumer(rotation[0], rotation[1]) : 0;
+                    this.skin = urlArr ? Tools.arrayRandomGetOne(urlArr) : _SkinUrl.花3;
+                    this.zOrder = zOder ? zOder : 0;
+                    this.alpha = 0;
+                    let RGBA = [];
+                    RGBA[0] = colorRGBA ? Tools.randomOneNumer(colorRGBA[0][0], colorRGBA[1][0]) : Tools.randomOneNumer(0, 255);
+                    RGBA[1] = colorRGBA ? Tools.randomOneNumer(colorRGBA[0][1], colorRGBA[1][1]) : Tools.randomOneNumer(0, 255);
+                    RGBA[2] = colorRGBA ? Tools.randomOneNumer(colorRGBA[0][2], colorRGBA[1][2]) : Tools.randomOneNumer(0, 255);
+                    RGBA[3] = colorRGBA ? Tools.randomOneNumer(colorRGBA[0][3], colorRGBA[1][3]) : Tools.randomOneNumer(0, 255);
+                    Color._colour(this, RGBA);
+                }
+            }
+
             /**
              * 从中心点发出一个光圈，类似波浪，根据光圈不同的样式和节奏,通过控制宽高来控制放大多少
              * @param parent 父节点
              * @param centerPoint 发出位置
              * @param width 宽度，默认100
              * @param height 高度，默认100
-             * @param rotation 角度区间,默认为随机
+             * @param rotation 角度区间[a,b],默认为随机
              * @param urlArr 图片数组，默认为框架中的图片
+             * @param scale 最大放大区间[a,b]
              * @param zOder 层级，默认为0
-             * @param speed 速度，默认0.025，也表示了消失位置，和波浪的大小
+             * @param speed 速度区间[a,b]，默认0.025，也表示了消失位置，和波浪的大小
              * @param accelerated 加速度,默认为0.0005
              */
-            export function aureole_Continuous(parent, centerPoint: Laya.Point, width?: number, height?: number, rotation?: Array<number>, urlArr?: Array<string>, zOder?: number, speed?: number, accelerated?: number): void {
-                let Img = new Laya.Image();
-                Img.skin = urlArr ? Tools.arrayRandomGetOut(urlArr)[0] : _SkinUrl[Tools.randomCountNumer(0, 12)[0]];
-                parent.addChild(Img);
-                Img.pos(centerPoint.x, centerPoint.y);
-                Img.width = width ? width : 100;
-                Img.height = height ? height : 100;
-                Img.pivotX = Img.width / 2;
-                Img.pivotY = Img.height / 2;
-                Img.alpha = 0;
-                Img.zOrder = zOder ? zOder : 0;
-                speed = speed ? speed : 0.025;
-                let angle = Tools.randomCountNumer(0, 360)[0];
-                let caller = {};
+            export function aureole_Continuous(parent: Laya.Sprite, centerPoint?: Laya.Point, width?: number, height?: number, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, scale?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): void {
+                let Img = new _ApertureImage(parent, centerPoint, width, height, rotation, urlArr, colorRGBA, zOder);
+                let _speed = speed ? Tools.randomOneNumer(speed[0], speed[1]) : 0.025;
+                let _accelerated = accelerated ? Tools.randomOneNumer(accelerated[0], accelerated[1]) : 0.0005;
+                let _scale = scale ? Tools.randomOneNumer(scale[0], scale[1]) : 2;
+                let moveCaller = {
+                    alpha: true,
+                    scale: false,
+                    vanish: false
+                };
+                Img['moveCaller'] = moveCaller;
                 let acc = 0;
-                accelerated = accelerated ? accelerated : 0.0005;
-                let firstOff = false;
-                TimerAdmin._frameLoop(1, caller, () => {
-                    if (Img.alpha < 1 && !firstOff) {
+                TimerAdmin._frameLoop(1, moveCaller, () => {
+                    if (moveCaller.alpha) {
                         Img.alpha += 0.05;
-                        acc += (accelerated / 5);
-                        Img.scaleX += (speed / 2 + acc);
-                        Img.scaleY += (speed / 2 + acc);
-                    } else {
-                        firstOff = true;
-                        acc += accelerated;
-                        Img.scaleX += (speed + acc);
-                        Img.scaleY += (speed + acc);
+                        acc += (_accelerated / 5);
+                        if (Img.alpha >= 0) {
+                            moveCaller.alpha = false;
+                            moveCaller.scale = true;
+                        }
+                    } else if (moveCaller.scale) {
+                        acc += _accelerated;
                         if (Img.scaleX > 2.4) {
-                            acc -= accelerated;
-                            if (Img.scaleX > 3.2) {
-                                Img.alpha -= 0.015;
-                                if (Img.alpha <= 0.005) {
-                                    Img.removeSelf();
-                                    Laya.timer.clearAll(caller);
-                                }
+                            moveCaller.scale = false;
+                            moveCaller.vanish = true;
+                        }
+                    } else if (moveCaller.vanish) {
+                        acc -= _accelerated;
+                        if (Img.scaleX > 3.2) {
+                            Img.alpha -= 0.015;
+                            if (Img.alpha <= 0.005) {
+                                Img.removeSelf();
+                                Laya.timer.clearAll(moveCaller);
                             }
                         }
                     }
+                    Img.scaleX = Img.scaleY += (_speed + acc);
                 })
             }
-
         }
-
 
         /**粒子模块*/
         export module _Particle {
@@ -2021,7 +2042,7 @@ export module lwg {
             export function _moveToTargetToMove(parent: Laya.Sprite, centerPoint?: Laya.Point, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, angle?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance1?: Array<number>, distance2?: Array<number>, rotationSpeed?: Array<null>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
                 let Img = new _ParticleImgBase(parent, centerPoint, [0, 0], width, height, rotation, urlArr, colorRGBA, zOder);
                 let centerPoint0 = centerPoint ? centerPoint : new Laya.Point(0, 0);
-                let speed0 = speed ? Tools.randomOneNumer(speed[0], speed[1]) : Tools.randomOneNumer(3, 10);
+                let speed0 = speed ? Tools.randomOneNumer(speed[0], speed[1]) : Tools.randomOneNumer(5, 6);
                 let accelerated0 = accelerated ? Tools.randomOneNumer(accelerated[0], accelerated[1]) : Tools.randomOneNumer(0.25, 0.45);
                 let acc = 0;
                 let moveCaller = {
@@ -2041,38 +2062,42 @@ export module lwg {
                 let rotationSpeed0 = rotationSpeed ? Tools.randomOneNumer(rotationSpeed[0], rotationSpeed[1]) : Tools.randomOneNumer(0, 20);
                 TimerAdmin._frameLoop(1, moveCaller, () => {
                     if (moveCaller.alpha) {
+                        acc += accelerated0;
+                        radius += speed0 + acc;
                         Img.alpha += 0.5;
                         if (Img.alpha >= 1) {
                             moveCaller.alpha = false;
                             moveCaller.move1 = true;
                         }
                     } else if (moveCaller.move1) {
+                        acc += accelerated0;
+                        radius += speed0 + acc;
                         if (radius >= dis1) {
                             moveCaller.move1 = false;
                             moveCaller.stop = true;
                         }
                     } else if (moveCaller.stop) {
-                        acc -= 0.5;
-                        if (radius >= dis1 + dis2 / 2) {
+                        acc -= 0.3;
+                        radius += 0.1;
+                        if (acc <= 0) {
                             moveCaller.stop = false;
                             moveCaller.move2 = true;
                         }
                     } else if (moveCaller.move2) {
-                        if (radius >= dis1 + dis2 / 2) {
-                            moveCaller.stop = false;
-                            moveCaller.move2 = true;
+                        acc += accelerated0 / 2;
+                        radius += speed0 + acc;
+                        if (radius >= dis1 + dis2) {
+                            moveCaller.move2 = false;
+                            moveCaller.vinish = true;
                         }
                     } else if (moveCaller.vinish) {
-                        if (radius >= dis1 + dis2 / 2) {
-                            Img.alpha -= 0.5;
-                            if (Img.alpha <= 0) {
-                                Img.removeSelf();
-                                Laya.timer.clearAll(moveCaller);
-                            }
+                        radius += 0.5;
+                        Img.alpha -= 0.05;
+                        if (Img.alpha <= 0) {
+                            Img.removeSelf();
+                            Laya.timer.clearAll(moveCaller);
                         }
                     }
-                    acc += accelerated0;
-                    radius += speed0 + acc;
                     let point = Tools.point_GetRoundPos(angle0, radius, centerPoint0);
                     Img.pos(point.x, point.y);
                 })

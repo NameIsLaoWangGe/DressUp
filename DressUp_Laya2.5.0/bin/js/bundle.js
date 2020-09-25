@@ -9268,7 +9268,7 @@
                     let Img = new Laya.Image();
                     Img.skin = urlArr ? Tools.arrayRandomGetOut(urlArr)[0] : _SkinUrl[Tools.randomCountNumer(0, 12)[0]];
                     parent.addChild(Img);
-                    Img.pos(centerPoint.x, centerPoint.y);
+                    centerPoint ? Img.pos(centerPoint.x, centerPoint.y) : Img.pos(0, 0);
                     Img.width = width ? width : 100;
                     Img.height = height ? height : 100;
                     Img.pivotX = Img.width / 2;
@@ -9474,7 +9474,7 @@
                 function _moveToTargetToMove(parent, centerPoint, width, height, rotation, angle, urlArr, colorRGBA, zOder, distance1, distance2, rotationSpeed, speed, accelerated) {
                     let Img = new _ParticleImgBase(parent, centerPoint, [0, 0], width, height, rotation, urlArr, colorRGBA, zOder);
                     let centerPoint0 = centerPoint ? centerPoint : new Laya.Point(0, 0);
-                    let speed0 = speed ? Tools.randomOneNumer(speed[0], speed[1]) : Tools.randomOneNumer(3, 10);
+                    let speed0 = speed ? Tools.randomOneNumer(speed[0], speed[1]) : Tools.randomOneNumer(5, 6);
                     let accelerated0 = accelerated ? Tools.randomOneNumer(accelerated[0], accelerated[1]) : Tools.randomOneNumer(0.25, 0.45);
                     let acc = 0;
                     let moveCaller = {
@@ -9493,6 +9493,8 @@
                     let rotationSpeed0 = rotationSpeed ? Tools.randomOneNumer(rotationSpeed[0], rotationSpeed[1]) : Tools.randomOneNumer(0, 20);
                     TimerAdmin._frameLoop(1, moveCaller, () => {
                         if (moveCaller.alpha) {
+                            acc += accelerated0;
+                            radius += speed0 + acc;
                             Img.alpha += 0.5;
                             if (Img.alpha >= 1) {
                                 moveCaller.alpha = false;
@@ -9500,35 +9502,37 @@
                             }
                         }
                         else if (moveCaller.move1) {
+                            acc += accelerated0;
+                            radius += speed0 + acc;
                             if (radius >= dis1) {
                                 moveCaller.move1 = false;
                                 moveCaller.stop = true;
                             }
                         }
                         else if (moveCaller.stop) {
-                            acc -= 0.5;
-                            if (radius >= dis1 + dis2 / 2) {
+                            acc -= 0.3;
+                            radius += 0.1;
+                            if (acc <= 0) {
                                 moveCaller.stop = false;
                                 moveCaller.move2 = true;
                             }
                         }
                         else if (moveCaller.move2) {
-                            if (radius >= dis1 + dis2 / 2) {
-                                moveCaller.stop = false;
-                                moveCaller.move2 = true;
+                            acc += accelerated0 / 2;
+                            radius += speed0 + acc;
+                            if (radius >= dis1 + dis2) {
+                                moveCaller.move2 = false;
+                                moveCaller.vinish = true;
                             }
                         }
                         else if (moveCaller.vinish) {
-                            if (radius >= dis1 + dis2 / 2) {
-                                Img.alpha -= 0.5;
-                                if (Img.alpha <= 0) {
-                                    Img.removeSelf();
-                                    Laya.timer.clearAll(moveCaller);
-                                }
+                            radius += 0.5;
+                            Img.alpha -= 0.05;
+                            if (Img.alpha <= 0) {
+                                Img.removeSelf();
+                                Laya.timer.clearAll(moveCaller);
                             }
                         }
-                        acc += accelerated0;
-                        radius += speed0 + acc;
                         let point = Tools.point_GetRoundPos(angle0, radius, centerPoint0);
                         Img.pos(point.x, point.y);
                     });
@@ -12780,6 +12784,7 @@
             this.effect();
         }
         effect() {
+            UIReady;
             TimerAdmin._frameRandomLoop(50, 100, this, () => {
                 Effects._Particle._slowlyUp(this.vars('EffectParent2'), null, null, [35, 45], null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
             });
@@ -12802,11 +12807,17 @@
             TimerAdmin._frameRandomLoop(30, 80, this, () => {
                 Effects._Glitter._blinkStar(this.vars('UIWedding_StarParent2'), new Laya.Point(0, 0), 80, 100, Effects._SkinUrl.星星1, 80, 80);
             });
+            TimerAdmin._frameLoop(100, this, () => {
+                Effects._Particle._moveToTargetToMove(this.vars('parent1'));
+            });
             TimerAdmin._frameLoop(120, this, () => {
                 if (this.vars('UIWedding').visible) {
                     Animation2D.bomb_LeftRight(this.vars('QianWangBtn'), 1.22, 250);
                 }
             }, true);
+            TimerAdmin._frameRandomLoop(30, 80, this, () => {
+                Effects._Aperture.aureole_Continuous(this.vars('UIWedding_AiixinEffcet'), null, 987, 550, [0, 0], ['main/UIWedding/daxin.png']);
+            });
         }
         refreshClock() {
             var current = new Date();

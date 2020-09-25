@@ -390,7 +390,7 @@ export default class UIReady extends UIBase {
     }
     effect(): void {
 
-        // UIReady
+        UIReady
         TimerAdmin._frameRandomLoop(50, 100, this, () => {
             Effects._Particle._slowlyUp(this.vars('EffectParent2'), null, null, [35, 45], null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
         })
@@ -426,9 +426,9 @@ export default class UIReady extends UIBase {
             Effects._Glitter._blinkStar(this.vars('UIWedding_StarParent2'), new Laya.Point(0, 0), 80, 100, Effects._SkinUrl.星星1, 80, 80);
         })
 
-        // TimerAdmin._frameLoop(100, this, () => {
-        //     Effects._Particle._moveToTargetToMove(this.vars('UIWedding_StarParent2'))
-        // })
+        TimerAdmin._frameLoop(100, this, () => {
+            Effects._Particle._moveToTargetToMove(this.vars('parent1'))
+        })
 
         TimerAdmin._frameLoop(120, this, () => {
             if (this.vars('UIWedding').visible) {
@@ -436,6 +436,10 @@ export default class UIReady extends UIBase {
             }
         }, true)
 
+        // 爱心
+        TimerAdmin._frameRandomLoop(30, 80, this, () => {
+            Effects._Aperture.aureole_Continuous(this.vars('UIWedding_AiixinEffcet'), null, 987, 550, [0, 0], ['main/UIWedding/daxin.png']);
+        })
     }
 
     refreshClock() {
