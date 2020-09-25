@@ -9,6 +9,7 @@ import RecordManager from "../../RecordManager";
 import UIPick from "./UIPick";
 import UIPickReward from "./UIPickReward";
 import UICombine from "./UICombine";
+import { Effects, TimerAdmin } from "../../Effects/lwg";
 
 
 export default class UIReady extends UIBase {
@@ -78,47 +79,43 @@ export default class UIReady extends UIBase {
     DuihuanBtn: Laya.Image;
     Notice: Laya.Image;
     Combine: Laya.Image;
-    Draw:Laya.Image;
-    AdDraw:Laya.Image;
-    Charm:Laya.Image;
-    Shop:Laya.Image;
+    Draw: Laya.Image;
+    AdDraw: Laya.Image;
+    Charm: Laya.Image;
+    Shop: Laya.Image;
     onInit() {
         ADManager.TAPoint(TaT.PageEnter, "mainpage");
 
         //UIMgr.show("UIRecommend");//每日推荐
 
-        this.Shop=this.vars("Shop")as Laya.Image;
-        this.btnEv("Shop",()=>{
+        this.Shop = this.vars("Shop") as Laya.Image;
+        this.btnEv("Shop", () => {
             UIMgr.show("UITask")
         })
 
-        this.Charm=this.vars("Charm") as Laya.Image;
+        this.Charm = this.vars("Charm") as Laya.Image;
         this.CharmValueShow();
 
-        this.Draw=this.vars("Draw")as Laya.Image;
-        this.AdDraw=this.Draw.getChildByName("AD") as Laya.Image;
-        if(Laya.LocalStorage.getItem("DrawAd")=="1")
-        {
-            this.AdDraw.visible=true;
+        this.Draw = this.vars("Draw") as Laya.Image;
+        this.AdDraw = this.Draw.getChildByName("AD") as Laya.Image;
+        if (Laya.LocalStorage.getItem("DrawAd") == "1") {
+            this.AdDraw.visible = true;
         }
 
-        this.btnEv("Draw",()=>{
-            if(Laya.LocalStorage.getItem("DrawAd"))
-            {
+        this.btnEv("Draw", () => {
+            if (Laya.LocalStorage.getItem("DrawAd")) {
                 console.log("存在drawad")
-                if(Laya.LocalStorage.getItem("DrawAd")=="1")
-                {
-                    ADManager.ShowReward(()=>{
+                if (Laya.LocalStorage.getItem("DrawAd") == "1") {
+                    ADManager.ShowReward(() => {
                         UIMgr.show("UIDraw");
                     })
                 }
             }
-            else
-            {
+            else {
                 console.log("不存在drawad")
-                Laya.LocalStorage.setItem("DrawAd","1");
+                Laya.LocalStorage.setItem("DrawAd", "1");
                 UIMgr.show("UIDraw");
-                this.AdDraw.visible=true;
+                this.AdDraw.visible = true;
             }
         })
 
@@ -139,8 +136,7 @@ export default class UIReady extends UIBase {
         if (GameDataController.ClothDataRefresh[40501] == "1" && GameDataController.ClothDataRefresh[40502] == "1" && GameDataController.ClothDataRefresh[40503] == "1") {
             UIMgr.show("UIWeddingEgg");
         }
-        else
-        {
+        else {
             UIMgr.show("UIPickEgg");
         }
 
@@ -174,7 +170,7 @@ export default class UIReady extends UIBase {
             GameDataController.setFirstLoginTime();
             UIMgr.show("UICombine");
             RecordManager.startAutoRecord();
-            GameDataController.ShopCharmValue="0";
+            GameDataController.ShopCharmValue = "0";
         }
 
 
@@ -234,8 +230,7 @@ export default class UIReady extends UIBase {
         }
 
         let havesign = GameDataController.TodaySign;
-        if (havesign)
-        {
+        if (havesign) {
             if (havesign == "1") {
 
             }
@@ -277,6 +272,7 @@ export default class UIReady extends UIBase {
         })
 
 
+
         //this.FenxiangBtn=this.vars("FenxiangBtn")as Laya.Image;
 
 
@@ -301,6 +297,18 @@ export default class UIReady extends UIBase {
             this.isPicking = true;
             ADManager.TAPoint(TaT.BtnClick, "pk_main");
         });
+        this.effcets();
+    }
+
+    effcets(): void {
+        TimerAdmin._frameRandomLoop(50, 100, this, () => {
+            Effects._Particle._slowlyUp(this.vars('E1'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
+        })
+        TimerAdmin._frameRandomLoop(50, 100, this, () => {
+            Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
+        })
+
+        Effects._circulation._corner(this.vars('DuihuanBtn'), [[0, 0], [0, 100], [100, 100], [100, 0]])
     }
 
     refreshClock() {
@@ -394,7 +402,7 @@ export default class UIReady extends UIBase {
 
     onShow() {
         this.Refresh();
-        
+
         // this.FenxiangBtnShake()
         ADManager.TAPoint(TaT.BtnShow, "fenxiang_click");
         ADManager.TAPoint(TaT.BtnShow, "paizhao_click");
@@ -404,7 +412,7 @@ export default class UIReady extends UIBase {
         ADManager.TAPoint(TaT.BtnShow, "pk_main");
         ADManager.TAPoint(TaT.BtnShow, "jiehun_click");
         //UIMgr.show("UISign");
-        GameDataController.CharmValue="0";
+        GameDataController.CharmValue = "0";
         this.CharmValueShow();
     }
 
@@ -541,8 +549,7 @@ export default class UIReady extends UIBase {
     //     this.isLeftMove=true;
     // }
 
-    Refresh() 
-    {
+    Refresh() {
         //更新橱窗套装信息
         GameDataController.ClothPackge2.cloths1.forEach((v, i) => {
             let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths1[i].ID]
@@ -563,9 +570,8 @@ export default class UIReady extends UIBase {
         GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths3[0].GetType2, this.str2)//第三套
 
     }
-    CharmValueShow()
-    {
+    CharmValueShow() {
         console.log("xxxxxxxxxxxxx");
-        (this.Charm.getChildByName("CharmValue")as Laya.FontClip).value= (parseInt(GameDataController.CharmValue)+parseInt(GameDataController.ShopCharmValue)).toString() ;
+        (this.Charm.getChildByName("CharmValue") as Laya.FontClip).value = (parseInt(GameDataController.CharmValue) + parseInt(GameDataController.ShopCharmValue)).toString();
     }
 }

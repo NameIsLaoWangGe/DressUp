@@ -2,11 +2,11 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":4,
+    "selecteID":28,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":26,
+    "maxID":29,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -133,13 +133,14 @@
                     "props":{"y":738,"x":361,"width":618,"var":"Word1","skin":"UIWedding/2.png","pivotY":38,"pivotX":309,"height":76},
                     "nodeParent":4,
                     "label":"Word1",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
                     "compId":12,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":38,"x":309,"width":618,"skin":"UIWedding/2.png","renderType":"mask","pivotY":38,"pivotX":309,"height":76},
@@ -154,6 +155,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,liuguang1,liuguang1",
                             "props":{"y":43,"x":712,"width":215,"var":"liuguang1","skin":"common/jinbi_di.png","rotation":128,"pivotY":33,"pivotX":108,"name":"liuguang1","height":66},
@@ -188,6 +190,7 @@
                     "props":{"y":933,"x":360,"width":262,"var":"QianWangBtn","skin":"main/dainji.png","pivotY":56,"pivotX":131,"height":96},
                     "nodeParent":4,
                     "label":"QianWangBtn",
+                    "isOpen":true,
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
@@ -237,6 +240,20 @@
                     "child":[
                         ]
                 }]
+        },
+        {
+            "x":15,
+            "type":"Image",
+            "searchKey":"Image,E1",
+            "props":{"y":1037,"x":335,"width":50,"var":"E1","height":50},
+            "nodeParent":2,
+            "label":"E1",
+            "isDirectory":false,
+            "isAniNode":true,
+            "hasChild":false,
+            "compId":28,
+            "child":[
+                ]
         }],
     "animations":[
         {

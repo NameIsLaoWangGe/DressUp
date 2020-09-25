@@ -24,20 +24,6 @@ export default class UIWeddingEgg extends UIBase {
     }
 
     effcets(): void {
-        // UIReady
-        // TimerAdmin._frameRandomLoop(50, 100, this, () => {
-        //     Effects._Particle._slowlyUp(this.vars('EffectParent2'), null, null, [35, 45], null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
-        // })
-        // TimerAdmin._frameRandomLoop(50, 100, this, () => {
-        //     Effects._Particle._slowlyUp(this.vars('EffectParent1'), null, null, [20, 30], null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 1, 1]], 10);
-        // })
-
-        // TimerAdmin._frameLoop(100, this, () => {
-        //     for (let index = 0; index < 20; index++) {
-        //         Effects._Particle._spray(this.vars('EffectParent1'), null, [35, 45], null, null, [Effects._SkinUrl.星星1]);
-        //     }
-        // })
-
         TimerAdmin._randomLoop(100, 200, this, () => {
             Effects._Particle._spray(this.vars('EParent2'), null, [35, 45], null, [0, 3], [0, 60], [Effects._SkinUrl.爱心2], [[100, 50, 50, 1], [255, 255, 50, 1]], 0, [100, 400], null, [1, 3], [0.02, 0.03]);
         })
@@ -46,17 +32,13 @@ export default class UIWeddingEgg extends UIBase {
             Effects._Particle._spray(this.vars('EParent1'), null, [35, 45], null, [0, 3], [0, -60], [Effects._SkinUrl.爱心2], [[100, 50, 50, 1], [255, 255, 50, 1]], 0, [100, 400], null, [1, 4], [0.02, 0.03]);
         })
         // 星星闪烁动画左边
-        TimerAdmin._frameRandomLoop(25, 70, this, () => {
-            Effects._Glitter._blinkStar(this.vars('Eblink1'), new Laya.Point(0, 0), [80, 60], [Effects._SkinUrl.星星7], [[100, 30, 30, 1], [255, 255, 255, 1]], null, [40, 100], null, null, [0.01, 0.03]);
+        TimerAdmin._frameRandomLoop(12.5, 35, this, () => {
+            Effects._Glitter._blinkStar(this.vars('Eblink1'), new Laya.Point(0, 0), [80, 60], [Effects._SkinUrl.星星7], [[100, 30, 30, 1], [255, 255, 255, 1]], [40, 100], null, null, [0.01, 0.03]);
         }, true)
         // 星星闪烁动画右边
-        TimerAdmin._frameRandomLoop(25, 70, this, () => {
+        TimerAdmin._frameRandomLoop(12.5, 35, this, () => {
             Effects._Glitter._blinkStar(this.vars('Eblink2'), new Laya.Point(0, 0), [80, 60], [Effects._SkinUrl.星星7], [[100, 30, 30, 1], [255, 255, 255, 1]], [40, 100], null, null, [0.01, 0.03]);
         }, true)
-
-        // TimerAdmin._frameLoop(100, this, () => {
-        //     Effects._Particle._moveToTargetToMove(this.vars('parent1'))
-        // })
 
         TimerAdmin._frameLoop(120, this, () => {
             Animation2D.bomb_LeftRight(this.vars('QianWangBtn'), 1.22, 250);
@@ -73,6 +55,8 @@ export default class UIWeddingEgg extends UIBase {
                 Color._changeOnce(this.vars('Word1'), [255, 0, 100, 1], 20);
             });
         }, true)
+
+        Effects._circulation._corner(this.vars('E1'), [[0, 0], [100, 0], [100, 100], [0, 100]]);
 
     }
 }

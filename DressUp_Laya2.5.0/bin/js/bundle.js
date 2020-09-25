@@ -7932,2995 +7932,6 @@
         }
     }
 
-    class UIReady extends UIBase {
-        constructor() {
-            super(...arguments);
-            this.clothisopen = true;
-            this.scaleDelta = 0;
-            this.scaleDelta1 = 0;
-            this.isToOne = true;
-            this.newmap = new Map();
-            this.oldY = 0;
-            this.oldX = 0;
-            this.isLeftMove = false;
-            this.isMusicing = false;
-            this.oldTime = 0;
-            this.str = {};
-            this.str1 = {};
-            this.str2 = {};
-            this.str3 = {};
-            this.isPicking = false;
-        }
-        onInit() {
-            ADManager.TAPoint(TaT.PageEnter, "mainpage");
-            this.Shop = this.vars("Shop");
-            this.btnEv("Shop", () => {
-                UIMgr.show("UITask");
-            });
-            this.Charm = this.vars("Charm");
-            this.CharmValueShow();
-            this.Draw = this.vars("Draw");
-            this.AdDraw = this.Draw.getChildByName("AD");
-            if (Laya.LocalStorage.getItem("DrawAd") == "1") {
-                this.AdDraw.visible = true;
-            }
-            this.btnEv("Draw", () => {
-                if (Laya.LocalStorage.getItem("DrawAd")) {
-                    console.log("存在drawad");
-                    if (Laya.LocalStorage.getItem("DrawAd") == "1") {
-                        ADManager.ShowReward(() => {
-                            UIMgr.show("UIDraw");
-                        });
-                    }
-                }
-                else {
-                    console.log("不存在drawad");
-                    Laya.LocalStorage.setItem("DrawAd", "1");
-                    UIMgr.show("UIDraw");
-                    this.AdDraw.visible = true;
-                }
-            });
-            this.btnEv("Combine", () => {
-                UIMgr.show("UICombine");
-            });
-            this.Notice = this.vars("Notice");
-            this.btnEv("Notice", () => {
-                UIMgr.show("UINotice");
-            });
-            this.DuihuanBtn = this.vars("DuihuanBtn");
-            this.btnEv("DuihuanBtn", () => {
-                UIMgr.show("UIDuiHuan");
-            });
-            if (GameDataController.ClothDataRefresh[40501] == "1" && GameDataController.ClothDataRefresh[40502] == "1" && GameDataController.ClothDataRefresh[40503] == "1") {
-                UIMgr.show("UIWeddingEgg");
-            }
-            else {
-                UIMgr.show("UIPickEgg");
-            }
-            this.BG = this.vars("BG");
-            this.BG.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen);
-            this.BG.on(Laya.Event.MOUSE_UP, this, this.onMouseUpListen);
-            this.BG.on(Laya.Event.MOUSE_OUT, this, this.onMouseOutListen);
-            this.BG.on(Laya.Event.CLICK, this, this.refreshClock);
-            this.Wing = this.vars("Wing");
-            Laya.timer.frameLoop(1, this, () => {
-                this.scaleDelta += 0.02;
-                var scaleValue = Math.sin(this.scaleDelta);
-                this.Wing.scale(scaleValue, 1);
-            });
-            this.Wing.on(Laya.Event.CLICK, this, () => {
-                UIMgr.show("UIWing");
-                this.Wing.visible = false;
-            });
-            this.windowheight = Laya.Browser.height;
-            this.windowwidth = Laya.Browser.width;
-            if (Laya.LocalStorage.getItem("Get")) {
-                console.log("获取到了");
-                console.log(GameDataController.GetFirstToNow());
-            }
-            else {
-                GameDataController.setFirstLoginTime();
-                UIMgr.show("UICombine");
-                RecordManager.startAutoRecord();
-                GameDataController.ShopCharmValue = "0";
-            }
-            this.btnEv("ClothOpenBtn", this.ClothOpenBtnClick);
-            this.btnEv("ActiveBtn", this.ActiveClick);
-            this.btnEv("ClothReceive", () => {
-                ADManager.TAPoint(TaT.BtnClick, "chongzhi_click");
-                ClothChange.Instance.ClothReceive();
-                BagListController.Instance.ClothesPageChange(BagListController.Instance.SelectIndex);
-            });
-            this.btnEv("PhotoBtn", () => {
-                UIMgr.show("UIPhotos");
-                ADManager.TAPoint(TaT.BtnClick, "xiangce_click");
-            });
-            this.btnEv("Share", () => {
-                ClothChange.Instance.Share();
-                ADManager.TAPoint(TaT.BtnClick, "paizhao_click");
-            });
-            this.ClockBtn = this.vars("ClockBtn");
-            this.refreshClock();
-            this.btnEv("ClockBtn", () => {
-                UIMgr.show("UITest");
-            });
-            this.ShowView = this.vars("ShowView");
-            this.BtnBar = this.vars("BtnBar");
-            this.ClothOpenBtn = this.vars("ClothOpenBtn");
-            this.FemaleRoot = this.vars("FemaleRoot");
-            this.BagAll = this.vars("BagALL");
-            this.Ubag = TweenMgr.tweenCust(300, this, this.tweenbagUp, null, true, Laya.Ease.linearNone);
-            this.Lbtn = TweenMgr.tweenCust(300, this, this.tweenbtnLeft, null, true, Laya.Ease.linearNone);
-            this.btnU = TweenMgr.tweenCust(200, this, this.RoteUp, null, true, Laya.Ease.linearNone);
-            this.FRS = TweenMgr.tweenCust(300, this, this.tweenFBTSmall, null, true, Laya.Ease.linearNone);
-            this.Dbag = TweenMgr.tweenCust(300, this, this.tweenbagDown, null, true, Laya.Ease.backOut);
-            this.Rbtn = TweenMgr.tweenCust(300, this, this.tweenbtnRight, null, true, Laya.Ease.backOut);
-            this.btnD = TweenMgr.tweenCust(200, this, this.RoteDown, null, true, Laya.Ease.linearNone);
-            this.FRB = TweenMgr.tweenCust(300, this, this.tweenFBTBig, null, true, Laya.Ease.backOut);
-            this.FRD = TweenMgr.tweenCust(300, this, this.tweenFRToDown, null, true, Laya.Ease.backOut);
-            this.FRU = TweenMgr.tweenCust(300, this, this.tweenFRToUp, null, true, Laya.Ease.backOut);
-            if (GameDataController.IsNewDay()) {
-                console.log("GameDataController.IsNewDay", GameDataController.TodaySign);
-                GameDataController.TodaySign = "0";
-                console.log("是新的一天");
-                GameDataController.TodayHeCheng = "0";
-            }
-            let havesign = GameDataController.TodaySign;
-            if (havesign) {
-                if (havesign == "1") {
-                }
-                else {
-                    Laya.LocalStorage.setItem("PickNum", "5");
-                    Laya.LocalStorage.setItem("TodayWinNum", "0");
-                }
-            }
-            else {
-                Laya.LocalStorage.setItem("PickNum", "5");
-                Laya.LocalStorage.setItem("TodayWinNum", "0");
-                GameDataController.TodaySign = "0";
-            }
-            this.MusicBtn = this.vars("MusicBtn");
-            Laya.SoundManager.playSound("res/sounds/CCBGM.mp3", 0);
-            Laya.timer.frameLoop(1, this, this.MusicRot);
-            this.btnEv("MusicBtn", () => {
-                this.isMusicing = !this.isMusicing;
-                if (!this.isMusicing) {
-                    console.log("xxxxxxxxxxxxxxxxxx1");
-                    Laya.SoundManager.playSound("res/sounds/CCBGM.mp3", 0);
-                    Laya.timer.frameLoop(1, this, this.MusicRot);
-                    let a = this.MusicBtn.getChildByName("No");
-                    a.visible = false;
-                }
-                else {
-                    console.log("xxxxxxxxxxxxxxxxxx2");
-                    Laya.SoundManager.stopSound("res/sounds/CCBGM.mp3");
-                    Laya.timer.clear(this, this.MusicRot);
-                    let a = this.MusicBtn.getChildByName("No");
-                    a.visible = true;
-                }
-            });
-            this.Pick = this.vars("Pick");
-            this.btnEv("Pick", () => {
-                UIMgr.show("UIRank");
-                this.isPicking = true;
-                ADManager.TAPoint(TaT.BtnClick, "pk_main");
-            });
-        }
-        refreshClock() {
-            var current = new Date();
-            var hour = current.getHours();
-            Laya.timer.clear(this, this.ClockShake);
-            if (hour >= 12 && hour <= 14) {
-                this.ClockBtn.visible = true;
-                Laya.timer.frameLoop(1, this, this.ClockShake);
-            }
-            else {
-                this.ClockBtn.visible = false;
-            }
-        }
-        ClockShake() {
-            this.scaleDelta1 += 0.02;
-            var scaleValue = Math.sin(this.scaleDelta1);
-            this.ClockBtn.scale(scaleValue, scaleValue);
-        }
-        MusicRot() {
-            this.MusicBtn.rotation += 2;
-        }
-        ActiveClick() {
-            UIMgr.show("UIActive");
-        }
-        onShow() {
-            this.Refresh();
-            ADManager.TAPoint(TaT.BtnShow, "fenxiang_click");
-            ADManager.TAPoint(TaT.BtnShow, "paizhao_click");
-            ADManager.TAPoint(TaT.BtnShow, "chongzhi_click");
-            ADManager.TAPoint(TaT.BtnShow, "fangda_click");
-            ADManager.TAPoint(TaT.BtnShow, "xiangce_click");
-            ADManager.TAPoint(TaT.BtnShow, "pk_main");
-            ADManager.TAPoint(TaT.BtnShow, "jiehun_click");
-            GameDataController.CharmValue = "0";
-            this.CharmValueShow();
-        }
-        onHide() {
-        }
-        ClothOpenBtnClick() {
-            if (this.clothisopen) {
-                ADManager.TAPoint(TaT.BtnClick, "fangda_click");
-                console.log("消失");
-                this.Dbag.play();
-                this.btnU.play();
-                this.FRB.play();
-                let a = Laya.LocalStorage.getJSON("ClothData");
-            }
-            else {
-                console.log("展示");
-                this.Ubag.play();
-                this.btnD.play();
-                this.FRS.play();
-            }
-            this.clothisopen = !this.clothisopen;
-        }
-        RoteDown(t) {
-            let nbtm = this.ClothOpenBtn.rotation;
-            TweenMgr.lerp_Num(nbtm, 180, t);
-            this.ClothOpenBtn.rotation = t.outParams[0][0];
-        }
-        RoteUp(t) {
-            let nbtm = this.ClothOpenBtn.rotation;
-            TweenMgr.lerp_Num(nbtm, 0, t);
-            this.ClothOpenBtn.rotation = t.outParams[0][0];
-        }
-        tweenbagUp(t) {
-            let nbtm = this.BagAll.bottom;
-            TweenMgr.lerp_Num(nbtm, -37, t);
-            this.BagAll.bottom = t.outParams[0][0];
-        }
-        tweenbagDown(t) {
-            let nbtm = this.BagAll.bottom;
-            TweenMgr.lerp_Num(nbtm, -485, t);
-            this.BagAll.bottom = t.outParams[0][0];
-        }
-        tweenbtnLeft(t) {
-            let nX = this.BtnBar.x;
-            TweenMgr.lerp_Num(nX, 75, t);
-            this.BtnBar.x = t.outParams[0][0];
-        }
-        tweenbtnRight(t) {
-            let nX = this.BtnBar.x;
-            TweenMgr.lerp_Num(nX, GameDataController.windowWidth - 75, t);
-            this.BtnBar.x = t.outParams[0][0];
-        }
-        tweenFBTSmall(t) {
-            let nX = this.FemaleRoot.scaleX;
-            TweenMgr.lerp_Num(nX, 0.8, t);
-            this.FemaleRoot.scaleX = this.FemaleRoot.scaleY = t.outParams[0][0];
-            this.BG.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen);
-        }
-        tweenFBTBig(t) {
-            let nX = this.FemaleRoot.scaleX;
-            TweenMgr.lerp_Num(nX, 1.2, t);
-            this.FemaleRoot.scaleX = this.FemaleRoot.scaleY = t.outParams[0][0];
-            this.BG.off(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen);
-        }
-        onClick_Btnshortcut() {
-            UIMgr.show("UIMain");
-        }
-        onMouseMoveListen(e) {
-            if (this.BG.mouseY > this.oldY) {
-                if (this.BG.mouseY - this.oldY > 200) {
-                    console.log("下滑");
-                    this.FRD.play();
-                    if (!this.Wing.visible && GameDataController.ClothDataRefresh[50404] == 1) {
-                        this.Wing.visible = true;
-                    }
-                }
-            }
-            if (this.BG.mouseX < this.oldX) {
-                if (this.oldX - this.BG.mouseX > 150) {
-                    console.log("oldX" + this.oldX);
-                    console.log(this.BG.mouseX);
-                    console.log("左滑" + (this.oldX - this.BG.mouseX));
-                }
-            }
-        }
-        onMouseDownListen() {
-            this.oldY = this.BG.mouseY;
-            this.oldX = this.BG.mouseX;
-            this.BG.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMoveListen);
-        }
-        onMouseUpListen() {
-            console.log("鼠标抬起");
-            this.BG.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMoveListen);
-            this.FRU.play();
-        }
-        onMouseOutListen() {
-            console.log("不在目标区域");
-            this.FRU.play();
-            this.BG.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMoveListen);
-        }
-        tweenFRToDown(t) {
-            TweenMgr.lerp_Num(this.FemaleRoot.centerY, -60, t);
-            this.FemaleRoot.centerY = t.outParams[0][0];
-        }
-        tweenFRToUp(t) {
-            TweenMgr.lerp_Num(this.FemaleRoot.centerY, -193, t);
-            this.FemaleRoot.centerY = t.outParams[0][0];
-        }
-        Refresh() {
-            GameDataController.ClothPackge2.cloths1.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths1[i].ID];
-                this.str[GameDataController.ClothPackge2.cloths1[i].ID] = nv;
-            });
-            GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths1[0].GetType2, this.str);
-            GameDataController.ClothPackge2.cloths2.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths2[i].ID];
-                this.str1[GameDataController.ClothPackge2.cloths2[i].ID] = nv;
-            });
-            GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths2[0].GetType2, this.str1);
-            GameDataController.ClothPackge2.cloths3.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths3[i].ID];
-                this.str2[GameDataController.ClothPackge2.cloths3[i].ID] = nv;
-            });
-            GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths3[0].GetType2, this.str2);
-        }
-        CharmValueShow() {
-            console.log("xxxxxxxxxxxxx");
-            this.Charm.getChildByName("CharmValue").value = (parseInt(GameDataController.CharmValue) + parseInt(GameDataController.ShopCharmValue)).toString();
-        }
-    }
-
-    class UIMain extends UIBase {
-        onInit() {
-            this.TouchArea.on(Laya.Event.CLICK, this, () => {
-                this.Mouse_Click();
-            });
-            this.TouchArea.on(Laya.Event.MOUSE_MOVE, this, () => {
-                this.Mouse_Move();
-            });
-            this.TouchArea.on(Laya.Event.MOUSE_UP, this, () => {
-                this.Mouse_Up();
-            });
-            this.TouchArea.on(Laya.Event.MOUSE_DOWN, this, () => {
-                this.Mouse_Down();
-                Laya.timer.loop(100, this, this.timeradd);
-            });
-            this.TouchArea.on(Laya.Event.MOUSE_OUT, this, () => {
-                this.Mouse_Up();
-            });
-        }
-        timeradd() {
-        }
-        onShow() {
-        }
-        Mouse_Click() {
-        }
-        Mouse_Move() {
-        }
-        Mouse_Up() {
-        }
-        Mouse_Down() {
-        }
-        TimerUpdate() {
-        }
-        update() {
-        }
-        onHide() {
-        }
-        TimeControoler() {
-        }
-        TimeStart() {
-            Laya.timer.loop(10, this, this.TimeControoler);
-        }
-        TimeStop() {
-            Laya.timer.clear(this, this.TimeControoler);
-        }
-    }
-
-    class UISettle extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.DefaultTog = true;
-        }
-        onInit() {
-            this.btnEv("BtnHome", () => {
-                this.HomeBtn();
-            });
-        }
-        TogClick() {
-        }
-        onShow() {
-            GameMgr.playSound("success");
-        }
-        HomeBtn() {
-            UIMgr.show("UISubMoneyEf", () => {
-                UIMgr.show("UIReady");
-                this.hide();
-            });
-        }
-        SanBeiBtn() {
-            ADManager.Event("ADV_RDA_CLICK_003");
-            ADManager.ShowReward(() => {
-                UIMgr.show("UISubMoneyEf", () => {
-                    UIMgr.show("UIReady");
-                    this.hide();
-                });
-            });
-        }
-        ShareBtnClick() {
-            ADManager.Event("VID_RDA_CLICK_001");
-            let sus = () => {
-            };
-            let fail = () => {
-                UIMgr.tip("分享失败");
-            };
-            RecordManager._share(sus, fail);
-        }
-    }
-
-    class UISubMoneyEf extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-        }
-        moveFinish() {
-            this.hide();
-            console.log("paowan");
-        }
-        ;
-        tweenAlphaFinish(fun = null) {
-            let json = Laya.loader.getRes("Prefab/CoinPref.prefab").json;
-            let pref = new Laya.Prefab();
-            pref.json = json;
-            let bound = 480;
-            let parent = this.owner;
-            let icon = this.vars("icon");
-            let iconX = icon.x;
-            let iconY = icon.y;
-            let createNum = 30;
-            for (let i = 0; i < createNum; i++) {
-                let inst = pref.create();
-                parent.addChild(inst);
-                inst.x = Util.randomInRange_f(260, 560);
-                inst.y = Util.randomInRange_f(340, 840);
-                TweenMgr.tweenTiny(100, this, (t) => {
-                    inst.scale(t.factor, t.factor);
-                }, () => {
-                    TweenMgr.tweenTiny(400, this, (t) => {
-                        let inParams = t.getPG("inParams", 0);
-                        if (inParams.length == 0) {
-                            inParams[0] = inst.x;
-                            inParams[1] = iconX - inst.x;
-                            inParams[2] = inst.y;
-                            inParams[3] = iconY - inst.y;
-                        }
-                        inst.x = inParams[0] + inParams[1] * t.factor;
-                        inst.y = inParams[2] + inParams[3] * t.factor;
-                        if (t.factor >= 1) {
-                            inst.destroy();
-                        }
-                    }, (i == createNum - 1) ? () => {
-                        fun();
-                        this.moveFinish();
-                    } : null, false, Laya.Ease.linearNone, 550);
-                }, false, Laya.Ease.linearNone, Util.randomInRange_f(0, 15) * i);
-            }
-        }
-        onShow(arg = null) {
-            this.tweenAlphaFinish(arg);
-        }
-    }
-
-    class UIActive extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.Data = [];
-        }
-        onInit() {
-            this.ActiveList = this.vars("ActiveList");
-            this.ActiveList.vScrollBarSkin = "";
-            this.Refresh();
-            this.ActiveList.renderHandler = new Laya.Handler(this, this.onWrapItem);
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-        }
-        onWrapItem(cell, index) {
-            cell.getComponent(ActiveItem).fell(this.Data[index], index);
-        }
-        onShow() {
-            ADManager.TAPoint(TaT.PageEnter, "taozhuangpage");
-            this.Refresh();
-        }
-        Refresh() {
-            this.Data.length = 0;
-            let data = [];
-            if (GameDataController.ClothPackge2.cloths3.length > 0) {
-                data.push(GameDataController.ClothPackge2.cloths3);
-            }
-            if (GameDataController.ClothPackge2.cloths1.length > 0) {
-                data.push(GameDataController.ClothPackge2.cloths1);
-            }
-            if (GameDataController.ClothPackge2.cloths2.length > 0) {
-                data.push(GameDataController.ClothPackge2.cloths2);
-            }
-            console.log(data);
-            this.Data = data;
-            this.ActiveList.array = this.Data;
-            this.ActiveList.refresh();
-            console.log("UIActive", this.Data);
-        }
-        onHide() {
-            ADManager.TAPoint(TaT.PageLeave, "taozhuangpage");
-            this.hide();
-        }
-    }
-    class clothbag extends Laya.Script {
-        constructor() {
-            super(...arguments);
-            this.cloths = [];
-        }
-    }
-
-    class SignBtn extends Laya.Script {
-        constructor() {
-            super(...arguments);
-            this.MaxHeight = 90;
-            this.MaxWidth = 90;
-            this.BtnID = 0;
-            this.BtnIndex = 0;
-            this.str = {};
-        }
-        onAwake() {
-            let item = this.owner;
-            this.ADBtn = item.getChildByName("ADBtn");
-            this.Btn = item.getChildByName("Btn");
-            this.Lock = item.getChildByName("Lock");
-            this.Icon = item.getChildByName("icon");
-            this.Btn.on(Laya.Event.CLICK, this, this.BtnClick);
-            this.ADBtn.on(Laya.Event.CLICK, this, this.ADBtnClick);
-        }
-        Fell(mes, index) {
-            this.BtnIndex = index;
-            this.data = mes;
-            this.Icon.skin = this.data.GetPath1();
-            this.BtnID = this.data.ID;
-            let imageHeight = parseFloat(this.Icon.height.toString());
-            let imagewidth = parseFloat(this.Icon.width.toString());
-            let pr = 0;
-            if (imagewidth > imageHeight) {
-                pr = this.MaxWidth / imagewidth;
-            }
-            else {
-                pr = this.MaxHeight / imageHeight;
-            }
-            this.Icon.scaleX = pr;
-            this.Icon.scaleY = pr;
-            this.Icon.centerX = 0;
-            this.Icon.centerY = 0;
-            let days = GameDataController.GetFirstToNow();
-            console.log("SignBtn,Fell,GameDataController.ClothDataRefresh", GameDataController.ClothDataRefresh[this.BtnID]);
-            if (GameDataController.ClothDataRefresh[this.BtnID] == 1) {
-                if (days - 1 > index) {
-                    console.log("过期的");
-                    this.ADSignBtnOn();
-                }
-                else if (days - 1 == index) {
-                    console.log("当前天");
-                    this.SignBtnOn();
-                }
-                else {
-                    console.log("过后天");
-                    this.BtnClose();
-                }
-            }
-            else {
-                console.log("SignBtn,Fell  this.BtnID已解锁 ", this.BtnID);
-                this.BtnClose();
-            }
-        }
-        Refresh() {
-            let a = GameDataController.ClothDataRefresh[this.data.ID];
-            this.Lock.visible = (a == 1);
-        }
-        BtnClick() {
-            GameDataController.TodaySign = "1";
-            GameDataController.SetLastTime();
-            console.log("今日签到成功");
-            let dataall = GameDataController.ClothDataRefresh;
-            dataall[this.BtnID] = 0;
-            GameDataController.ClothDataRefresh = dataall;
-            BagListController.Instance.refresh();
-            UIMgr.get("UISign").Refresh();
-        }
-        ADBtnClick() {
-            console.log("补签", this.BtnIndex);
-            ADManager.ShowReward(() => {
-                this.GetAward();
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.GetAward();
-                });
-            });
-        }
-        GetAward() {
-            GameDataController.SetLastTime();
-            console.log("补签成功");
-            let dataall = GameDataController.ClothDataRefresh;
-            dataall[this.BtnID] = 0;
-            GameDataController.ClothDataRefresh = dataall;
-            BagListController.Instance.refresh();
-            UIMgr.get("UISign").Refresh();
-        }
-        SignBtnOn() {
-            let dataall = GameDataController.ClothDataRefresh;
-            if (dataall[this.BtnID] == 0) {
-                this.BtnClose();
-            }
-            else {
-                this.ADBtn.visible = false;
-                this.Btn.visible = true;
-            }
-        }
-        ADSignBtnOn() {
-            let dataall = GameDataController.ClothDataRefresh;
-            if (dataall[this.BtnID] == 0) {
-                this.BtnClose();
-            }
-            else {
-                this.ADBtn.visible = true;
-                this.Btn.visible = false;
-            }
-        }
-        BtnClose() {
-            this.ADBtn.visible = false;
-            this.Btn.visible = false;
-        }
-    }
-
-    class UISign extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.Data = [];
-            this.str = {};
-            this.BtnBar = [];
-            this.func = null;
-        }
-        onInit() {
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-            this.SkinBtnBar = this.vars("SkinBtnBar");
-            for (let index = 0; index < this.SkinBtnBar.numChildren; index++) {
-                this.SkinBtnBar.getChildAt(index).addComponent(SignBtn);
-                this.BtnBar.push(this.SkinBtnBar.getChildAt(index));
-            }
-        }
-        onShow(arg) {
-            ADManager.TAPoint(TaT.PageEnter, "signpage");
-            this.func = arg;
-            this.Data = GameDataController.ClothPackge1.cloths1;
-            this.Data.forEach((V, i) => {
-                let item = this.BtnBar[i].getComponent(SignBtn);
-                item.Fell(V, i);
-            });
-            this.Refresh();
-        }
-        onRefresh() {
-        }
-        Refresh() {
-            this.Data.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[this.Data[i].ID];
-                this.str[this.Data[i].ID] = nv;
-                let item = this.BtnBar[i].getComponent(SignBtn);
-                item.Fell(v, i);
-            });
-            GameDataController.ClothdatapackSet(this.Data[0].GetType2, this.str);
-        }
-        onHide() {
-            ADManager.TAPoint(TaT.PageLeave, "signpage");
-            this.hide();
-        }
-    }
-
-    class PhotosChange extends Laya.Script {
-        constructor() {
-            super(...arguments);
-            this.photoindex = 0;
-            this.photoMax = 0;
-            this.mes = [];
-        }
-        onAwake() {
-            this.FemaleRoot = this.owner;
-            this.Hair = this.FemaleRoot.getChildByName("Hair");
-            this.Hair1 = this.FemaleRoot.getChildByName("Hair1");
-            this.Ornament = this.FemaleRoot.getChildByName("Ornament");
-            this.Ornament1 = this.FemaleRoot.getChildByName("Ornament1");
-            this.Shirt = this.FemaleRoot.getChildByName("Shirt");
-            this.Shirt1 = this.FemaleRoot.getChildByName("Shirt1");
-            this.Trousers = this.FemaleRoot.getChildByName("Trousers");
-            this.Trousers1 = this.FemaleRoot.getChildByName("Trousers1");
-            this.Dress = this.FemaleRoot.getChildByName("Dress");
-            this.Dress1 = this.FemaleRoot.getChildByName("Dress1");
-            this.Socks = this.FemaleRoot.getChildByName("Socks");
-            this.Socks1 = this.FemaleRoot.getChildByName("Socks1");
-            this.Shose = this.FemaleRoot.getChildByName("Shose");
-            this.Shose1 = this.FemaleRoot.getChildByName("Shose1");
-            this.Coat = this.FemaleRoot.getChildByName("Coat");
-            this.Coat1 = this.FemaleRoot.getChildByName("Coat1");
-            this.nophoto = this.FemaleRoot.getChildByName("nophoto");
-            for (let i = 0; i < 8; i++) {
-                this._ClothChange(0, i);
-            }
-        }
-        _ClothChange(itemID, type) {
-            switch (type) {
-                case clothtype.Hair:
-                    this.HairChange(itemID);
-                    break;
-                case clothtype.Dress:
-                    this.DressChange(itemID);
-                    break;
-                case clothtype.Coat:
-                    this.CoatChange(itemID);
-                    break;
-                case clothtype.Shirt:
-                    this.ShirtChange(itemID);
-                    break;
-                case clothtype.Trousers:
-                    this.TrousersChange(itemID);
-                    break;
-                case clothtype.Socks:
-                    this.SocksChange(itemID);
-                    break;
-                case clothtype.Shose:
-                    this.ShoseChange(itemID);
-                    break;
-                case clothtype.Ornament:
-                    this.OrnamentChange(itemID);
-                    break;
-            }
-        }
-        ClothReceive() {
-            for (let i = 0; i < 8; i++) {
-                this._ClothChange(0, i);
-            }
-        }
-        InitMes() {
-            let item = GameDataController.PhotosData;
-            console.log("PhotosChange==》item", item);
-            if (item) {
-                this.mes = item;
-            }
-            console.log("PhotosChange==mes", this.mes);
-            if (this.mes.length <= 0) {
-                this.CanShowPhoto = false;
-                this.nophoto.visible = true;
-                console.log("PhotosChange==》是否可以展示photo", !this.nophoto.visible);
-                return;
-            }
-            else {
-                this.CanShowPhoto = true;
-                this.nophoto.visible = false;
-                this.photoMax = (this.mes.length - 1);
-                console.log("PhotosChange==》是否可以展示photo", !this.nophoto.visible);
-            }
-            this.ChangeAllCloth();
-        }
-        ChangeAllCloth() {
-            this.HairChange(this.mes[this.photoindex].Hair);
-            this.CoatChange(this.mes[this.photoindex].Coat);
-            this.ShirtChange(this.mes[this.photoindex].Shirt);
-            this.TrousersChange(this.mes[this.photoindex].Trousers);
-            this.SocksChange(this.mes[this.photoindex].Socks);
-            this.ShoseChange(this.mes[this.photoindex].Shose);
-            this.OrnamentChange(this.mes[this.photoindex].Ornament);
-            this.DressChange(this.mes[this.photoindex].Dress);
-        }
-        ChangeNextPhoto() {
-            if (this.CanShowPhoto == false)
-                return;
-            this.photoindex++;
-            if (this.photoindex > this.photoMax) {
-                this.photoindex = 0;
-            }
-            this.ChangeAllCloth();
-        }
-        ChangeLastPhoto() {
-            if (this.CanShowPhoto == false)
-                return;
-            this.photoindex--;
-            if (this.photoindex < 0) {
-                this.photoindex = this.photoMax;
-            }
-            this.ChangeAllCloth();
-        }
-        HairChange(itemID) {
-            this.Hair.visible = this.Hair1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10002;
-            }
-            this.Hair.visible = this.Hair1.visible = true;
-            let clothdata = GameDataController._clothData.get(itemID);
-            this.Hair.skin = clothdata.GetPath1();
-            this.Hair1.skin = clothdata.GetPath2();
-            this.Hair.centerX = clothdata.GetPosition1().x;
-            this.Hair.centerY = clothdata.GetPosition1().y;
-            this.Hair1.centerX = clothdata.GetPosition2().x;
-            this.Hair1.centerY = clothdata.GetPosition2().y;
-            this.Hair.zOrder = clothdata.Sort1;
-            this.Hair1.zOrder = clothdata.Sort2;
-        }
-        OrnamentChange(itemID) {
-            this.Ornament.visible = this.Ornament1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Ornament.visible = this.Ornament1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Ornament.skin = clothdata.GetPath1();
-            this.Ornament1.skin = clothdata.GetPath2();
-            this.Ornament.centerX = clothdata.GetPosition1().x;
-            this.Ornament.centerY = clothdata.GetPosition1().y;
-            this.Ornament1.centerX = clothdata.GetPosition2().x;
-            this.Ornament1.centerY = clothdata.GetPosition2().y;
-            this.Ornament.zOrder = clothdata.Sort1;
-            this.Ornament1.zOrder = clothdata.Sort2;
-        }
-        ShirtChange(itemID) {
-            this.Shirt.visible = this.Shirt1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10000;
-            }
-            else {
-                this.DressClose();
-                this.UpDownOpen();
-            }
-            this.Shirt.visible = this.Shirt1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Shirt.skin = clothdata.GetPath1();
-            this.Shirt1.skin = clothdata.GetPath2();
-            this.Shirt.centerX = clothdata.GetPosition1().x;
-            this.Shirt.centerY = clothdata.GetPosition1().y;
-            this.Shirt1.centerX = clothdata.GetPosition2().x;
-            this.Shirt1.centerY = clothdata.GetPosition2().y;
-            this.Shirt.zOrder = clothdata.Sort1;
-            this.Shirt1.zOrder = clothdata.Sort2;
-        }
-        TrousersChange(itemID) {
-            this.Trousers.visible = this.Trousers1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10001;
-            }
-            else {
-                this.DressClose();
-                this.UpDownOpen();
-            }
-            this.Trousers.visible = this.Trousers1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Trousers.visible = this.Trousers1.visible = true;
-            this.Trousers.skin = clothdata.GetPath1();
-            this.Trousers1.skin = clothdata.GetPath2();
-            this.Trousers.centerX = clothdata.GetPosition1().x;
-            this.Trousers.centerY = clothdata.GetPosition1().y;
-            this.Trousers1.centerX = clothdata.GetPosition2().x;
-            this.Trousers1.centerY = clothdata.GetPosition2().y;
-            this.Trousers.zOrder = clothdata.Sort1;
-            this.Trousers1.zOrder = clothdata.Sort2;
-        }
-        DressChange(itemID) {
-            this.Dress.visible = this.Dress1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                this.UpDownOpen();
-                return;
-            }
-            else {
-                this.DressOpen();
-            }
-            this.Dress.visible = this.Dress1.visible = true;
-            this.UpDownClose();
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Dress.skin = clothdata.GetPath1();
-            this.Dress1.skin = clothdata.GetPath2();
-            this.Dress.centerX = clothdata.GetPosition1().x;
-            this.Dress.centerY = clothdata.GetPosition1().y;
-            this.Dress1.centerX = clothdata.GetPosition2().x;
-            this.Dress1.centerY = clothdata.GetPosition2().y;
-            this.Dress.zOrder = clothdata.Sort1;
-            this.Dress1.zOrder = clothdata.Sort2;
-        }
-        SocksChange(itemID) {
-            this.Socks1.visible = this.Socks.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Socks1.visible = this.Socks.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Socks.skin = clothdata.GetPath1();
-            this.Socks1.skin = clothdata.GetPath2();
-            this.Socks.centerX = clothdata.GetPosition1().x;
-            this.Socks.centerY = clothdata.GetPosition1().y;
-            this.Socks1.centerX = clothdata.GetPosition2().x;
-            this.Socks1.centerY = clothdata.GetPosition2().y;
-            this.Socks.zOrder = clothdata.Sort1;
-            this.Socks1.zOrder = clothdata.Sort2;
-        }
-        ShoseChange(itemID) {
-            this.Shose.visible = this.Shose1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Shose.visible = this.Shose1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Shose.skin = clothdata.GetPath1();
-            this.Shose1.skin = clothdata.GetPath2();
-            this.Shose.centerX = clothdata.GetPosition1().x;
-            this.Shose.centerY = clothdata.GetPosition1().y;
-            this.Shose1.centerX = clothdata.GetPosition2().x;
-            this.Shose1.centerY = clothdata.GetPosition2().y;
-            this.Shose.zOrder = clothdata.Sort1;
-            this.Shose1.zOrder = clothdata.Sort2;
-        }
-        CoatChange(itemID) {
-            this.Coat.visible = this.Coat1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Coat.visible = this.Coat1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Coat.skin = clothdata.GetPath1();
-            this.Coat1.skin = clothdata.GetPath2();
-            this.Coat.centerX = clothdata.GetPosition1().x;
-            this.Coat.centerY = clothdata.GetPosition1().y;
-            this.Coat1.centerX = clothdata.GetPosition2().x;
-            this.Coat1.centerY = clothdata.GetPosition2().y;
-            this.Coat.zOrder = clothdata.Sort1;
-            this.Coat1.zOrder = clothdata.Sort2;
-        }
-        UpDownClose() {
-            this.ShirtChange(0);
-            this.TrousersChange(0);
-            this.Shirt.visible = this.Shirt1.visible = false;
-            this.Trousers.visible = this.Trousers1.visible = false;
-        }
-        UpDownOpen() {
-            this.Shirt.visible = this.Shirt1.visible = true;
-            this.Trousers.visible = this.Trousers1.visible = true;
-        }
-        DressOpen() {
-            this.Dress.visible = this.Dress1.visible = true;
-        }
-        DressClose() {
-            this.DressChange(0);
-            this.Dress.visible = this.Dress1.visible = false;
-        }
-    }
-
-    class UIPhotos extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-        }
-        onInit() {
-            this.FemaleRoot = this.vars("FemaleRoot");
-            this._PhotosChange = this.FemaleRoot.getComponent(PhotosChange);
-            this.ChangeLeft = this.vars("ChangeLeft");
-            this.ChangeRight = this.vars("ChangeRight");
-            this.TweenskewY = this.vars("TweenskewY");
-            this.btnEv("BackHome", this.TweenOff);
-            this.btnEv("ChangeLeft", this.ChangeLastPhoto);
-            this.btnEv("ChangeRight", this.ChangeNextPhoto);
-        }
-        onShow() {
-            ADManager.TAPoint(TaT.PageEnter, "xiangcepage");
-            this.TweenskewY.skewY = -90;
-            this._PhotosChange.InitMes();
-            this.TweenOn();
-        }
-        ChangeNextPhoto() {
-            this._PhotosChange.ChangeNextPhoto();
-        }
-        ChangeLastPhoto() {
-            this._PhotosChange.ChangeLastPhoto();
-        }
-        TweenOn() {
-            let a = Laya.Tween.to(this.TweenskewY, { skewY: 0 }, 500, Laya.Ease.linearNone, Laya.Handler.create(this, () => {
-            }), 0, true, true);
-        }
-        TweenOff() {
-            let a = Laya.Tween.to(this.TweenskewY, { skewY: -90 }, 500, Laya.Ease.linearNone, Laya.Handler.create(this, () => {
-                this.hide();
-            }), 0, true, true);
-        }
-        onHide() {
-            ADManager.TAPoint(TaT.PageLeave, "xiangcepage");
-            this.hide();
-        }
-    }
-
-    class UITest extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.Data = [];
-            this.str = {};
-            this.Num = 0;
-            this.Now = 0;
-            this.Need = 0;
-        }
-        onInit() {
-            this.first = this.vars("first");
-            this.second = this.vars("second");
-            this.third = this.vars("third");
-            this.ADBtn = this.vars("ADBtn");
-            this.Refresh();
-            this.btnEv("BackBtn", () => {
-                this.hide();
-            });
-            this.btnEv("ADBtn", () => {
-                this.ADBtnClick();
-            });
-        }
-        onShow() {
-            ADManager.TAPoint(TaT.PageEnter, "shuiyipage");
-            ADManager.TAPoint(TaT.BtnShow, "ADshuiyi_click");
-            this.Refresh();
-        }
-        onHide() {
-            ADManager.TAPoint(TaT.PageLeave, "shuiyipage");
-            this.hide();
-        }
-        Refresh() {
-            for (let index = 0; index < GameDataController.ClothPackge3.cloths1.length; index++) {
-                this.Data[index] = GameDataController.ClothPackge3.cloths1[index];
-            }
-            this.Data.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[this.Data[i].ID];
-                this.str[this.Data[i].ID] = nv;
-            });
-            this.Num = GameDataController.ClothAlllockNum(this.str);
-            this.Now = this.Data.length - this.Num;
-            this.Need = this.Data.length;
-            this.ADBtn.visible = this.Num > 0;
-            this.ShowADClickCount(this.Now);
-        }
-        ADBtnClick() {
-            console.log("点击了广告");
-            console.log(this.Now + "xxxxxxxxxxxxxx");
-            ADManager.TAPoint(TaT.BtnClick, "ADshuiyi_click");
-            ADManager.ShowReward(() => {
-                this.GetAward();
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.GetAward();
-                });
-            });
-        }
-        GetAward() {
-            for (let k in this.str) {
-                if (this.str[k] == 1) {
-                    let dataall = GameDataController.ClothDataRefresh;
-                    dataall[k] = 0;
-                    GameDataController.ClothDataRefresh = dataall;
-                    Laya.LocalStorage.setJSON(this.Data[0].GetType2, this.str);
-                    this.Refresh();
-                    BagListController.Instance.refresh();
-                    console.log("获取一件装扮");
-                    UIMgr.tip("恭喜获得新衣服");
-                    return;
-                }
-            }
-        }
-        ShowADClickCount(count) {
-            switch (count) {
-                case 0:
-                    this.first.skin = "Egg2/tiao1.png";
-                    this.second.skin = "Egg2/tiao1.png";
-                    this.third.skin = "Egg2/tiao1.png";
-                    break;
-                case 1:
-                    this.first.skin = "Egg2/tiao2.png";
-                    this.second.skin = "Egg2/tiao1.png";
-                    this.third.skin = "Egg2/tiao1.png";
-                    break;
-                case 2:
-                    this.first.skin = "Egg2/tiao2.png";
-                    this.second.skin = "Egg2/tiao2.png";
-                    this.third.skin = "Egg2/tiao1.png";
-                    break;
-                case 3:
-                    this.first.skin = "Egg2/tiao2.png";
-                    this.second.skin = "Egg2/tiao2.png";
-                    this.third.skin = "Egg2/tiao2.png";
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
-    class UIWing extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-        }
-        onInit() {
-            this.CloseBtn = this.vars("CloseBtn");
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-            this.ADBtn = this.vars("ADBtn");
-            this.btnEv("ADBtn", this.ADClick);
-            this.BG = this.vars("BG");
-            Laya.timer.frameLoop(1, this, () => {
-                this.BG.rotation += 2;
-            });
-        }
-        onShow() {
-            ADManager.TAPoint(TaT.PageEnter, "chibangpage");
-            ADManager.TAPoint(TaT.BtnShow, "ADwings_click");
-        }
-        onHide() {
-            ADManager.TAPoint(TaT.PageLeave, "chibangpage");
-            this.hide();
-        }
-        ADClick() {
-            ADManager.TAPoint(TaT.BtnClick, "ADwings_click");
-            ADManager.ShowReward(() => {
-                this.Reward();
-            }, () => {
-                UIMgr.show("UITip", this.Reward);
-            });
-        }
-        Reward() {
-            let dataall = GameDataController.ClothDataRefresh;
-            dataall[50404] = 0;
-            GameDataController.ClothDataRefresh = dataall;
-            BagListController.Instance.showList();
-            UIMgr.tip("成功解锁翅膀!");
-            this.hide();
-        }
-    }
-
-    class UITip extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.func = null;
-        }
-        onInit() {
-            this.CloseBtn = this.vars("CloseBtn");
-            this.CloseBtn.visible = false;
-            this.BG = this.vars("BG");
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-            this.ConfirmBtn = this.vars("ConfirmBtn");
-            this.btnEv("ConfirmBtn", this.onConfirmBtnClick);
-        }
-        onRefresh() {
-        }
-        onShow(arg) {
-            ADManager.TAPoint(TaT.BtnShow, "ADrewardbt_tishiAD");
-            this.func = arg;
-            this.CloseBtn.visible = false;
-            Laya.timer.once(2000, this, () => {
-                this.CloseBtn.visible = true;
-            });
-        }
-        onHide() {
-            this.hide();
-        }
-        onConfirmBtnClick() {
-            ADManager.TAPoint(TaT.BtnClick, "ADrewardbt_tishiAD");
-            ADManager.ShowReward(() => {
-                this.func();
-                this.hide();
-            });
-        }
-    }
-
-    class PickClothChange extends Laya.Script {
-        onAwake() {
-            PickClothChange.Instance = this;
-            this.FemaleRoot = this.owner;
-            this.Hair = this.FemaleRoot.getChildByName("Hair");
-            this.Hair1 = this.FemaleRoot.getChildByName("Hair1");
-            this.Ornament = this.FemaleRoot.getChildByName("Ornament");
-            this.Ornament1 = this.FemaleRoot.getChildByName("Ornament1");
-            this.Shirt = this.FemaleRoot.getChildByName("Shirt");
-            this.Shirt1 = this.FemaleRoot.getChildByName("Shirt1");
-            this.Trousers = this.FemaleRoot.getChildByName("Trousers");
-            this.Trousers1 = this.FemaleRoot.getChildByName("Trousers1");
-            this.Dress = this.FemaleRoot.getChildByName("Dress");
-            this.Dress1 = this.FemaleRoot.getChildByName("Dress1");
-            this.Socks = this.FemaleRoot.getChildByName("Socks");
-            this.Socks1 = this.FemaleRoot.getChildByName("Socks1");
-            this.Shose = this.FemaleRoot.getChildByName("Shose");
-            this.Shose1 = this.FemaleRoot.getChildByName("Shose1");
-            this.Coat = this.FemaleRoot.getChildByName("Coat");
-            this.Coat1 = this.FemaleRoot.getChildByName("Coat1");
-            for (let i = 0; i < 8; i++) {
-                this._ClothChange(0, i);
-            }
-        }
-        ChangeAllCloth() {
-            this.HairChange(ClothChange.Instance.nowclothData.Hair);
-            this.CoatChange(ClothChange.Instance.nowclothData.Coat);
-            this.ShirtChange(ClothChange.Instance.nowclothData.Shirt);
-            this.TrousersChange(ClothChange.Instance.nowclothData.Trousers);
-            this.SocksChange(ClothChange.Instance.nowclothData.Socks);
-            this.ShoseChange(ClothChange.Instance.nowclothData.Shose);
-            this.OrnamentChange(ClothChange.Instance.nowclothData.Ornament);
-            this.DressChange(ClothChange.Instance.nowclothData.Dress);
-        }
-        _ClothChange(itemID, type) {
-            switch (type) {
-                case clothtype.Hair:
-                    this.HairChange(itemID);
-                    break;
-                case clothtype.Dress:
-                    this.DressChange(itemID);
-                    break;
-                case clothtype.Coat:
-                    this.CoatChange(itemID);
-                    break;
-                case clothtype.Shirt:
-                    this.ShirtChange(itemID);
-                    break;
-                case clothtype.Trousers:
-                    this.TrousersChange(itemID);
-                    break;
-                case clothtype.Socks:
-                    this.SocksChange(itemID);
-                    break;
-                case clothtype.Shose:
-                    this.ShoseChange(itemID);
-                    break;
-                case clothtype.Ornament:
-                    this.OrnamentChange(itemID);
-                    break;
-            }
-        }
-        HairChange(itemID) {
-            this.Hair.visible = this.Hair1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10002;
-            }
-            this.Hair.visible = this.Hair1.visible = true;
-            let clothdata = GameDataController._clothData.get(itemID);
-            this.Hair.zOrder = clothdata.Sort1;
-            this.Hair1.zOrder = clothdata.Sort2;
-            this.Hair.skin = clothdata.GetPath1();
-            this.Hair1.skin = clothdata.GetPath2();
-            this.Hair.centerX = clothdata.GetPosition1().x;
-            this.Hair.centerY = clothdata.GetPosition1().y;
-            this.Hair1.centerX = clothdata.GetPosition2().x;
-            this.Hair1.centerY = clothdata.GetPosition2().y;
-        }
-        DressChange(itemID) {
-            this.Dress.visible = this.Dress1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                this.UpDownOpen();
-                return;
-            }
-            else {
-                this.DressOpen();
-            }
-            if (itemID == 40502) {
-                this.Shose.visible = this.Shose1.visible = false;
-            }
-            this.Dress.visible = this.Dress1.visible = true;
-            this.UpDownClose();
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Dress.zOrder = clothdata.Sort1;
-            this.Dress1.zOrder = clothdata.Sort2;
-            this.Dress.skin = clothdata.GetPath1();
-            this.Dress1.skin = clothdata.GetPath2();
-            this.Dress.centerX = clothdata.GetPosition1().x;
-            this.Dress.centerY = clothdata.GetPosition1().y;
-            this.Dress1.centerX = clothdata.GetPosition2().x;
-            this.Dress1.centerY = clothdata.GetPosition2().y;
-        }
-        CoatChange(itemID) {
-            this.Coat.visible = this.Coat1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Coat.visible = this.Coat1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Coat.zOrder = clothdata.Sort1;
-            this.Coat1.zOrder = clothdata.Sort2;
-            this.Coat.skin = clothdata.GetPath1();
-            this.Coat1.skin = clothdata.GetPath2();
-            this.Coat.centerX = clothdata.GetPosition1().x;
-            this.Coat.centerY = clothdata.GetPosition1().y;
-            this.Coat1.centerX = clothdata.GetPosition2().x;
-            this.Coat1.centerY = clothdata.GetPosition2().y;
-        }
-        ShirtChange(itemID) {
-            this.Shirt.visible = this.Shirt1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10000;
-            }
-            else {
-                this.DressClose();
-                this.UpDownOpen();
-            }
-            this.Shirt.visible = this.Shirt1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Shirt.zOrder = clothdata.Sort1;
-            this.Shirt1.zOrder = clothdata.Sort2;
-            this.Shirt.skin = clothdata.GetPath1();
-            this.Shirt1.skin = clothdata.GetPath2();
-            this.Shirt.centerX = clothdata.GetPosition1().x;
-            this.Shirt.centerY = clothdata.GetPosition1().y;
-            this.Shirt1.centerX = clothdata.GetPosition2().x;
-            this.Shirt1.centerY = clothdata.GetPosition2().y;
-        }
-        TrousersChange(itemID) {
-            this.Trousers.visible = this.Trousers1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10001;
-            }
-            else {
-                this.DressClose();
-                this.UpDownOpen();
-            }
-            this.Trousers.visible = this.Trousers1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Trousers.visible = this.Trousers1.visible = true;
-            this.Trousers.zOrder = clothdata.Sort1;
-            this.Trousers1.zOrder = clothdata.Sort2;
-            this.Trousers.skin = clothdata.GetPath1();
-            this.Trousers1.skin = clothdata.GetPath2();
-            this.Trousers.centerX = clothdata.GetPosition1().x;
-            this.Trousers.centerY = clothdata.GetPosition1().y;
-            this.Trousers1.centerX = clothdata.GetPosition2().x;
-            this.Trousers1.centerY = clothdata.GetPosition2().y;
-        }
-        SocksChange(itemID) {
-            this.Socks1.visible = this.Socks.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Socks1.visible = this.Socks.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Socks.zOrder = clothdata.Sort1;
-            this.Socks1.zOrder = clothdata.Sort2;
-            this.Socks.skin = clothdata.GetPath1();
-            this.Socks1.skin = clothdata.GetPath2();
-            this.Socks.centerX = clothdata.GetPosition1().x;
-            this.Socks.centerY = clothdata.GetPosition1().y;
-            this.Socks1.centerX = clothdata.GetPosition2().x;
-            this.Socks1.centerY = clothdata.GetPosition2().y;
-        }
-        ShoseChange(itemID) {
-            this.Shose.visible = this.Shose1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Shose.visible = this.Shose1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Shose.zOrder = clothdata.Sort1;
-            this.Shose1.zOrder = clothdata.Sort2;
-            this.Shose.skin = clothdata.GetPath1();
-            this.Shose1.skin = clothdata.GetPath2();
-            this.Shose.centerX = clothdata.GetPosition1().x;
-            this.Shose.centerY = clothdata.GetPosition1().y;
-            this.Shose1.centerX = clothdata.GetPosition2().x;
-            this.Shose1.centerY = clothdata.GetPosition2().y;
-        }
-        OrnamentChange(itemID) {
-            this.Ornament.visible = this.Ornament1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Ornament.visible = this.Ornament1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Ornament.zOrder = clothdata.Sort1;
-            this.Ornament1.zOrder = clothdata.Sort2;
-            this.Ornament.skin = clothdata.GetPath1();
-            this.Ornament1.skin = clothdata.GetPath2();
-            this.Ornament.centerX = clothdata.GetPosition1().x;
-            this.Ornament.centerY = clothdata.GetPosition1().y;
-            this.Ornament1.centerX = clothdata.GetPosition2().x;
-            this.Ornament1.centerY = clothdata.GetPosition2().y;
-        }
-        UpDownOpen() {
-            this.Shirt.visible = this.Shirt1.visible = true;
-            this.Trousers.visible = this.Trousers1.visible = true;
-        }
-        UpDownClose() {
-            this.ShirtChange(0);
-            this.TrousersChange(0);
-            this.Shirt.visible = this.Shirt1.visible = false;
-            this.Trousers.visible = this.Trousers1.visible = false;
-        }
-        DressOpen() {
-            this.Dress.visible = this.Dress1.visible = true;
-        }
-        DressClose() {
-            this.DressChange(0);
-            this.Dress.visible = this.Dress1.visible = false;
-        }
-    }
-
-    class PickClothChangeT extends Laya.Script {
-        onAwake() {
-            PickClothChangeT.Instance = this;
-            this.FemaleRoot = this.owner;
-            this.Hair = this.FemaleRoot.getChildByName("Hair");
-            this.Hair1 = this.FemaleRoot.getChildByName("Hair1");
-            this.Ornament = this.FemaleRoot.getChildByName("Ornament");
-            this.Ornament1 = this.FemaleRoot.getChildByName("Ornament1");
-            this.Shirt = this.FemaleRoot.getChildByName("Shirt");
-            this.Shirt1 = this.FemaleRoot.getChildByName("Shirt1");
-            this.Trousers = this.FemaleRoot.getChildByName("Trousers");
-            this.Trousers1 = this.FemaleRoot.getChildByName("Trousers1");
-            this.Dress = this.FemaleRoot.getChildByName("Dress");
-            this.Dress1 = this.FemaleRoot.getChildByName("Dress1");
-            this.Socks = this.FemaleRoot.getChildByName("Socks");
-            this.Socks1 = this.FemaleRoot.getChildByName("Socks1");
-            this.Shose = this.FemaleRoot.getChildByName("Shose");
-            this.Shose1 = this.FemaleRoot.getChildByName("Shose1");
-            this.Coat = this.FemaleRoot.getChildByName("Coat");
-            this.Coat1 = this.FemaleRoot.getChildByName("Coat1");
-            for (let i = 0; i < 8; i++) {
-                this._ClothChange(0, i);
-            }
-        }
-        HairRandomFuc() {
-            let a = GameDataController.HairData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.HairData[b].ID;
-            return c;
-        }
-        DressRandomFuc() {
-            let a = GameDataController.DressData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.DressData[b].ID;
-            return c;
-        }
-        ShirtRandomFuc() {
-            let a = GameDataController.ShirtData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.ShirtData[b].ID;
-            return c;
-        }
-        TrousersRandomFuc() {
-            let a = GameDataController.TrousersData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.TrousersData[b].ID;
-            return c;
-        }
-        SocksRandomFuc() {
-            let a = GameDataController.SocksData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.SocksData[b].ID;
-            return c;
-        }
-        ShoseRandomFuc() {
-            let a = GameDataController.ShoseData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.ShoseData[b].ID;
-            return c;
-        }
-        OrnamentRandomFuc() {
-            let a = GameDataController.OrnamentData.length;
-            let b = Util.randomInRange_i(0, a - 1);
-            let c = GameDataController.OrnamentData[b].ID;
-            return c;
-        }
-        ChangeAllCloth() {
-            this.HairChange(this.HairRandomFuc());
-            this.OrnamentChange(this.OrnamentRandomFuc());
-            this.CoatChange(0);
-            this.ShirtChange(this.ShirtRandomFuc());
-            this.SocksChange(this.SocksRandomFuc());
-            this.TrousersChange(this.TrousersRandomFuc());
-            this.DressChange(this.DressRandomFuc());
-            this.ShoseChange(this.ShoseRandomFuc());
-        }
-        _ClothChange(itemID, type) {
-            switch (type) {
-                case clothtype.Hair:
-                    this.HairChange(itemID);
-                    break;
-                case clothtype.Dress:
-                    this.DressChange(itemID);
-                    break;
-                case clothtype.Coat:
-                    this.CoatChange(itemID);
-                    break;
-                case clothtype.Shirt:
-                    this.ShirtChange(itemID);
-                    break;
-                case clothtype.Trousers:
-                    this.TrousersChange(itemID);
-                    break;
-                case clothtype.Socks:
-                    this.SocksChange(itemID);
-                    break;
-                case clothtype.Shose:
-                    this.ShoseChange(itemID);
-                    break;
-                case clothtype.Ornament:
-                    this.OrnamentChange(itemID);
-                    break;
-            }
-        }
-        HairChange(itemID) {
-            this.Hair.visible = this.Hair1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10002;
-            }
-            this.Hair.visible = this.Hair1.visible = true;
-            let clothdata = GameDataController._clothData.get(itemID);
-            this.Hair.zOrder = clothdata.Sort1;
-            this.Hair1.zOrder = clothdata.Sort2;
-            this.Hair.skin = clothdata.GetPath1();
-            this.Hair1.skin = clothdata.GetPath2();
-            this.Hair.centerX = clothdata.GetPosition1().x;
-            this.Hair.centerY = clothdata.GetPosition1().y;
-            this.Hair1.centerX = clothdata.GetPosition2().x;
-            this.Hair1.centerY = clothdata.GetPosition2().y;
-        }
-        DressChange(itemID) {
-            this.Dress.visible = this.Dress1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                this.UpDownOpen();
-                return;
-            }
-            else {
-                this.DressOpen();
-            }
-            if (itemID == 40502) {
-                this.Shose.visible = this.Shose1.visible = false;
-            }
-            this.Dress.visible = this.Dress1.visible = true;
-            this.UpDownClose();
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Dress.zOrder = clothdata.Sort1;
-            this.Dress1.zOrder = clothdata.Sort2;
-            this.Dress.skin = clothdata.GetPath1();
-            this.Dress1.skin = clothdata.GetPath2();
-            this.Dress.centerX = clothdata.GetPosition1().x;
-            this.Dress.centerY = clothdata.GetPosition1().y;
-            this.Dress1.centerX = clothdata.GetPosition2().x;
-            this.Dress1.centerY = clothdata.GetPosition2().y;
-        }
-        CoatChange(itemID) {
-            this.Coat.visible = this.Coat1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Coat.visible = this.Coat1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Coat.zOrder = clothdata.Sort1;
-            this.Coat1.zOrder = clothdata.Sort2;
-            this.Coat.skin = clothdata.GetPath1();
-            this.Coat1.skin = clothdata.GetPath2();
-            this.Coat.centerX = clothdata.GetPosition1().x;
-            this.Coat.centerY = clothdata.GetPosition1().y;
-            this.Coat1.centerX = clothdata.GetPosition2().x;
-            this.Coat1.centerY = clothdata.GetPosition2().y;
-        }
-        ShirtChange(itemID) {
-            this.Shirt.visible = this.Shirt1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10000;
-            }
-            else {
-                this.DressClose();
-                this.UpDownOpen();
-            }
-            this.Shirt.visible = this.Shirt1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Shirt.zOrder = clothdata.Sort1;
-            this.Shirt1.zOrder = clothdata.Sort2;
-            this.Shirt.skin = clothdata.GetPath1();
-            this.Shirt1.skin = clothdata.GetPath2();
-            this.Shirt.centerX = clothdata.GetPosition1().x;
-            this.Shirt.centerY = clothdata.GetPosition1().y;
-            this.Shirt1.centerX = clothdata.GetPosition2().x;
-            this.Shirt1.centerY = clothdata.GetPosition2().y;
-        }
-        TrousersChange(itemID) {
-            this.Trousers.visible = this.Trousers1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 10001;
-            }
-            else {
-                this.DressClose();
-                this.UpDownOpen();
-            }
-            this.Trousers.visible = this.Trousers1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Trousers.visible = this.Trousers1.visible = true;
-            this.Trousers.zOrder = clothdata.Sort1;
-            this.Trousers1.zOrder = clothdata.Sort2;
-            this.Trousers.skin = clothdata.GetPath1();
-            this.Trousers1.skin = clothdata.GetPath2();
-            this.Trousers.centerX = clothdata.GetPosition1().x;
-            this.Trousers.centerY = clothdata.GetPosition1().y;
-            this.Trousers1.centerX = clothdata.GetPosition2().x;
-            this.Trousers1.centerY = clothdata.GetPosition2().y;
-        }
-        SocksChange(itemID) {
-            this.Socks1.visible = this.Socks.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Socks1.visible = this.Socks.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Socks.zOrder = clothdata.Sort1;
-            this.Socks1.zOrder = clothdata.Sort2;
-            this.Socks.skin = clothdata.GetPath1();
-            this.Socks1.skin = clothdata.GetPath2();
-            this.Socks.centerX = clothdata.GetPosition1().x;
-            this.Socks.centerY = clothdata.GetPosition1().y;
-            this.Socks1.centerX = clothdata.GetPosition2().x;
-            this.Socks1.centerY = clothdata.GetPosition2().y;
-        }
-        ShoseChange(itemID) {
-            this.Shose.visible = this.Shose1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Shose.visible = this.Shose1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            this.Shose.zOrder = clothdata.Sort1;
-            this.Shose1.zOrder = clothdata.Sort2;
-            this.Shose.skin = clothdata.GetPath1();
-            this.Shose1.skin = clothdata.GetPath2();
-            this.Shose.centerX = clothdata.GetPosition1().x;
-            this.Shose.centerY = clothdata.GetPosition1().y;
-            this.Shose1.centerX = clothdata.GetPosition2().x;
-            this.Shose1.centerY = clothdata.GetPosition2().y;
-        }
-        OrnamentChange(itemID) {
-            this.Ornament.visible = this.Ornament1.visible = false;
-            if (itemID == null || itemID == 0) {
-                itemID = 0;
-                return;
-            }
-            this.Ornament.visible = this.Ornament1.visible = true;
-            let clothdata = GameDataController._ClothData.get(itemID);
-            console.log(clothdata);
-            this.Ornament.zOrder = clothdata.Sort1;
-            this.Ornament1.zOrder = clothdata.Sort2;
-            this.Ornament.skin = clothdata.GetPath1();
-            this.Ornament1.skin = clothdata.GetPath2();
-            this.Ornament.centerX = clothdata.GetPosition1().x;
-            this.Ornament.centerY = clothdata.GetPosition1().y;
-            this.Ornament1.centerX = clothdata.GetPosition2().x;
-            this.Ornament1.centerY = clothdata.GetPosition2().y;
-        }
-        UpDownOpen() {
-            this.Shirt.visible = this.Shirt1.visible = true;
-            this.Trousers.visible = this.Trousers1.visible = true;
-        }
-        UpDownClose() {
-            this.ShirtChange(0);
-            this.TrousersChange(0);
-            this.Shirt.visible = this.Shirt1.visible = false;
-            this.Trousers.visible = this.Trousers1.visible = false;
-        }
-        DressOpen() {
-            this.Dress.visible = this.Dress1.visible = true;
-        }
-        DressClose() {
-            this.DressChange(0);
-            this.Dress.visible = this.Dress1.visible = false;
-        }
-    }
-
-    class RankItem extends Laya.Script {
-        constructor() {
-            super(...arguments);
-            this.Datas = [];
-        }
-        onAwake() {
-            let item = this.owner;
-            this.Name = item.getChildByName("Name");
-            this.WinCount = item.getChildByName("WinCount");
-            this.RankNum = item.getChildByName("RankNum");
-            this.Top1 = item.getChildByName("Top1");
-            this.Top2 = item.getChildByName("Top2");
-            this.Top3 = item.getChildByName("Top3");
-            this.BG_white = item.getChildByName("BG_white");
-            this.BG_yellow = item.getChildByName("BG_Yellow");
-            this.IconParent = item.getChildByName("IconParent");
-            this.hairBox = this.IconParent.getChildByName("hairBox");
-        }
-        fell(mess, index) {
-            this.Datas = mess;
-            this.Name.text = this.Datas[index].Name;
-            this.WinCount.text = "胜场:" + this.Datas[index].Num.toString();
-            this.RankNum.text = (index + 1).toString();
-            this.RankNum.visible = true;
-            this.Top1.visible = false;
-            this.Top2.visible = false;
-            this.Top3.visible = false;
-            this.BG_white.visible = true;
-            this.BG_yellow.visible = false;
-            for (let i = 0; i < this.hairBox.numChildren; i++) {
-                let c = this.hairBox.getChildAt(i);
-                c.visible = false;
-            }
-            if (this.Datas[index].Name == "我") {
-                this.BG_white.visible = false;
-                this.BG_yellow.visible = true;
-            }
-            this.Top1.visible = index == 0;
-            this.Top2.visible = index == 1;
-            this.Top3.visible = index == 2;
-            if (this.Top1.visible || this.Top2.visible || this.Top3.visible) {
-                this.RankNum.visible = false;
-            }
-            let a = Util.randomInRange_i(0, this.hairBox.numChildren - 1);
-            let b = this.hairBox.getChildAt(a);
-            b.visible = true;
-        }
-    }
-
-    class UIRank extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.rankisopen = false;
-            this.Data = [];
-            this.isLookVideo = false;
-        }
-        onInit() {
-            UIRank.ins = this;
-            this.BackBtn = this.vars("BackBtn");
-            this.Pick = this.vars("Pick");
-            this.RankListBtn = this.vars("RankListBtn");
-            this.FemaleRoot = this.vars("FemaleRoot");
-            this.RankListBox = this.vars("RankListBox");
-            this._PickClothChange = this.FemaleRoot.getComponent(PickClothChange);
-            this.btnEv("BackBtn", () => {
-                this.hide();
-            });
-            this.btnEv("RankListBtn", () => {
-                ADManager.TAPoint(TaT.BtnClick, "phb_turn");
-                this.ShowRankListBtnClick();
-            });
-            this.btnEv("Pick", () => {
-                RecordManager.stopAutoRecord();
-                RecordManager.startAutoRecord();
-                if (parseInt(Laya.LocalStorage.getItem("PickNum")) == 0) {
-                    this.ADClick();
-                }
-                else {
-                    this.PickBtnClick();
-                }
-            });
-            this.LRank = TweenMgr.tweenCust(300, this, this.tweenRankLeft, null, true, Laya.Ease.linearNone);
-            this.RRank = TweenMgr.tweenCust(300, this, this.tweenRankRight, null, true, Laya.Ease.linearNone);
-            this.FRL = TweenMgr.tweenCust(300, this, this.tweenFemaleRootLeft, null, true, Laya.Ease.linearNone);
-            this.FRR = TweenMgr.tweenCust(300, this, this.tweenFemaleRootRight, null, true, Laya.Ease.linearNone);
-            this.PickNumImage = this.vars("PickNumImage");
-            this.PickNum = this.vars("PickNum");
-            this.PickNum.text = Laya.LocalStorage.getItem("PickNum");
-            this.ADImage = this.vars("ADImage");
-            this.RankList = this.vars("RankList");
-            this.RankList.vScrollBarSkin = "";
-            this.Refresh();
-            this.RankList.renderHandler = new Laya.Handler(this, this.onWrapItem);
-            this.RankList.refresh();
-        }
-        onWrapItem(cell, index) {
-            cell.getComponent(RankItem).fell(this.Data, index);
-        }
-        Refresh() {
-            for (let index = 0; index < GameDataController.PickData.length; index++) {
-                if (GameDataController.PickData[index].Name == "我") {
-                    GameDataController.PickData[index].Num = parseInt(Laya.LocalStorage.getItem("TodayWinNum"));
-                }
-            }
-            GameDataController.PickData.sort((a, b) => {
-                return b.Num - a.Num;
-            });
-            for (let i = 0; i < GameDataController.PickData.length; i++) {
-                this.Data[i] = GameDataController.PickData[i];
-            }
-            this.RankList.refresh();
-            this.RankList.array = this.Data;
-        }
-        onShow() {
-            ADManager.TAPoint(TaT.BtnShow, "meiripk_turn");
-            ADManager.TAPoint(TaT.BtnShow, "ADpk_turn");
-            ADManager.TAPoint(TaT.BtnShow, "phb_turn");
-            this.isLookVideo = false;
-            this._PickClothChange.ChangeAllCloth();
-            if (Laya.LocalStorage.getItem("PickNum") == "0") {
-                this.ADImage.visible = true;
-                this.PickNumImage.visible = false;
-            }
-        }
-        tweenRankLeft(t) {
-            console.log(this.RankListBox);
-            console.log("RankListBox.............");
-            let nbtm = this.RankListBox.right;
-            TweenMgr.lerp_Num(nbtm, 0, t);
-            this.RankListBox.right = t.outParams[0][0];
-        }
-        tweenRankRight(t) {
-            let nbtm = this.RankListBox.right;
-            TweenMgr.lerp_Num(nbtm, -316, t);
-            this.RankListBox.right = t.outParams[0][0];
-        }
-        tweenFemaleRootLeft(t) {
-            let nbtm = this.FemaleRoot.centerX;
-            TweenMgr.lerp_Num(nbtm, -119, t);
-            this.FemaleRoot.centerX = t.outParams[0][0];
-        }
-        tweenFemaleRootRight(t) {
-            let nbtm = this.FemaleRoot.centerX;
-            TweenMgr.lerp_Num(nbtm, -19, t);
-            this.FemaleRoot.centerX = t.outParams[0][0];
-        }
-        ShowRankListBtnClick() {
-            this.rankisopen = !this.rankisopen;
-            if (this.rankisopen) {
-                this.LRank.play();
-                this.FRL.play();
-            }
-            else {
-                this.RRank.play();
-                this.FRR.play();
-            }
-        }
-        PickBtnClick() {
-            ADManager.TAPoint(TaT.BtnClick, "meiripk_turn");
-            GameDataController.TodaySign = "1";
-            GameDataController.SetLastTime();
-            let a = Laya.LocalStorage.getItem("PickNum");
-            let b = parseInt(a);
-            if (b > 0) {
-                UIMgr.show("UIPickLoading");
-                b--;
-                Laya.LocalStorage.setItem("PickNum", b.toString());
-                this.PickNum.text = b.toString();
-                if (b <= 0) {
-                    this.ADImage.visible = true;
-                    this.PickNumImage.visible = false;
-                }
-            }
-        }
-        ADImageClick() {
-            ADManager.TAPoint(TaT.BtnClick, "ADpk_turn");
-            ADManager.ShowReward(() => {
-                let a = Laya.LocalStorage.getItem("PickNum");
-                let b = parseInt(a);
-                b++;
-                Laya.LocalStorage.setItem("PickNum", b.toString());
-                this.PickNum.text = b.toString();
-                this.isLookVideo = true;
-                UIMgr.tip("PK次数+1");
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    let a = Laya.LocalStorage.getItem("PickNum");
-                    let b = parseInt(a);
-                    b++;
-                    Laya.LocalStorage.setItem("PickNum", b.toString());
-                    this.PickNum.text = b.toString();
-                    this.isLookVideo = true;
-                    UIMgr.tip("PK次数+1");
-                });
-            });
-        }
-        ADClick() {
-            this.ADImage.visible = true;
-            this.PickNumImage.visible = false;
-            ADManager.TAPoint(TaT.BtnClick, "ADpk_turn");
-            ADManager.ShowReward(() => {
-                UIMgr.show("UIPickLoading");
-                UIMgr.tip("PK次数+1");
-                this.isLookVideo = true;
-            });
-        }
-        onHide() {
-            UIMgr.get("UIReady").isPicking = false;
-            RecordManager.stopAutoRecord();
-            console.log("关闭了UIRank");
-        }
-    }
-
-    class UIPick extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.otherCount = 0;
-            this.myCount = 0;
-            this.otherNum = 0;
-            this.myNum = 0;
-            this.isWin = false;
-            this.isLose = false;
-            this.PickCount = 0;
-        }
-        onInit() {
-            this.FemaleRoot = this.vars("FemaleRoot");
-            this._PickClothChange = this.FemaleRoot.getComponent(PickClothChange);
-            this.FemaleRoot1 = this.vars("FemaleRoot1");
-            this._PickClothChangT = this.FemaleRoot1.getComponent(PickClothChangeT);
-            this.BackBtn = this.vars("BackBtn");
-            this.BackBtn.visible = false;
-            this.btnEv("BackBtn", () => {
-                this.hide();
-            });
-            this.FRToLeft = TweenMgr.tweenCust(1000, this, this.tweenFRToLeft, null, true, Laya.Ease.backOut);
-            this.FRToRight = TweenMgr.tweenCust(1000, this, this.tweenFRToRight, null, true, Laya.Ease.backOut);
-            this.Vote_other = this.vars("Vote_other");
-            this.otherPre = this.Vote_other.getChildByName("otherPre");
-            this.Vote_me = this.vars("Vote_me");
-            this.myPre = this.Vote_me.getChildByName("myPre");
-            this.WinMark = this.vars("WinMark");
-            this.LoseMark = this.vars("LoseMark");
-            this.Light = this.vars("Light");
-            this.WinUI = this.vars("WinUI");
-            this.LoseUI = this.vars("LoseUI");
-            this.WinBox = this.WinUI.getChildByName("WinBox");
-            this.LoseBox = this.LoseUI.getChildByName("LoseBox");
-            this.OkBtn = this.WinBox.getChildByName("OkBtn");
-            this.NoBtn = this.WinBox.getChildByName("NoBtn");
-            this.VoteNum = this.LoseBox.getChildByName("VoteNum");
-            this.ContinueBtn = this.LoseBox.getChildByName("ContinueBtn");
-            this.btnEv("OkBtn", this.OkBtnClick);
-            this.btnEv("NoBtn", this.NoBtnClick);
-            this.btnEv("ContinueBtn", this.ContinueBtnClick);
-            this.ShareUI = this.vars("ShareUI");
-            this.ShareUI.visible = false;
-            this.ShareBox = this.ShareUI.getChildByName("ShareBox");
-            this.ShareBtn = this.ShareBox.getChildByName("ShareBtn");
-            this.CloseBtn = this.ShareBox.getChildByName("CloseBtn");
-            this.btnEv("ShareBtn", this.ShareBtnClick);
-            this.btnEv("CloseBtn", this.CloseBtnClick);
-        }
-        onShow() {
-            ADManager.TAPoint(TaT.BtnShow, "fxpk_turn");
-            ADManager.TAPoint(TaT.BtnShow, "nofx_turn");
-            ADManager.TAPoint(TaT.BtnShow, "ADpkjiesuan_turn");
-            ADManager.TAPoint(TaT.BtnShow, "pkpt_turn");
-            this.FRToRight.play();
-            this.FRToLeft.play();
-            this._PickClothChange.ChangeAllCloth();
-            this._PickClothChangT.ChangeAllCloth();
-            Laya.timer.once(1000, this, this.PickFuc);
-        }
-        onHide() {
-            this.otherPre.text = "0";
-            this.myPre.text = "0";
-            this.otherNum = 0;
-            this.myNum = 0;
-            this.WinMark.visible = false;
-            this.LoseMark.visible = false;
-            this.Light.visible = false;
-            this.WinUI.visible = false;
-            this.LoseUI.visible = false;
-            this.isWin = false;
-            this.isLose = false;
-            this.FemaleRoot.centerX = 492;
-            this.FemaleRoot1.centerX = -484;
-            this.BackBtn.visible = false;
-            EventMgr.notify(Task.EventType.PK);
-            Laya.timer.clear(this, this.PickFuc);
-        }
-        tweenFRToLeft(t) {
-            TweenMgr.lerp_Num(this.FemaleRoot.centerX, 156, t);
-            this.FemaleRoot.centerX = t.outParams[0][0];
-        }
-        tweenFRToRight(t) {
-            TweenMgr.lerp_Num(this.FemaleRoot1.centerX, -147, t);
-            this.FemaleRoot1.centerX = t.outParams[0][0];
-        }
-        PickFuc() {
-            let i = Util.randomInRange_i(0, 10);
-            console.log(i);
-            if (UIRank.ins.isLookVideo) {
-                this.WinVoteRadomFuc();
-                console.log("必赢..........");
-                return;
-            }
-            let a = parseInt(Laya.LocalStorage.getItem("PickNum"));
-            if (a == 1 || a == 2 || a == 4) {
-                this.WinVoteRadomFuc();
-            }
-            else {
-                this.LoseVoteRadomFuc();
-            }
-        }
-        WinVoteRadomFuc() {
-            this.otherCount = Util.randomInRange_i(300, 400);
-            this.myCount = Util.randomInRange_i(400, 600);
-            Laya.timer.loop(3, this, this.otherPreAdd);
-            Laya.timer.loop(3, this, this.myPreAdd);
-        }
-        LoseVoteRadomFuc() {
-            this.otherCount = Util.randomInRange_i(400, 600);
-            this.myCount = Util.randomInRange_i(300, 400);
-            Laya.timer.loop(3, this, this.otherPreAdd);
-            Laya.timer.loop(3, this, this.myPreAdd);
-        }
-        otherPreAdd() {
-            this.otherNum += 1;
-            this.otherPre.text = this.otherNum + "";
-            if (this.otherNum >= this.otherCount) {
-                Laya.timer.clear(this, this.otherPreAdd);
-                Laya.timer.once(1000, this, this.checkLose);
-            }
-        }
-        myPreAdd() {
-            this.myNum += 1;
-            this.myPre.text = this.myNum + "";
-            if (this.myNum >= this.myCount) {
-                Laya.timer.clear(this, this.myPreAdd);
-                Laya.timer.once(1000, this, this.checkWin);
-            }
-        }
-        checkWin() {
-            if (this.myCount > this.otherCount) {
-                this.isWin = true;
-                this.Light.visible = true;
-                this.WinMark.visible = true;
-                this.BackBtn.visible = true;
-            }
-            if (this.isWin) {
-                this.PickWin();
-                Laya.timer.once(1000, this, () => {
-                    this.WinUI.visible = true;
-                });
-            }
-        }
-        checkLose() {
-            if (this.myCount < this.otherCount) {
-                this.LoseMark.visible = true;
-                this.isLose = true;
-                this.BackBtn.visible = true;
-            }
-            if (this.isLose) {
-                Laya.timer.once(1000, this, () => {
-                    this.LoseUI.visible = true;
-                    this.VoteNum.text = this.myPre.text;
-                });
-            }
-        }
-        OkBtnClick() {
-            ADManager.TAPoint(TaT.BtnClick, "ADpkjiesuan_turn");
-            ADManager.ShowReward(() => {
-                this.PickWin();
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.PickWin();
-                });
-            });
-            this.WinUI.visible = false;
-            this.ShareUI.visible = true;
-            RecordManager.stopAutoRecord();
-        }
-        NoBtnClick() {
-            ADManager.TAPoint(TaT.BtnClick, "pkpt_turn");
-            this.WinUI.visible = false;
-            this.ShareUI.visible = true;
-            RecordManager.stopAutoRecord();
-        }
-        ContinueBtnClick() {
-            this.LoseUI.visible = false;
-            this.hide();
-        }
-        PickWin() {
-            let a = Laya.LocalStorage.getItem("TodayWinNum");
-            let b = parseInt(a);
-            b += 1;
-            Laya.LocalStorage.setItem("TodayWinNum", b.toString());
-            UIMgr.tip("今日胜场+1");
-            UIMgr.get("UIRank").Refresh();
-        }
-        ShareBtnClick() {
-            console.log("PK分享.........");
-            ADManager.TAPoint(TaT.BtnClick, "fxpk_turn");
-            RecordManager._share(() => {
-                UIMgr.tip("分享成功");
-                this.ShareUI.visible = false;
-            }, () => {
-            });
-        }
-        CloseBtnClick() {
-            ADManager.TAPoint(TaT.BtnClick, "nofx_turn");
-            this.ShareUI.visible = false;
-            this.hide();
-        }
-    }
-
-    class UIPickLoading extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-        }
-        onInit() {
-            this.loading = this.vars("loading");
-        }
-        onShow() {
-            Laya.timer.loop(10, this, this.onValueChange);
-        }
-        onValueChange() {
-            if (this.loading.width >= 434) {
-                this.loading.width = 434;
-                Laya.timer.clear(this, this.onValueChange);
-                Laya.timer.once(1000, this, () => {
-                    this.hide();
-                    UIMgr.show("UIPick");
-                });
-            }
-            this.loading.width += 5;
-        }
-        onHide() {
-            this.loading.width = 0;
-        }
-    }
-
-    class UIPickReward extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.Data = [];
-            this.str = {};
-        }
-        onInit() {
-            this.ADBtn = this.vars("ADBtn");
-            this.btnEv("ADBtn", this.ADBtnClick);
-            this.CloseBtn = this.vars("CloseBtn");
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-        }
-        onShow() {
-            this.Data = GameDataController.ClothPackge1.cloths1;
-            this.Data.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[this.Data[i].ID];
-                this.str[this.Data[i].ID] = nv;
-            });
-            console.log(this.Data);
-        }
-        ADBtnClick() {
-            ADManager.ShowReward(() => {
-                this.GetAward();
-            }, () => {
-                UIMgr.show("UITip", () => {
-                    this.GetAward();
-                });
-            });
-        }
-        GetAward() {
-            for (let k in this.str) {
-                console.log(this.str[k]);
-                if (this.str[k] == 1) {
-                    let dataall = GameDataController.ClothDataRefresh;
-                    dataall[k] = 0;
-                    GameDataController.ClothDataRefresh = dataall;
-                    Laya.LocalStorage.setJSON(this.Data[0].GetType2, this.str);
-                    BagListController.Instance.refresh();
-                    UIMgr.tip("恭喜获得一套新衣服");
-                }
-            }
-            this.hide();
-        }
-    }
-
-    class UICombine extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.count = 0;
-            this.isWatchAD = true;
-            this.str = {};
-        }
-        onInit() {
-            this.First = this.vars("First");
-            this.ConfirmBtn = this.vars("ConfirmBtn");
-            this.ConfirmBtn.on(Laya.Event.CLICK, this, () => {
-                this.HeCheng.visible = true;
-                this.First.visible = false;
-            });
-            this.HeCheng = this.vars("HeCheng");
-            this.CombineBtn = this.HeCheng.getChildByName("CombineBtn");
-            this.Yanzhi = this.HeCheng.getChildByName("Yanzhi");
-            this.Fu = this.HeCheng.getChildByName("Fu");
-            this.QiZhi = this.HeCheng.getChildByName("QiZhi");
-            this.Aiqing = this.HeCheng.getChildByName("Aiqing");
-            this.Shuidi = this.HeCheng.getChildByName("Shuidi");
-            this.FuHei = this.HeCheng.getChildByName("FuHei");
-            this.Title = this.HeCheng.getChildByName("Title");
-            this.CombineBtn.on(Laya.Event.CLICK, this, this.DanShengShow);
-            this.HCCloseBtn = this.HeCheng.getChildByName("HCCloseBtn");
-            this.HCCloseBtn.on(Laya.Event.CLICK, this, () => {
-                RecordManager.stopAutoRecord();
-                this.hide();
-            });
-            this.Wan = this.HeCheng.getChildByName("Wan");
-            this.mask = this.vars("Mask");
-            this.QiZhi.on(Laya.Event.CLICK, this, this.QiZhiClick);
-            this.Yanzhi.on(Laya.Event.CLICK, this, this.YanzhiClick);
-            this.Fu.on(Laya.Event.CLICK, this, this.FuClick);
-            this.Aiqing.on(Laya.Event.CLICK, this, this.AiqingClick);
-            this.FuHei.on(Laya.Event.CLICK, this, this.FuHeiClick);
-            this.Title.on(Laya.Event.CLICK, this, this.TitleClick);
-            this.DanSheng = this.vars("DanSheng");
-            this.Guanghuan = this.DanSheng.getChildByName("Guanghuan");
-            this.StartBtn = this.DanSheng.getChildByName("StartBtn");
-            this.Role = this.DanSheng.getChildByName("Role");
-            this.CloseBtn = this.DanSheng.getChildByName("CloseBtn");
-            this.StartBtn.on(Laya.Event.CLICK, this, () => {
-                ADManager.TAPoint(TaT.BtnClick, "zaoren_click");
-                RecordManager.stopAutoRecord();
-                RecordManager._share(() => {
-                    UIMgr.tip("视频分享成功！");
-                    this.hide();
-                }, () => {
-                    UIMgr.tip("视频分享失败...");
-                    this.hide();
-                });
-            });
-            this.CloseBtn.on(Laya.Event.CLICK, this, () => {
-                RecordManager.stopAutoRecord();
-                this.hide();
-            });
-            this.CheckBtn = this.DanSheng.getChildByName("CheckBtn");
-            this.GetAwardBtn = this.DanSheng.getChildByName("GetAwardBtn");
-            this.CheckBtn.on(Laya.Event.CLICK, this, () => {
-                this.isWatchAD = !this.isWatchAD;
-                this.CheckBtn.getChildAt(0).visible = !this.CheckBtn.getChildAt(0).visible;
-                this.GetAwardBtn.getChildAt(0).visible = this.isWatchAD;
-                this.GetAwardBtn.getChildAt(1).visible = !this.isWatchAD;
-            });
-            this.GetAwardBtn.on(Laya.Event.CLICK, this, this.GetAwardBtnClick);
-        }
-        onShow() {
-            RecordManager.startAutoRecord();
-            if (GameDataController.ClothDataRefresh[40201] == 0 && GameDataController.ClothDataRefresh[40306] == 0 && GameDataController.ClothDataRefresh[40504] == 0) {
-                this.GetAwardBtn.visible = false;
-                this.CheckBtn.visible = false;
-                this.StartBtn.x = 236;
-                this.StartBtn.y = 1042;
-            }
-            this.First.visible = true;
-            this.HeCheng.visible = false;
-            this.Shuidi.visible = false;
-            this.DanSheng.visible = false;
-            this.isWatchAD = true;
-            this.CheckBtn.getChildAt(0).visible = true;
-            this.GetAwardBtn.getChildAt(0).visible = this.isWatchAD;
-            this.GetAwardBtn.getChildAt(1).visible = !this.isWatchAD;
-            this.count = 0;
-            this.QiZhi.on(Laya.Event.CLICK, this, this.QiZhiClick);
-            this.Yanzhi.on(Laya.Event.CLICK, this, this.YanzhiClick);
-            this.Fu.on(Laya.Event.CLICK, this, this.FuClick);
-            this.Aiqing.on(Laya.Event.CLICK, this, this.AiqingClick);
-            this.Fu.getChildAt(0).visible = true;
-            this.QiZhi.getChildAt(0).visible = true;
-            this.Aiqing.getChildAt(0).visible = true;
-            this.FuHei.x = 343;
-            this.FuHei.y = 203;
-            this.GetAwardBtn.visible = true;
-            this.CheckBtn.visible = true;
-            this.StartBtn.x = 393;
-            this.StartBtn.y = 1042;
-            Laya.timer.once(3000, this, () => {
-                this.HCCloseBtn.visible = true;
-            });
-            ADManager.TAPoint(TaT.BtnShow, "zaoren_click");
-        }
-        onHide() {
-            this.Shuidi.visible = false;
-            this.DanSheng.visible = false;
-            this.CloseBtn.visible = false;
-            Laya.timer.clear(this, this.GuangHuanRot);
-            this.HCCloseBtn.visible = false;
-            this.mask.centerY = 100;
-        }
-        GuangHuanRot() {
-            this.Guanghuan.rotation += 2;
-        }
-        QiZhiClick() {
-            ADManager.ShowReward(() => {
-                this.QiZhi.getChildAt(0).visible = false;
-                this.owner["QiZhiAni"].play(0, false);
-                this.count++;
-                Laya.timer.frameOnce(35, this, () => {
-                    this.mask.centerY -= 15;
-                });
-                this.QiZhi.off(Laya.Event.CLICK, this, this.QiZhiClick);
-            });
-        }
-        YanzhiClick() {
-            this.owner["YanZhiAni"].play(0, false);
-            this.count++;
-            Laya.timer.frameOnce(35, this, () => {
-                this.mask.centerY -= 15;
-            });
-            this.Yanzhi.off(Laya.Event.CLICK, this, this.YanzhiClick);
-        }
-        FuClick() {
-            ADManager.ShowReward(() => {
-                this.Fu.getChildAt(0).visible = false;
-                this.owner["FuAni"].play(0, false);
-                this.count++;
-                Laya.timer.frameOnce(35, this, () => {
-                    this.mask.centerY -= 15;
-                });
-                this.Fu.off(Laya.Event.CLICK, this, this.FuClick);
-            });
-        }
-        AiqingClick() {
-            ADManager.ShowReward(() => {
-                this.Aiqing.getChildAt(0).visible = false;
-                this.owner["AiqingAni"].play(0, false);
-                this.count++;
-                Laya.timer.frameOnce(35, this, () => {
-                    this.mask.centerY -= 15;
-                });
-                this.Aiqing.off(Laya.Event.CLICK, this, this.AiqingClick);
-            });
-        }
-        FuHeiClick() {
-            ADManager.ShowReward(() => {
-                this.FuHei.getChildAt(0).visible = false;
-                this.owner["FuHeiAni"].play(0, false);
-                this.count++;
-                Laya.timer.frameOnce(35, this, () => {
-                    this.mask.centerY -= 15;
-                });
-                this.FuHei.off(Laya.Event.CLICK, this, this.FuHeiClick);
-            });
-        }
-        TitleClick() {
-            this.FuHei.x = 353.5;
-            this.FuHei.y = 902;
-        }
-        DanShengShow() {
-            console.log(this.count);
-            if (this.count >= 3) {
-                ADManager.ShowReward(() => {
-                    this.DanSheng.visible = true;
-                    this.RoleRandom();
-                    Laya.timer.loop(10, this, this.GuangHuanRot);
-                    Laya.timer.once(3000, this, () => {
-                        this.CloseBtn.visible = true;
-                    });
-                    this.HeCheng.visible = false;
-                }, () => {
-                    UIMgr.show("UITip", () => {
-                        this.DanSheng.visible = true;
-                        this.RoleRandom();
-                        Laya.timer.loop(10, this, this.GuangHuanRot);
-                        Laya.timer.once(3000, this, () => {
-                            this.CloseBtn.visible = true;
-                        });
-                        this.HeCheng.visible = false;
-                    });
-                });
-            }
-            else {
-                UIMgr.tip("至少增加三种属性才能够合成哦");
-            }
-        }
-        RoleRandom() {
-            let r = Util.randomInRange_i(1, 3);
-            this.Role.skin = "Active/taozhuang" + r + ".png";
-            if (r == 1) {
-                this.Datas = GameDataController.ClothPackge2.cloths3;
-            }
-            if (r == 2) {
-                this.Datas = GameDataController.ClothPackge2.cloths1;
-            }
-            if (r == 3) {
-                this.Datas = GameDataController.ClothPackge2.cloths2;
-            }
-            this.Refresh();
-            if (GameDataController.ClothDataRefresh[this.Datas[this.Datas.length - 1].ID] == 0) {
-                this.GetAwardBtn.visible = false;
-                this.CheckBtn.visible = false;
-                this.StartBtn.x = 236;
-                this.StartBtn.y = 1042;
-            }
-            console.log(r);
-            console.log(this.Datas[0].GetType2);
-            console.log(this.str);
-        }
-        Refresh() {
-            this.Datas.forEach((v, i) => {
-                let nv = GameDataController.ClothDataRefresh[this.Datas[i].ID];
-                this.str[this.Datas[i].ID] = nv;
-            });
-        }
-        GetAwardBtnClick() {
-            if (this.isWatchAD) {
-                ADManager.ShowReward(() => {
-                    this.GetAward();
-                }, () => {
-                    UIMgr.show("UITip", () => {
-                        this.GetAward();
-                    });
-                });
-            }
-            else {
-                this.hide();
-            }
-        }
-        GetAward() {
-            for (let k in this.str) {
-                if (this.str[k] == 1) {
-                    let dataall = GameDataController.ClothDataRefresh;
-                    dataall[k] = 0;
-                    GameDataController.ClothDataRefresh = dataall;
-                    Laya.LocalStorage.setJSON(this.Datas[0].GetType2, this.str);
-                    this.Refresh();
-                    UIMgr.get("UIReady").Refresh();
-                    BagListController.Instance.refresh();
-                    UIMgr.tip("恭喜解锁一套新衣服");
-                }
-                else {
-                    UIMgr.tip("已经解锁了哦，不要重复解锁");
-                }
-            }
-        }
-    }
-
-    class UIDuiHuan extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.str = {
-                "111": 40601,
-                "222": 40602,
-                "333": 40603,
-                "444": 40604,
-                "555": 40605,
-                "123": 70201,
-                "321": 70202,
-            };
-        }
-        onInit() {
-            this.DuiHuanBox = this.vars("DuiHuanBox");
-            this.InputText = this.vars("InputText");
-            this.SureBtn = this.DuiHuanBox.getChildByName("SureBtn");
-            this.btnEv("SureBtn", this.SureBtnClick);
-            this.BackBtn = this.DuiHuanBox.getChildByName("BackBtn");
-            this.BackBtn.on(Laya.Event.CLICK, this, () => {
-                this.hide();
-            });
-            this.GetBox = this.vars("GetBox");
-            this.Guang = this.GetBox.getChildByName("Guang");
-            this.ADBtn = this.GetBox.getChildByName("ADBtn");
-            this.Icon = this.GetBox.getChildByName("Icon");
-            this.CloseBtn = this.GetBox.getChildByName("CloseBtn");
-            this.ShareBtn = this.GetBox.getChildByName("ShareBtn");
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-            this.btnEv("ADBtn", this.ADBtnClick);
-            this.ShareBtn.on(Laya.Event.CLICK, this, this.ShareBtnClick);
-        }
-        onShow() {
-            RecordManager.startAutoRecord();
-            Laya.timer.once(3000, this, () => {
-                this.BackBtn.visible = true;
-            });
-            this.GetBox.visible = false;
-            this.CloseBtn.visible = false;
-            this.InputText.text = "";
-            this.ADBtn.visible = true;
-            this.ShareBtn.visible = false;
-        }
-        onHide() {
-            RecordManager.stopAutoRecord();
-            this.DuiHuanBox.visible = true;
-            this.GetBox.visible = false;
-            this.CloseBtn.visible = false;
-            this.BackBtn.visible = false;
-        }
-        SureBtnClick() {
-            for (let k in this.str) {
-                if (this.InputText.text == k) {
-                    let t = this.str[k];
-                    if (GameDataController.ClothDataRefresh[t] == 1) {
-                        this.DuiHuanBox.visible = false;
-                        this.GetBoxShow();
-                    }
-                    else {
-                        UIMgr.tip("已经获取该装扮了，不能重复获取哦！");
-                    }
-                }
-                if (this.str[this.InputText.text] == null) {
-                    UIMgr.tip("兑换码输入错误！");
-                }
-            }
-        }
-        ADBtnClick() {
-            ADManager.ShowReward(() => {
-                this.GetAward();
-            }, () => {
-                UIMgr.show("UITip", this.GetAward);
-            });
-        }
-        GetAward() {
-            let dataall = GameDataController.ClothDataRefresh;
-            dataall[this.str[this.InputText.text]] = 0;
-            GameDataController.ClothDataRefresh = dataall;
-            BagListController.Instance.showList();
-            BagListController.Instance.refresh();
-            UIMgr.tip("成功解一件新的装扮!");
-            this.ADBtn.visible = false;
-            Laya.timer.once(1000, this, () => {
-                this.ShareBtn.visible = true;
-            });
-        }
-        GetBoxShow() {
-            this.GetBox.visible = true;
-            Laya.timer.loop(10, this, this.GuangRot);
-            this.Icon.skin = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/DuiHuanMa/" + this.str[this.InputText.text] + ".png";
-            Laya.timer.once(3000, this, () => {
-                RecordManager.stopAutoRecord();
-                this.CloseBtn.visible = true;
-            });
-        }
-        ShareBtnClick() {
-            RecordManager._share(() => {
-                UIMgr.tip("视频分享成功！");
-            }, () => {
-                UIMgr.tip("视频分享失败...");
-            });
-        }
-        GuangRot() {
-            this.Guang.rotation += 2;
-        }
-    }
-
-    class UINotice extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-        }
-        onInit() {
-            this.TextArea = this.vars("TextArea");
-            this.CLoseBtn = this.vars("CloseBtn");
-            this.TextArea.text = "1: 兑换码功能和大家见面啦！\n" +
-                "    输入：111 获得白雪头发 \n" +
-                "    输入：222 获得白雪上衣 \n" +
-                "    输入：333 获得白雪长袜 \n" +
-                "    输入：444 获得白雪鞋子 \n" +
-                "    输入：555 获得白雪魔杖 \n" +
-                "    输入：123 获得汉服长裙 \n" +
-                "    输入：321 获得泳装 \n" +
-                "2: 新增绝版服装\n";
-            this.TextArea.padding = "10,10,10,50";
-            this.TextArea.leading = 10;
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-        }
-    }
-
-    class UIDraw extends UIBase {
-        constructor() {
-            super(...arguments);
-            this._openType = OpenType.Attach;
-            this.nowCaseClue = [];
-            this.nowClueID = 1;
-            this.lastPos = null;
-            this.offsetLen = 10;
-            this.lineWidth = 12;
-            this.drawMinX = 0;
-            this.drawMaxX = 0;
-            this.drawMinY = 0;
-            this.drawMaxY = 0;
-            this.boardDrawY = 0;
-            this.isTouchOnDraw = false;
-            this.isOnBoardAnim = false;
-            this.isBoardUp = false;
-            this.nowColorID = 0;
-            this.lineArr = [];
-            this.isSliderClick = true;
-            this.colorArr = [
-                "#303030",
-                "#b7b7b7",
-                "#FF69B4",
-                "#FF00FF",
-                "#00BFFF",
-                "#00FF00",
-                "#f1e168",
-            ];
-            this.paintInited = false;
-            this.numPdaye = 0;
-            this.numPxiaoye = 0;
-            this.numPlangong = 0;
-            this.arr = [];
-            this.cncountlan = 0;
-            this.cncountfen = 0;
-        }
-        onAwake() {
-            for (let k in GameDataController.ClothDataAsy) {
-                if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2) {
-                    if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
-                        this.arr.push(k);
-                    }
-                }
-            }
-            console.log(this.arr);
-            console.log("xxxxxxxxxxxxx");
-            this.Colorlan = this.vars("Colorlan");
-            this.Colorfen = this.vars("Colorfen");
-            this.UIBox = this.vars("UIBox");
-            this.SliderBox = this.vars("SliderBox");
-            this.Board = this.vars("Board");
-            this.imgBg = this.vars("imgBg");
-            this.imgRubber = this.vars("imgRubber");
-            this.DrawBox = this.vars("DrawBox");
-            this.imgGou = this.vars("imgGou");
-            this.btnClear = this.vars("btnClear");
-            this.Get = this.vars("Get");
-            this.GetBox = this.Get.getChildByName("GetBox");
-            this.Guang = this.GetBox.getChildByName("Guang");
-            this.ADBtn = this.GetBox.getChildByName("ADBtn");
-            this.Icon = this.GetBox.getChildByName("Icon");
-            this.CloseBtn = this.GetBox.getChildByName("CloseBtn");
-            this.ShareBtn = this.GetBox.getChildByName("ShareBtn");
-            this.btnEv("CloseBtn", () => {
-                this.hide();
-            });
-            this.btnEv("ADBtn", this.ADBtnClick);
-            this.ShareBtn.on(Laya.Event.CLICK, this, this.ShareBtnClick);
-            this.btnNext = this.vars("btnNext");
-            this.BackBtn = this.vars("BackBtn");
-            this.Colorlan.on(Laya.Event.CLICK, this, this.onColorlan);
-            this.Colorfen.on(Laya.Event.CLICK, this, this.onColorfen);
-            this.btnClear.on(Laya.Event.CLICK, this, this.onClickClear);
-            this.btnNext.on(Laya.Event.CLICK, this, this.onClickNext);
-            this.BackBtn.on(Laya.Event.CLICK, this, () => {
-                RecordManager.stopAutoRecord();
-                this.hide();
-            });
-            this.SliderBox.on(Laya.Event.MOUSE_DOWN, this, this.onSliderDown);
-            this.SliderBox.on(Laya.Event.MOUSE_MOVE, this, this.onSliderMove);
-            this.SliderBox.on(Laya.Event.MOUSE_UP, this, this.onSliderUp);
-            for (let i = 1; i <= 7; i++) {
-                this.Board.getChildByName("imgColor" + i).on(Laya.Event.CLICK, this, this.onClickColor, [i - 1]);
-            }
-            this.imgRubber.on(Laya.Event.CLICK, this, this.onClickColor, [-1]);
-            this.refreshShow();
-            this.drawMinX = this.lineWidth / 2;
-            this.drawMaxX = this.DrawBox.width - this.lineWidth / 2;
-            this.drawMinY = this.lineWidth / 2;
-            this.drawMaxY = this.DrawBox.height - this.lineWidth / 2;
-            this.btnNext.visible = true;
-            this.SliderBox.visible = false;
-            this.boardDrawY = this.UIBox.height - this.Board.height;
-            this.paintInited = true;
-            this.onEventFailAgain();
-            if (Number(Laya.LocalStorage.getItem("cncountlan") == "1")) {
-                this.Colorlan.visible = false;
-            }
-            else {
-                this.Colorlan.visible = true;
-            }
-            if (Number(Laya.LocalStorage.getItem("cncountfen") == "1")) {
-                this.Colorfen.visible = false;
-            }
-            else {
-                this.Colorfen.visible = true;
-            }
-            this.trySkinCount = Util.randomInRange_i(1, 3);
-        }
-        onShow() {
-            RecordManager.startAutoRecord();
-            Laya.timer.once(3000, this, () => {
-                this.BackBtn.visible = true;
-            });
-            this.Get.visible = false;
-            this.CloseBtn.visible = false;
-            this.ADBtn.visible = true;
-            this.ShareBtn.visible = false;
-        }
-        onHide() {
-            RecordManager.stopAutoRecord();
-            this.onClickClear();
-            this.Get.visible = false;
-            this.CloseBtn.visible = false;
-            this.BackBtn.visible = false;
-        }
-        onClickNext() {
-            console.log("确认完成");
-            this.onClickClear();
-            if (this.arr.length == 0) {
-                UIMgr.tip("你已经解锁了全部的服饰哦~");
-            }
-            let t = Tools.arrayRandomGetOut(this.arr, 1);
-            console.log(t);
-            let cloth = GameDataController._ClothData.get(parseInt(t));
-            this.data = cloth;
-            this.GetBoxShow();
-            console.log(this.data);
-        }
-        GetBoxShow() {
-            this.Get.visible = true;
-            Laya.timer.loop(10, this, this.GuangRot);
-            this.Icon.skin = this.data.GetPath1();
-            Laya.timer.once(3000, this, () => {
-                RecordManager.stopAutoRecord();
-                this.CloseBtn.visible = true;
-            });
-        }
-        GuangRot() {
-            this.Guang.rotation += 2;
-        }
-        ADBtnClick() {
-            ADManager.ShowReward(() => {
-                this.GetAward();
-            }, () => {
-                UIMgr.show("UITip", this.GetAward);
-            });
-        }
-        GetAward() {
-            let dataall = GameDataController.ClothDataRefresh;
-            dataall[this.data.ID] = 0;
-            GameDataController.ClothDataRefresh = dataall;
-            BagListController.Instance.showList();
-            BagListController.Instance.refresh();
-            UIMgr.tip("成功解一件新的装扮!");
-            this.ADBtn.visible = false;
-            Laya.timer.once(1000, this, () => {
-                this.ShareBtn.visible = true;
-            });
-        }
-        ShareBtnClick() {
-            RecordManager._share(() => {
-                UIMgr.tip("视频分享成功！");
-            }, () => {
-                UIMgr.tip("视频分享失败...");
-            });
-        }
-        onColorlan() {
-            this.cncountlan = Number(Laya.LocalStorage.getItem("cncountlan"));
-            ADManager.ShowReward(() => {
-                console.log("看视频解锁蓝色");
-                this.Colorlan.visible = false;
-                this.cncountlan = 1;
-                Laya.LocalStorage.setItem("cncountlan", this.cncountlan.toString());
-            });
-        }
-        onColorfen() {
-            this.cncountfen = Number(Laya.LocalStorage.getItem("cncountfen"));
-            ADManager.ShowReward(() => {
-                console.log("看视频解锁粉色");
-                this.Colorfen.visible = false;
-                this.cncountfen = 1;
-                Laya.LocalStorage.setItem("cncountfen", this.cncountfen.toString());
-            });
-        }
-        addDrawEvent() {
-            this.DrawBox.on(Laya.Event.MOUSE_DOWN, this, this._onMouseDown);
-            this.DrawBox.on(Laya.Event.MOUSE_MOVE, this, this._onMouseMove);
-            this.DrawBox.on(Laya.Event.MOUSE_UP, this, this._onMouseUP);
-        }
-        removeDrawEvent() {
-            this.DrawBox.off(Laya.Event.MOUSE_DOWN, this, this._onMouseDown);
-            this.DrawBox.off(Laya.Event.MOUSE_MOVE, this, this._onMouseMove);
-            this.DrawBox.off(Laya.Event.MOUSE_UP, this, this._onMouseUP);
-        }
-        upBoardAnim() {
-            if (this.isOnBoardAnim) {
-                return;
-            }
-            this.isOnBoardAnim = true;
-            Laya.Tween.to(this.Board, {
-                y: this.boardDrawY + 300
-            }, 500, Laya.Ease.backOut, Laya.Handler.create(this, () => {
-                this.isOnBoardAnim = false;
-            }));
-        }
-        downBoardAnim() {
-            if (this.isOnBoardAnim) {
-                return;
-            }
-            this.isOnBoardAnim = true;
-            Laya.Tween.to(this.Board, {
-                y: this.boardDrawY + 300 + 100
-            }, 500, Laya.Ease.backOut, Laya.Handler.create(this, () => {
-                this.isOnBoardAnim = false;
-            }));
-        }
-        onClickClear() {
-            this.DrawBox.destroyChildren();
-            this.lineArr = [];
-        }
-        onClickUp() {
-            if (!this.isOnBoardAnim) {
-                if (this.isBoardUp) {
-                    this.downBoardAnim();
-                }
-                else {
-                    this.upBoardAnim();
-                }
-                this.isBoardUp = !this.isBoardUp;
-            }
-        }
-        onClickCatch(event) {
-            event.stopPropagation();
-        }
-        onClickColor(ID) {
-            this.nowColorID = ID;
-            this.refreshShow();
-        }
-        refreshShow() {
-            let node = this.imgRubber;
-            if (this.nowColorID != -1) {
-                node = this.Board.getChildByName("imgColor" + (this.nowColorID + 1));
-            }
-            this.imgGou.x = node.x + 30;
-            this.imgGou.y = node.y + 35;
-        }
-        _onMouseDown(event) {
-            this.isTouchOnDraw = true;
-            this.mergeBoard();
-            if (this.nowColorID != -1) {
-                let board = new Laya.Sprite();
-                board.width = this.DrawBox.width;
-                board.height = this.DrawBox.height;
-                board.cacheAs = "bitmap";
-                this.DrawBox.addChild(board);
-                this.lineArr.push(board);
-            }
-            this.lastPos = new Laya.Point(event.stageX - this.Board.x - this.DrawBox.x, event.stageY - this.Board.y - this.DrawBox.y);
-            this.nowBoard.graphics.drawCircle(this.lastPos.x, this.lastPos.y, this.nowLineWidth / 2, this.nowColor);
-        }
-        _onMouseMove(event) {
-            if (this.isTouchOnDraw) {
-                let touchPos = new Laya.Point(event.stageX - this.Board.x - this.DrawBox.x, event.stageY - this.Board.y - this.DrawBox.y);
-                this.drawLine(touchPos);
-            }
-        }
-        _onMouseUP(event) {
-            this.isTouchOnDraw = false;
-        }
-        onSliderDown(event) {
-            event.stopPropagation();
-            this.sliderDownPos = new Laya.Point(event.stageX, event.stageY);
-            this.isSliderClick = true;
-        }
-        onSliderMove(event) {
-        }
-        onSliderUp(event) {
-        }
-        onEventFailAgain() {
-            this.nowClueID = 1;
-            this.SliderBox.visible = false;
-            this.UIBox.visible = true;
-            this.Board.y = this.boardDrawY;
-            this.toWitness();
-        }
-        onEventPickAgain() {
-            this.UIBox.visible = true;
-        }
-        drawLine(nowPos) {
-            nowPos.x > this.drawMaxX && (nowPos.x = this.drawMaxX);
-            nowPos.x < this.drawMinX && (nowPos.x = this.drawMinX);
-            nowPos.y > this.drawMaxY && (nowPos.y = this.drawMaxY);
-            nowPos.y < this.drawMinY && (nowPos.y = this.drawMinY);
-            let offsetX = nowPos.x - this.lastPos.x;
-            let offsetY = nowPos.y - this.lastPos.y;
-            if (offsetX * offsetX + offsetY * offsetY >= this.offsetLen * this.offsetLen) {
-                this.nowBoard.graphics.drawLine(this.lastPos.x, this.lastPos.y, nowPos.x, nowPos.y, this.nowColor, this.nowLineWidth);
-                this.nowBoard.graphics.drawCircle(nowPos.x, nowPos.y, this.nowLineWidth / 2, this.nowColor);
-                this.lastPos.x = nowPos.x;
-                this.lastPos.y = nowPos.y;
-            }
-        }
-        mergeBoard() {
-            if (this.nowColorID != -1) {
-                let num = this.lineArr.length;
-                if (num > 3) {
-                    let tex = this.DrawBox.drawToTexture(this.DrawBox.width, this.DrawBox.height, this.DrawBox.x, this.DrawBox.y);
-                    let spr = new Laya.Sprite();
-                    spr.width = this.DrawBox.width;
-                    spr.height = this.DrawBox.height;
-                    this.DrawBox.addChild(spr);
-                    spr.texture = tex;
-                    let lastBg = this.DrawBox.getChildByName("bg");
-                    if (lastBg) {
-                        lastBg.destroy();
-                    }
-                    spr.name = "bg";
-                    spr.zOrder = -1;
-                    while (num != 0) {
-                        let d_board = this.lineArr.splice(0, 1)[0];
-                        d_board.destroy();
-                        num--;
-                    }
-                }
-            }
-            else {
-                let tex = this.DrawBox.drawToTexture(this.DrawBox.width, this.DrawBox.height, this.DrawBox.x, this.DrawBox.y);
-                let spr = new Laya.Sprite();
-                spr.width = this.DrawBox.width;
-                spr.height = this.DrawBox.height;
-                spr.cacheAs = "bitmap";
-                this.DrawBox.addChild(spr);
-                spr.texture = tex;
-                let lastBg = this.DrawBox.getChildByName("bg");
-                if (lastBg) {
-                    lastBg.destroy();
-                }
-                spr.name = "bg";
-                spr.zOrder = -1;
-                let num = this.lineArr.length;
-                while (num != 0) {
-                    let d_board = this.lineArr.splice(0, 1)[0];
-                    d_board.destroy();
-                    num--;
-                }
-                let board = new Laya.Sprite();
-                board.width = this.DrawBox.width;
-                board.height = this.DrawBox.height;
-                board.blendMode = "destination-out";
-                spr.addChild(board);
-                this.lineArr.push(spr);
-            }
-        }
-        toWitness() {
-            this.addDrawEvent();
-            this.btnClear.visible = true;
-        }
-        toPickSuspect() {
-            this.btnClear.visible = false;
-            this.SliderBox.visible = true;
-            this.removeDrawEvent();
-            this.downBoardAnim();
-            Laya.timer.once(1000, this, () => {
-            });
-        }
-        get nowBoard() {
-            let board = this.lineArr[this.lineArr.length - 1];
-            if (this.nowColorID == -1) {
-                board = board.getChildAt(0);
-            }
-            return board;
-        }
-        get nowColor() {
-            return this.nowColorID != -1 ? this.colorArr[this.nowColorID] : "#000000";
-        }
-        get nowLineWidth() {
-            return this.nowColorID != -1 ? this.lineWidth : this.lineWidth * 3;
-        }
-        get nowBubbleInfo() {
-            if (this.nowClueID > this.nowCaseClue.length) {
-                this.nowClueID = this.nowCaseClue.length;
-            }
-            return {
-                txt: this.nowCaseClue[this.nowClueID - 1],
-                pro: this.nowClueID + "/" + this.nowCaseClue.length
-            };
-        }
-    }
-
     var lwg;
     (function (lwg) {
         let Pause;
@@ -12328,11 +9339,13 @@
             let _Particle;
             (function (_Particle) {
                 class _ParticleImgBase extends Laya.Image {
-                    constructor(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder) {
+                    constructor(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder) {
                         super();
                         parent.addChild(this);
-                        let sectionWidth = PosSection ? Tools.randomOneNumber(PosSection[0], PosSection[1]) : Tools.randomOneNumber(-200, 200);
-                        let sectionHeight = PosSection ? Tools.randomOneNumber(PosSection[1], PosSection[1]) : Tools.randomOneNumber(-25, 25);
+                        let sectionWidth = sectionWH ? Tools.randomOneNumber(sectionWH[0]) : Tools.randomOneNumber(200);
+                        let sectionHeight = sectionWH ? Tools.randomOneNumber(sectionWH[1]) : Tools.randomOneNumber(50);
+                        sectionWidth = Tools.randomOneHalf() == 0 ? sectionWidth : -sectionWidth;
+                        sectionHeight = Tools.randomOneHalf() == 0 ? sectionHeight : -sectionHeight;
                         this.x = centerPoint ? centerPoint.x + sectionWidth : sectionWidth;
                         this.y = centerPoint ? centerPoint.y + sectionHeight : sectionHeight;
                         width = width ? width : [25, 50];
@@ -12353,8 +9366,8 @@
                     }
                 }
                 _Particle._ParticleImgBase = _ParticleImgBase;
-                function _fallingVertical(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder, distance, speed, accelerated) {
-                    let Img = new _ParticleImgBase(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder);
+                function _fallingVertical(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder, distance, speed, accelerated) {
+                    let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                     let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(4, 8);
                     let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0.25, 0.45);
                     let acc = 0;
@@ -12396,8 +9409,8 @@
                     return Img;
                 }
                 _Particle._fallingVertical = _fallingVertical;
-                function _slowlyUp(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder, distance, speed, accelerated) {
-                    let Img = new _ParticleImgBase(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder);
+                function _slowlyUp(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder, distance, speed, accelerated) {
+                    let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                     let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(1.5, 2);
                     let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0.001, 0.005);
                     let acc = 0;
@@ -12595,44 +9608,6 @@
             })(_Particle = Effects._Particle || (Effects._Particle = {}));
             let _Glitter;
             (function (_Glitter) {
-                function _simpleInfinite(parent, x, y, width, height, zOder, url, speed) {
-                    let Img = new Laya.Image();
-                    parent.addChild(Img);
-                    Img.pos(x, y);
-                    Img.width = width;
-                    Img.height = height;
-                    Img.pivotX = width / 2;
-                    Img.pivotY = height / 2;
-                    Img.skin = url ? url : _SkinUrl[24];
-                    Img.alpha = 0;
-                    Img.zOrder = zOder ? zOder : 0;
-                    let add = true;
-                    let caller = {};
-                    let func = () => {
-                        if (!add) {
-                            Img.alpha -= speed ? speed : 0.01;
-                            if (Img.alpha <= 0) {
-                                if (caller['end']) {
-                                    Laya.timer.clearAll(caller);
-                                    Img.removeSelf();
-                                }
-                                else {
-                                    add = true;
-                                }
-                            }
-                        }
-                        else {
-                            Img.alpha += speed ? speed * 2 : 0.01 * 2;
-                            if (Img.alpha >= 1) {
-                                add = false;
-                                caller['end'] = true;
-                            }
-                        }
-                    };
-                    Laya.timer.frameLoop(1, caller, func);
-                    return Img;
-                }
-                _Glitter._simpleInfinite = _simpleInfinite;
                 class _GlitterImage extends Laya.Image {
                     constructor(parent, centerPos, radiusXY, urlArr, colorRGBA, width, height) {
                         super();
@@ -12701,7 +9676,102 @@
                     return Img;
                 }
                 _Glitter._blinkStar = _blinkStar;
+                function _simpleInfinite(parent, x, y, width, height, zOder, url, speed) {
+                    let Img = new Laya.Image();
+                    parent.addChild(Img);
+                    Img.pos(x, y);
+                    Img.width = width;
+                    Img.height = height;
+                    Img.pivotX = width / 2;
+                    Img.pivotY = height / 2;
+                    Img.skin = url ? url : _SkinUrl[24];
+                    Img.alpha = 0;
+                    Img.zOrder = zOder ? zOder : 0;
+                    let add = true;
+                    let caller = {};
+                    let func = () => {
+                        if (!add) {
+                            Img.alpha -= speed ? speed : 0.01;
+                            if (Img.alpha <= 0) {
+                                if (caller['end']) {
+                                    Laya.timer.clearAll(caller);
+                                    Img.removeSelf();
+                                }
+                                else {
+                                    add = true;
+                                }
+                            }
+                        }
+                        else {
+                            Img.alpha += speed ? speed * 2 : 0.01 * 2;
+                            if (Img.alpha >= 1) {
+                                add = false;
+                                caller['end'] = true;
+                            }
+                        }
+                    };
+                    Laya.timer.frameLoop(1, caller, func);
+                    return Img;
+                }
+                _Glitter._simpleInfinite = _simpleInfinite;
             })(_Glitter = Effects._Glitter || (Effects._Glitter = {}));
+            let _circulation;
+            (function (_circulation) {
+                class _circulationImage extends Laya.Image {
+                    constructor(parent, urlArr, colorRGBA, width, height, zOder) {
+                        super();
+                        parent.addChild(this);
+                        this.skin = urlArr ? Tools.arrayRandomGetOne(urlArr) : _SkinUrl.圆形发光1;
+                        this.width = width ? Tools.randomOneNumber(width[0], width[1]) : 80;
+                        this.height = height ? Tools.randomOneNumber(height[0], height[1]) : this.width;
+                        this.pivotX = this.width / 2;
+                        this.pivotY = this.height / 2;
+                        let RGBA = [];
+                        RGBA[0] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][0], colorRGBA[1][0]) : Tools.randomOneNumber(0, 255);
+                        RGBA[1] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][1], colorRGBA[1][1]) : Tools.randomOneNumber(0, 255);
+                        RGBA[2] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][2], colorRGBA[1][2]) : Tools.randomOneNumber(0, 255);
+                        RGBA[3] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][3], colorRGBA[1][3]) : Tools.randomOneNumber(0, 255);
+                        Color._colour(this, RGBA);
+                        this.zOrder = zOder ? zOder : 0;
+                        this.alpha = 0;
+                        this.scaleX = 0;
+                        this.scaleY = 0;
+                    }
+                }
+                _circulation._circulationImage = _circulationImage;
+                function _corner(parent, posArray, urlArr, colorRGBA, width, height, zOder, speed) {
+                    if (posArray.length <= 1) {
+                        return;
+                    }
+                    let Img = new _circulationImage(parent, urlArr, colorRGBA, width, height, zOder);
+                    Img.pos(posArray[0][0], posArray[0][1]);
+                    let moveCaller = {
+                        num: 0,
+                    };
+                    Img['moveCaller'] = moveCaller;
+                    let _speed = speed ? speed : 10;
+                    let index = 0;
+                    Img.alpha = 1;
+                    Img.scale(1, 1);
+                    var func = () => {
+                        let targetXY = [posArray[index][0], posArray[index][1]];
+                        let distance = (new Laya.Point()).distance(targetXY[0], targetXY[1]);
+                        let time = distance / _speed * 100;
+                        if (index == posArray.length) {
+                            targetXY = [posArray[0][0], posArray[0][1]];
+                        }
+                        Animation2D.move_Simple(Img, Img.x, Img.y, targetXY[0], targetXY[1], time, 0, () => {
+                            index++;
+                            if (index == posArray.length) {
+                                index = 0;
+                            }
+                            func();
+                        });
+                    };
+                    func();
+                }
+                _circulation._corner = _corner;
+            })(_circulation = Effects._circulation || (Effects._circulation = {}));
         })(Effects = lwg.Effects || (lwg.Effects = {}));
         let Click;
         (function (Click) {
@@ -15593,6 +12663,3005 @@
     let Backpack = lwg.Backpack;
     let BackpackScene = lwg.Backpack.BackpackScene;
 
+    class UIReady extends UIBase {
+        constructor() {
+            super(...arguments);
+            this.clothisopen = true;
+            this.scaleDelta = 0;
+            this.scaleDelta1 = 0;
+            this.isToOne = true;
+            this.newmap = new Map();
+            this.oldY = 0;
+            this.oldX = 0;
+            this.isLeftMove = false;
+            this.isMusicing = false;
+            this.oldTime = 0;
+            this.str = {};
+            this.str1 = {};
+            this.str2 = {};
+            this.str3 = {};
+            this.isPicking = false;
+        }
+        onInit() {
+            ADManager.TAPoint(TaT.PageEnter, "mainpage");
+            this.Shop = this.vars("Shop");
+            this.btnEv("Shop", () => {
+                UIMgr.show("UITask");
+            });
+            this.Charm = this.vars("Charm");
+            this.CharmValueShow();
+            this.Draw = this.vars("Draw");
+            this.AdDraw = this.Draw.getChildByName("AD");
+            if (Laya.LocalStorage.getItem("DrawAd") == "1") {
+                this.AdDraw.visible = true;
+            }
+            this.btnEv("Draw", () => {
+                if (Laya.LocalStorage.getItem("DrawAd")) {
+                    console.log("存在drawad");
+                    if (Laya.LocalStorage.getItem("DrawAd") == "1") {
+                        ADManager.ShowReward(() => {
+                            UIMgr.show("UIDraw");
+                        });
+                    }
+                }
+                else {
+                    console.log("不存在drawad");
+                    Laya.LocalStorage.setItem("DrawAd", "1");
+                    UIMgr.show("UIDraw");
+                    this.AdDraw.visible = true;
+                }
+            });
+            this.btnEv("Combine", () => {
+                UIMgr.show("UICombine");
+            });
+            this.Notice = this.vars("Notice");
+            this.btnEv("Notice", () => {
+                UIMgr.show("UINotice");
+            });
+            this.DuihuanBtn = this.vars("DuihuanBtn");
+            this.btnEv("DuihuanBtn", () => {
+                UIMgr.show("UIDuiHuan");
+            });
+            if (GameDataController.ClothDataRefresh[40501] == "1" && GameDataController.ClothDataRefresh[40502] == "1" && GameDataController.ClothDataRefresh[40503] == "1") {
+                UIMgr.show("UIWeddingEgg");
+            }
+            else {
+                UIMgr.show("UIPickEgg");
+            }
+            this.BG = this.vars("BG");
+            this.BG.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen);
+            this.BG.on(Laya.Event.MOUSE_UP, this, this.onMouseUpListen);
+            this.BG.on(Laya.Event.MOUSE_OUT, this, this.onMouseOutListen);
+            this.BG.on(Laya.Event.CLICK, this, this.refreshClock);
+            this.Wing = this.vars("Wing");
+            Laya.timer.frameLoop(1, this, () => {
+                this.scaleDelta += 0.02;
+                var scaleValue = Math.sin(this.scaleDelta);
+                this.Wing.scale(scaleValue, 1);
+            });
+            this.Wing.on(Laya.Event.CLICK, this, () => {
+                UIMgr.show("UIWing");
+                this.Wing.visible = false;
+            });
+            this.windowheight = Laya.Browser.height;
+            this.windowwidth = Laya.Browser.width;
+            if (Laya.LocalStorage.getItem("Get")) {
+                console.log("获取到了");
+                console.log(GameDataController.GetFirstToNow());
+            }
+            else {
+                GameDataController.setFirstLoginTime();
+                UIMgr.show("UICombine");
+                RecordManager.startAutoRecord();
+                GameDataController.ShopCharmValue = "0";
+            }
+            this.btnEv("ClothOpenBtn", this.ClothOpenBtnClick);
+            this.btnEv("ActiveBtn", this.ActiveClick);
+            this.btnEv("ClothReceive", () => {
+                ADManager.TAPoint(TaT.BtnClick, "chongzhi_click");
+                ClothChange.Instance.ClothReceive();
+                BagListController.Instance.ClothesPageChange(BagListController.Instance.SelectIndex);
+            });
+            this.btnEv("PhotoBtn", () => {
+                UIMgr.show("UIPhotos");
+                ADManager.TAPoint(TaT.BtnClick, "xiangce_click");
+            });
+            this.btnEv("Share", () => {
+                ClothChange.Instance.Share();
+                ADManager.TAPoint(TaT.BtnClick, "paizhao_click");
+            });
+            this.ClockBtn = this.vars("ClockBtn");
+            this.refreshClock();
+            this.btnEv("ClockBtn", () => {
+                UIMgr.show("UITest");
+            });
+            this.ShowView = this.vars("ShowView");
+            this.BtnBar = this.vars("BtnBar");
+            this.ClothOpenBtn = this.vars("ClothOpenBtn");
+            this.FemaleRoot = this.vars("FemaleRoot");
+            this.BagAll = this.vars("BagALL");
+            this.Ubag = TweenMgr.tweenCust(300, this, this.tweenbagUp, null, true, Laya.Ease.linearNone);
+            this.Lbtn = TweenMgr.tweenCust(300, this, this.tweenbtnLeft, null, true, Laya.Ease.linearNone);
+            this.btnU = TweenMgr.tweenCust(200, this, this.RoteUp, null, true, Laya.Ease.linearNone);
+            this.FRS = TweenMgr.tweenCust(300, this, this.tweenFBTSmall, null, true, Laya.Ease.linearNone);
+            this.Dbag = TweenMgr.tweenCust(300, this, this.tweenbagDown, null, true, Laya.Ease.backOut);
+            this.Rbtn = TweenMgr.tweenCust(300, this, this.tweenbtnRight, null, true, Laya.Ease.backOut);
+            this.btnD = TweenMgr.tweenCust(200, this, this.RoteDown, null, true, Laya.Ease.linearNone);
+            this.FRB = TweenMgr.tweenCust(300, this, this.tweenFBTBig, null, true, Laya.Ease.backOut);
+            this.FRD = TweenMgr.tweenCust(300, this, this.tweenFRToDown, null, true, Laya.Ease.backOut);
+            this.FRU = TweenMgr.tweenCust(300, this, this.tweenFRToUp, null, true, Laya.Ease.backOut);
+            if (GameDataController.IsNewDay()) {
+                console.log("GameDataController.IsNewDay", GameDataController.TodaySign);
+                GameDataController.TodaySign = "0";
+                console.log("是新的一天");
+                GameDataController.TodayHeCheng = "0";
+            }
+            let havesign = GameDataController.TodaySign;
+            if (havesign) {
+                if (havesign == "1") {
+                }
+                else {
+                    Laya.LocalStorage.setItem("PickNum", "5");
+                    Laya.LocalStorage.setItem("TodayWinNum", "0");
+                }
+            }
+            else {
+                Laya.LocalStorage.setItem("PickNum", "5");
+                Laya.LocalStorage.setItem("TodayWinNum", "0");
+                GameDataController.TodaySign = "0";
+            }
+            this.MusicBtn = this.vars("MusicBtn");
+            Laya.SoundManager.playSound("res/sounds/CCBGM.mp3", 0);
+            Laya.timer.frameLoop(1, this, this.MusicRot);
+            this.btnEv("MusicBtn", () => {
+                this.isMusicing = !this.isMusicing;
+                if (!this.isMusicing) {
+                    console.log("xxxxxxxxxxxxxxxxxx1");
+                    Laya.SoundManager.playSound("res/sounds/CCBGM.mp3", 0);
+                    Laya.timer.frameLoop(1, this, this.MusicRot);
+                    let a = this.MusicBtn.getChildByName("No");
+                    a.visible = false;
+                }
+                else {
+                    console.log("xxxxxxxxxxxxxxxxxx2");
+                    Laya.SoundManager.stopSound("res/sounds/CCBGM.mp3");
+                    Laya.timer.clear(this, this.MusicRot);
+                    let a = this.MusicBtn.getChildByName("No");
+                    a.visible = true;
+                }
+            });
+            this.Pick = this.vars("Pick");
+            this.btnEv("Pick", () => {
+                UIMgr.show("UIRank");
+                this.isPicking = true;
+                ADManager.TAPoint(TaT.BtnClick, "pk_main");
+            });
+            this.effcets();
+        }
+        effcets() {
+            TimerAdmin._frameRandomLoop(50, 100, this, () => {
+                Effects._Particle._slowlyUp(this.vars('E1'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
+            });
+            TimerAdmin._frameRandomLoop(50, 100, this, () => {
+                Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
+            });
+            Effects._circulation._corner(this.vars('DuihuanBtn'), [[0, 0], [0, 100], [100, 100], [100, 0]]);
+        }
+        refreshClock() {
+            var current = new Date();
+            var hour = current.getHours();
+            Laya.timer.clear(this, this.ClockShake);
+            if (hour >= 12 && hour <= 14) {
+                this.ClockBtn.visible = true;
+                Laya.timer.frameLoop(1, this, this.ClockShake);
+            }
+            else {
+                this.ClockBtn.visible = false;
+            }
+        }
+        ClockShake() {
+            this.scaleDelta1 += 0.02;
+            var scaleValue = Math.sin(this.scaleDelta1);
+            this.ClockBtn.scale(scaleValue, scaleValue);
+        }
+        MusicRot() {
+            this.MusicBtn.rotation += 2;
+        }
+        ActiveClick() {
+            UIMgr.show("UIActive");
+        }
+        onShow() {
+            this.Refresh();
+            ADManager.TAPoint(TaT.BtnShow, "fenxiang_click");
+            ADManager.TAPoint(TaT.BtnShow, "paizhao_click");
+            ADManager.TAPoint(TaT.BtnShow, "chongzhi_click");
+            ADManager.TAPoint(TaT.BtnShow, "fangda_click");
+            ADManager.TAPoint(TaT.BtnShow, "xiangce_click");
+            ADManager.TAPoint(TaT.BtnShow, "pk_main");
+            ADManager.TAPoint(TaT.BtnShow, "jiehun_click");
+            GameDataController.CharmValue = "0";
+            this.CharmValueShow();
+        }
+        onHide() {
+        }
+        ClothOpenBtnClick() {
+            if (this.clothisopen) {
+                ADManager.TAPoint(TaT.BtnClick, "fangda_click");
+                console.log("消失");
+                this.Dbag.play();
+                this.btnU.play();
+                this.FRB.play();
+                let a = Laya.LocalStorage.getJSON("ClothData");
+            }
+            else {
+                console.log("展示");
+                this.Ubag.play();
+                this.btnD.play();
+                this.FRS.play();
+            }
+            this.clothisopen = !this.clothisopen;
+        }
+        RoteDown(t) {
+            let nbtm = this.ClothOpenBtn.rotation;
+            TweenMgr.lerp_Num(nbtm, 180, t);
+            this.ClothOpenBtn.rotation = t.outParams[0][0];
+        }
+        RoteUp(t) {
+            let nbtm = this.ClothOpenBtn.rotation;
+            TweenMgr.lerp_Num(nbtm, 0, t);
+            this.ClothOpenBtn.rotation = t.outParams[0][0];
+        }
+        tweenbagUp(t) {
+            let nbtm = this.BagAll.bottom;
+            TweenMgr.lerp_Num(nbtm, -37, t);
+            this.BagAll.bottom = t.outParams[0][0];
+        }
+        tweenbagDown(t) {
+            let nbtm = this.BagAll.bottom;
+            TweenMgr.lerp_Num(nbtm, -485, t);
+            this.BagAll.bottom = t.outParams[0][0];
+        }
+        tweenbtnLeft(t) {
+            let nX = this.BtnBar.x;
+            TweenMgr.lerp_Num(nX, 75, t);
+            this.BtnBar.x = t.outParams[0][0];
+        }
+        tweenbtnRight(t) {
+            let nX = this.BtnBar.x;
+            TweenMgr.lerp_Num(nX, GameDataController.windowWidth - 75, t);
+            this.BtnBar.x = t.outParams[0][0];
+        }
+        tweenFBTSmall(t) {
+            let nX = this.FemaleRoot.scaleX;
+            TweenMgr.lerp_Num(nX, 0.8, t);
+            this.FemaleRoot.scaleX = this.FemaleRoot.scaleY = t.outParams[0][0];
+            this.BG.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen);
+        }
+        tweenFBTBig(t) {
+            let nX = this.FemaleRoot.scaleX;
+            TweenMgr.lerp_Num(nX, 1.2, t);
+            this.FemaleRoot.scaleX = this.FemaleRoot.scaleY = t.outParams[0][0];
+            this.BG.off(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen);
+        }
+        onClick_Btnshortcut() {
+            UIMgr.show("UIMain");
+        }
+        onMouseMoveListen(e) {
+            if (this.BG.mouseY > this.oldY) {
+                if (this.BG.mouseY - this.oldY > 200) {
+                    console.log("下滑");
+                    this.FRD.play();
+                    if (!this.Wing.visible && GameDataController.ClothDataRefresh[50404] == 1) {
+                        this.Wing.visible = true;
+                    }
+                }
+            }
+            if (this.BG.mouseX < this.oldX) {
+                if (this.oldX - this.BG.mouseX > 150) {
+                    console.log("oldX" + this.oldX);
+                    console.log(this.BG.mouseX);
+                    console.log("左滑" + (this.oldX - this.BG.mouseX));
+                }
+            }
+        }
+        onMouseDownListen() {
+            this.oldY = this.BG.mouseY;
+            this.oldX = this.BG.mouseX;
+            this.BG.on(Laya.Event.MOUSE_MOVE, this, this.onMouseMoveListen);
+        }
+        onMouseUpListen() {
+            console.log("鼠标抬起");
+            this.BG.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMoveListen);
+            this.FRU.play();
+        }
+        onMouseOutListen() {
+            console.log("不在目标区域");
+            this.FRU.play();
+            this.BG.off(Laya.Event.MOUSE_MOVE, this, this.onMouseMoveListen);
+        }
+        tweenFRToDown(t) {
+            TweenMgr.lerp_Num(this.FemaleRoot.centerY, -60, t);
+            this.FemaleRoot.centerY = t.outParams[0][0];
+        }
+        tweenFRToUp(t) {
+            TweenMgr.lerp_Num(this.FemaleRoot.centerY, -193, t);
+            this.FemaleRoot.centerY = t.outParams[0][0];
+        }
+        Refresh() {
+            GameDataController.ClothPackge2.cloths1.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths1[i].ID];
+                this.str[GameDataController.ClothPackge2.cloths1[i].ID] = nv;
+            });
+            GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths1[0].GetType2, this.str);
+            GameDataController.ClothPackge2.cloths2.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths2[i].ID];
+                this.str1[GameDataController.ClothPackge2.cloths2[i].ID] = nv;
+            });
+            GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths2[0].GetType2, this.str1);
+            GameDataController.ClothPackge2.cloths3.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[GameDataController.ClothPackge2.cloths3[i].ID];
+                this.str2[GameDataController.ClothPackge2.cloths3[i].ID] = nv;
+            });
+            GameDataController.ClothdatapackSet(GameDataController.ClothPackge2.cloths3[0].GetType2, this.str2);
+        }
+        CharmValueShow() {
+            console.log("xxxxxxxxxxxxx");
+            this.Charm.getChildByName("CharmValue").value = (parseInt(GameDataController.CharmValue) + parseInt(GameDataController.ShopCharmValue)).toString();
+        }
+    }
+
+    class UIMain extends UIBase {
+        onInit() {
+            this.TouchArea.on(Laya.Event.CLICK, this, () => {
+                this.Mouse_Click();
+            });
+            this.TouchArea.on(Laya.Event.MOUSE_MOVE, this, () => {
+                this.Mouse_Move();
+            });
+            this.TouchArea.on(Laya.Event.MOUSE_UP, this, () => {
+                this.Mouse_Up();
+            });
+            this.TouchArea.on(Laya.Event.MOUSE_DOWN, this, () => {
+                this.Mouse_Down();
+                Laya.timer.loop(100, this, this.timeradd);
+            });
+            this.TouchArea.on(Laya.Event.MOUSE_OUT, this, () => {
+                this.Mouse_Up();
+            });
+        }
+        timeradd() {
+        }
+        onShow() {
+        }
+        Mouse_Click() {
+        }
+        Mouse_Move() {
+        }
+        Mouse_Up() {
+        }
+        Mouse_Down() {
+        }
+        TimerUpdate() {
+        }
+        update() {
+        }
+        onHide() {
+        }
+        TimeControoler() {
+        }
+        TimeStart() {
+            Laya.timer.loop(10, this, this.TimeControoler);
+        }
+        TimeStop() {
+            Laya.timer.clear(this, this.TimeControoler);
+        }
+    }
+
+    class UISettle extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.DefaultTog = true;
+        }
+        onInit() {
+            this.btnEv("BtnHome", () => {
+                this.HomeBtn();
+            });
+        }
+        TogClick() {
+        }
+        onShow() {
+            GameMgr.playSound("success");
+        }
+        HomeBtn() {
+            UIMgr.show("UISubMoneyEf", () => {
+                UIMgr.show("UIReady");
+                this.hide();
+            });
+        }
+        SanBeiBtn() {
+            ADManager.Event("ADV_RDA_CLICK_003");
+            ADManager.ShowReward(() => {
+                UIMgr.show("UISubMoneyEf", () => {
+                    UIMgr.show("UIReady");
+                    this.hide();
+                });
+            });
+        }
+        ShareBtnClick() {
+            ADManager.Event("VID_RDA_CLICK_001");
+            let sus = () => {
+            };
+            let fail = () => {
+                UIMgr.tip("分享失败");
+            };
+            RecordManager._share(sus, fail);
+        }
+    }
+
+    class UISubMoneyEf extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+        }
+        moveFinish() {
+            this.hide();
+            console.log("paowan");
+        }
+        ;
+        tweenAlphaFinish(fun = null) {
+            let json = Laya.loader.getRes("Prefab/CoinPref.prefab").json;
+            let pref = new Laya.Prefab();
+            pref.json = json;
+            let bound = 480;
+            let parent = this.owner;
+            let icon = this.vars("icon");
+            let iconX = icon.x;
+            let iconY = icon.y;
+            let createNum = 30;
+            for (let i = 0; i < createNum; i++) {
+                let inst = pref.create();
+                parent.addChild(inst);
+                inst.x = Util.randomInRange_f(260, 560);
+                inst.y = Util.randomInRange_f(340, 840);
+                TweenMgr.tweenTiny(100, this, (t) => {
+                    inst.scale(t.factor, t.factor);
+                }, () => {
+                    TweenMgr.tweenTiny(400, this, (t) => {
+                        let inParams = t.getPG("inParams", 0);
+                        if (inParams.length == 0) {
+                            inParams[0] = inst.x;
+                            inParams[1] = iconX - inst.x;
+                            inParams[2] = inst.y;
+                            inParams[3] = iconY - inst.y;
+                        }
+                        inst.x = inParams[0] + inParams[1] * t.factor;
+                        inst.y = inParams[2] + inParams[3] * t.factor;
+                        if (t.factor >= 1) {
+                            inst.destroy();
+                        }
+                    }, (i == createNum - 1) ? () => {
+                        fun();
+                        this.moveFinish();
+                    } : null, false, Laya.Ease.linearNone, 550);
+                }, false, Laya.Ease.linearNone, Util.randomInRange_f(0, 15) * i);
+            }
+        }
+        onShow(arg = null) {
+            this.tweenAlphaFinish(arg);
+        }
+    }
+
+    class UIActive extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.Data = [];
+        }
+        onInit() {
+            this.ActiveList = this.vars("ActiveList");
+            this.ActiveList.vScrollBarSkin = "";
+            this.Refresh();
+            this.ActiveList.renderHandler = new Laya.Handler(this, this.onWrapItem);
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+        }
+        onWrapItem(cell, index) {
+            cell.getComponent(ActiveItem).fell(this.Data[index], index);
+        }
+        onShow() {
+            ADManager.TAPoint(TaT.PageEnter, "taozhuangpage");
+            this.Refresh();
+        }
+        Refresh() {
+            this.Data.length = 0;
+            let data = [];
+            if (GameDataController.ClothPackge2.cloths3.length > 0) {
+                data.push(GameDataController.ClothPackge2.cloths3);
+            }
+            if (GameDataController.ClothPackge2.cloths1.length > 0) {
+                data.push(GameDataController.ClothPackge2.cloths1);
+            }
+            if (GameDataController.ClothPackge2.cloths2.length > 0) {
+                data.push(GameDataController.ClothPackge2.cloths2);
+            }
+            console.log(data);
+            this.Data = data;
+            this.ActiveList.array = this.Data;
+            this.ActiveList.refresh();
+            console.log("UIActive", this.Data);
+        }
+        onHide() {
+            ADManager.TAPoint(TaT.PageLeave, "taozhuangpage");
+            this.hide();
+        }
+    }
+    class clothbag extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.cloths = [];
+        }
+    }
+
+    class SignBtn extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.MaxHeight = 90;
+            this.MaxWidth = 90;
+            this.BtnID = 0;
+            this.BtnIndex = 0;
+            this.str = {};
+        }
+        onAwake() {
+            let item = this.owner;
+            this.ADBtn = item.getChildByName("ADBtn");
+            this.Btn = item.getChildByName("Btn");
+            this.Lock = item.getChildByName("Lock");
+            this.Icon = item.getChildByName("icon");
+            this.Btn.on(Laya.Event.CLICK, this, this.BtnClick);
+            this.ADBtn.on(Laya.Event.CLICK, this, this.ADBtnClick);
+        }
+        Fell(mes, index) {
+            this.BtnIndex = index;
+            this.data = mes;
+            this.Icon.skin = this.data.GetPath1();
+            this.BtnID = this.data.ID;
+            let imageHeight = parseFloat(this.Icon.height.toString());
+            let imagewidth = parseFloat(this.Icon.width.toString());
+            let pr = 0;
+            if (imagewidth > imageHeight) {
+                pr = this.MaxWidth / imagewidth;
+            }
+            else {
+                pr = this.MaxHeight / imageHeight;
+            }
+            this.Icon.scaleX = pr;
+            this.Icon.scaleY = pr;
+            this.Icon.centerX = 0;
+            this.Icon.centerY = 0;
+            let days = GameDataController.GetFirstToNow();
+            console.log("SignBtn,Fell,GameDataController.ClothDataRefresh", GameDataController.ClothDataRefresh[this.BtnID]);
+            if (GameDataController.ClothDataRefresh[this.BtnID] == 1) {
+                if (days - 1 > index) {
+                    console.log("过期的");
+                    this.ADSignBtnOn();
+                }
+                else if (days - 1 == index) {
+                    console.log("当前天");
+                    this.SignBtnOn();
+                }
+                else {
+                    console.log("过后天");
+                    this.BtnClose();
+                }
+            }
+            else {
+                console.log("SignBtn,Fell  this.BtnID已解锁 ", this.BtnID);
+                this.BtnClose();
+            }
+        }
+        Refresh() {
+            let a = GameDataController.ClothDataRefresh[this.data.ID];
+            this.Lock.visible = (a == 1);
+        }
+        BtnClick() {
+            GameDataController.TodaySign = "1";
+            GameDataController.SetLastTime();
+            console.log("今日签到成功");
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[this.BtnID] = 0;
+            GameDataController.ClothDataRefresh = dataall;
+            BagListController.Instance.refresh();
+            UIMgr.get("UISign").Refresh();
+        }
+        ADBtnClick() {
+            console.log("补签", this.BtnIndex);
+            ADManager.ShowReward(() => {
+                this.GetAward();
+            }, () => {
+                UIMgr.show("UITip", () => {
+                    this.GetAward();
+                });
+            });
+        }
+        GetAward() {
+            GameDataController.SetLastTime();
+            console.log("补签成功");
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[this.BtnID] = 0;
+            GameDataController.ClothDataRefresh = dataall;
+            BagListController.Instance.refresh();
+            UIMgr.get("UISign").Refresh();
+        }
+        SignBtnOn() {
+            let dataall = GameDataController.ClothDataRefresh;
+            if (dataall[this.BtnID] == 0) {
+                this.BtnClose();
+            }
+            else {
+                this.ADBtn.visible = false;
+                this.Btn.visible = true;
+            }
+        }
+        ADSignBtnOn() {
+            let dataall = GameDataController.ClothDataRefresh;
+            if (dataall[this.BtnID] == 0) {
+                this.BtnClose();
+            }
+            else {
+                this.ADBtn.visible = true;
+                this.Btn.visible = false;
+            }
+        }
+        BtnClose() {
+            this.ADBtn.visible = false;
+            this.Btn.visible = false;
+        }
+    }
+
+    class UISign extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.Data = [];
+            this.str = {};
+            this.BtnBar = [];
+            this.func = null;
+        }
+        onInit() {
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+            this.SkinBtnBar = this.vars("SkinBtnBar");
+            for (let index = 0; index < this.SkinBtnBar.numChildren; index++) {
+                this.SkinBtnBar.getChildAt(index).addComponent(SignBtn);
+                this.BtnBar.push(this.SkinBtnBar.getChildAt(index));
+            }
+        }
+        onShow(arg) {
+            ADManager.TAPoint(TaT.PageEnter, "signpage");
+            this.func = arg;
+            this.Data = GameDataController.ClothPackge1.cloths1;
+            this.Data.forEach((V, i) => {
+                let item = this.BtnBar[i].getComponent(SignBtn);
+                item.Fell(V, i);
+            });
+            this.Refresh();
+        }
+        onRefresh() {
+        }
+        Refresh() {
+            this.Data.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[this.Data[i].ID];
+                this.str[this.Data[i].ID] = nv;
+                let item = this.BtnBar[i].getComponent(SignBtn);
+                item.Fell(v, i);
+            });
+            GameDataController.ClothdatapackSet(this.Data[0].GetType2, this.str);
+        }
+        onHide() {
+            ADManager.TAPoint(TaT.PageLeave, "signpage");
+            this.hide();
+        }
+    }
+
+    class PhotosChange extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.photoindex = 0;
+            this.photoMax = 0;
+            this.mes = [];
+        }
+        onAwake() {
+            this.FemaleRoot = this.owner;
+            this.Hair = this.FemaleRoot.getChildByName("Hair");
+            this.Hair1 = this.FemaleRoot.getChildByName("Hair1");
+            this.Ornament = this.FemaleRoot.getChildByName("Ornament");
+            this.Ornament1 = this.FemaleRoot.getChildByName("Ornament1");
+            this.Shirt = this.FemaleRoot.getChildByName("Shirt");
+            this.Shirt1 = this.FemaleRoot.getChildByName("Shirt1");
+            this.Trousers = this.FemaleRoot.getChildByName("Trousers");
+            this.Trousers1 = this.FemaleRoot.getChildByName("Trousers1");
+            this.Dress = this.FemaleRoot.getChildByName("Dress");
+            this.Dress1 = this.FemaleRoot.getChildByName("Dress1");
+            this.Socks = this.FemaleRoot.getChildByName("Socks");
+            this.Socks1 = this.FemaleRoot.getChildByName("Socks1");
+            this.Shose = this.FemaleRoot.getChildByName("Shose");
+            this.Shose1 = this.FemaleRoot.getChildByName("Shose1");
+            this.Coat = this.FemaleRoot.getChildByName("Coat");
+            this.Coat1 = this.FemaleRoot.getChildByName("Coat1");
+            this.nophoto = this.FemaleRoot.getChildByName("nophoto");
+            for (let i = 0; i < 8; i++) {
+                this._ClothChange(0, i);
+            }
+        }
+        _ClothChange(itemID, type) {
+            switch (type) {
+                case clothtype.Hair:
+                    this.HairChange(itemID);
+                    break;
+                case clothtype.Dress:
+                    this.DressChange(itemID);
+                    break;
+                case clothtype.Coat:
+                    this.CoatChange(itemID);
+                    break;
+                case clothtype.Shirt:
+                    this.ShirtChange(itemID);
+                    break;
+                case clothtype.Trousers:
+                    this.TrousersChange(itemID);
+                    break;
+                case clothtype.Socks:
+                    this.SocksChange(itemID);
+                    break;
+                case clothtype.Shose:
+                    this.ShoseChange(itemID);
+                    break;
+                case clothtype.Ornament:
+                    this.OrnamentChange(itemID);
+                    break;
+            }
+        }
+        ClothReceive() {
+            for (let i = 0; i < 8; i++) {
+                this._ClothChange(0, i);
+            }
+        }
+        InitMes() {
+            let item = GameDataController.PhotosData;
+            console.log("PhotosChange==》item", item);
+            if (item) {
+                this.mes = item;
+            }
+            console.log("PhotosChange==mes", this.mes);
+            if (this.mes.length <= 0) {
+                this.CanShowPhoto = false;
+                this.nophoto.visible = true;
+                console.log("PhotosChange==》是否可以展示photo", !this.nophoto.visible);
+                return;
+            }
+            else {
+                this.CanShowPhoto = true;
+                this.nophoto.visible = false;
+                this.photoMax = (this.mes.length - 1);
+                console.log("PhotosChange==》是否可以展示photo", !this.nophoto.visible);
+            }
+            this.ChangeAllCloth();
+        }
+        ChangeAllCloth() {
+            this.HairChange(this.mes[this.photoindex].Hair);
+            this.CoatChange(this.mes[this.photoindex].Coat);
+            this.ShirtChange(this.mes[this.photoindex].Shirt);
+            this.TrousersChange(this.mes[this.photoindex].Trousers);
+            this.SocksChange(this.mes[this.photoindex].Socks);
+            this.ShoseChange(this.mes[this.photoindex].Shose);
+            this.OrnamentChange(this.mes[this.photoindex].Ornament);
+            this.DressChange(this.mes[this.photoindex].Dress);
+        }
+        ChangeNextPhoto() {
+            if (this.CanShowPhoto == false)
+                return;
+            this.photoindex++;
+            if (this.photoindex > this.photoMax) {
+                this.photoindex = 0;
+            }
+            this.ChangeAllCloth();
+        }
+        ChangeLastPhoto() {
+            if (this.CanShowPhoto == false)
+                return;
+            this.photoindex--;
+            if (this.photoindex < 0) {
+                this.photoindex = this.photoMax;
+            }
+            this.ChangeAllCloth();
+        }
+        HairChange(itemID) {
+            this.Hair.visible = this.Hair1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10002;
+            }
+            this.Hair.visible = this.Hair1.visible = true;
+            let clothdata = GameDataController._clothData.get(itemID);
+            this.Hair.skin = clothdata.GetPath1();
+            this.Hair1.skin = clothdata.GetPath2();
+            this.Hair.centerX = clothdata.GetPosition1().x;
+            this.Hair.centerY = clothdata.GetPosition1().y;
+            this.Hair1.centerX = clothdata.GetPosition2().x;
+            this.Hair1.centerY = clothdata.GetPosition2().y;
+            this.Hair.zOrder = clothdata.Sort1;
+            this.Hair1.zOrder = clothdata.Sort2;
+        }
+        OrnamentChange(itemID) {
+            this.Ornament.visible = this.Ornament1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Ornament.visible = this.Ornament1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Ornament.skin = clothdata.GetPath1();
+            this.Ornament1.skin = clothdata.GetPath2();
+            this.Ornament.centerX = clothdata.GetPosition1().x;
+            this.Ornament.centerY = clothdata.GetPosition1().y;
+            this.Ornament1.centerX = clothdata.GetPosition2().x;
+            this.Ornament1.centerY = clothdata.GetPosition2().y;
+            this.Ornament.zOrder = clothdata.Sort1;
+            this.Ornament1.zOrder = clothdata.Sort2;
+        }
+        ShirtChange(itemID) {
+            this.Shirt.visible = this.Shirt1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10000;
+            }
+            else {
+                this.DressClose();
+                this.UpDownOpen();
+            }
+            this.Shirt.visible = this.Shirt1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Shirt.skin = clothdata.GetPath1();
+            this.Shirt1.skin = clothdata.GetPath2();
+            this.Shirt.centerX = clothdata.GetPosition1().x;
+            this.Shirt.centerY = clothdata.GetPosition1().y;
+            this.Shirt1.centerX = clothdata.GetPosition2().x;
+            this.Shirt1.centerY = clothdata.GetPosition2().y;
+            this.Shirt.zOrder = clothdata.Sort1;
+            this.Shirt1.zOrder = clothdata.Sort2;
+        }
+        TrousersChange(itemID) {
+            this.Trousers.visible = this.Trousers1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10001;
+            }
+            else {
+                this.DressClose();
+                this.UpDownOpen();
+            }
+            this.Trousers.visible = this.Trousers1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Trousers.visible = this.Trousers1.visible = true;
+            this.Trousers.skin = clothdata.GetPath1();
+            this.Trousers1.skin = clothdata.GetPath2();
+            this.Trousers.centerX = clothdata.GetPosition1().x;
+            this.Trousers.centerY = clothdata.GetPosition1().y;
+            this.Trousers1.centerX = clothdata.GetPosition2().x;
+            this.Trousers1.centerY = clothdata.GetPosition2().y;
+            this.Trousers.zOrder = clothdata.Sort1;
+            this.Trousers1.zOrder = clothdata.Sort2;
+        }
+        DressChange(itemID) {
+            this.Dress.visible = this.Dress1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                this.UpDownOpen();
+                return;
+            }
+            else {
+                this.DressOpen();
+            }
+            this.Dress.visible = this.Dress1.visible = true;
+            this.UpDownClose();
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Dress.skin = clothdata.GetPath1();
+            this.Dress1.skin = clothdata.GetPath2();
+            this.Dress.centerX = clothdata.GetPosition1().x;
+            this.Dress.centerY = clothdata.GetPosition1().y;
+            this.Dress1.centerX = clothdata.GetPosition2().x;
+            this.Dress1.centerY = clothdata.GetPosition2().y;
+            this.Dress.zOrder = clothdata.Sort1;
+            this.Dress1.zOrder = clothdata.Sort2;
+        }
+        SocksChange(itemID) {
+            this.Socks1.visible = this.Socks.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Socks1.visible = this.Socks.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Socks.skin = clothdata.GetPath1();
+            this.Socks1.skin = clothdata.GetPath2();
+            this.Socks.centerX = clothdata.GetPosition1().x;
+            this.Socks.centerY = clothdata.GetPosition1().y;
+            this.Socks1.centerX = clothdata.GetPosition2().x;
+            this.Socks1.centerY = clothdata.GetPosition2().y;
+            this.Socks.zOrder = clothdata.Sort1;
+            this.Socks1.zOrder = clothdata.Sort2;
+        }
+        ShoseChange(itemID) {
+            this.Shose.visible = this.Shose1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Shose.visible = this.Shose1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Shose.skin = clothdata.GetPath1();
+            this.Shose1.skin = clothdata.GetPath2();
+            this.Shose.centerX = clothdata.GetPosition1().x;
+            this.Shose.centerY = clothdata.GetPosition1().y;
+            this.Shose1.centerX = clothdata.GetPosition2().x;
+            this.Shose1.centerY = clothdata.GetPosition2().y;
+            this.Shose.zOrder = clothdata.Sort1;
+            this.Shose1.zOrder = clothdata.Sort2;
+        }
+        CoatChange(itemID) {
+            this.Coat.visible = this.Coat1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Coat.visible = this.Coat1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Coat.skin = clothdata.GetPath1();
+            this.Coat1.skin = clothdata.GetPath2();
+            this.Coat.centerX = clothdata.GetPosition1().x;
+            this.Coat.centerY = clothdata.GetPosition1().y;
+            this.Coat1.centerX = clothdata.GetPosition2().x;
+            this.Coat1.centerY = clothdata.GetPosition2().y;
+            this.Coat.zOrder = clothdata.Sort1;
+            this.Coat1.zOrder = clothdata.Sort2;
+        }
+        UpDownClose() {
+            this.ShirtChange(0);
+            this.TrousersChange(0);
+            this.Shirt.visible = this.Shirt1.visible = false;
+            this.Trousers.visible = this.Trousers1.visible = false;
+        }
+        UpDownOpen() {
+            this.Shirt.visible = this.Shirt1.visible = true;
+            this.Trousers.visible = this.Trousers1.visible = true;
+        }
+        DressOpen() {
+            this.Dress.visible = this.Dress1.visible = true;
+        }
+        DressClose() {
+            this.DressChange(0);
+            this.Dress.visible = this.Dress1.visible = false;
+        }
+    }
+
+    class UIPhotos extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+        }
+        onInit() {
+            this.FemaleRoot = this.vars("FemaleRoot");
+            this._PhotosChange = this.FemaleRoot.getComponent(PhotosChange);
+            this.ChangeLeft = this.vars("ChangeLeft");
+            this.ChangeRight = this.vars("ChangeRight");
+            this.TweenskewY = this.vars("TweenskewY");
+            this.btnEv("BackHome", this.TweenOff);
+            this.btnEv("ChangeLeft", this.ChangeLastPhoto);
+            this.btnEv("ChangeRight", this.ChangeNextPhoto);
+        }
+        onShow() {
+            ADManager.TAPoint(TaT.PageEnter, "xiangcepage");
+            this.TweenskewY.skewY = -90;
+            this._PhotosChange.InitMes();
+            this.TweenOn();
+        }
+        ChangeNextPhoto() {
+            this._PhotosChange.ChangeNextPhoto();
+        }
+        ChangeLastPhoto() {
+            this._PhotosChange.ChangeLastPhoto();
+        }
+        TweenOn() {
+            let a = Laya.Tween.to(this.TweenskewY, { skewY: 0 }, 500, Laya.Ease.linearNone, Laya.Handler.create(this, () => {
+            }), 0, true, true);
+        }
+        TweenOff() {
+            let a = Laya.Tween.to(this.TweenskewY, { skewY: -90 }, 500, Laya.Ease.linearNone, Laya.Handler.create(this, () => {
+                this.hide();
+            }), 0, true, true);
+        }
+        onHide() {
+            ADManager.TAPoint(TaT.PageLeave, "xiangcepage");
+            this.hide();
+        }
+    }
+
+    class UITest extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.Data = [];
+            this.str = {};
+            this.Num = 0;
+            this.Now = 0;
+            this.Need = 0;
+        }
+        onInit() {
+            this.first = this.vars("first");
+            this.second = this.vars("second");
+            this.third = this.vars("third");
+            this.ADBtn = this.vars("ADBtn");
+            this.Refresh();
+            this.btnEv("BackBtn", () => {
+                this.hide();
+            });
+            this.btnEv("ADBtn", () => {
+                this.ADBtnClick();
+            });
+        }
+        onShow() {
+            ADManager.TAPoint(TaT.PageEnter, "shuiyipage");
+            ADManager.TAPoint(TaT.BtnShow, "ADshuiyi_click");
+            this.Refresh();
+        }
+        onHide() {
+            ADManager.TAPoint(TaT.PageLeave, "shuiyipage");
+            this.hide();
+        }
+        Refresh() {
+            for (let index = 0; index < GameDataController.ClothPackge3.cloths1.length; index++) {
+                this.Data[index] = GameDataController.ClothPackge3.cloths1[index];
+            }
+            this.Data.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[this.Data[i].ID];
+                this.str[this.Data[i].ID] = nv;
+            });
+            this.Num = GameDataController.ClothAlllockNum(this.str);
+            this.Now = this.Data.length - this.Num;
+            this.Need = this.Data.length;
+            this.ADBtn.visible = this.Num > 0;
+            this.ShowADClickCount(this.Now);
+        }
+        ADBtnClick() {
+            console.log("点击了广告");
+            console.log(this.Now + "xxxxxxxxxxxxxx");
+            ADManager.TAPoint(TaT.BtnClick, "ADshuiyi_click");
+            ADManager.ShowReward(() => {
+                this.GetAward();
+            }, () => {
+                UIMgr.show("UITip", () => {
+                    this.GetAward();
+                });
+            });
+        }
+        GetAward() {
+            for (let k in this.str) {
+                if (this.str[k] == 1) {
+                    let dataall = GameDataController.ClothDataRefresh;
+                    dataall[k] = 0;
+                    GameDataController.ClothDataRefresh = dataall;
+                    Laya.LocalStorage.setJSON(this.Data[0].GetType2, this.str);
+                    this.Refresh();
+                    BagListController.Instance.refresh();
+                    console.log("获取一件装扮");
+                    UIMgr.tip("恭喜获得新衣服");
+                    return;
+                }
+            }
+        }
+        ShowADClickCount(count) {
+            switch (count) {
+                case 0:
+                    this.first.skin = "Egg2/tiao1.png";
+                    this.second.skin = "Egg2/tiao1.png";
+                    this.third.skin = "Egg2/tiao1.png";
+                    break;
+                case 1:
+                    this.first.skin = "Egg2/tiao2.png";
+                    this.second.skin = "Egg2/tiao1.png";
+                    this.third.skin = "Egg2/tiao1.png";
+                    break;
+                case 2:
+                    this.first.skin = "Egg2/tiao2.png";
+                    this.second.skin = "Egg2/tiao2.png";
+                    this.third.skin = "Egg2/tiao1.png";
+                    break;
+                case 3:
+                    this.first.skin = "Egg2/tiao2.png";
+                    this.second.skin = "Egg2/tiao2.png";
+                    this.third.skin = "Egg2/tiao2.png";
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    class UIWing extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+        }
+        onInit() {
+            this.CloseBtn = this.vars("CloseBtn");
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+            this.ADBtn = this.vars("ADBtn");
+            this.btnEv("ADBtn", this.ADClick);
+            this.BG = this.vars("BG");
+            Laya.timer.frameLoop(1, this, () => {
+                this.BG.rotation += 2;
+            });
+        }
+        onShow() {
+            ADManager.TAPoint(TaT.PageEnter, "chibangpage");
+            ADManager.TAPoint(TaT.BtnShow, "ADwings_click");
+        }
+        onHide() {
+            ADManager.TAPoint(TaT.PageLeave, "chibangpage");
+            this.hide();
+        }
+        ADClick() {
+            ADManager.TAPoint(TaT.BtnClick, "ADwings_click");
+            ADManager.ShowReward(() => {
+                this.Reward();
+            }, () => {
+                UIMgr.show("UITip", this.Reward);
+            });
+        }
+        Reward() {
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[50404] = 0;
+            GameDataController.ClothDataRefresh = dataall;
+            BagListController.Instance.showList();
+            UIMgr.tip("成功解锁翅膀!");
+            this.hide();
+        }
+    }
+
+    class UITip extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.func = null;
+        }
+        onInit() {
+            this.CloseBtn = this.vars("CloseBtn");
+            this.CloseBtn.visible = false;
+            this.BG = this.vars("BG");
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+            this.ConfirmBtn = this.vars("ConfirmBtn");
+            this.btnEv("ConfirmBtn", this.onConfirmBtnClick);
+        }
+        onRefresh() {
+        }
+        onShow(arg) {
+            ADManager.TAPoint(TaT.BtnShow, "ADrewardbt_tishiAD");
+            this.func = arg;
+            this.CloseBtn.visible = false;
+            Laya.timer.once(2000, this, () => {
+                this.CloseBtn.visible = true;
+            });
+        }
+        onHide() {
+            this.hide();
+        }
+        onConfirmBtnClick() {
+            ADManager.TAPoint(TaT.BtnClick, "ADrewardbt_tishiAD");
+            ADManager.ShowReward(() => {
+                this.func();
+                this.hide();
+            });
+        }
+    }
+
+    class PickClothChange extends Laya.Script {
+        onAwake() {
+            PickClothChange.Instance = this;
+            this.FemaleRoot = this.owner;
+            this.Hair = this.FemaleRoot.getChildByName("Hair");
+            this.Hair1 = this.FemaleRoot.getChildByName("Hair1");
+            this.Ornament = this.FemaleRoot.getChildByName("Ornament");
+            this.Ornament1 = this.FemaleRoot.getChildByName("Ornament1");
+            this.Shirt = this.FemaleRoot.getChildByName("Shirt");
+            this.Shirt1 = this.FemaleRoot.getChildByName("Shirt1");
+            this.Trousers = this.FemaleRoot.getChildByName("Trousers");
+            this.Trousers1 = this.FemaleRoot.getChildByName("Trousers1");
+            this.Dress = this.FemaleRoot.getChildByName("Dress");
+            this.Dress1 = this.FemaleRoot.getChildByName("Dress1");
+            this.Socks = this.FemaleRoot.getChildByName("Socks");
+            this.Socks1 = this.FemaleRoot.getChildByName("Socks1");
+            this.Shose = this.FemaleRoot.getChildByName("Shose");
+            this.Shose1 = this.FemaleRoot.getChildByName("Shose1");
+            this.Coat = this.FemaleRoot.getChildByName("Coat");
+            this.Coat1 = this.FemaleRoot.getChildByName("Coat1");
+            for (let i = 0; i < 8; i++) {
+                this._ClothChange(0, i);
+            }
+        }
+        ChangeAllCloth() {
+            this.HairChange(ClothChange.Instance.nowclothData.Hair);
+            this.CoatChange(ClothChange.Instance.nowclothData.Coat);
+            this.ShirtChange(ClothChange.Instance.nowclothData.Shirt);
+            this.TrousersChange(ClothChange.Instance.nowclothData.Trousers);
+            this.SocksChange(ClothChange.Instance.nowclothData.Socks);
+            this.ShoseChange(ClothChange.Instance.nowclothData.Shose);
+            this.OrnamentChange(ClothChange.Instance.nowclothData.Ornament);
+            this.DressChange(ClothChange.Instance.nowclothData.Dress);
+        }
+        _ClothChange(itemID, type) {
+            switch (type) {
+                case clothtype.Hair:
+                    this.HairChange(itemID);
+                    break;
+                case clothtype.Dress:
+                    this.DressChange(itemID);
+                    break;
+                case clothtype.Coat:
+                    this.CoatChange(itemID);
+                    break;
+                case clothtype.Shirt:
+                    this.ShirtChange(itemID);
+                    break;
+                case clothtype.Trousers:
+                    this.TrousersChange(itemID);
+                    break;
+                case clothtype.Socks:
+                    this.SocksChange(itemID);
+                    break;
+                case clothtype.Shose:
+                    this.ShoseChange(itemID);
+                    break;
+                case clothtype.Ornament:
+                    this.OrnamentChange(itemID);
+                    break;
+            }
+        }
+        HairChange(itemID) {
+            this.Hair.visible = this.Hair1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10002;
+            }
+            this.Hair.visible = this.Hair1.visible = true;
+            let clothdata = GameDataController._clothData.get(itemID);
+            this.Hair.zOrder = clothdata.Sort1;
+            this.Hair1.zOrder = clothdata.Sort2;
+            this.Hair.skin = clothdata.GetPath1();
+            this.Hair1.skin = clothdata.GetPath2();
+            this.Hair.centerX = clothdata.GetPosition1().x;
+            this.Hair.centerY = clothdata.GetPosition1().y;
+            this.Hair1.centerX = clothdata.GetPosition2().x;
+            this.Hair1.centerY = clothdata.GetPosition2().y;
+        }
+        DressChange(itemID) {
+            this.Dress.visible = this.Dress1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                this.UpDownOpen();
+                return;
+            }
+            else {
+                this.DressOpen();
+            }
+            if (itemID == 40502) {
+                this.Shose.visible = this.Shose1.visible = false;
+            }
+            this.Dress.visible = this.Dress1.visible = true;
+            this.UpDownClose();
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Dress.zOrder = clothdata.Sort1;
+            this.Dress1.zOrder = clothdata.Sort2;
+            this.Dress.skin = clothdata.GetPath1();
+            this.Dress1.skin = clothdata.GetPath2();
+            this.Dress.centerX = clothdata.GetPosition1().x;
+            this.Dress.centerY = clothdata.GetPosition1().y;
+            this.Dress1.centerX = clothdata.GetPosition2().x;
+            this.Dress1.centerY = clothdata.GetPosition2().y;
+        }
+        CoatChange(itemID) {
+            this.Coat.visible = this.Coat1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Coat.visible = this.Coat1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Coat.zOrder = clothdata.Sort1;
+            this.Coat1.zOrder = clothdata.Sort2;
+            this.Coat.skin = clothdata.GetPath1();
+            this.Coat1.skin = clothdata.GetPath2();
+            this.Coat.centerX = clothdata.GetPosition1().x;
+            this.Coat.centerY = clothdata.GetPosition1().y;
+            this.Coat1.centerX = clothdata.GetPosition2().x;
+            this.Coat1.centerY = clothdata.GetPosition2().y;
+        }
+        ShirtChange(itemID) {
+            this.Shirt.visible = this.Shirt1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10000;
+            }
+            else {
+                this.DressClose();
+                this.UpDownOpen();
+            }
+            this.Shirt.visible = this.Shirt1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Shirt.zOrder = clothdata.Sort1;
+            this.Shirt1.zOrder = clothdata.Sort2;
+            this.Shirt.skin = clothdata.GetPath1();
+            this.Shirt1.skin = clothdata.GetPath2();
+            this.Shirt.centerX = clothdata.GetPosition1().x;
+            this.Shirt.centerY = clothdata.GetPosition1().y;
+            this.Shirt1.centerX = clothdata.GetPosition2().x;
+            this.Shirt1.centerY = clothdata.GetPosition2().y;
+        }
+        TrousersChange(itemID) {
+            this.Trousers.visible = this.Trousers1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10001;
+            }
+            else {
+                this.DressClose();
+                this.UpDownOpen();
+            }
+            this.Trousers.visible = this.Trousers1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Trousers.visible = this.Trousers1.visible = true;
+            this.Trousers.zOrder = clothdata.Sort1;
+            this.Trousers1.zOrder = clothdata.Sort2;
+            this.Trousers.skin = clothdata.GetPath1();
+            this.Trousers1.skin = clothdata.GetPath2();
+            this.Trousers.centerX = clothdata.GetPosition1().x;
+            this.Trousers.centerY = clothdata.GetPosition1().y;
+            this.Trousers1.centerX = clothdata.GetPosition2().x;
+            this.Trousers1.centerY = clothdata.GetPosition2().y;
+        }
+        SocksChange(itemID) {
+            this.Socks1.visible = this.Socks.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Socks1.visible = this.Socks.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Socks.zOrder = clothdata.Sort1;
+            this.Socks1.zOrder = clothdata.Sort2;
+            this.Socks.skin = clothdata.GetPath1();
+            this.Socks1.skin = clothdata.GetPath2();
+            this.Socks.centerX = clothdata.GetPosition1().x;
+            this.Socks.centerY = clothdata.GetPosition1().y;
+            this.Socks1.centerX = clothdata.GetPosition2().x;
+            this.Socks1.centerY = clothdata.GetPosition2().y;
+        }
+        ShoseChange(itemID) {
+            this.Shose.visible = this.Shose1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Shose.visible = this.Shose1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Shose.zOrder = clothdata.Sort1;
+            this.Shose1.zOrder = clothdata.Sort2;
+            this.Shose.skin = clothdata.GetPath1();
+            this.Shose1.skin = clothdata.GetPath2();
+            this.Shose.centerX = clothdata.GetPosition1().x;
+            this.Shose.centerY = clothdata.GetPosition1().y;
+            this.Shose1.centerX = clothdata.GetPosition2().x;
+            this.Shose1.centerY = clothdata.GetPosition2().y;
+        }
+        OrnamentChange(itemID) {
+            this.Ornament.visible = this.Ornament1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Ornament.visible = this.Ornament1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Ornament.zOrder = clothdata.Sort1;
+            this.Ornament1.zOrder = clothdata.Sort2;
+            this.Ornament.skin = clothdata.GetPath1();
+            this.Ornament1.skin = clothdata.GetPath2();
+            this.Ornament.centerX = clothdata.GetPosition1().x;
+            this.Ornament.centerY = clothdata.GetPosition1().y;
+            this.Ornament1.centerX = clothdata.GetPosition2().x;
+            this.Ornament1.centerY = clothdata.GetPosition2().y;
+        }
+        UpDownOpen() {
+            this.Shirt.visible = this.Shirt1.visible = true;
+            this.Trousers.visible = this.Trousers1.visible = true;
+        }
+        UpDownClose() {
+            this.ShirtChange(0);
+            this.TrousersChange(0);
+            this.Shirt.visible = this.Shirt1.visible = false;
+            this.Trousers.visible = this.Trousers1.visible = false;
+        }
+        DressOpen() {
+            this.Dress.visible = this.Dress1.visible = true;
+        }
+        DressClose() {
+            this.DressChange(0);
+            this.Dress.visible = this.Dress1.visible = false;
+        }
+    }
+
+    class PickClothChangeT extends Laya.Script {
+        onAwake() {
+            PickClothChangeT.Instance = this;
+            this.FemaleRoot = this.owner;
+            this.Hair = this.FemaleRoot.getChildByName("Hair");
+            this.Hair1 = this.FemaleRoot.getChildByName("Hair1");
+            this.Ornament = this.FemaleRoot.getChildByName("Ornament");
+            this.Ornament1 = this.FemaleRoot.getChildByName("Ornament1");
+            this.Shirt = this.FemaleRoot.getChildByName("Shirt");
+            this.Shirt1 = this.FemaleRoot.getChildByName("Shirt1");
+            this.Trousers = this.FemaleRoot.getChildByName("Trousers");
+            this.Trousers1 = this.FemaleRoot.getChildByName("Trousers1");
+            this.Dress = this.FemaleRoot.getChildByName("Dress");
+            this.Dress1 = this.FemaleRoot.getChildByName("Dress1");
+            this.Socks = this.FemaleRoot.getChildByName("Socks");
+            this.Socks1 = this.FemaleRoot.getChildByName("Socks1");
+            this.Shose = this.FemaleRoot.getChildByName("Shose");
+            this.Shose1 = this.FemaleRoot.getChildByName("Shose1");
+            this.Coat = this.FemaleRoot.getChildByName("Coat");
+            this.Coat1 = this.FemaleRoot.getChildByName("Coat1");
+            for (let i = 0; i < 8; i++) {
+                this._ClothChange(0, i);
+            }
+        }
+        HairRandomFuc() {
+            let a = GameDataController.HairData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.HairData[b].ID;
+            return c;
+        }
+        DressRandomFuc() {
+            let a = GameDataController.DressData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.DressData[b].ID;
+            return c;
+        }
+        ShirtRandomFuc() {
+            let a = GameDataController.ShirtData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.ShirtData[b].ID;
+            return c;
+        }
+        TrousersRandomFuc() {
+            let a = GameDataController.TrousersData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.TrousersData[b].ID;
+            return c;
+        }
+        SocksRandomFuc() {
+            let a = GameDataController.SocksData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.SocksData[b].ID;
+            return c;
+        }
+        ShoseRandomFuc() {
+            let a = GameDataController.ShoseData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.ShoseData[b].ID;
+            return c;
+        }
+        OrnamentRandomFuc() {
+            let a = GameDataController.OrnamentData.length;
+            let b = Util.randomInRange_i(0, a - 1);
+            let c = GameDataController.OrnamentData[b].ID;
+            return c;
+        }
+        ChangeAllCloth() {
+            this.HairChange(this.HairRandomFuc());
+            this.OrnamentChange(this.OrnamentRandomFuc());
+            this.CoatChange(0);
+            this.ShirtChange(this.ShirtRandomFuc());
+            this.SocksChange(this.SocksRandomFuc());
+            this.TrousersChange(this.TrousersRandomFuc());
+            this.DressChange(this.DressRandomFuc());
+            this.ShoseChange(this.ShoseRandomFuc());
+        }
+        _ClothChange(itemID, type) {
+            switch (type) {
+                case clothtype.Hair:
+                    this.HairChange(itemID);
+                    break;
+                case clothtype.Dress:
+                    this.DressChange(itemID);
+                    break;
+                case clothtype.Coat:
+                    this.CoatChange(itemID);
+                    break;
+                case clothtype.Shirt:
+                    this.ShirtChange(itemID);
+                    break;
+                case clothtype.Trousers:
+                    this.TrousersChange(itemID);
+                    break;
+                case clothtype.Socks:
+                    this.SocksChange(itemID);
+                    break;
+                case clothtype.Shose:
+                    this.ShoseChange(itemID);
+                    break;
+                case clothtype.Ornament:
+                    this.OrnamentChange(itemID);
+                    break;
+            }
+        }
+        HairChange(itemID) {
+            this.Hair.visible = this.Hair1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10002;
+            }
+            this.Hair.visible = this.Hair1.visible = true;
+            let clothdata = GameDataController._clothData.get(itemID);
+            this.Hair.zOrder = clothdata.Sort1;
+            this.Hair1.zOrder = clothdata.Sort2;
+            this.Hair.skin = clothdata.GetPath1();
+            this.Hair1.skin = clothdata.GetPath2();
+            this.Hair.centerX = clothdata.GetPosition1().x;
+            this.Hair.centerY = clothdata.GetPosition1().y;
+            this.Hair1.centerX = clothdata.GetPosition2().x;
+            this.Hair1.centerY = clothdata.GetPosition2().y;
+        }
+        DressChange(itemID) {
+            this.Dress.visible = this.Dress1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                this.UpDownOpen();
+                return;
+            }
+            else {
+                this.DressOpen();
+            }
+            if (itemID == 40502) {
+                this.Shose.visible = this.Shose1.visible = false;
+            }
+            this.Dress.visible = this.Dress1.visible = true;
+            this.UpDownClose();
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Dress.zOrder = clothdata.Sort1;
+            this.Dress1.zOrder = clothdata.Sort2;
+            this.Dress.skin = clothdata.GetPath1();
+            this.Dress1.skin = clothdata.GetPath2();
+            this.Dress.centerX = clothdata.GetPosition1().x;
+            this.Dress.centerY = clothdata.GetPosition1().y;
+            this.Dress1.centerX = clothdata.GetPosition2().x;
+            this.Dress1.centerY = clothdata.GetPosition2().y;
+        }
+        CoatChange(itemID) {
+            this.Coat.visible = this.Coat1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Coat.visible = this.Coat1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Coat.zOrder = clothdata.Sort1;
+            this.Coat1.zOrder = clothdata.Sort2;
+            this.Coat.skin = clothdata.GetPath1();
+            this.Coat1.skin = clothdata.GetPath2();
+            this.Coat.centerX = clothdata.GetPosition1().x;
+            this.Coat.centerY = clothdata.GetPosition1().y;
+            this.Coat1.centerX = clothdata.GetPosition2().x;
+            this.Coat1.centerY = clothdata.GetPosition2().y;
+        }
+        ShirtChange(itemID) {
+            this.Shirt.visible = this.Shirt1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10000;
+            }
+            else {
+                this.DressClose();
+                this.UpDownOpen();
+            }
+            this.Shirt.visible = this.Shirt1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Shirt.zOrder = clothdata.Sort1;
+            this.Shirt1.zOrder = clothdata.Sort2;
+            this.Shirt.skin = clothdata.GetPath1();
+            this.Shirt1.skin = clothdata.GetPath2();
+            this.Shirt.centerX = clothdata.GetPosition1().x;
+            this.Shirt.centerY = clothdata.GetPosition1().y;
+            this.Shirt1.centerX = clothdata.GetPosition2().x;
+            this.Shirt1.centerY = clothdata.GetPosition2().y;
+        }
+        TrousersChange(itemID) {
+            this.Trousers.visible = this.Trousers1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 10001;
+            }
+            else {
+                this.DressClose();
+                this.UpDownOpen();
+            }
+            this.Trousers.visible = this.Trousers1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Trousers.visible = this.Trousers1.visible = true;
+            this.Trousers.zOrder = clothdata.Sort1;
+            this.Trousers1.zOrder = clothdata.Sort2;
+            this.Trousers.skin = clothdata.GetPath1();
+            this.Trousers1.skin = clothdata.GetPath2();
+            this.Trousers.centerX = clothdata.GetPosition1().x;
+            this.Trousers.centerY = clothdata.GetPosition1().y;
+            this.Trousers1.centerX = clothdata.GetPosition2().x;
+            this.Trousers1.centerY = clothdata.GetPosition2().y;
+        }
+        SocksChange(itemID) {
+            this.Socks1.visible = this.Socks.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Socks1.visible = this.Socks.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Socks.zOrder = clothdata.Sort1;
+            this.Socks1.zOrder = clothdata.Sort2;
+            this.Socks.skin = clothdata.GetPath1();
+            this.Socks1.skin = clothdata.GetPath2();
+            this.Socks.centerX = clothdata.GetPosition1().x;
+            this.Socks.centerY = clothdata.GetPosition1().y;
+            this.Socks1.centerX = clothdata.GetPosition2().x;
+            this.Socks1.centerY = clothdata.GetPosition2().y;
+        }
+        ShoseChange(itemID) {
+            this.Shose.visible = this.Shose1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Shose.visible = this.Shose1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            this.Shose.zOrder = clothdata.Sort1;
+            this.Shose1.zOrder = clothdata.Sort2;
+            this.Shose.skin = clothdata.GetPath1();
+            this.Shose1.skin = clothdata.GetPath2();
+            this.Shose.centerX = clothdata.GetPosition1().x;
+            this.Shose.centerY = clothdata.GetPosition1().y;
+            this.Shose1.centerX = clothdata.GetPosition2().x;
+            this.Shose1.centerY = clothdata.GetPosition2().y;
+        }
+        OrnamentChange(itemID) {
+            this.Ornament.visible = this.Ornament1.visible = false;
+            if (itemID == null || itemID == 0) {
+                itemID = 0;
+                return;
+            }
+            this.Ornament.visible = this.Ornament1.visible = true;
+            let clothdata = GameDataController._ClothData.get(itemID);
+            console.log(clothdata);
+            this.Ornament.zOrder = clothdata.Sort1;
+            this.Ornament1.zOrder = clothdata.Sort2;
+            this.Ornament.skin = clothdata.GetPath1();
+            this.Ornament1.skin = clothdata.GetPath2();
+            this.Ornament.centerX = clothdata.GetPosition1().x;
+            this.Ornament.centerY = clothdata.GetPosition1().y;
+            this.Ornament1.centerX = clothdata.GetPosition2().x;
+            this.Ornament1.centerY = clothdata.GetPosition2().y;
+        }
+        UpDownOpen() {
+            this.Shirt.visible = this.Shirt1.visible = true;
+            this.Trousers.visible = this.Trousers1.visible = true;
+        }
+        UpDownClose() {
+            this.ShirtChange(0);
+            this.TrousersChange(0);
+            this.Shirt.visible = this.Shirt1.visible = false;
+            this.Trousers.visible = this.Trousers1.visible = false;
+        }
+        DressOpen() {
+            this.Dress.visible = this.Dress1.visible = true;
+        }
+        DressClose() {
+            this.DressChange(0);
+            this.Dress.visible = this.Dress1.visible = false;
+        }
+    }
+
+    class RankItem extends Laya.Script {
+        constructor() {
+            super(...arguments);
+            this.Datas = [];
+        }
+        onAwake() {
+            let item = this.owner;
+            this.Name = item.getChildByName("Name");
+            this.WinCount = item.getChildByName("WinCount");
+            this.RankNum = item.getChildByName("RankNum");
+            this.Top1 = item.getChildByName("Top1");
+            this.Top2 = item.getChildByName("Top2");
+            this.Top3 = item.getChildByName("Top3");
+            this.BG_white = item.getChildByName("BG_white");
+            this.BG_yellow = item.getChildByName("BG_Yellow");
+            this.IconParent = item.getChildByName("IconParent");
+            this.hairBox = this.IconParent.getChildByName("hairBox");
+        }
+        fell(mess, index) {
+            this.Datas = mess;
+            this.Name.text = this.Datas[index].Name;
+            this.WinCount.text = "胜场:" + this.Datas[index].Num.toString();
+            this.RankNum.text = (index + 1).toString();
+            this.RankNum.visible = true;
+            this.Top1.visible = false;
+            this.Top2.visible = false;
+            this.Top3.visible = false;
+            this.BG_white.visible = true;
+            this.BG_yellow.visible = false;
+            for (let i = 0; i < this.hairBox.numChildren; i++) {
+                let c = this.hairBox.getChildAt(i);
+                c.visible = false;
+            }
+            if (this.Datas[index].Name == "我") {
+                this.BG_white.visible = false;
+                this.BG_yellow.visible = true;
+            }
+            this.Top1.visible = index == 0;
+            this.Top2.visible = index == 1;
+            this.Top3.visible = index == 2;
+            if (this.Top1.visible || this.Top2.visible || this.Top3.visible) {
+                this.RankNum.visible = false;
+            }
+            let a = Util.randomInRange_i(0, this.hairBox.numChildren - 1);
+            let b = this.hairBox.getChildAt(a);
+            b.visible = true;
+        }
+    }
+
+    class UIRank extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.rankisopen = false;
+            this.Data = [];
+            this.isLookVideo = false;
+        }
+        onInit() {
+            UIRank.ins = this;
+            this.BackBtn = this.vars("BackBtn");
+            this.Pick = this.vars("Pick");
+            this.RankListBtn = this.vars("RankListBtn");
+            this.FemaleRoot = this.vars("FemaleRoot");
+            this.RankListBox = this.vars("RankListBox");
+            this._PickClothChange = this.FemaleRoot.getComponent(PickClothChange);
+            this.btnEv("BackBtn", () => {
+                this.hide();
+            });
+            this.btnEv("RankListBtn", () => {
+                ADManager.TAPoint(TaT.BtnClick, "phb_turn");
+                this.ShowRankListBtnClick();
+            });
+            this.btnEv("Pick", () => {
+                RecordManager.stopAutoRecord();
+                RecordManager.startAutoRecord();
+                if (parseInt(Laya.LocalStorage.getItem("PickNum")) == 0) {
+                    this.ADClick();
+                }
+                else {
+                    this.PickBtnClick();
+                }
+            });
+            this.LRank = TweenMgr.tweenCust(300, this, this.tweenRankLeft, null, true, Laya.Ease.linearNone);
+            this.RRank = TweenMgr.tweenCust(300, this, this.tweenRankRight, null, true, Laya.Ease.linearNone);
+            this.FRL = TweenMgr.tweenCust(300, this, this.tweenFemaleRootLeft, null, true, Laya.Ease.linearNone);
+            this.FRR = TweenMgr.tweenCust(300, this, this.tweenFemaleRootRight, null, true, Laya.Ease.linearNone);
+            this.PickNumImage = this.vars("PickNumImage");
+            this.PickNum = this.vars("PickNum");
+            this.PickNum.text = Laya.LocalStorage.getItem("PickNum");
+            this.ADImage = this.vars("ADImage");
+            this.RankList = this.vars("RankList");
+            this.RankList.vScrollBarSkin = "";
+            this.Refresh();
+            this.RankList.renderHandler = new Laya.Handler(this, this.onWrapItem);
+            this.RankList.refresh();
+        }
+        onWrapItem(cell, index) {
+            cell.getComponent(RankItem).fell(this.Data, index);
+        }
+        Refresh() {
+            for (let index = 0; index < GameDataController.PickData.length; index++) {
+                if (GameDataController.PickData[index].Name == "我") {
+                    GameDataController.PickData[index].Num = parseInt(Laya.LocalStorage.getItem("TodayWinNum"));
+                }
+            }
+            GameDataController.PickData.sort((a, b) => {
+                return b.Num - a.Num;
+            });
+            for (let i = 0; i < GameDataController.PickData.length; i++) {
+                this.Data[i] = GameDataController.PickData[i];
+            }
+            this.RankList.refresh();
+            this.RankList.array = this.Data;
+        }
+        onShow() {
+            ADManager.TAPoint(TaT.BtnShow, "meiripk_turn");
+            ADManager.TAPoint(TaT.BtnShow, "ADpk_turn");
+            ADManager.TAPoint(TaT.BtnShow, "phb_turn");
+            this.isLookVideo = false;
+            this._PickClothChange.ChangeAllCloth();
+            if (Laya.LocalStorage.getItem("PickNum") == "0") {
+                this.ADImage.visible = true;
+                this.PickNumImage.visible = false;
+            }
+        }
+        tweenRankLeft(t) {
+            console.log(this.RankListBox);
+            console.log("RankListBox.............");
+            let nbtm = this.RankListBox.right;
+            TweenMgr.lerp_Num(nbtm, 0, t);
+            this.RankListBox.right = t.outParams[0][0];
+        }
+        tweenRankRight(t) {
+            let nbtm = this.RankListBox.right;
+            TweenMgr.lerp_Num(nbtm, -316, t);
+            this.RankListBox.right = t.outParams[0][0];
+        }
+        tweenFemaleRootLeft(t) {
+            let nbtm = this.FemaleRoot.centerX;
+            TweenMgr.lerp_Num(nbtm, -119, t);
+            this.FemaleRoot.centerX = t.outParams[0][0];
+        }
+        tweenFemaleRootRight(t) {
+            let nbtm = this.FemaleRoot.centerX;
+            TweenMgr.lerp_Num(nbtm, -19, t);
+            this.FemaleRoot.centerX = t.outParams[0][0];
+        }
+        ShowRankListBtnClick() {
+            this.rankisopen = !this.rankisopen;
+            if (this.rankisopen) {
+                this.LRank.play();
+                this.FRL.play();
+            }
+            else {
+                this.RRank.play();
+                this.FRR.play();
+            }
+        }
+        PickBtnClick() {
+            ADManager.TAPoint(TaT.BtnClick, "meiripk_turn");
+            GameDataController.TodaySign = "1";
+            GameDataController.SetLastTime();
+            let a = Laya.LocalStorage.getItem("PickNum");
+            let b = parseInt(a);
+            if (b > 0) {
+                UIMgr.show("UIPickLoading");
+                b--;
+                Laya.LocalStorage.setItem("PickNum", b.toString());
+                this.PickNum.text = b.toString();
+                if (b <= 0) {
+                    this.ADImage.visible = true;
+                    this.PickNumImage.visible = false;
+                }
+            }
+        }
+        ADImageClick() {
+            ADManager.TAPoint(TaT.BtnClick, "ADpk_turn");
+            ADManager.ShowReward(() => {
+                let a = Laya.LocalStorage.getItem("PickNum");
+                let b = parseInt(a);
+                b++;
+                Laya.LocalStorage.setItem("PickNum", b.toString());
+                this.PickNum.text = b.toString();
+                this.isLookVideo = true;
+                UIMgr.tip("PK次数+1");
+            }, () => {
+                UIMgr.show("UITip", () => {
+                    let a = Laya.LocalStorage.getItem("PickNum");
+                    let b = parseInt(a);
+                    b++;
+                    Laya.LocalStorage.setItem("PickNum", b.toString());
+                    this.PickNum.text = b.toString();
+                    this.isLookVideo = true;
+                    UIMgr.tip("PK次数+1");
+                });
+            });
+        }
+        ADClick() {
+            this.ADImage.visible = true;
+            this.PickNumImage.visible = false;
+            ADManager.TAPoint(TaT.BtnClick, "ADpk_turn");
+            ADManager.ShowReward(() => {
+                UIMgr.show("UIPickLoading");
+                UIMgr.tip("PK次数+1");
+                this.isLookVideo = true;
+            });
+        }
+        onHide() {
+            UIMgr.get("UIReady").isPicking = false;
+            RecordManager.stopAutoRecord();
+            console.log("关闭了UIRank");
+        }
+    }
+
+    class UIPick extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.otherCount = 0;
+            this.myCount = 0;
+            this.otherNum = 0;
+            this.myNum = 0;
+            this.isWin = false;
+            this.isLose = false;
+            this.PickCount = 0;
+        }
+        onInit() {
+            this.FemaleRoot = this.vars("FemaleRoot");
+            this._PickClothChange = this.FemaleRoot.getComponent(PickClothChange);
+            this.FemaleRoot1 = this.vars("FemaleRoot1");
+            this._PickClothChangT = this.FemaleRoot1.getComponent(PickClothChangeT);
+            this.BackBtn = this.vars("BackBtn");
+            this.BackBtn.visible = false;
+            this.btnEv("BackBtn", () => {
+                this.hide();
+            });
+            this.FRToLeft = TweenMgr.tweenCust(1000, this, this.tweenFRToLeft, null, true, Laya.Ease.backOut);
+            this.FRToRight = TweenMgr.tweenCust(1000, this, this.tweenFRToRight, null, true, Laya.Ease.backOut);
+            this.Vote_other = this.vars("Vote_other");
+            this.otherPre = this.Vote_other.getChildByName("otherPre");
+            this.Vote_me = this.vars("Vote_me");
+            this.myPre = this.Vote_me.getChildByName("myPre");
+            this.WinMark = this.vars("WinMark");
+            this.LoseMark = this.vars("LoseMark");
+            this.Light = this.vars("Light");
+            this.WinUI = this.vars("WinUI");
+            this.LoseUI = this.vars("LoseUI");
+            this.WinBox = this.WinUI.getChildByName("WinBox");
+            this.LoseBox = this.LoseUI.getChildByName("LoseBox");
+            this.OkBtn = this.WinBox.getChildByName("OkBtn");
+            this.NoBtn = this.WinBox.getChildByName("NoBtn");
+            this.VoteNum = this.LoseBox.getChildByName("VoteNum");
+            this.ContinueBtn = this.LoseBox.getChildByName("ContinueBtn");
+            this.btnEv("OkBtn", this.OkBtnClick);
+            this.btnEv("NoBtn", this.NoBtnClick);
+            this.btnEv("ContinueBtn", this.ContinueBtnClick);
+            this.ShareUI = this.vars("ShareUI");
+            this.ShareUI.visible = false;
+            this.ShareBox = this.ShareUI.getChildByName("ShareBox");
+            this.ShareBtn = this.ShareBox.getChildByName("ShareBtn");
+            this.CloseBtn = this.ShareBox.getChildByName("CloseBtn");
+            this.btnEv("ShareBtn", this.ShareBtnClick);
+            this.btnEv("CloseBtn", this.CloseBtnClick);
+        }
+        onShow() {
+            ADManager.TAPoint(TaT.BtnShow, "fxpk_turn");
+            ADManager.TAPoint(TaT.BtnShow, "nofx_turn");
+            ADManager.TAPoint(TaT.BtnShow, "ADpkjiesuan_turn");
+            ADManager.TAPoint(TaT.BtnShow, "pkpt_turn");
+            this.FRToRight.play();
+            this.FRToLeft.play();
+            this._PickClothChange.ChangeAllCloth();
+            this._PickClothChangT.ChangeAllCloth();
+            Laya.timer.once(1000, this, this.PickFuc);
+        }
+        onHide() {
+            this.otherPre.text = "0";
+            this.myPre.text = "0";
+            this.otherNum = 0;
+            this.myNum = 0;
+            this.WinMark.visible = false;
+            this.LoseMark.visible = false;
+            this.Light.visible = false;
+            this.WinUI.visible = false;
+            this.LoseUI.visible = false;
+            this.isWin = false;
+            this.isLose = false;
+            this.FemaleRoot.centerX = 492;
+            this.FemaleRoot1.centerX = -484;
+            this.BackBtn.visible = false;
+            EventMgr.notify(Task.EventType.PK);
+            Laya.timer.clear(this, this.PickFuc);
+        }
+        tweenFRToLeft(t) {
+            TweenMgr.lerp_Num(this.FemaleRoot.centerX, 156, t);
+            this.FemaleRoot.centerX = t.outParams[0][0];
+        }
+        tweenFRToRight(t) {
+            TweenMgr.lerp_Num(this.FemaleRoot1.centerX, -147, t);
+            this.FemaleRoot1.centerX = t.outParams[0][0];
+        }
+        PickFuc() {
+            let i = Util.randomInRange_i(0, 10);
+            console.log(i);
+            if (UIRank.ins.isLookVideo) {
+                this.WinVoteRadomFuc();
+                console.log("必赢..........");
+                return;
+            }
+            let a = parseInt(Laya.LocalStorage.getItem("PickNum"));
+            if (a == 1 || a == 2 || a == 4) {
+                this.WinVoteRadomFuc();
+            }
+            else {
+                this.LoseVoteRadomFuc();
+            }
+        }
+        WinVoteRadomFuc() {
+            this.otherCount = Util.randomInRange_i(300, 400);
+            this.myCount = Util.randomInRange_i(400, 600);
+            Laya.timer.loop(3, this, this.otherPreAdd);
+            Laya.timer.loop(3, this, this.myPreAdd);
+        }
+        LoseVoteRadomFuc() {
+            this.otherCount = Util.randomInRange_i(400, 600);
+            this.myCount = Util.randomInRange_i(300, 400);
+            Laya.timer.loop(3, this, this.otherPreAdd);
+            Laya.timer.loop(3, this, this.myPreAdd);
+        }
+        otherPreAdd() {
+            this.otherNum += 1;
+            this.otherPre.text = this.otherNum + "";
+            if (this.otherNum >= this.otherCount) {
+                Laya.timer.clear(this, this.otherPreAdd);
+                Laya.timer.once(1000, this, this.checkLose);
+            }
+        }
+        myPreAdd() {
+            this.myNum += 1;
+            this.myPre.text = this.myNum + "";
+            if (this.myNum >= this.myCount) {
+                Laya.timer.clear(this, this.myPreAdd);
+                Laya.timer.once(1000, this, this.checkWin);
+            }
+        }
+        checkWin() {
+            if (this.myCount > this.otherCount) {
+                this.isWin = true;
+                this.Light.visible = true;
+                this.WinMark.visible = true;
+                this.BackBtn.visible = true;
+            }
+            if (this.isWin) {
+                this.PickWin();
+                Laya.timer.once(1000, this, () => {
+                    this.WinUI.visible = true;
+                });
+            }
+        }
+        checkLose() {
+            if (this.myCount < this.otherCount) {
+                this.LoseMark.visible = true;
+                this.isLose = true;
+                this.BackBtn.visible = true;
+            }
+            if (this.isLose) {
+                Laya.timer.once(1000, this, () => {
+                    this.LoseUI.visible = true;
+                    this.VoteNum.text = this.myPre.text;
+                });
+            }
+        }
+        OkBtnClick() {
+            ADManager.TAPoint(TaT.BtnClick, "ADpkjiesuan_turn");
+            ADManager.ShowReward(() => {
+                this.PickWin();
+            }, () => {
+                UIMgr.show("UITip", () => {
+                    this.PickWin();
+                });
+            });
+            this.WinUI.visible = false;
+            this.ShareUI.visible = true;
+            RecordManager.stopAutoRecord();
+        }
+        NoBtnClick() {
+            ADManager.TAPoint(TaT.BtnClick, "pkpt_turn");
+            this.WinUI.visible = false;
+            this.ShareUI.visible = true;
+            RecordManager.stopAutoRecord();
+        }
+        ContinueBtnClick() {
+            this.LoseUI.visible = false;
+            this.hide();
+        }
+        PickWin() {
+            let a = Laya.LocalStorage.getItem("TodayWinNum");
+            let b = parseInt(a);
+            b += 1;
+            Laya.LocalStorage.setItem("TodayWinNum", b.toString());
+            UIMgr.tip("今日胜场+1");
+            UIMgr.get("UIRank").Refresh();
+        }
+        ShareBtnClick() {
+            console.log("PK分享.........");
+            ADManager.TAPoint(TaT.BtnClick, "fxpk_turn");
+            RecordManager._share(() => {
+                UIMgr.tip("分享成功");
+                this.ShareUI.visible = false;
+            }, () => {
+            });
+        }
+        CloseBtnClick() {
+            ADManager.TAPoint(TaT.BtnClick, "nofx_turn");
+            this.ShareUI.visible = false;
+            this.hide();
+        }
+    }
+
+    class UIPickLoading extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+        }
+        onInit() {
+            this.loading = this.vars("loading");
+        }
+        onShow() {
+            Laya.timer.loop(10, this, this.onValueChange);
+        }
+        onValueChange() {
+            if (this.loading.width >= 434) {
+                this.loading.width = 434;
+                Laya.timer.clear(this, this.onValueChange);
+                Laya.timer.once(1000, this, () => {
+                    this.hide();
+                    UIMgr.show("UIPick");
+                });
+            }
+            this.loading.width += 5;
+        }
+        onHide() {
+            this.loading.width = 0;
+        }
+    }
+
+    class UIPickReward extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.Data = [];
+            this.str = {};
+        }
+        onInit() {
+            this.ADBtn = this.vars("ADBtn");
+            this.btnEv("ADBtn", this.ADBtnClick);
+            this.CloseBtn = this.vars("CloseBtn");
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+        }
+        onShow() {
+            this.Data = GameDataController.ClothPackge1.cloths1;
+            this.Data.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[this.Data[i].ID];
+                this.str[this.Data[i].ID] = nv;
+            });
+            console.log(this.Data);
+        }
+        ADBtnClick() {
+            ADManager.ShowReward(() => {
+                this.GetAward();
+            }, () => {
+                UIMgr.show("UITip", () => {
+                    this.GetAward();
+                });
+            });
+        }
+        GetAward() {
+            for (let k in this.str) {
+                console.log(this.str[k]);
+                if (this.str[k] == 1) {
+                    let dataall = GameDataController.ClothDataRefresh;
+                    dataall[k] = 0;
+                    GameDataController.ClothDataRefresh = dataall;
+                    Laya.LocalStorage.setJSON(this.Data[0].GetType2, this.str);
+                    BagListController.Instance.refresh();
+                    UIMgr.tip("恭喜获得一套新衣服");
+                }
+            }
+            this.hide();
+        }
+    }
+
+    class UICombine extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.count = 0;
+            this.isWatchAD = true;
+            this.str = {};
+        }
+        onInit() {
+            this.First = this.vars("First");
+            this.ConfirmBtn = this.vars("ConfirmBtn");
+            this.ConfirmBtn.on(Laya.Event.CLICK, this, () => {
+                this.HeCheng.visible = true;
+                this.First.visible = false;
+            });
+            this.HeCheng = this.vars("HeCheng");
+            this.CombineBtn = this.HeCheng.getChildByName("CombineBtn");
+            this.Yanzhi = this.HeCheng.getChildByName("Yanzhi");
+            this.Fu = this.HeCheng.getChildByName("Fu");
+            this.QiZhi = this.HeCheng.getChildByName("QiZhi");
+            this.Aiqing = this.HeCheng.getChildByName("Aiqing");
+            this.Shuidi = this.HeCheng.getChildByName("Shuidi");
+            this.FuHei = this.HeCheng.getChildByName("FuHei");
+            this.Title = this.HeCheng.getChildByName("Title");
+            this.CombineBtn.on(Laya.Event.CLICK, this, this.DanShengShow);
+            this.HCCloseBtn = this.HeCheng.getChildByName("HCCloseBtn");
+            this.HCCloseBtn.on(Laya.Event.CLICK, this, () => {
+                RecordManager.stopAutoRecord();
+                this.hide();
+            });
+            this.Wan = this.HeCheng.getChildByName("Wan");
+            this.mask = this.vars("Mask");
+            this.QiZhi.on(Laya.Event.CLICK, this, this.QiZhiClick);
+            this.Yanzhi.on(Laya.Event.CLICK, this, this.YanzhiClick);
+            this.Fu.on(Laya.Event.CLICK, this, this.FuClick);
+            this.Aiqing.on(Laya.Event.CLICK, this, this.AiqingClick);
+            this.FuHei.on(Laya.Event.CLICK, this, this.FuHeiClick);
+            this.Title.on(Laya.Event.CLICK, this, this.TitleClick);
+            this.DanSheng = this.vars("DanSheng");
+            this.Guanghuan = this.DanSheng.getChildByName("Guanghuan");
+            this.StartBtn = this.DanSheng.getChildByName("StartBtn");
+            this.Role = this.DanSheng.getChildByName("Role");
+            this.CloseBtn = this.DanSheng.getChildByName("CloseBtn");
+            this.StartBtn.on(Laya.Event.CLICK, this, () => {
+                ADManager.TAPoint(TaT.BtnClick, "zaoren_click");
+                RecordManager.stopAutoRecord();
+                RecordManager._share(() => {
+                    UIMgr.tip("视频分享成功！");
+                    this.hide();
+                }, () => {
+                    UIMgr.tip("视频分享失败...");
+                    this.hide();
+                });
+            });
+            this.CloseBtn.on(Laya.Event.CLICK, this, () => {
+                RecordManager.stopAutoRecord();
+                this.hide();
+            });
+            this.CheckBtn = this.DanSheng.getChildByName("CheckBtn");
+            this.GetAwardBtn = this.DanSheng.getChildByName("GetAwardBtn");
+            this.CheckBtn.on(Laya.Event.CLICK, this, () => {
+                this.isWatchAD = !this.isWatchAD;
+                this.CheckBtn.getChildAt(0).visible = !this.CheckBtn.getChildAt(0).visible;
+                this.GetAwardBtn.getChildAt(0).visible = this.isWatchAD;
+                this.GetAwardBtn.getChildAt(1).visible = !this.isWatchAD;
+            });
+            this.GetAwardBtn.on(Laya.Event.CLICK, this, this.GetAwardBtnClick);
+        }
+        onShow() {
+            RecordManager.startAutoRecord();
+            if (GameDataController.ClothDataRefresh[40201] == 0 && GameDataController.ClothDataRefresh[40306] == 0 && GameDataController.ClothDataRefresh[40504] == 0) {
+                this.GetAwardBtn.visible = false;
+                this.CheckBtn.visible = false;
+                this.StartBtn.x = 236;
+                this.StartBtn.y = 1042;
+            }
+            this.First.visible = true;
+            this.HeCheng.visible = false;
+            this.Shuidi.visible = false;
+            this.DanSheng.visible = false;
+            this.isWatchAD = true;
+            this.CheckBtn.getChildAt(0).visible = true;
+            this.GetAwardBtn.getChildAt(0).visible = this.isWatchAD;
+            this.GetAwardBtn.getChildAt(1).visible = !this.isWatchAD;
+            this.count = 0;
+            this.QiZhi.on(Laya.Event.CLICK, this, this.QiZhiClick);
+            this.Yanzhi.on(Laya.Event.CLICK, this, this.YanzhiClick);
+            this.Fu.on(Laya.Event.CLICK, this, this.FuClick);
+            this.Aiqing.on(Laya.Event.CLICK, this, this.AiqingClick);
+            this.Fu.getChildAt(0).visible = true;
+            this.QiZhi.getChildAt(0).visible = true;
+            this.Aiqing.getChildAt(0).visible = true;
+            this.FuHei.x = 343;
+            this.FuHei.y = 203;
+            this.GetAwardBtn.visible = true;
+            this.CheckBtn.visible = true;
+            this.StartBtn.x = 393;
+            this.StartBtn.y = 1042;
+            Laya.timer.once(3000, this, () => {
+                this.HCCloseBtn.visible = true;
+            });
+            ADManager.TAPoint(TaT.BtnShow, "zaoren_click");
+        }
+        onHide() {
+            this.Shuidi.visible = false;
+            this.DanSheng.visible = false;
+            this.CloseBtn.visible = false;
+            Laya.timer.clear(this, this.GuangHuanRot);
+            this.HCCloseBtn.visible = false;
+            this.mask.centerY = 100;
+        }
+        GuangHuanRot() {
+            this.Guanghuan.rotation += 2;
+        }
+        QiZhiClick() {
+            ADManager.ShowReward(() => {
+                this.QiZhi.getChildAt(0).visible = false;
+                this.owner["QiZhiAni"].play(0, false);
+                this.count++;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
+                });
+                this.QiZhi.off(Laya.Event.CLICK, this, this.QiZhiClick);
+            });
+        }
+        YanzhiClick() {
+            this.owner["YanZhiAni"].play(0, false);
+            this.count++;
+            Laya.timer.frameOnce(35, this, () => {
+                this.mask.centerY -= 15;
+            });
+            this.Yanzhi.off(Laya.Event.CLICK, this, this.YanzhiClick);
+        }
+        FuClick() {
+            ADManager.ShowReward(() => {
+                this.Fu.getChildAt(0).visible = false;
+                this.owner["FuAni"].play(0, false);
+                this.count++;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
+                });
+                this.Fu.off(Laya.Event.CLICK, this, this.FuClick);
+            });
+        }
+        AiqingClick() {
+            ADManager.ShowReward(() => {
+                this.Aiqing.getChildAt(0).visible = false;
+                this.owner["AiqingAni"].play(0, false);
+                this.count++;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
+                });
+                this.Aiqing.off(Laya.Event.CLICK, this, this.AiqingClick);
+            });
+        }
+        FuHeiClick() {
+            ADManager.ShowReward(() => {
+                this.FuHei.getChildAt(0).visible = false;
+                this.owner["FuHeiAni"].play(0, false);
+                this.count++;
+                Laya.timer.frameOnce(35, this, () => {
+                    this.mask.centerY -= 15;
+                });
+                this.FuHei.off(Laya.Event.CLICK, this, this.FuHeiClick);
+            });
+        }
+        TitleClick() {
+            this.FuHei.x = 353.5;
+            this.FuHei.y = 902;
+        }
+        DanShengShow() {
+            console.log(this.count);
+            if (this.count >= 3) {
+                ADManager.ShowReward(() => {
+                    this.DanSheng.visible = true;
+                    this.RoleRandom();
+                    Laya.timer.loop(10, this, this.GuangHuanRot);
+                    Laya.timer.once(3000, this, () => {
+                        this.CloseBtn.visible = true;
+                    });
+                    this.HeCheng.visible = false;
+                }, () => {
+                    UIMgr.show("UITip", () => {
+                        this.DanSheng.visible = true;
+                        this.RoleRandom();
+                        Laya.timer.loop(10, this, this.GuangHuanRot);
+                        Laya.timer.once(3000, this, () => {
+                            this.CloseBtn.visible = true;
+                        });
+                        this.HeCheng.visible = false;
+                    });
+                });
+            }
+            else {
+                UIMgr.tip("至少增加三种属性才能够合成哦");
+            }
+        }
+        RoleRandom() {
+            let r = Util.randomInRange_i(1, 3);
+            this.Role.skin = "Active/taozhuang" + r + ".png";
+            if (r == 1) {
+                this.Datas = GameDataController.ClothPackge2.cloths3;
+            }
+            if (r == 2) {
+                this.Datas = GameDataController.ClothPackge2.cloths1;
+            }
+            if (r == 3) {
+                this.Datas = GameDataController.ClothPackge2.cloths2;
+            }
+            this.Refresh();
+            if (GameDataController.ClothDataRefresh[this.Datas[this.Datas.length - 1].ID] == 0) {
+                this.GetAwardBtn.visible = false;
+                this.CheckBtn.visible = false;
+                this.StartBtn.x = 236;
+                this.StartBtn.y = 1042;
+            }
+            console.log(r);
+            console.log(this.Datas[0].GetType2);
+            console.log(this.str);
+        }
+        Refresh() {
+            this.Datas.forEach((v, i) => {
+                let nv = GameDataController.ClothDataRefresh[this.Datas[i].ID];
+                this.str[this.Datas[i].ID] = nv;
+            });
+        }
+        GetAwardBtnClick() {
+            if (this.isWatchAD) {
+                ADManager.ShowReward(() => {
+                    this.GetAward();
+                }, () => {
+                    UIMgr.show("UITip", () => {
+                        this.GetAward();
+                    });
+                });
+            }
+            else {
+                this.hide();
+            }
+        }
+        GetAward() {
+            for (let k in this.str) {
+                if (this.str[k] == 1) {
+                    let dataall = GameDataController.ClothDataRefresh;
+                    dataall[k] = 0;
+                    GameDataController.ClothDataRefresh = dataall;
+                    Laya.LocalStorage.setJSON(this.Datas[0].GetType2, this.str);
+                    this.Refresh();
+                    UIMgr.get("UIReady").Refresh();
+                    BagListController.Instance.refresh();
+                    UIMgr.tip("恭喜解锁一套新衣服");
+                }
+                else {
+                    UIMgr.tip("已经解锁了哦，不要重复解锁");
+                }
+            }
+        }
+    }
+
+    class UIDuiHuan extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.str = {
+                "111": 40601,
+                "222": 40602,
+                "333": 40603,
+                "444": 40604,
+                "555": 40605,
+                "123": 70201,
+                "321": 70202,
+            };
+        }
+        onInit() {
+            this.DuiHuanBox = this.vars("DuiHuanBox");
+            this.InputText = this.vars("InputText");
+            this.SureBtn = this.DuiHuanBox.getChildByName("SureBtn");
+            this.btnEv("SureBtn", this.SureBtnClick);
+            this.BackBtn = this.DuiHuanBox.getChildByName("BackBtn");
+            this.BackBtn.on(Laya.Event.CLICK, this, () => {
+                this.hide();
+            });
+            this.GetBox = this.vars("GetBox");
+            this.Guang = this.GetBox.getChildByName("Guang");
+            this.ADBtn = this.GetBox.getChildByName("ADBtn");
+            this.Icon = this.GetBox.getChildByName("Icon");
+            this.CloseBtn = this.GetBox.getChildByName("CloseBtn");
+            this.ShareBtn = this.GetBox.getChildByName("ShareBtn");
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+            this.btnEv("ADBtn", this.ADBtnClick);
+            this.ShareBtn.on(Laya.Event.CLICK, this, this.ShareBtnClick);
+        }
+        onShow() {
+            RecordManager.startAutoRecord();
+            Laya.timer.once(3000, this, () => {
+                this.BackBtn.visible = true;
+            });
+            this.GetBox.visible = false;
+            this.CloseBtn.visible = false;
+            this.InputText.text = "";
+            this.ADBtn.visible = true;
+            this.ShareBtn.visible = false;
+        }
+        onHide() {
+            RecordManager.stopAutoRecord();
+            this.DuiHuanBox.visible = true;
+            this.GetBox.visible = false;
+            this.CloseBtn.visible = false;
+            this.BackBtn.visible = false;
+        }
+        SureBtnClick() {
+            for (let k in this.str) {
+                if (this.InputText.text == k) {
+                    let t = this.str[k];
+                    if (GameDataController.ClothDataRefresh[t] == 1) {
+                        this.DuiHuanBox.visible = false;
+                        this.GetBoxShow();
+                    }
+                    else {
+                        UIMgr.tip("已经获取该装扮了，不能重复获取哦！");
+                    }
+                }
+                if (this.str[this.InputText.text] == null) {
+                    UIMgr.tip("兑换码输入错误！");
+                }
+            }
+        }
+        ADBtnClick() {
+            ADManager.ShowReward(() => {
+                this.GetAward();
+            }, () => {
+                UIMgr.show("UITip", this.GetAward);
+            });
+        }
+        GetAward() {
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[this.str[this.InputText.text]] = 0;
+            GameDataController.ClothDataRefresh = dataall;
+            BagListController.Instance.showList();
+            BagListController.Instance.refresh();
+            UIMgr.tip("成功解一件新的装扮!");
+            this.ADBtn.visible = false;
+            Laya.timer.once(1000, this, () => {
+                this.ShareBtn.visible = true;
+            });
+        }
+        GetBoxShow() {
+            this.GetBox.visible = true;
+            Laya.timer.loop(10, this, this.GuangRot);
+            this.Icon.skin = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/DuiHuanMa/" + this.str[this.InputText.text] + ".png";
+            Laya.timer.once(3000, this, () => {
+                RecordManager.stopAutoRecord();
+                this.CloseBtn.visible = true;
+            });
+        }
+        ShareBtnClick() {
+            RecordManager._share(() => {
+                UIMgr.tip("视频分享成功！");
+            }, () => {
+                UIMgr.tip("视频分享失败...");
+            });
+        }
+        GuangRot() {
+            this.Guang.rotation += 2;
+        }
+    }
+
+    class UINotice extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+        }
+        onInit() {
+            this.TextArea = this.vars("TextArea");
+            this.CLoseBtn = this.vars("CloseBtn");
+            this.TextArea.text = "1: 兑换码功能和大家见面啦！\n" +
+                "    输入：111 获得白雪头发 \n" +
+                "    输入：222 获得白雪上衣 \n" +
+                "    输入：333 获得白雪长袜 \n" +
+                "    输入：444 获得白雪鞋子 \n" +
+                "    输入：555 获得白雪魔杖 \n" +
+                "    输入：123 获得汉服长裙 \n" +
+                "    输入：321 获得泳装 \n" +
+                "2: 新增绝版服装\n";
+            this.TextArea.padding = "10,10,10,50";
+            this.TextArea.leading = 10;
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+        }
+    }
+
+    class UIDraw extends UIBase {
+        constructor() {
+            super(...arguments);
+            this._openType = OpenType.Attach;
+            this.nowCaseClue = [];
+            this.nowClueID = 1;
+            this.lastPos = null;
+            this.offsetLen = 10;
+            this.lineWidth = 12;
+            this.drawMinX = 0;
+            this.drawMaxX = 0;
+            this.drawMinY = 0;
+            this.drawMaxY = 0;
+            this.boardDrawY = 0;
+            this.isTouchOnDraw = false;
+            this.isOnBoardAnim = false;
+            this.isBoardUp = false;
+            this.nowColorID = 0;
+            this.lineArr = [];
+            this.isSliderClick = true;
+            this.colorArr = [
+                "#303030",
+                "#b7b7b7",
+                "#FF69B4",
+                "#FF00FF",
+                "#00BFFF",
+                "#00FF00",
+                "#f1e168",
+            ];
+            this.paintInited = false;
+            this.numPdaye = 0;
+            this.numPxiaoye = 0;
+            this.numPlangong = 0;
+            this.arr = [];
+            this.cncountlan = 0;
+            this.cncountfen = 0;
+        }
+        onAwake() {
+            for (let k in GameDataController.ClothDataAsy) {
+                if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2) {
+                    if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
+                        this.arr.push(k);
+                    }
+                }
+            }
+            console.log(this.arr);
+            console.log("xxxxxxxxxxxxx");
+            this.Colorlan = this.vars("Colorlan");
+            this.Colorfen = this.vars("Colorfen");
+            this.UIBox = this.vars("UIBox");
+            this.SliderBox = this.vars("SliderBox");
+            this.Board = this.vars("Board");
+            this.imgBg = this.vars("imgBg");
+            this.imgRubber = this.vars("imgRubber");
+            this.DrawBox = this.vars("DrawBox");
+            this.imgGou = this.vars("imgGou");
+            this.btnClear = this.vars("btnClear");
+            this.Get = this.vars("Get");
+            this.GetBox = this.Get.getChildByName("GetBox");
+            this.Guang = this.GetBox.getChildByName("Guang");
+            this.ADBtn = this.GetBox.getChildByName("ADBtn");
+            this.Icon = this.GetBox.getChildByName("Icon");
+            this.CloseBtn = this.GetBox.getChildByName("CloseBtn");
+            this.ShareBtn = this.GetBox.getChildByName("ShareBtn");
+            this.btnEv("CloseBtn", () => {
+                this.hide();
+            });
+            this.btnEv("ADBtn", this.ADBtnClick);
+            this.ShareBtn.on(Laya.Event.CLICK, this, this.ShareBtnClick);
+            this.btnNext = this.vars("btnNext");
+            this.BackBtn = this.vars("BackBtn");
+            this.Colorlan.on(Laya.Event.CLICK, this, this.onColorlan);
+            this.Colorfen.on(Laya.Event.CLICK, this, this.onColorfen);
+            this.btnClear.on(Laya.Event.CLICK, this, this.onClickClear);
+            this.btnNext.on(Laya.Event.CLICK, this, this.onClickNext);
+            this.BackBtn.on(Laya.Event.CLICK, this, () => {
+                RecordManager.stopAutoRecord();
+                this.hide();
+            });
+            this.SliderBox.on(Laya.Event.MOUSE_DOWN, this, this.onSliderDown);
+            this.SliderBox.on(Laya.Event.MOUSE_MOVE, this, this.onSliderMove);
+            this.SliderBox.on(Laya.Event.MOUSE_UP, this, this.onSliderUp);
+            for (let i = 1; i <= 7; i++) {
+                this.Board.getChildByName("imgColor" + i).on(Laya.Event.CLICK, this, this.onClickColor, [i - 1]);
+            }
+            this.imgRubber.on(Laya.Event.CLICK, this, this.onClickColor, [-1]);
+            this.refreshShow();
+            this.drawMinX = this.lineWidth / 2;
+            this.drawMaxX = this.DrawBox.width - this.lineWidth / 2;
+            this.drawMinY = this.lineWidth / 2;
+            this.drawMaxY = this.DrawBox.height - this.lineWidth / 2;
+            this.btnNext.visible = true;
+            this.SliderBox.visible = false;
+            this.boardDrawY = this.UIBox.height - this.Board.height;
+            this.paintInited = true;
+            this.onEventFailAgain();
+            if (Number(Laya.LocalStorage.getItem("cncountlan") == "1")) {
+                this.Colorlan.visible = false;
+            }
+            else {
+                this.Colorlan.visible = true;
+            }
+            if (Number(Laya.LocalStorage.getItem("cncountfen") == "1")) {
+                this.Colorfen.visible = false;
+            }
+            else {
+                this.Colorfen.visible = true;
+            }
+            this.trySkinCount = Util.randomInRange_i(1, 3);
+        }
+        onShow() {
+            RecordManager.startAutoRecord();
+            Laya.timer.once(3000, this, () => {
+                this.BackBtn.visible = true;
+            });
+            this.Get.visible = false;
+            this.CloseBtn.visible = false;
+            this.ADBtn.visible = true;
+            this.ShareBtn.visible = false;
+        }
+        onHide() {
+            RecordManager.stopAutoRecord();
+            this.onClickClear();
+            this.Get.visible = false;
+            this.CloseBtn.visible = false;
+            this.BackBtn.visible = false;
+        }
+        onClickNext() {
+            console.log("确认完成");
+            this.onClickClear();
+            if (this.arr.length == 0) {
+                UIMgr.tip("你已经解锁了全部的服饰哦~");
+            }
+            let t = Tools.arrayRandomGetOut(this.arr, 1);
+            console.log(t);
+            let cloth = GameDataController._ClothData.get(parseInt(t));
+            this.data = cloth;
+            this.GetBoxShow();
+            console.log(this.data);
+        }
+        GetBoxShow() {
+            this.Get.visible = true;
+            Laya.timer.loop(10, this, this.GuangRot);
+            this.Icon.skin = this.data.GetPath1();
+            Laya.timer.once(3000, this, () => {
+                RecordManager.stopAutoRecord();
+                this.CloseBtn.visible = true;
+            });
+        }
+        GuangRot() {
+            this.Guang.rotation += 2;
+        }
+        ADBtnClick() {
+            ADManager.ShowReward(() => {
+                this.GetAward();
+            }, () => {
+                UIMgr.show("UITip", this.GetAward);
+            });
+        }
+        GetAward() {
+            let dataall = GameDataController.ClothDataRefresh;
+            dataall[this.data.ID] = 0;
+            GameDataController.ClothDataRefresh = dataall;
+            BagListController.Instance.showList();
+            BagListController.Instance.refresh();
+            UIMgr.tip("成功解一件新的装扮!");
+            this.ADBtn.visible = false;
+            Laya.timer.once(1000, this, () => {
+                this.ShareBtn.visible = true;
+            });
+        }
+        ShareBtnClick() {
+            RecordManager._share(() => {
+                UIMgr.tip("视频分享成功！");
+            }, () => {
+                UIMgr.tip("视频分享失败...");
+            });
+        }
+        onColorlan() {
+            this.cncountlan = Number(Laya.LocalStorage.getItem("cncountlan"));
+            ADManager.ShowReward(() => {
+                console.log("看视频解锁蓝色");
+                this.Colorlan.visible = false;
+                this.cncountlan = 1;
+                Laya.LocalStorage.setItem("cncountlan", this.cncountlan.toString());
+            });
+        }
+        onColorfen() {
+            this.cncountfen = Number(Laya.LocalStorage.getItem("cncountfen"));
+            ADManager.ShowReward(() => {
+                console.log("看视频解锁粉色");
+                this.Colorfen.visible = false;
+                this.cncountfen = 1;
+                Laya.LocalStorage.setItem("cncountfen", this.cncountfen.toString());
+            });
+        }
+        addDrawEvent() {
+            this.DrawBox.on(Laya.Event.MOUSE_DOWN, this, this._onMouseDown);
+            this.DrawBox.on(Laya.Event.MOUSE_MOVE, this, this._onMouseMove);
+            this.DrawBox.on(Laya.Event.MOUSE_UP, this, this._onMouseUP);
+        }
+        removeDrawEvent() {
+            this.DrawBox.off(Laya.Event.MOUSE_DOWN, this, this._onMouseDown);
+            this.DrawBox.off(Laya.Event.MOUSE_MOVE, this, this._onMouseMove);
+            this.DrawBox.off(Laya.Event.MOUSE_UP, this, this._onMouseUP);
+        }
+        upBoardAnim() {
+            if (this.isOnBoardAnim) {
+                return;
+            }
+            this.isOnBoardAnim = true;
+            Laya.Tween.to(this.Board, {
+                y: this.boardDrawY + 300
+            }, 500, Laya.Ease.backOut, Laya.Handler.create(this, () => {
+                this.isOnBoardAnim = false;
+            }));
+        }
+        downBoardAnim() {
+            if (this.isOnBoardAnim) {
+                return;
+            }
+            this.isOnBoardAnim = true;
+            Laya.Tween.to(this.Board, {
+                y: this.boardDrawY + 300 + 100
+            }, 500, Laya.Ease.backOut, Laya.Handler.create(this, () => {
+                this.isOnBoardAnim = false;
+            }));
+        }
+        onClickClear() {
+            this.DrawBox.destroyChildren();
+            this.lineArr = [];
+        }
+        onClickUp() {
+            if (!this.isOnBoardAnim) {
+                if (this.isBoardUp) {
+                    this.downBoardAnim();
+                }
+                else {
+                    this.upBoardAnim();
+                }
+                this.isBoardUp = !this.isBoardUp;
+            }
+        }
+        onClickCatch(event) {
+            event.stopPropagation();
+        }
+        onClickColor(ID) {
+            this.nowColorID = ID;
+            this.refreshShow();
+        }
+        refreshShow() {
+            let node = this.imgRubber;
+            if (this.nowColorID != -1) {
+                node = this.Board.getChildByName("imgColor" + (this.nowColorID + 1));
+            }
+            this.imgGou.x = node.x + 30;
+            this.imgGou.y = node.y + 35;
+        }
+        _onMouseDown(event) {
+            this.isTouchOnDraw = true;
+            this.mergeBoard();
+            if (this.nowColorID != -1) {
+                let board = new Laya.Sprite();
+                board.width = this.DrawBox.width;
+                board.height = this.DrawBox.height;
+                board.cacheAs = "bitmap";
+                this.DrawBox.addChild(board);
+                this.lineArr.push(board);
+            }
+            this.lastPos = new Laya.Point(event.stageX - this.Board.x - this.DrawBox.x, event.stageY - this.Board.y - this.DrawBox.y);
+            this.nowBoard.graphics.drawCircle(this.lastPos.x, this.lastPos.y, this.nowLineWidth / 2, this.nowColor);
+        }
+        _onMouseMove(event) {
+            if (this.isTouchOnDraw) {
+                let touchPos = new Laya.Point(event.stageX - this.Board.x - this.DrawBox.x, event.stageY - this.Board.y - this.DrawBox.y);
+                this.drawLine(touchPos);
+            }
+        }
+        _onMouseUP(event) {
+            this.isTouchOnDraw = false;
+        }
+        onSliderDown(event) {
+            event.stopPropagation();
+            this.sliderDownPos = new Laya.Point(event.stageX, event.stageY);
+            this.isSliderClick = true;
+        }
+        onSliderMove(event) {
+        }
+        onSliderUp(event) {
+        }
+        onEventFailAgain() {
+            this.nowClueID = 1;
+            this.SliderBox.visible = false;
+            this.UIBox.visible = true;
+            this.Board.y = this.boardDrawY;
+            this.toWitness();
+        }
+        onEventPickAgain() {
+            this.UIBox.visible = true;
+        }
+        drawLine(nowPos) {
+            nowPos.x > this.drawMaxX && (nowPos.x = this.drawMaxX);
+            nowPos.x < this.drawMinX && (nowPos.x = this.drawMinX);
+            nowPos.y > this.drawMaxY && (nowPos.y = this.drawMaxY);
+            nowPos.y < this.drawMinY && (nowPos.y = this.drawMinY);
+            let offsetX = nowPos.x - this.lastPos.x;
+            let offsetY = nowPos.y - this.lastPos.y;
+            if (offsetX * offsetX + offsetY * offsetY >= this.offsetLen * this.offsetLen) {
+                this.nowBoard.graphics.drawLine(this.lastPos.x, this.lastPos.y, nowPos.x, nowPos.y, this.nowColor, this.nowLineWidth);
+                this.nowBoard.graphics.drawCircle(nowPos.x, nowPos.y, this.nowLineWidth / 2, this.nowColor);
+                this.lastPos.x = nowPos.x;
+                this.lastPos.y = nowPos.y;
+            }
+        }
+        mergeBoard() {
+            if (this.nowColorID != -1) {
+                let num = this.lineArr.length;
+                if (num > 3) {
+                    let tex = this.DrawBox.drawToTexture(this.DrawBox.width, this.DrawBox.height, this.DrawBox.x, this.DrawBox.y);
+                    let spr = new Laya.Sprite();
+                    spr.width = this.DrawBox.width;
+                    spr.height = this.DrawBox.height;
+                    this.DrawBox.addChild(spr);
+                    spr.texture = tex;
+                    let lastBg = this.DrawBox.getChildByName("bg");
+                    if (lastBg) {
+                        lastBg.destroy();
+                    }
+                    spr.name = "bg";
+                    spr.zOrder = -1;
+                    while (num != 0) {
+                        let d_board = this.lineArr.splice(0, 1)[0];
+                        d_board.destroy();
+                        num--;
+                    }
+                }
+            }
+            else {
+                let tex = this.DrawBox.drawToTexture(this.DrawBox.width, this.DrawBox.height, this.DrawBox.x, this.DrawBox.y);
+                let spr = new Laya.Sprite();
+                spr.width = this.DrawBox.width;
+                spr.height = this.DrawBox.height;
+                spr.cacheAs = "bitmap";
+                this.DrawBox.addChild(spr);
+                spr.texture = tex;
+                let lastBg = this.DrawBox.getChildByName("bg");
+                if (lastBg) {
+                    lastBg.destroy();
+                }
+                spr.name = "bg";
+                spr.zOrder = -1;
+                let num = this.lineArr.length;
+                while (num != 0) {
+                    let d_board = this.lineArr.splice(0, 1)[0];
+                    d_board.destroy();
+                    num--;
+                }
+                let board = new Laya.Sprite();
+                board.width = this.DrawBox.width;
+                board.height = this.DrawBox.height;
+                board.blendMode = "destination-out";
+                spr.addChild(board);
+                this.lineArr.push(spr);
+            }
+        }
+        toWitness() {
+            this.addDrawEvent();
+            this.btnClear.visible = true;
+        }
+        toPickSuspect() {
+            this.btnClear.visible = false;
+            this.SliderBox.visible = true;
+            this.removeDrawEvent();
+            this.downBoardAnim();
+            Laya.timer.once(1000, this, () => {
+            });
+        }
+        get nowBoard() {
+            let board = this.lineArr[this.lineArr.length - 1];
+            if (this.nowColorID == -1) {
+                board = board.getChildAt(0);
+            }
+            return board;
+        }
+        get nowColor() {
+            return this.nowColorID != -1 ? this.colorArr[this.nowColorID] : "#000000";
+        }
+        get nowLineWidth() {
+            return this.nowColorID != -1 ? this.lineWidth : this.lineWidth * 3;
+        }
+        get nowBubbleInfo() {
+            if (this.nowClueID > this.nowCaseClue.length) {
+                this.nowClueID = this.nowCaseClue.length;
+            }
+            return {
+                txt: this.nowCaseClue[this.nowClueID - 1],
+                pro: this.nowClueID + "/" + this.nowCaseClue.length
+            };
+        }
+    }
+
     class UIWeddingEgg extends UIBase {
         constructor() {
             super(...arguments);
@@ -15619,10 +15688,10 @@
             TimerAdmin._randomLoop(100, 200, this, () => {
                 Effects._Particle._spray(this.vars('EParent1'), null, [35, 45], null, [0, 3], [0, -60], [Effects._SkinUrl.爱心2], [[100, 50, 50, 1], [255, 255, 50, 1]], 0, [100, 400], null, [1, 4], [0.02, 0.03]);
             });
-            TimerAdmin._frameRandomLoop(25, 70, this, () => {
-                Effects._Glitter._blinkStar(this.vars('Eblink1'), new Laya.Point(0, 0), [80, 60], [Effects._SkinUrl.星星7], [[100, 30, 30, 1], [255, 255, 255, 1]], null, [40, 100], null, null, [0.01, 0.03]);
+            TimerAdmin._frameRandomLoop(12.5, 35, this, () => {
+                Effects._Glitter._blinkStar(this.vars('Eblink1'), new Laya.Point(0, 0), [80, 60], [Effects._SkinUrl.星星7], [[100, 30, 30, 1], [255, 255, 255, 1]], [40, 100], null, null, [0.01, 0.03]);
             }, true);
-            TimerAdmin._frameRandomLoop(25, 70, this, () => {
+            TimerAdmin._frameRandomLoop(12.5, 35, this, () => {
                 Effects._Glitter._blinkStar(this.vars('Eblink2'), new Laya.Point(0, 0), [80, 60], [Effects._SkinUrl.星星7], [[100, 30, 30, 1], [255, 255, 255, 1]], [40, 100], null, null, [0.01, 0.03]);
             }, true);
             TimerAdmin._frameLoop(120, this, () => {
@@ -15637,6 +15706,7 @@
                     Color._changeOnce(this.vars('Word1'), [255, 0, 100, 1], 20);
                 });
             }, true);
+            Effects._circulation._corner(this.vars('E1'), [[0, 0], [100, 0], [100, 100], [0, 100]]);
         }
     }
 
@@ -15673,7 +15743,7 @@
                 Effects._Glitter._blinkStar(this.vars('EStar4'), new Laya.Point(0, 0), [100, 100], [Effects._SkinUrl.星星6], [[100, 30, 30, 1], [255, 255, 255, 1]], [60, 110], null, null, [0.03, 0.06], [0, 0]);
             }, true);
             TimerAdmin._frameRandomLoop(15, 50, this, () => {
-                Effects._Aperture._continuous(this.vars('ESquare'), null, 250, 250, null, [Effects._SkinUrl.光圈1], [[100, 100, 100, 1], [255, 255, 255, 1]], null, [1.1, 2], [0.035, 0.05]);
+                Effects._Aperture._continuous(this.vars('ESquare'), null, 250, 250, null, [Effects._SkinUrl.光圈1], [[100, 100, 100, 1], [255, 255, 255, 1]], null, [1.1, 2], [0.035, 0.06]);
             }, true);
             this.vars('ESquare').alpha = 0.5;
             TimerAdmin._frameLoop(120, this, () => {

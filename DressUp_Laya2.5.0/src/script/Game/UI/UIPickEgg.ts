@@ -37,7 +37,7 @@ export default class UIPickEgg extends UIBase {
             Effects._Glitter._blinkStar(this.vars('EStar4'), new Laya.Point(0, 0), [100, 100], [Effects._SkinUrl.星星6], [[100, 30, 30, 1], [255, 255, 255, 1]], [60, 110], null, null, [0.03, 0.06], [0, 0]);
         }, true)
         TimerAdmin._frameRandomLoop(15, 50, this, () => {
-            Effects._Aperture._continuous(this.vars('ESquare'), null, 250, 250, null, [Effects._SkinUrl.光圈1], [[100, 100, 100, 1], [255, 255, 255, 1]], null, [1.1, 2], [0.035, 0.05]);
+            Effects._Aperture._continuous(this.vars('ESquare'), null, 250, 250, null, [Effects._SkinUrl.光圈1], [[100, 100, 100, 1], [255, 255, 255, 1]], null, [1.1, 2], [0.035, 0.06]);
         }, true)
         this.vars('ESquare').alpha = 0.5;
         TimerAdmin._frameLoop(120, this, () => {

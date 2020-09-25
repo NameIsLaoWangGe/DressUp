@@ -1690,7 +1690,6 @@ export module lwg {
                 } else {
                     Laya.timer.clearAll(caller);
                 }
-                // console.log(RGBA0);
                 cf.color(RGBA0[0], RGBA0[1], RGBA0[2], RGBA0[3]);
                 node.filters = [cf];
             })
@@ -1815,7 +1814,7 @@ export module lwg {
                  * @param parent 父节点
                  * @param caller 执行域
                  * @param centerPoint 中心点
-                 * @param PosSection 以中心点为中心的宽高[a,b]
+                 * @param sectionWH 以中心点为中心的宽高[w,h]
                  * @param distance 移动距离，区间[a,b]，随机移动一定的距离后消失;
                  * @param width 粒子的宽度区间[a,b]
                  * @param height 粒子的高度区间[a,b],如果为空，这高度和宽度一样
@@ -1824,11 +1823,13 @@ export module lwg {
                  * @param colorRGBA 上色色值区间[[R,G,B,A],[R,G,B,A]]
                  * @param zOder 层级，默认为0
                  */
-                constructor(parent: Laya.Sprite, centerPoint: Laya.Point, PosSection: Array<number>, width: Array<number>, height: Array<number>, rotation: Array<number>, urlArr: Array<string>, colorRGBA: Array<Array<number>>, zOder: number) {
+                constructor(parent: Laya.Sprite, centerPoint: Laya.Point, sectionWH: Array<number>, width: Array<number>, height: Array<number>, rotation: Array<number>, urlArr: Array<string>, colorRGBA: Array<Array<number>>, zOder: number) {
                     super();
                     parent.addChild(this);
-                    let sectionWidth = PosSection ? Tools.randomOneNumber(PosSection[0], PosSection[1]) : Tools.randomOneNumber(-200, 200);
-                    let sectionHeight = PosSection ? Tools.randomOneNumber(PosSection[1], PosSection[1]) : Tools.randomOneNumber(-25, 25);
+                    let sectionWidth = sectionWH ? Tools.randomOneNumber(sectionWH[0]) : Tools.randomOneNumber(200);
+                    let sectionHeight = sectionWH ? Tools.randomOneNumber(sectionWH[1]) : Tools.randomOneNumber(50);
+                    sectionWidth = Tools.randomOneHalf() == 0 ? sectionWidth : -sectionWidth;
+                    sectionHeight = Tools.randomOneHalf() == 0 ? sectionHeight : -sectionHeight;
                     this.x = centerPoint ? centerPoint.x + sectionWidth : sectionWidth;
                     this.y = centerPoint ? centerPoint.y + sectionHeight : sectionHeight;
                     width = width ? width : [25, 50];
@@ -1854,7 +1855,7 @@ export module lwg {
               * @param parent 父节点
               * @param caller 执行域
               * @param centerPoint 中心点
-              * @param WHsection 宽高延伸[a,b]
+              * @param sectionWH 以中心点为中心的宽高[w,h]
               * @param width 粒子的宽度区间[a,b]
               * @param height 粒子的高度区间[a,b],如果为空，这高度和宽度一样
               * @param rotation 角度旋转[a,b]
@@ -1865,8 +1866,8 @@ export module lwg {
               * @param speed 吸入速度区间[a,b]
               * @param accelerated 加速度区间[a,b]
               */
-            export function _fallingVertical(parent: Laya.Sprite, centerPoint?: Laya.Point, PosSection?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
-                let Img = new _ParticleImgBase(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder);
+            export function _fallingVertical(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
+                let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                 let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(4, 8);
                 let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0.25, 0.45);
                 let acc = 0;
@@ -1923,8 +1924,8 @@ export module lwg {
              * @param accelerated 加速度区间[a,b]
              * @param zOder 层级，默认为0
              */
-            export function _slowlyUp(parent: Laya.Sprite, centerPoint?: Laya.Point, PosSection?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
-                let Img = new _ParticleImgBase(parent, centerPoint, PosSection, width, height, rotation, urlArr, colorRGBA, zOder);
+            export function _slowlyUp(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
+                let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                 let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(1.5, 2);
                 let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0.001, 0.005);
                 let acc = 0;
@@ -2165,55 +2166,6 @@ export module lwg {
 
         /**闪光*/
         export module _Glitter {
-            /**
-              * 渐隐渐出循环闪光
-              * @param parent 父节点
-              * @param caller 执行域，一般是当前执行的脚本，最后一并清理
-              * @param x x位置
-              * @param y y位置
-              * @param width 宽
-              * @param height 高
-              * @param zOder 层级
-              * @param url 图片地址
-              * @param speed 闪烁速度
-              * @param count 默认不限次数
-              */
-            export function _simpleInfinite(parent: Laya.Sprite, x: number, y: number, width: number, height: number, zOder: number, url?: string, speed?: number): Laya.Image {
-                let Img = new Laya.Image();
-                parent.addChild(Img);
-                Img.pos(x, y);
-                Img.width = width;
-                Img.height = height;
-                Img.pivotX = width / 2;
-                Img.pivotY = height / 2;
-                Img.skin = url ? url : _SkinUrl[24];
-                Img.alpha = 0;
-                Img.zOrder = zOder ? zOder : 0;
-                let add = true;
-                let caller = {};
-                let func = () => {
-                    if (!add) {
-                        Img.alpha -= speed ? speed : 0.01;
-                        if (Img.alpha <= 0) {
-                            if (caller['end']) {
-                                Laya.timer.clearAll(caller);
-                                Img.removeSelf();
-                            } else {
-                                add = true;
-                            }
-                        }
-                    } else {
-                        Img.alpha += speed ? speed * 2 : 0.01 * 2;
-                        if (Img.alpha >= 1) {
-                            add = false;
-                            caller['end'] = true;
-                        }
-                    }
-                }
-                Laya.timer.frameLoop(1, caller, func);
-                return Img;
-            }
-
             export class _GlitterImage extends Laya.Image {
                 constructor(parent: Laya.Sprite, centerPos: Laya.Point, radiusXY: Array<number>, urlArr: Array<string>, colorRGBA: Array<Array<number>>, width: Array<number>, height: Array<number>) {
                     super();
@@ -2234,6 +2186,8 @@ export module lwg {
                     this.alpha = 0;
                 }
             }
+
+
             /**
              * 在一个点内的随机范围内，创建一个星星，闪烁后消失
              * @param parent 父节点
@@ -2291,6 +2245,132 @@ export module lwg {
                 }
                 Laya.timer.frameLoop(1, moveCaller, ani);
                 return Img;
+            }
+
+            /**
+           * 渐隐渐出循环闪光
+           * @param parent 父节点
+           * @param caller 执行域，一般是当前执行的脚本，最后一并清理
+           * @param x x位置
+           * @param y y位置
+           * @param width 宽
+           * @param height 高
+           * @param zOder 层级
+           * @param url 图片地址
+           * @param speed 闪烁速度
+           * @param count 默认不限次数
+           */
+            export function _simpleInfinite(parent: Laya.Sprite, x: number, y: number, width: number, height: number, zOder: number, url?: string, speed?: number): Laya.Image {
+                let Img = new Laya.Image();
+                parent.addChild(Img);
+                Img.pos(x, y);
+                Img.width = width;
+                Img.height = height;
+                Img.pivotX = width / 2;
+                Img.pivotY = height / 2;
+                Img.skin = url ? url : _SkinUrl[24];
+                Img.alpha = 0;
+                Img.zOrder = zOder ? zOder : 0;
+                let add = true;
+                let caller = {};
+                let func = () => {
+                    if (!add) {
+                        Img.alpha -= speed ? speed : 0.01;
+                        if (Img.alpha <= 0) {
+                            if (caller['end']) {
+                                Laya.timer.clearAll(caller);
+                                Img.removeSelf();
+                            } else {
+                                add = true;
+                            }
+                        }
+                    } else {
+                        Img.alpha += speed ? speed * 2 : 0.01 * 2;
+                        if (Img.alpha >= 1) {
+                            add = false;
+                            caller['end'] = true;
+                        }
+                    }
+                }
+                Laya.timer.frameLoop(1, caller, func);
+                return Img;
+            }
+        }
+
+        /**循环模块*/
+        export module _circulation {
+            /**循环模块基类*/
+            export class _circulationImage extends Laya.Image {
+                constructor(parent: Laya.Sprite, urlArr: Array<string>, colorRGBA: Array<Array<number>>, width: Array<number>, height: Array<number>, zOder: number) {
+                    super();
+                    parent.addChild(this);
+                    this.skin = urlArr ? Tools.arrayRandomGetOne(urlArr) : _SkinUrl.圆形发光1;
+                    this.width = width ? Tools.randomOneNumber(width[0], width[1]) : 80;
+                    this.height = height ? Tools.randomOneNumber(height[0], height[1]) : this.width;
+                    this.pivotX = this.width / 2;
+                    this.pivotY = this.height / 2;
+                    let RGBA = [];
+                    RGBA[0] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][0], colorRGBA[1][0]) : Tools.randomOneNumber(0, 255);
+                    RGBA[1] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][1], colorRGBA[1][1]) : Tools.randomOneNumber(0, 255);
+                    RGBA[2] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][2], colorRGBA[1][2]) : Tools.randomOneNumber(0, 255);
+                    RGBA[3] = colorRGBA ? Tools.randomOneNumber(colorRGBA[0][3], colorRGBA[1][3]) : Tools.randomOneNumber(0, 255);
+                    Color._colour(this, RGBA);
+                    this.zOrder = zOder ? zOder : 0;
+                    this.alpha = 0;
+                    this.scaleX = 0;
+                    this.scaleY = 0;
+                }
+            }
+
+            /**
+             * 多点循环，在一组点中，以第一个点为起点，最后一个点为终点无限循环
+             * @param {Laya.Sprite} parent 父节点
+             * @param {Array<Array<number>>} [posArray] 坐标点集合[[x,y]]
+             * @param {Array<string>} [urlArr] 皮肤结合
+             * @param {Array<Array<number>>} [colorRGBA] 颜色区间[[ ][ ]]               
+             * @param {Array<number>} [width] 宽度区间[a,b]
+             * @param {Array<number>} [height] 高度区间[a,b]
+             * @param {number} [zOder] 层级
+             * @param {number} [speed] 速度
+             */
+            export function _corner(parent: Laya.Sprite, posArray: Array<Array<number>>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, width?: Array<number>, height?: Array<number>, zOder?: number, speed?: number): void {
+                if (posArray.length <= 1) {
+                    return;
+                }
+                let Img = new _circulationImage(parent, urlArr, colorRGBA, width, height, zOder);
+                Img.pos(posArray[0][0], posArray[0][1]);
+                let moveCaller = {
+                    num: 0,
+                };
+                Img['moveCaller'] = moveCaller;
+                let _speed = speed ? speed : 10;
+                let index = 0;
+                Img.alpha = 1;
+                Img.scale(1, 1);
+
+                // TimerAdmin._frameNumLoop(1, 11, moveCaller, () => {
+                //     Img.scaleY = Img.scaleX += 0.15;
+                //     moveCaller.num++;
+                //     if (moveCaller.num == 9) {
+                //         func();
+                //     }
+                // })
+                var func = () => {
+                    let targetXY = [posArray[index][0], posArray[index][1]];
+                    let distance = (new Laya.Point()).distance(targetXY[0], targetXY[1]);
+                    let time = distance / _speed * 100;
+                    if (index == posArray.length) {
+                        targetXY = [posArray[0][0], posArray[0][1]];
+                    }
+                    Animation2D.move_Simple(Img, Img.x, Img.y, targetXY[0], targetXY[1], time, 0, () => {
+                        index++;
+                        if (index == posArray.length) {
+                            index = 0;
+                        }
+                        func();
+                    });
+                }
+                func();
             }
         }
     }
