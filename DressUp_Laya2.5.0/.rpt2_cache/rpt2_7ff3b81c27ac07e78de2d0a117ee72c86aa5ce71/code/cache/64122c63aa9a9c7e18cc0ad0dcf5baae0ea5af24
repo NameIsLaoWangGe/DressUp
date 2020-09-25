@@ -1,0 +1,7 @@
+{
+  "code": "import { OpenType, UIBase, UIMgr } from \"../../Frame/Core\";\r\nexport default class UIPickEgg extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.LiKeChuDaoBtn = this.vars(\"LiKeChuDaoBtn\");\r\n        this.CloseBtn = this.vars(\"CloseBtn\");\r\n        this.btnEv(\"LiKeChuDaoBtn\", () => {\r\n            UIMgr.show(\"UIRank\");\r\n            this.hide();\r\n        });\r\n        this.btnEv(\"CloseBtn\", () => {\r\n            this.hide();\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UIPickEgg.js.map",
+  "references": [
+    "D:/Game/project/DressUp/Project_Laya2.5.0/DressUp_Laya2.5.0/src/script/Frame/Core.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"UIPickEgg.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIPickEgg.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,kBAAkB,CAAC;AAE3D,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,MAAM;IAA7C;;QAEI,cAAS,GAAC,QAAQ,CAAC,MAAM,CAAC;IAiB9B,CAAC;IAdG,MAAM;QAEF,IAAI,CAAC,aAAa,GAAC,IAAI,CAAC,IAAI,CAAC,eAAe,CAAC,CAAC;QAC9C,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;QAEpC,IAAI,CAAC,KAAK,CAAC,eAAe,EAAC,GAAE,EAAE;YAC3B,KAAK,CAAC,IAAI,CAAC,QAAQ,CAAC,CAAC;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;QAEF,IAAI,CAAC,KAAK,CAAC,UAAU,EAAC,GAAE,EAAE;YACtB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;IACN,CAAC;CACJ\"}"
+}
