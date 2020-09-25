@@ -2,11 +2,11 @@
     "x":0,
     "type":"View",
     "selectedBox":2,
-    "selecteID":8,
+    "selecteID":4,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":9,
+    "maxID":24,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -35,29 +35,31 @@
             "props":{"y":0,"x":0,"width":720,"height":1280,"centerY":0,"centerX":0},
             "nodeParent":2,
             "label":"Box",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":4,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"skin":"PK/tu_3.png"},
+                    "props":{"y":-30,"x":-99,"skin":"UIPickEgg/di.png"},
                     "nodeParent":4,
                     "label":"Image",
                     "isDirectory":false,
                     "isAniNode":true,
                     "hasChild":false,
-                    "compId":5,
+                    "compId":9,
                     "child":[
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,LiKeChuDaoBtn",
-                    "props":{"y":1020,"x":231,"var":"LiKeChuDaoBtn","skin":"PK/anniu_like.png"},
+                    "props":{"y":1068,"x":362,"width":262,"var":"LiKeChuDaoBtn","skin":"PK/anniu_like.png","pivotY":48,"pivotX":131,"height":96},
                     "nodeParent":4,
                     "label":"LiKeChuDaoBtn",
                     "isDirectory":false,
@@ -68,6 +70,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CloseBtn",
                     "props":{"y":33,"x":607,"var":"CloseBtn","skin":"sign/X.png"},
@@ -77,6 +80,160 @@
                     "isAniNode":true,
                     "hasChild":false,
                     "compId":7,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,ESquare",
+                    "props":{"y":560,"x":358,"var":"ESquare"},
+                    "nodeParent":4,
+                    "label":"ESquare",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":21,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,EStar1",
+                    "props":{"y":590,"x":156,"width":50,"var":"EStar1","height":50},
+                    "nodeParent":4,
+                    "label":"EStar1",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":16,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,EStar2",
+                    "props":{"y":585,"x":532,"width":50,"var":"EStar2","height":50},
+                    "nodeParent":4,
+                    "label":"EStar2",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":18,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,EStar4",
+                    "props":{"y":447.5,"x":528,"width":50,"var":"EStar4","height":50},
+                    "nodeParent":4,
+                    "label":"EStar4",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":20,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,EStar3",
+                    "props":{"y":447.5,"x":206,"width":50,"var":"EStar3","height":50},
+                    "nodeParent":4,
+                    "label":"EStar3",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":19,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"y":113,"x":148,"skin":"UIPickEgg/ren.png"},
+                    "nodeParent":4,
+                    "label":"Image",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":11,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Word1",
+                    "props":{"y":686,"x":32,"var":"Word1","skin":"UIPickEgg/zi1.png"},
+                    "nodeParent":4,
+                    "label":"Word1",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":true,
+                    "hasChild":true,
+                    "compId":12,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":0,"x":0,"skin":"UIPickEgg/zi1.png","renderType":"mask"},
+                            "nodeParent":12,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":22,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image,Liuguang,Liuguang",
+                            "props":{"y":52,"x":795,"width":793,"var":"Liuguang","skin":"common/jinbi_di.png","sizeGrid":"0,60,0,66","rotation":-70,"pivotY":33,"pivotX":397,"name":"Liuguang","height":66},
+                            "nodeParent":12,
+                            "label":"Liuguang",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":23,
+                            "child":[
+                                ]
+                        }]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Word3",
+                    "props":{"y":959,"x":364,"width":328,"var":"Word3","skin":"UIPickEgg/zi2.png","pivotY":23,"pivotX":164,"height":46},
+                    "nodeParent":4,
+                    "label":"Word3",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":13,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Word2",
+                    "props":{"y":900,"x":368,"width":511,"var":"Word2","skin":"UIPickEgg/zi3.png","pivotY":21,"pivotX":256,"height":41},
+                    "nodeParent":4,
+                    "label":"Word2",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":14,
                     "child":[
                         ]
                 }]

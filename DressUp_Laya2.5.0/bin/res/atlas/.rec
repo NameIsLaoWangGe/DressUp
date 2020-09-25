@@ -205,6 +205,14 @@ P 5A6B5637 anniu_queding.png
 R 452E00F0 dikuang.png
 P 15CF5E96 suo.png
 P D688CC20 zi.png
+D UIPickEgg
+P 15542F43 anniu.png
+R 0F5A7F9B di.png
+P 2DD95E5E fang.png
+R 3274286B ren.png
+R B4F36611 zi1.png
+P 3E762EC4 zi2.png
+P 98938A2C zi3.png
 D UITask
 P 9041D5E7 biaoti.png
 R B0C517BA bj.png
@@ -234,7 +242,7 @@ P A3111EEC anniu.png
 R 708530D8 daxin.png
 R 445E9B24 dise.png
 P 9D0C2FE5 guang1.png
-P 5FFE8821 xin.png
+P DCA879A3 xin.png
 R DA5CBB03 zhujue.png
 D Combine/1
 P EBD6B1FA 17.png
@@ -279,6 +287,9 @@ P F7A1E1BF xiangpi.png
 D Frame/Effects
 P 479E26FC aixin1.png
 P D31680DB aixin2.png
+P DBA95F56 aixin3.png
+P 9651DB6B guangquan1.png
+P 8F0485C9 guangquan2.png
 P BA1DC9D1 hua1.png
 P B2F649D2 hua2.png
 P 11BBE783 hua3.png
@@ -288,6 +299,8 @@ P CA15C6E9 star2.png
 P 2B464813 star3.png
 P B1AE5A72 star4.png
 P 1292F90D star5.png
+P 8FC6C14D star6.png
+P A9BD8825 star7.png
 P 53D31D10 xuehua1.png
 P 4A512E89 yezi1.png
 P CAAFC187 yuan1.png
