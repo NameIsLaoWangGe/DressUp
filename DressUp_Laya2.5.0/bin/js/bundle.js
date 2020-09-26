@@ -9745,19 +9745,19 @@
                     }
                     let Img = new _circulationImage(parent, urlArr, colorRGBA, width, height, zOder);
                     Img.pos(posArray[0][0], posArray[0][1]);
+                    Img.alpha = 1;
                     let moveCaller = {
                         num: 0,
                     };
                     Img['moveCaller'] = moveCaller;
                     let _speed = speed ? speed : 10;
                     let index = 0;
-                    Img.alpha = 1;
                     Img.scale(1, 1);
                     var func = () => {
                         let targetXY = [posArray[index][0], posArray[index][1]];
                         let distance = (new Laya.Point()).distance(targetXY[0], targetXY[1]);
                         let time = distance / _speed * 100;
-                        if (index == posArray.length) {
+                        if (index == posArray.length + 1) {
                             targetXY = [posArray[0][0], posArray[0][1]];
                         }
                         Animation2D.move_Simple(Img, Img.x, Img.y, targetXY[0], targetXY[1], time, 0, () => {
@@ -15706,7 +15706,7 @@
                     Color._changeOnce(this.vars('Word1'), [255, 0, 100, 1], 20);
                 });
             }, true);
-            Effects._circulation._corner(this.vars('E1'), [[0, 0], [100, 0], [100, 100], [0, 100]]);
+            Effects._circulation._corner(this.vars('E1'), [[0, 0], [100, 0], [100, -100], [0, -100]]);
         }
     }
 
@@ -15749,7 +15749,7 @@
             TimerAdmin._frameLoop(120, this, () => {
                 Animation2D.bomb_LeftRight(this.vars('LiKeChuDaoBtn'), 1.22, 250);
             }, true);
-            TimerAdmin._frameLoop(350, this, () => {
+            TimerAdmin._frameLoop(300, this, () => {
                 Animation2D.move_Simple(this.vars('Liuguang'), -62.5, 0, 795, 52, 600, 0, () => {
                     Color._changeOnce(this.vars('Word1'), [255, 0, 100, 1], 20, () => {
                         Animation2D.swell_shrink(this.vars('Word2'), 1.0, 1.1, 250, 0, () => {

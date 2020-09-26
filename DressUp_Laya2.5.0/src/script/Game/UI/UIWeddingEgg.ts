@@ -55,8 +55,5 @@ export default class UIWeddingEgg extends UIBase {
                 Color._changeOnce(this.vars('Word1'), [255, 0, 100, 1], 20);
             });
         }, true)
-
-        Effects._circulation._corner(this.vars('E1'), [[0, 0], [100, 0], [100, 100], [0, 100]]);
-
     }
 }

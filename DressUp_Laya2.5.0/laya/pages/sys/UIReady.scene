@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":518,
-    "selecteID":1138,
+    "selectedBox":2,
+    "selecteID":518,
     "searchKey":"View",
     "props":{"zOrder":-10,"width":720,"visible":true,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0,"bgColor":"#000000"},
     "nodeParent":-1,
@@ -209,25 +209,12 @@
                     "nodeParent":518,
                     "label":"DuihuanBtn",
                     "isOpen":true,
-                    "isDirectory":true,
+                    "isDirectory":false,
                     "isAniNode":true,
-                    "hasChild":true,
+                    "hasChild":false,
                     "compId":1138,
                     "child":[
-                        {
-                            "x":45,
-                            "type":"Image",
-                            "searchKey":"Image,EDuihuanBtn",
-                            "props":{"y":-1,"x":-4,"width":100,"var":"EDuihuanBtn","height":100},
-                            "nodeParent":1138,
-                            "label":"EDuihuanBtn",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":1155,
-                            "child":[
-                                ]
-                        }],
+                        ],
                     "$HIDDEN":false
                 },
                 {

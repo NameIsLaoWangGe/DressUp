@@ -307,8 +307,6 @@ export default class UIReady extends UIBase {
         TimerAdmin._frameRandomLoop(50, 100, this, () => {
             Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
         })
-
-        Effects._circulation._corner(this.vars('DuihuanBtn'), [[0, 0], [0, 100], [100, 100], [100, 0]])
     }
 
     refreshClock() {

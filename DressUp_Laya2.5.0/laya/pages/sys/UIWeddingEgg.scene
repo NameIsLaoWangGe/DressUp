@@ -240,20 +240,6 @@
                     "child":[
                         ]
                 }]
-        },
-        {
-            "x":15,
-            "type":"Image",
-            "searchKey":"Image,E1",
-            "props":{"y":1037,"x":335,"width":50,"var":"E1","height":50},
-            "nodeParent":2,
-            "label":"E1",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":28,
-            "child":[
-                ]
         }],
     "animations":[
         {

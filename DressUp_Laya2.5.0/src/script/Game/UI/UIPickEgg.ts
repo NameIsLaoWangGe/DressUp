@@ -43,7 +43,7 @@ export default class UIPickEgg extends UIBase {
         TimerAdmin._frameLoop(120, this, () => {
             Animation2D.bomb_LeftRight(this.vars('LiKeChuDaoBtn'), 1.22, 250);
         }, true)
-        TimerAdmin._frameLoop(350, this, () => {
+        TimerAdmin._frameLoop(300, this, () => {
             Animation2D.move_Simple(this.vars('Liuguang'), -62.5, 0, 795, 52, 600, 0, () => {
                 Color._changeOnce(this.vars('Word1'), [255, 0, 100, 1], 20, () => {
                     Animation2D.swell_shrink(this.vars('Word2'), 1.0, 1.1, 250, 0, () => {
