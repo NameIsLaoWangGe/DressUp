@@ -8312,6 +8312,9 @@
                 class _ApertureImage extends Laya.Image {
                     constructor(parent, centerPoint, width, height, rotation, urlArr, colorRGBA, zOder) {
                         super();
+                        if (!parent.parent) {
+                            return;
+                        }
                         parent.addChild(this);
                         centerPoint ? this.pos(centerPoint.x, centerPoint.y) : this.pos(0, 0);
                         this.width = width ? width : 100;
@@ -8386,8 +8389,7 @@
                         sectionHeight = Tools.randomOneHalf() == 0 ? sectionHeight : -sectionHeight;
                         this.x = centerPoint ? centerPoint.x + sectionWidth : sectionWidth;
                         this.y = centerPoint ? centerPoint.y + sectionHeight : sectionHeight;
-                        width = width ? width : [25, 50];
-                        this.width = Tools.randomOneNumber(width[0], width[1]);
+                        this.width = width ? Tools.randomOneNumber(width[0], width[1]) : Tools.randomOneNumber(20, 50);
                         this.height = height ? Tools.randomOneNumber(height[0], height[1]) : this.width;
                         this.pivotX = this.width / 2;
                         this.pivotY = this.height / 2;
@@ -8404,6 +8406,52 @@
                     }
                 }
                 _Particle._ParticleImgBase = _ParticleImgBase;
+                function _snow(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder, distance, rotationSpeed, speed, accelerated) {
+                    let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
+                    let _rotationSpeed = rotationSpeed ? Tools.randomOneNumber(rotationSpeed[0], rotationSpeed[1]) : Tools.randomOneNumber(0, 1);
+                    _rotationSpeed = Tools.randomOneHalf() == 0 ? _rotationSpeed : -_rotationSpeed;
+                    let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(1, 2.5);
+                    let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0, 0);
+                    let acc = 0;
+                    let moveCaller = {
+                        alpha: true,
+                        move: false,
+                        vinish: false,
+                    };
+                    Img['moveCaller'] = moveCaller;
+                    let distance0 = 0;
+                    let distance1 = distance ? Tools.randomOneNumber(distance[0], distance[1]) : Tools.randomOneNumber(100, 300);
+                    TimerAdmin._frameLoop(1, moveCaller, () => {
+                        Img.rotation += _rotationSpeed;
+                        if (Img.alpha < 1 && moveCaller.alpha) {
+                            Img.alpha += 0.05;
+                            distance0 = Img.y++;
+                            if (Img.alpha >= 1) {
+                                moveCaller.alpha = false;
+                                moveCaller.move = true;
+                            }
+                        }
+                        if (distance0 < distance1 && moveCaller.move) {
+                            acc += accelerated0;
+                            distance0 = Img.y += (speed0 + acc);
+                            if (distance0 >= distance1) {
+                                moveCaller.move = false;
+                                moveCaller.vinish = true;
+                            }
+                        }
+                        if (moveCaller.vinish) {
+                            acc -= accelerated0 / 2;
+                            Img.alpha -= 0.03;
+                            Img.y += (speed0 + acc);
+                            if (Img.alpha <= 0 || (speed0 + acc) <= 0) {
+                                Img.removeSelf();
+                                Laya.timer.clearAll(moveCaller);
+                            }
+                        }
+                    });
+                    return Img;
+                }
+                _Particle._snow = _snow;
                 function _fallingVertical(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder, distance, speed, accelerated) {
                     let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                     let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(4, 8);
@@ -8649,6 +8697,9 @@
                 class _GlitterImage extends Laya.Image {
                     constructor(parent, centerPos, radiusXY, urlArr, colorRGBA, width, height) {
                         super();
+                        if (!parent.parent) {
+                            return;
+                        }
                         parent.addChild(this);
                         this.skin = urlArr ? Tools.arrayRandomGetOne(urlArr) : _SkinUrl.星星1;
                         this.width = width ? Tools.randomOneNumber(width[0], width[1]) : 80;
@@ -8717,11 +8768,9 @@
                 function _simpleInfinite(parent, x, y, width, height, zOder, url, speed) {
                     let Img = new Laya.Image();
                     parent.addChild(Img);
-                    Img.pos(x, y);
                     Img.width = width;
                     Img.height = height;
-                    Img.pivotX = width / 2;
-                    Img.pivotY = height / 2;
+                    Img.pos(x, y);
                     Img.skin = url ? url : _SkinUrl.光圈1;
                     Img.alpha = 0;
                     Img.zOrder = zOder ? zOder : 0;
@@ -10209,14 +10258,28 @@
                 ADManager.TAPoint(TaT.BtnClick, "pk_main");
             });
             this.effcets();
-            this.changeEffcets('open');
         }
         effcets() {
+            let CEBox = this.vars('ChangeEffect');
             TimerAdmin._frameRandomLoop(50, 100, this, () => {
+                if (CEBox.visible) {
+                    return;
+                }
                 Effects._Particle._slowlyUp(this.vars('E1'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
             });
             TimerAdmin._frameRandomLoop(50, 100, this, () => {
+                if (CEBox.visible) {
+                    return;
+                }
                 Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
+            });
+            let YueLiang = CEBox.getChildByName('YueLiang');
+            let SnowParent = CEBox.getChildByName('SnowParent');
+            TimerAdmin._frameRandomLoop(80, 220, this, () => {
+                Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
+            });
+            TimerAdmin._frameRandomLoop(50, 140, this, () => {
+                Effects._Particle._snow(SnowParent, new Laya.Point(Laya.stage.width / 2, 0), [Laya.stage.width / 2, 0], [20, 35], null, null, [Effects._SkinUrl.花4], [[180, 50, 50, 1], [255, 255, 100, 1]], null, [Laya.stage.width / 2 + 200, Laya.stage.width / 2 + 500]);
             });
         }
         changeEffcets(type) {
@@ -10228,34 +10291,31 @@
                         new function () {
                             let time = 25000;
                             var yunCirculation = () => {
-                                Animation2D.move_Simple(element, Laya.stage.width + 200, element.y, -800, element.y, time * num, 0, () => {
+                                Animation2D.move_Simple(element, Laya.stage.width + 200, element.y, -element.width - 50, element.y, time * num, 0, () => {
                                     yunCirculation();
                                 });
                             };
-                            Animation2D.move_Simple(element, element.x, element.y, -800, element.y, time * num, 0, () => {
+                            Animation2D.move_Simple(element, element.x, element.y, -element.width - 50, element.y, time * num, 0, () => {
                                 yunCirculation();
                             });
                         };
                     }
                 }
-                TimerAdmin._frameRandomLoop(200, 500, this, () => {
-                    Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
-                });
             };
             let CEBox = this.vars('ChangeEffect');
-            let YueLiang = CEBox.getChildByName('YueLiang');
             if (type == 'already') {
                 CEBox.visible = true;
+                open();
             }
             else if (type == 'open') {
                 CEBox.visible = true;
                 CEBox.alpha = 0;
                 open();
-                Animation2D.fadeOut(CEBox, 0, 1, 5000, 0, () => {
+                Animation2D.fadeOut(CEBox, 0, 1, 1000, 5000, () => {
                 });
             }
             else if (type == 'close') {
-                Animation2D.fadeOut(CEBox, 1, 0, 500, 0, () => {
+                Animation2D.fadeOut(CEBox, 1, 0, 1000, 5000, () => {
                     CEBox.visible = false;
                 });
             }

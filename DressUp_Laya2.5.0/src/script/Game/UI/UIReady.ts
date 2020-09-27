@@ -274,15 +274,33 @@ export default class UIReady extends UIBase {
             ADManager.TAPoint(TaT.BtnClick, "pk_main");
         });
         this.effcets();
-        this.changeEffcets('open');
+        // this.changeEffcets('open');
     }
 
     effcets(): void {
+
+        let CEBox = this.vars('ChangeEffect') as Laya.Box;
+
         TimerAdmin._frameRandomLoop(50, 100, this, () => {
+            if (CEBox.visible) {
+                return;
+            }
             Effects._Particle._slowlyUp(this.vars('E1'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
         })
         TimerAdmin._frameRandomLoop(50, 100, this, () => {
+            if (CEBox.visible) {
+                return;
+            }
             Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
+        })
+
+        let YueLiang = CEBox.getChildByName('YueLiang') as Laya.Image;
+        let SnowParent = CEBox.getChildByName('SnowParent') as Laya.Image;
+        TimerAdmin._frameRandomLoop(80, 220, this, () => {
+            Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
+        })
+        TimerAdmin._frameRandomLoop(50, 140, this, () => {
+            Effects._Particle._snow(SnowParent, new Laya.Point(Laya.stage.width / 2, 0), [Laya.stage.width / 2, 0], [20, 35], null, null, [Effects._SkinUrl.花4], [[180, 50, 50, 1], [255, 255, 100, 1]], null, [Laya.stage.width / 2 + 200, Laya.stage.width / 2 + 500]);
         })
     }
 
@@ -303,39 +321,33 @@ export default class UIReady extends UIBase {
                     new function () {
                         let time = 25000;
                         var yunCirculation = () => {
-                            Animation2D.move_Simple(element, Laya.stage.width + 200, element.y, -800, element.y, time * num, 0, () => {
+                            Animation2D.move_Simple(element, Laya.stage.width + 200, element.y, -element.width - 50, element.y, time * num, 0, () => {
                                 yunCirculation();
                             });
                         }
-                        Animation2D.move_Simple(element, element.x, element.y, -800, element.y, time * num, 0, () => {
+                        Animation2D.move_Simple(element, element.x, element.y, -element.width - 50, element.y, time * num, 0, () => {
                             yunCirculation();
                         });
                     }
                 }
             }
-
-            TimerAdmin._frameRandomLoop(200, 500, this, () => {
-                Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
-            })
         }
 
         let CEBox = this.vars('ChangeEffect') as Laya.Box;
-        let YueLiang = CEBox.getChildByName('YueLiang') as Laya.Image;
         if (type == 'already') {
             CEBox.visible = true;
+            open();
         } else if (type == 'open') {
             CEBox.visible = true;
             CEBox.alpha = 0;
             open();
-            Animation2D.fadeOut(CEBox, 0, 1, 5000, 0, () => {
+            Animation2D.fadeOut(CEBox, 0, 1, 1000, 5000, () => {
             });
         } else if (type == 'close') {
-            Animation2D.fadeOut(CEBox, 1, 0, 500, 0, () => {
+            Animation2D.fadeOut(CEBox, 1, 0, 1000, 5000, () => {
                 CEBox.visible = false;
             });
         }
-
-
     }
 
     MusicRot() {

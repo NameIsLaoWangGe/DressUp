@@ -344,6 +344,9 @@ export module lwg {
             export class _ApertureImage extends Laya.Image {
                 constructor(parent: Laya.Sprite, centerPoint: Laya.Point, width: number, height: number, rotation: Array<number>, urlArr: Array<string>, colorRGBA: Array<Array<number>>, zOder: number) {
                     super();
+                    if (!parent.parent) {
+                        return;
+                    }
                     parent.addChild(this);
                     centerPoint ? this.pos(centerPoint.x, centerPoint.y) : this.pos(0, 0);
                     this.width = width ? width : 100;
@@ -445,8 +448,7 @@ export module lwg {
                     sectionHeight = Tools.randomOneHalf() == 0 ? sectionHeight : -sectionHeight;
                     this.x = centerPoint ? centerPoint.x + sectionWidth : sectionWidth;
                     this.y = centerPoint ? centerPoint.y + sectionHeight : sectionHeight;
-                    width = width ? width : [25, 50];
-                    this.width = Tools.randomOneNumber(width[0], width[1]);
+                    this.width = width ? Tools.randomOneNumber(width[0], width[1]) : Tools.randomOneNumber(20, 50);
                     this.height = height ? Tools.randomOneNumber(height[0], height[1]) : this.width;
                     this.pivotX = this.width / 2;
                     this.pivotY = this.height / 2;
@@ -464,7 +466,56 @@ export module lwg {
             }
 
             /**
-              * 发射一个垂直向下的粒子，类似于火星下落熄灭，水滴下落被蒸发,下雪，不是下雨状态
+             * 下雪
+             * */
+            export function _snow(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, rotationSpeed?: [number, number], speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
+                let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
+                let _rotationSpeed = rotationSpeed ? Tools.randomOneNumber(rotationSpeed[0], rotationSpeed[1]) : Tools.randomOneNumber(0, 1);
+                _rotationSpeed = Tools.randomOneHalf() == 0 ? _rotationSpeed : -_rotationSpeed;
+                let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(1, 2.5);
+                let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0, 0);
+                let acc = 0;
+                let moveCaller = {
+                    alpha: true,
+                    move: false,
+                    vinish: false,
+                };
+                Img['moveCaller'] = moveCaller;
+                let distance0 = 0;
+                let distance1 = distance ? Tools.randomOneNumber(distance[0], distance[1]) : Tools.randomOneNumber(100, 300);
+                TimerAdmin._frameLoop(1, moveCaller, () => {
+                    Img.rotation += _rotationSpeed;
+                    if (Img.alpha < 1 && moveCaller.alpha) {
+                        Img.alpha += 0.05;
+                        distance0 = Img.y++;
+                        if (Img.alpha >= 1) {
+                            moveCaller.alpha = false;
+                            moveCaller.move = true;
+                        }
+                    }
+                    if (distance0 < distance1 && moveCaller.move) {
+                        acc += accelerated0;
+                        distance0 = Img.y += (speed0 + acc);
+                        if (distance0 >= distance1) {
+                            moveCaller.move = false;
+                            moveCaller.vinish = true;
+                        }
+                    }
+                    if (moveCaller.vinish) {
+                        acc -= accelerated0 / 2;
+                        Img.alpha -= 0.03;
+                        Img.y += (speed0 + acc);
+                        if (Img.alpha <= 0 || (speed0 + acc) <= 0) {
+                            Img.removeSelf();
+                            Laya.timer.clearAll(moveCaller);
+                        }
+                    }
+                })
+                return Img;
+            }
+
+            /**
+              * 发射一个垂直向下的粒子，类似于火星下落熄灭，水滴下落，不是下雨状态
               * @param parent 父节点
               * @param caller 执行域
               * @param centerPoint 中心点
@@ -479,7 +530,7 @@ export module lwg {
               * @param speed 吸入速度区间[a,b]
               * @param accelerated 加速度区间[a,b]
               */
-            export function _fallingVertical(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
+            export function _fallingVertical(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: [[number, number, number, number], [number, number, number, number]], zOder?: number, distance?: Array<number>, speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
                 let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                 let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(4, 8);
                 let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0.25, 0.45);
@@ -782,6 +833,9 @@ export module lwg {
             export class _GlitterImage extends Laya.Image {
                 constructor(parent: Laya.Sprite, centerPos: Laya.Point, radiusXY: Array<number>, urlArr: Array<string>, colorRGBA: Array<Array<number>>, width: Array<number>, height: Array<number>) {
                     super();
+                    if (!parent.parent) {
+                        return;
+                    }
                     parent.addChild(this);
                     this.skin = urlArr ? Tools.arrayRandomGetOne(urlArr) : _SkinUrl.星星1;
                     this.width = width ? Tools.randomOneNumber(width[0], width[1]) : 80;
@@ -874,11 +928,11 @@ export module lwg {
             export function _simpleInfinite(parent: Laya.Sprite, x: number, y: number, width: number, height: number, zOder: number, url?: string, speed?: number): Laya.Image {
                 let Img = new Laya.Image();
                 parent.addChild(Img);
-                Img.pos(x, y);
                 Img.width = width;
                 Img.height = height;
-                Img.pivotX = width / 2;
-                Img.pivotY = height / 2;
+                // Img.pivotX = width / 2;
+                // Img.pivotY = height / 2;
+                Img.pos(x, y);
                 Img.skin = url ? url : _SkinUrl.光圈1;
                 Img.alpha = 0;
                 Img.zOrder = zOder ? zOder : 0;
@@ -2109,7 +2163,7 @@ export module lwg {
         * 返回一个数值区间内的1个随机数
         * @param section1 区间1
         * @param section2 区间2,不输入则是0~section1
-        * @param intSet 是否是整数,默认是整数，为false
+        * @param intSet 是否是整数,默认是不整数，为false
         */
         export function randomOneNumber(section1: number, section2?: number, intSet?: boolean): number {
             let chage: number;
@@ -2119,7 +2173,7 @@ export module lwg {
                 section2 = chage;
             }
             if (section2) {
-                let num;
+                let num: number;
                 if (intSet) {
                     num = Math.floor(Math.random() * (section2 - section1)) + section1;
                 } else {
