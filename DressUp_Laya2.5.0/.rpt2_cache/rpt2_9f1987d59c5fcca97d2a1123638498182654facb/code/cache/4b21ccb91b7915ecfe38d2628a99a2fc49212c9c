@@ -1,0 +1,9 @@
+{
+  "code": "import { OpenType, UIBase, UIMgr } from \"../../Frame/Core\";\r\nexport default class UIXiaoHM extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.BackBtn = this.vars(\"BackBtn\");\r\n        this.EnterBtn = this.vars(\"EnterBtn\");\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n            UIMgr.show(\"UIWeddingEgg\");\r\n        });\r\n        this.btnEv(\"EnterBtn\", () => {\r\n            UIMgr.show(\"UIDuiHuan\");\r\n            UIMgr.show(\"UIWeddingEgg\");\r\n            this.hide();\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UIXiaoHM.js.map",
+  "references": [
+    "D:/Game/project/DressUp/Project_Laya2.5.0/DressUp_Laya2.5.0/src/script/Frame/Core.ts",
+    "D:/Game/project/DressUp/Project_Laya2.5.0/DressUp_Laya2.5.0/src/script/Game/UI/Bag/BagListController.ts",
+    "D:/Game/project/DressUp/Project_Laya2.5.0/DressUp_Laya2.5.0/src/script/Game/UI/UISubMoneyEf.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"UIXiaoHM.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIXiaoHM.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,kBAAkB,CAAC;AAI3D,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,MAAM;IAA5C;;QAEI,cAAS,GAAC,QAAQ,CAAC,MAAM,CAAC;IAmB9B,CAAC;IAhBG,MAAM;QAEF,IAAI,CAAC,OAAO,GAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC;QAClC,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;QAEpC,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;YACZ,KAAK,CAAC,IAAI,CAAC,cAAc,CAAC,CAAA;QAC9B,CAAC,CAAC,CAAA;QAEF,IAAI,CAAC,KAAK,CAAC,UAAU,EAAC,GAAE,EAAE;YACtB,KAAK,CAAC,IAAI,CAAC,WAAW,CAAC,CAAC;YACxB,KAAK,CAAC,IAAI,CAAC,cAAc,CAAC,CAAA;YAC1B,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;IACN,CAAC;CACJ\"}"
+}

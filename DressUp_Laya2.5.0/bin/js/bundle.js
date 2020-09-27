@@ -8722,7 +8722,7 @@
                     Img.height = height;
                     Img.pivotX = width / 2;
                     Img.pivotY = height / 2;
-                    Img.skin = url ? url : _SkinUrl[24];
+                    Img.skin = url ? url : _SkinUrl.光圈1;
                     Img.alpha = 0;
                     Img.zOrder = zOder ? zOder : 0;
                     let add = true;
@@ -10209,6 +10209,7 @@
                 ADManager.TAPoint(TaT.BtnClick, "pk_main");
             });
             this.effcets();
+            this.changeEffcets('open');
         }
         effcets() {
             TimerAdmin._frameRandomLoop(50, 100, this, () => {
@@ -10217,6 +10218,47 @@
             TimerAdmin._frameRandomLoop(50, 100, this, () => {
                 Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
             });
+        }
+        changeEffcets(type) {
+            var open = () => {
+                for (let index = 0; index < CEBox.numChildren; index++) {
+                    const element = CEBox.getChildAt(index);
+                    if (element.name.substring(0, 3) == 'Yun') {
+                        let num = Number(element.name.substr(3, 1));
+                        new function () {
+                            let time = 25000;
+                            var yunCirculation = () => {
+                                Animation2D.move_Simple(element, Laya.stage.width + 200, element.y, -800, element.y, time * num, 0, () => {
+                                    yunCirculation();
+                                });
+                            };
+                            Animation2D.move_Simple(element, element.x, element.y, -800, element.y, time * num, 0, () => {
+                                yunCirculation();
+                            });
+                        };
+                    }
+                }
+                TimerAdmin._frameRandomLoop(200, 500, this, () => {
+                    Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
+                });
+            };
+            let CEBox = this.vars('ChangeEffect');
+            let YueLiang = CEBox.getChildByName('YueLiang');
+            if (type == 'already') {
+                CEBox.visible = true;
+            }
+            else if (type == 'open') {
+                CEBox.visible = true;
+                CEBox.alpha = 0;
+                open();
+                Animation2D.fadeOut(CEBox, 0, 1, 5000, 0, () => {
+                });
+            }
+            else if (type == 'close') {
+                Animation2D.fadeOut(CEBox, 1, 0, 500, 0, () => {
+                    CEBox.visible = false;
+                });
+            }
         }
         MusicRot() {
             this.MusicBtn.rotation += 2;

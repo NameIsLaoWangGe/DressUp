@@ -863,15 +863,13 @@ export module lwg {
             /**
            * 渐隐渐出循环闪光
            * @param parent 父节点
-           * @param caller 执行域，一般是当前执行的脚本，最后一并清理
            * @param x x位置
            * @param y y位置
            * @param width 宽
            * @param height 高
            * @param zOder 层级
            * @param url 图片地址
-           * @param speed 闪烁速度
-           * @param count 默认不限次数
+           * @param speed 闪烁速度默认 0.01
            */
             export function _simpleInfinite(parent: Laya.Sprite, x: number, y: number, width: number, height: number, zOder: number, url?: string, speed?: number): Laya.Image {
                 let Img = new Laya.Image();
@@ -881,7 +879,7 @@ export module lwg {
                 Img.height = height;
                 Img.pivotX = width / 2;
                 Img.pivotY = height / 2;
-                Img.skin = url ? url : _SkinUrl[24];
+                Img.skin = url ? url : _SkinUrl.光圈1;
                 Img.alpha = 0;
                 Img.zOrder = zOder ? zOder : 0;
                 let add = true;
@@ -904,6 +902,7 @@ export module lwg {
                             caller['end'] = true;
                         }
                     }
+                    // console.log(Img.alpha, Img.width, Img.height, Img.x, Img.y);
                 }
                 Laya.timer.frameLoop(1, caller, func);
                 return Img;
@@ -1043,14 +1042,14 @@ export module lwg {
             }), 0);
         }
 
-           /**
-         * 上下抖动
-         * @param node 节点
-         * @param range 幅度
-         * @param time 花费时间
-         * @param delayed 延迟时间
-         * @param func 回调函数
-         */
+        /**
+      * 上下抖动
+      * @param node 节点
+      * @param range 幅度
+      * @param time 花费时间
+      * @param delayed 延迟时间
+      * @param func 回调函数
+      */
         export function upDwon_Shake(node, range, time, delayed, func): void {
             Laya.Tween.to(node, { y: node.y + range }, time, null, Laya.Handler.create(this, function () {
                 Laya.Tween.to(node, { y: node.y - range * 2 }, time, null, Laya.Handler.create(this, function () {

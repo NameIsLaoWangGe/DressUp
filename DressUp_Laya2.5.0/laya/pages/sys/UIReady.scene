@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":519,
-    "selecteID":1160,
+    "selectedBox":1167,
+    "selecteID":1162,
     "searchKey":"View",
     "props":{"zOrder":-10,"width":720,"visible":true,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0,"bgColor":"#000000"},
     "nodeParent":-1,
-    "maxID":1161,
+    "maxID":1174,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -17,10 +17,10 @@
         {
             "x":15,
             "type":"Image",
-            "searchKey":"Image",
-            "props":{"zOrder":-10,"top":0,"skin":"main/4.png","right":0,"left":0,"bottom":0},
+            "searchKey":"Image,BackGruand",
+            "props":{"zOrder":-10,"y":0,"x":0,"var":"BackGruand","top":0,"skin":"main/4.png","right":0,"left":0,"bottom":0},
             "nodeParent":2,
-            "label":"Image",
+            "label":"BackGruand",
             "isOpen":true,
             "isDirectory":false,
             "isAniNode":true,
@@ -28,7 +28,123 @@
             "compId":765,
             "child":[
                 ],
-            "$HIDDEN":false
+            "$HIDDEN":true
+        },
+        {
+            "x":15,
+            "type":"Box",
+            "searchKey":"Box,ChangeEffect",
+            "props":{"visible":true,"var":"ChangeEffect","top":0,"right":0,"left":0,"bottom":0},
+            "nodeParent":2,
+            "label":"ChangeEffect",
+            "isOpen":true,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":1167,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Yue4",
+                    "props":{"skin":"ce/云不动.png","right":0,"name":"Yue4","left":0,"height":524,"bottom":419},
+                    "nodeParent":1167,
+                    "label":"Yue4",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1169,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Yun3",
+                    "props":{"y":57,"x":220,"width":371,"skin":"ce/云动.png","name":"Yun3","height":160,"alpha":0.5},
+                    "nodeParent":1167,
+                    "label":"Yun3",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1171,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,YueLiang",
+                    "props":{"y":0,"x":0,"width":809,"skin":"ce/月亮.png","pivotY":233,"pivotX":232,"name":"YueLiang","height":849},
+                    "nodeParent":1167,
+                    "label":"YueLiang",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1162,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Yun2",
+                    "props":{"y":181.5,"x":591,"skin":"ce/云2.png","name":"Yun2"},
+                    "nodeParent":1167,
+                    "label":"Yun2",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1163,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Yun1",
+                    "props":{"y":315,"x":-275,"skin":"ce/云动.png","name":"Yun1"},
+                    "nodeParent":1167,
+                    "label":"Yun1",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1164,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,ChangeBg",
+                    "props":{"zOrder":-10,"y":0,"x":0,"var":"ChangeBg","top":0,"skin":"ce/背景.jpg","right":0,"left":0,"bottom":0},
+                    "nodeParent":1167,
+                    "label":"ChangeBg",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1168,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "x":30,
+                    "type":"Image",
+                    "searchKey":"Image,Yun3",
+                    "props":{"y":-42,"x":984,"width":371,"skin":"ce/云动.png","name":"Yun3","height":160,"alpha":0.5},
+                    "nodeParent":1167,
+                    "label":"Yun3",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":1172,
+                    "child":[
+                        ]
+                }]
         },
         {
             "x":15,
@@ -309,14 +425,13 @@
             "props":{"zOrder":2,"width":720,"var":"FemaleRoot","scaleY":0.8,"scaleX":0.8,"name":"FemaleRoot","height":1280,"centerY":-193,"centerX":-30,"anchorY":0.3,"anchorX":0.5},
             "nodeParent":2,
             "label":"FemaleRoot",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":519,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Body",
                     "props":{"zOrder":-9,"width":231,"skin":"Body/lian.png","name":"Body","height":806,"centerY":0,"centerX":14,"anchorY":0.5,"anchorX":0.5},
@@ -331,7 +446,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Hair,Hair",
                     "props":{"zOrder":6,"var":"Hair","skin":"Cloth/Hair/72001_1.png","name":"Hair","centerY":-348,"centerX":19,"anchorY":0.5,"anchorX":0.5},
@@ -346,7 +460,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Hair1,Hair1",
                     "props":{"zOrder":1,"var":"Hair1","skin":"Cloth/Hair/72001_2.png","name":"Hair1","centerY":-271,"centerX":17,"anchorY":0.5,"anchorX":0.5},
@@ -361,7 +474,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Ornament,Ornament",
                     "props":{"zOrder":-7,"var":"Ornament","skin":"Cloth/ACC/71003.png","scaleY":1,"name":"Ornament","centerY":-206,"centerX":-189,"anchorY":0.5,"anchorX":0.5},
@@ -376,7 +488,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Shirt,Shirt",
                     "props":{"zOrder":4,"var":"Shirt","skin":"Cloth/Up/10102.png","name":"Shirt","centerY":-126,"centerX":5,"anchorY":0.5,"anchorX":0.5},
@@ -392,7 +503,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Shirt1,Shirt1",
                     "props":{"zOrder":4,"var":"Shirt1","skin":"Cloth/Up/10102.png","name":"Shirt1","centerY":-106,"centerX":15,"anchorY":0.5,"anchorX":0.5},
@@ -407,7 +517,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Trousers,Trousers",
                     "props":{"zOrder":3,"var":"Trousers","skin":"Cloth/Up/10102.png","name":"Trousers","centerY":-55,"centerX":7,"anchorY":0.5,"anchorX":0.5},
@@ -422,7 +531,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Trousers1,Trousers1",
                     "props":{"zOrder":3,"var":"Trousers1","skin":"Cloth/Up/10102.png","name":"Trousers1","centerY":-44,"centerX":74,"anchorY":0.5,"anchorX":0.5},
@@ -437,7 +545,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Dress,Dress",
                     "props":{"zOrder":5,"var":"Dress","skin":"Cloth/Dress/72002_1.png","name":"Dress","centerY":-119,"centerX":12,"anchorY":0.5,"anchorX":0.5},
@@ -453,7 +560,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Socks,Socks",
                     "props":{"zOrder":3,"var":"Socks","skin":"Cloth/Scoks/72003.png","name":"Socks","centerY":205,"centerX":23,"anchorY":0.5,"anchorX":0.5},
@@ -468,7 +574,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Dress1,Dress1",
                     "props":{"zOrder":3,"var":"Dress1","skin":"Cloth/Dress/72002_2.png","name":"Dress1","centerY":-66,"centerX":16,"anchorY":0.5,"anchorX":0.5},
@@ -484,7 +589,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Ornament1,Ornament1",
                     "props":{"zOrder":-20,"var":"Ornament1","skin":"Cloth/ACC/10106_2.png","name":"Ornament1","centerY":-363,"centerX":9,"anchorY":0.5,"anchorX":0.5},
@@ -499,7 +603,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Shose,Shose",
                     "props":{"zOrder":4,"var":"Shose","skin":"Cloth/Shoes/72004.png","name":"Shose","centerY":323,"centerX":27,"anchorY":0.5,"anchorX":0.5},
@@ -514,7 +617,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Socks1,Socks1",
                     "props":{"zOrder":0,"var":"Socks1","skin":"Cloth/Up/10102.png","name":"Socks1","centerY":-6.103516,"centerX":3.051758,"anchorY":0.5,"anchorX":0.5},
@@ -529,7 +631,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Shose1,Shose1",
                     "props":{"zOrder":4,"var":"Shose1","skin":"Cloth/Shoes/50303_2.png","name":"Shose1","centerY":331,"centerX":40,"anchorY":0.5,"anchorX":0.5},
@@ -544,7 +645,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Coat,Coat",
                     "props":{"zOrder":4,"var":"Coat","skin":"Cloth/Up/10102.png","name":"Coat","centerY":-231.7,"centerX":21.4,"anchorY":0.5,"anchorX":0.5},
@@ -560,7 +660,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Coat1,Coat1",
                     "props":{"zOrder":0,"var":"Coat1","skin":"Cloth/Up/10102.png","name":"Coat1","centerY":-166,"centerX":9.800001,"anchorY":0.5,"anchorX":0.5},
@@ -575,7 +674,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Shadow,Shadow",
                     "props":{"zOrder":-10,"var":"Shadow","skin":"Body/yinying.png","name":"Shadow","centerY":382,"centerX":24},
@@ -590,7 +688,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Script",
                     "switchAble":true,
                     "source":"src/script/Game/ClothChange.ts",
@@ -607,7 +704,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,Star",
                     "props":{"y":-2,"x":1,"width":738,"visible":false,"name":"Star","height":600},
@@ -687,7 +783,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Man,Man",
                     "props":{"zOrder":-10,"y":118,"x":-310,"visible":false,"var":"Man","skin":"nv/human.png","scaleY":0.55,"scaleX":0.55,"name":"Man"},
@@ -702,7 +797,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,E1",
                     "props":{"zOrder":30,"y":1007,"x":387,"width":50,"var":"E1","height":50},
@@ -716,7 +810,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,E2",
                     "props":{"zOrder":0,"y":962,"x":387,"width":50,"var":"E2","height":50},

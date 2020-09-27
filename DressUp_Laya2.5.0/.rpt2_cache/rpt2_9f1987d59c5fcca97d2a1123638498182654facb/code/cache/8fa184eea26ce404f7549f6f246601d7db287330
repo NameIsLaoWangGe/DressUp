@@ -1,0 +1,5 @@
+{
+  "code": "export default class RoteOrScaler extends Laya.Script {\r\n}\r\n//# sourceMappingURL=RoteOrScaler.js.map",
+  "references": [],
+  "map": "{\"version\":3,\"file\":\"RoteOrScaler.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../src/script/RoteOrScaler.ts\"],\"names\":[],\"mappings\":\"AAAA,MAAM,CAAC,OAAO,OAAO,YAAa,SAAQ,IAAI,CAAC,MAAM;CAEpD\"}"
+}

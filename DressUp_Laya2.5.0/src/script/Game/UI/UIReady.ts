@@ -9,7 +9,7 @@ import RecordManager from "../../RecordManager";
 import UIPick from "./UIPick";
 import UIPickReward from "./UIPickReward";
 import UICombine from "./UICombine";
-import { Effects, TimerAdmin } from "../../Effects/lwg";
+import { Animation2D, Effects, TimerAdmin } from "../../Effects/lwg";
 
 
 export default class UIReady extends UIBase {
@@ -82,13 +82,13 @@ export default class UIReady extends UIBase {
     AdDraw: Laya.Image;
     Charm: Laya.Image;
     Shop: Laya.Image;
-    Spinning:Laya.Image;
+    Spinning: Laya.Image;
     onInit() {
         ADManager.TAPoint(TaT.PageEnter, "mainpage");
 
 
-        this.Spinning=this.vars("Spinning") as Laya.Image;
-        this.btnEv("Spinning",()=>{
+        this.Spinning = this.vars("Spinning") as Laya.Image;
+        this.btnEv("Spinning", () => {
             UIMgr.show("UISpinning");
         })
 
@@ -274,6 +274,7 @@ export default class UIReady extends UIBase {
             ADManager.TAPoint(TaT.BtnClick, "pk_main");
         });
         this.effcets();
+        this.changeEffcets('open');
     }
 
     effcets(): void {
@@ -283,6 +284,58 @@ export default class UIReady extends UIBase {
         TimerAdmin._frameRandomLoop(50, 100, this, () => {
             Effects._Particle._slowlyUp(this.vars('E2'), null, null, null, null, null, [Effects._SkinUrl.圆形发光1], [[255, 255, 100, 1], [150, 150, 100, 1]], 20);
         })
+    }
+
+
+    /**
+     * 嫦娥的动效
+     * type=already打开界面时已经装扮好了，直接播放动效
+     * type=open是三个装扮触发时播放;
+     * type=close是三个装扮被拆开时播放;
+     * @param type
+     */
+    changeEffcets(type): void {
+        var open = () => {
+            for (let index = 0; index < CEBox.numChildren; index++) {
+                const element = CEBox.getChildAt(index) as Laya.Image;
+                if (element.name.substring(0, 3) == 'Yun') {
+                    let num = Number(element.name.substr(3, 1));
+                    new function () {
+                        let time = 25000;
+                        var yunCirculation = () => {
+                            Animation2D.move_Simple(element, Laya.stage.width + 200, element.y, -800, element.y, time * num, 0, () => {
+                                yunCirculation();
+                            });
+                        }
+                        Animation2D.move_Simple(element, element.x, element.y, -800, element.y, time * num, 0, () => {
+                            yunCirculation();
+                        });
+                    }
+                }
+            }
+
+            TimerAdmin._frameRandomLoop(200, 500, this, () => {
+                Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
+            })
+        }
+
+        let CEBox = this.vars('ChangeEffect') as Laya.Box;
+        let YueLiang = CEBox.getChildByName('YueLiang') as Laya.Image;
+        if (type == 'already') {
+            CEBox.visible = true;
+        } else if (type == 'open') {
+            CEBox.visible = true;
+            CEBox.alpha = 0;
+            open();
+            Animation2D.fadeOut(CEBox, 0, 1, 5000, 0, () => {
+            });
+        } else if (type == 'close') {
+            Animation2D.fadeOut(CEBox, 1, 0, 500, 0, () => {
+                CEBox.visible = false;
+            });
+        }
+
+
     }
 
     MusicRot() {
