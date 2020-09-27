@@ -1,7 +1,9 @@
 import ADManager from "../../Admanager";
 import { EventMgr, OpenType, UIBase, UIMgr } from "../../Frame/Core";
 import RecordManager from "../../RecordManager";
+import ClothData from "../ClothData";
 import GameDataController from "../GameDataController";
+import BagListController from "./Bag/BagListController";
 import { Tools } from "./Tools";
 import UIReady from "./UIReady";
 /**任务模块*/
@@ -366,6 +368,9 @@ export default class UITask extends UIBase {
     GetRewardShareBtn: Laya.Image;
     ProbabilityBtn: Laya.Image;
     Probability: Laya.Image;
+
+    datas:ClothData[];//嫦娥套装
+    str={};
     onInit(): void {
         this.Scratchers = this.vars('Scratchers') as Laya.Image;
         this.ScratchersScrape = this.vars('ScratchersScrape') as Laya.Image;
@@ -383,6 +388,17 @@ export default class UITask extends UIBase {
 
         this.event();
         this.btnClick();
+
+        this.Refresh();
+        
+    }
+    Refresh() //嫦娥
+    {
+        this.datas=GameDataController.ClothPackge3.cloths1;
+        this.datas.forEach((v,i)=>{
+            let nv = GameDataController.ClothDataRefresh[this.datas[i].ID]
+            this.str[this.datas[i].ID] = nv;
+        })
     }
     event(): void {
         EventMgr.reg(Task.EventType.watchAds, this, (name: string) => {
@@ -431,9 +447,25 @@ export default class UITask extends UIBase {
                 RecordManager.stopAutoRecord();
                 this.GetRewardShareBtn.visible = true;
                 this.GetRewardADBtn.visible = false;
-                if (this.rewordData) {
-                    console.log(this.rewordData);
-                    GameDataController.unlock(this.rewordData);
+                if(this.rewordData)
+                {
+                    if(this.rewordData=this.datas[2])
+                    {
+                        if(GameDataController.ClothDataRefresh[this.datas[2].ID]==1)
+                        {
+                            let dataall = GameDataController.ClothDataRefresh;
+                            dataall[this.datas[2].ID] = 0;//解锁
+                            GameDataController.ClothDataRefresh = dataall;
+                            this.Refresh();
+                            Laya.LocalStorage.setJSON(this.datas[0].GetType2, this.str);
+                            BagListController.Instance.refresh();
+                            UIMgr.tip("恭喜获得新衣服");
+                        }
+                    }
+                    else{
+                        console.log(this.rewordData);
+                        GameDataController.unlock(this.rewordData);
+                    }
                 }
             })
         })
@@ -474,7 +506,14 @@ export default class UITask extends UIBase {
         switch (Scratchers._presentReward) {
             case Scratchers._Word.tedeng:
                 Icon = this.GetReward.getChildByName('GetBox').getChildByName('Icon') as Laya.Image;
-                this.rewordData = GameDataController.Get_All_UnLock_HighStarCloth();
+                if(GameDataController.ClothDataRefresh[this.datas[2].ID]==1)
+                {
+                    this.rewordData=this.datas[2];
+                }
+                else
+                {
+                    this.rewordData = GameDataController.Get_All_UnLock_HighStarCloth();
+                }
                 Icon.skin = this.rewordData.GetPath1();
                 open();
                 this.closeScratchers();

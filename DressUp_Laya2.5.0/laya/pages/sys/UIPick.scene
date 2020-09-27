@@ -90,14 +90,13 @@
             "props":{"width":720,"height":1280,"centerY":0,"centerX":0},
             "nodeParent":2,
             "label":"Box",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":5,
             "child":[
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,FemaleRoot,FemaleRoot",
                     "props":{"width":636,"var":"FemaleRoot","scaleY":1,"scaleX":1,"name":"FemaleRoot","height":1130,"centerY":39,"centerX":492,"anchorY":0.5,"anchorX":0.5},
@@ -371,7 +370,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,FemaleRoot1,FemaleRoot1",
                     "props":{"width":636,"var":"FemaleRoot1","scaleY":1,"scaleX":-1,"rotation":0,"name":"FemaleRoot1","height":1130,"centerY":39,"centerX":-484,"anchorY":0.5,"anchorX":0.5},
@@ -384,7 +382,6 @@
                     "compId":28,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Body",
                             "props":{"zOrder":-8,"width":231,"skin":"Body/lian.png","name":"Body","height":806,"centerY":0,"centerX":13.8,"anchorY":0.5,"anchorX":0.5},
@@ -399,7 +396,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Hair",
                             "props":{"zOrder":4,"skin":"Cloth/Hair/40401.png","name":"Hair","centerY":-356,"centerX":27,"anchorY":0.5,"anchorX":0.5},
@@ -414,7 +410,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Hair1",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Hair1","centerY":-304.7,"centerX":91.3,"anchorY":0.5,"anchorX":0.5},
@@ -429,7 +424,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Ornament",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Ornament","centerY":-336.4,"centerX":10.5,"anchorY":0.5,"anchorX":0.5},
@@ -444,7 +438,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Shirt",
                             "props":{"zOrder":4,"skin":"Cloth/Up/10102.png","name":"Shirt","centerY":-227.5,"centerX":7.000004,"anchorY":0.5,"anchorX":0.5},
@@ -459,7 +452,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Shirt1",
                             "props":{"zOrder":4,"skin":"Cloth/Up/10102.png","name":"Shirt1","centerY":-105.5,"centerX":15.1,"anchorY":0.5,"anchorX":0.5},
@@ -474,7 +466,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Trousers",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Trousers","centerY":-53,"centerX":7,"anchorY":0.5,"anchorX":0.5},
@@ -490,7 +481,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Trousers1",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Trousers1","centerY":-39.7,"centerX":74.3,"anchorY":0.5,"anchorX":0.5},
@@ -505,7 +495,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Dress",
                             "props":{"zOrder":3,"skin":"Cloth/Dress/40402_1.png","name":"Dress","centerY":-101,"centerX":14,"anchorY":0.5,"anchorX":0.5},
@@ -521,7 +510,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Socks",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Socks","centerY":225,"centerX":21.9,"anchorY":0.5,"anchorX":0.5},
@@ -536,7 +524,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Dress1",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Dress1","centerY":-105.5,"centerX":57,"anchorY":0.5,"anchorX":0.5},
@@ -552,7 +539,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Ornament1",
                             "props":{"zOrder":0,"skin":"Cloth/Up/10102.png","name":"Ornament1","centerY":-6.103516,"centerX":3.051758,"anchorY":0.5,"anchorX":0.5},
@@ -567,7 +553,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Shose",
                             "props":{"zOrder":3,"skin":"Cloth/Shoes/40403.png","name":"Shose","centerY":358,"centerX":24,"anchorY":0.5,"anchorX":0.5},
@@ -582,7 +567,6 @@
                             "$HIDDEN":false
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Socks1",
                             "props":{"zOrder":0,"skin":"Cloth/Up/10102.png","name":"Socks1","centerY":-6.103516,"centerX":3.051758,"anchorY":0.5,"anchorX":0.5},
@@ -597,7 +581,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Shose1",
                             "props":{"zOrder":3,"skin":"Cloth/Up/10102.png","name":"Shose1","centerY":374.1,"centerX":30.9,"anchorY":0.5,"anchorX":0.5},
@@ -612,7 +595,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Coat",
                             "props":{"zOrder":4,"skin":"Cloth/Up/10102.png","name":"Coat","centerY":-231.7,"centerX":21.4,"anchorY":0.5,"anchorX":0.5},
@@ -628,7 +610,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Coat1",
                             "props":{"zOrder":0,"skin":"Cloth/Up/10102.png","name":"Coat1","centerY":-166,"centerX":9.800001,"anchorY":0.5,"anchorX":0.5},
@@ -643,7 +624,6 @@
                             "$HIDDEN":true
                         },
                         {
-                            "x":45,
                             "type":"Script",
                             "switchAble":true,
                             "source":"src/script/Game/PickClothChangeT.ts",
@@ -662,7 +642,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Vote_other",
                     "props":{"y":148,"x":123,"width":157,"var":"Vote_other","height":70},
@@ -742,7 +721,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Vote_me",
                     "props":{"y":148,"x":463,"width":157,"var":"Vote_me","height":70},
@@ -822,7 +800,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,WinMark",
                     "props":{"y":262,"x":450,"visible":false,"var":"WinMark","skin":"PK/huangguang.png","rotation":-45,"anchorY":0.5,"anchorX":0.5},
@@ -837,7 +814,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,LoseMark",
                     "props":{"y":262,"x":369,"visible":false,"var":"LoseMark","skin":"PK/losegame.png"},
@@ -852,7 +828,6 @@
                     "$HIDDEN":true
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Light",
                     "props":{"y":0,"x":343,"visible":false,"var":"Light","skin":"PK/guang.png"},
@@ -867,7 +842,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Box",
                     "searchKey":"Box",
                     "props":{"y":0,"x":0},
@@ -898,6 +872,7 @@
             "compId":125,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,BG",
                     "props":{"visible":true,"var":"BG","top":0,"skin":"PK/heidi.png","right":0,"left":0,"bottom":0},
@@ -913,6 +888,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,WinBox",
                     "props":{"width":720,"name":"WinBox","height":1280,"centerY":0,"centerX":0},
@@ -925,6 +901,7 @@
                     "compId":127,
                     "child":[
                         {
+                            "x":45,
                             "type":"Sprite",
                             "searchKey":"Sprite",
                             "props":{},
@@ -938,6 +915,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":36,"x":0,"skin":"PK/chenggong.png"},
@@ -952,6 +930,7 @@
                             "$HIDDEN":false
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":605,"x":128,"skin":"PK/fanbei.png"},
@@ -965,6 +944,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":548,"x":120,"skin":"PK/taibangle.png"},
@@ -978,6 +958,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":448,"x":254,"width":231,"valign":"middle","text":"胜利场次+1","height":64,"fontSize":38,"font":"Microsoft YaHei","color":"#e11950","bold":true,"align":"center"},
@@ -991,6 +972,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,OkBtn,OkBtn",
                             "props":{"y":825,"x":370,"var":"OkBtn","skin":"PK/anniu_haode.png","name":"OkBtn"},
@@ -1004,6 +986,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,NoBtn,NoBtn",
                             "props":{"y":825,"x":88,"var":"NoBtn","skin":"PK/anniu_bule.png","name":"NoBtn"},

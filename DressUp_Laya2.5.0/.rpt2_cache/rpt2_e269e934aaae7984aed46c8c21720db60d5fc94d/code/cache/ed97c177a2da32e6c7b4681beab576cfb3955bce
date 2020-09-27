@@ -1,0 +1,7 @@
+{
+  "code": "import { OpenType, UIBase, UIMgr } from \"../../Frame/Core\";\r\nexport default class UIChangE extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.EnterBtn = this.vars(\"EnterBtn\");\r\n        this.BackBtn = this.vars(\"BackBtn\");\r\n        this.btnEv(\"EnterBtn\", () => {\r\n            UIMgr.show(\"UIXiaoHM\");\r\n            UIMgr.show(\"UISpinning\");\r\n            this.hide();\r\n        });\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n            UIMgr.show(\"UIXiaoHM\");\r\n        });\r\n    }\r\n}\r\n//# sourceMappingURL=UIChangE.js.map",
+  "references": [
+    "D:/NewProject/src/script/Frame/Core.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"UIChangE.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIChangE.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,kBAAkB,CAAC;AAE3D,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,MAAM;IAA5C;;QAEI,cAAS,GAAC,QAAQ,CAAC,MAAM,CAAC;IAkB9B,CAAC;IAdG,MAAM;QAEF,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;QACpC,IAAI,CAAC,OAAO,GAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC;QAClC,IAAI,CAAC,KAAK,CAAC,UAAU,EAAC,GAAE,EAAE;YACtB,KAAK,CAAC,IAAI,CAAC,UAAU,CAAC,CAAA;YACtB,KAAK,CAAC,IAAI,CAAC,YAAY,CAAC,CAAC;YACzB,IAAI,CAAC,IAAI,EAAE,CAAC;QAChB,CAAC,CAAC,CAAA;QACF,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;YACZ,KAAK,CAAC,IAAI,CAAC,UAAU,CAAC,CAAC;QAC3B,CAAC,CAAC,CAAA;IACN,CAAC;CACJ\"}"
+}

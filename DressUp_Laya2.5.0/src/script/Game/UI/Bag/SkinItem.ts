@@ -93,7 +93,7 @@ export default class SkinItem extends Laya.Script {
         // {
         //     this.Adimage.visible = GameDataController.ClothDataRefresh[data.ID] == 1;
         // }
-        if (data.GetType2 != null || data.ID == 50404 || data.ID == 40601 || data.ID == 40602 || data.ID == 40603 || data.ID == 40604 || data.ID == 40605||data.ID==70201||data.ID==70202)//如果是套装则无法通过看广告获取 翅膀和白雪公主无法通过看广告获取
+        if (data.GetType2 != null || data.ID == 50404 || data.ID == 40601 || data.ID == 40602 || data.ID == 40603 || data.ID == 40604 || data.ID == 40605||data.ID==70201||data.ID==70202||data.ID==72001||data.ID==72002||data.ID==72003||data.ID==72004)//如果是套装则无法通过看广告获取 翅膀和白雪公主//小红帽无法通过看广告获取
         // if(data.GetType2 != null || data.ID == 50404)
         {
             this.Adimage.visible = false;

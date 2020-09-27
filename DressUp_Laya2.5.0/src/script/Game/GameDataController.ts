@@ -24,7 +24,7 @@ export default class GameDataController extends Laya.Script {
 
     static ClothPackge1: ClothPackgeData;//七日签到
     static ClothPackge2: ClothPackgeData;//抽屉特殊皮肤
-    static ClothPackge3: ClothPackgeData;//睡衣
+    static ClothPackge3: ClothPackgeData;//节日
     static ClothPackge4: ClothPackgeData;//每日推荐 
 
     static ClothDataAsy = {}//初始化表
@@ -147,7 +147,7 @@ export default class GameDataController extends Laya.Script {
                             return true;
                         }
                     }
-                    else if ((data.GetType2.split('_'))[0] == "3")//睡衣
+                    else if ((data.GetType2.split('_'))[0] == "3")//嫦娥
                     {
                         let str = this.ClothDataRefresh[Id];
                         // console.log(str);

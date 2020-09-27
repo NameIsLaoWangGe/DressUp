@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":64,
+    "selectedBox":18,
+    "selecteID":24,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
@@ -44,7 +44,6 @@
             "compId":64,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":213,"x":157,"skin":"Combine/1/17.png"},
@@ -58,7 +57,6 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ConfirmBtn",
                     "props":{"y":885,"x":207,"var":"ConfirmBtn","skin":"Combine/1/18.png"},
@@ -85,7 +83,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":738,"x":56.5,"skin":"Combine/1/welcome.png"},
@@ -97,7 +94,8 @@
                     "compId":68,
                     "child":[
                         ]
-                }]
+                }],
+            "$HIDDEN":true
         },
         {
             "x":15,
@@ -144,7 +142,7 @@
                     "props":{"y":616,"x":241.5,"width":204,"skin":"Combine/2/120.png","name":"Wan","height":156},
                     "nodeParent":4,
                     "label":"Wan",
-                    "isOpen":true,
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -436,13 +434,14 @@
             "props":{"width":720,"visible":false,"var":"DanSheng","height":1280,"centerY":0,"centerX":0},
             "nodeParent":2,
             "label":"DanSheng",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":18,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Guanghuan",
                     "props":{"y":600,"x":360,"skin":"main/guang.png","name":"Guanghuan","anchorY":0.5,"anchorX":0.5},
@@ -456,6 +455,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,StartBtn,StartBtn",
                     "props":{"y":1042,"x":393,"visible":true,"var":"StartBtn","skin":"Combine/2/6.png","name":"StartBtn"},
@@ -482,6 +482,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"y":115,"x":145.5,"width":425,"skin":"Combine/3/8.png","height":195},
@@ -508,6 +509,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Role",
                     "props":{"y":628,"x":349,"skin":"Active/taozhuang3.png","scaleY":1.7,"scaleX":1.7,"name":"Role","anchorY":0.5,"anchorX":0.5},
@@ -521,6 +523,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CloseBtn",
                     "props":{"y":37,"x":598,"visible":false,"skin":"sign/X.png","name":"CloseBtn"},
@@ -534,6 +537,7 @@
                         ]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,GetAwardBtn",
                     "props":{"y":1042,"x":97,"skin":"Combine/2/jinbijiesuo.png","name":"GetAwardBtn"},
@@ -575,6 +579,7 @@
                         }]
                 },
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CheckBtn",
                     "props":{"y":1165,"x":112.5,"skin":"common/buxuan.png","name":"CheckBtn","alpha":0.7},
@@ -613,7 +618,7 @@
                                 ]
                         }]
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         }],
     "animations":[
         {

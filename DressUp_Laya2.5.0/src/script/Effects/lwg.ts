@@ -1043,39 +1043,7 @@ export module lwg {
             }), 0);
         }
 
-        /**
-         * 左右抖动
-         * @param node 节点
-         * @param range 幅度
-         * @param time 花费时间
-         * @param delayed 延时
-         * @param func 回调函数
-         * @param click 是否设置场景此时可点击,默认可以点击，为true
-         */
-        export function leftRight_Shake(node, range, time, delayed?: number, func?: Function, click?: boolean): void {
-            if (!delayed) {
-                delayed = 0;
-            }
-            if (!click) {
-                Admin._clickLock.switch = true;
-            }
-            Laya.Tween.to(node, { x: node.x - range }, time, null, Laya.Handler.create(this, function () {
-                // PalyAudio.playSound(Enum.AudioName.commonShake, 1);
-                Laya.Tween.to(node, { x: node.x + range * 2 }, time, null, Laya.Handler.create(this, function () {
-                    // PalyAudio.playSound(Enum.AudioName.commonShake, 1);
-                    Laya.Tween.to(node, { x: node.x - range }, time, null, Laya.Handler.create(this, function () {
-                        if (func) {
-                            func();
-                        }
-                        if (!click) {
-                            Admin._clickLock.switch = false;
-                        }
-                    }))
-                }))
-            }), delayed);
-        }
-
-        /**
+           /**
          * 上下抖动
          * @param node 节点
          * @param range 幅度

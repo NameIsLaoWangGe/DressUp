@@ -10,7 +10,7 @@ export default class UIWeddingEgg extends UIBase {
         this.WeddingCloseBtn = this.vars("WeddingCloseBtn");
 
         this.btnEv("QianWangBtn", () => {
-            UIMgr.show("UIPickEgg");
+            UIMgr.show("UIPickEgg"); 
             UIMgr.show("UIActive");
             this.hide();
 

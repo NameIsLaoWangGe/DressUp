@@ -1,7 +1,0 @@
-{
-  "code": "import { BaseState, UIMgr } from \"../../Frame/Core\";\r\nexport default class Game_Ready extends BaseState {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.name = \"Game_Ready\";\r\n    }\r\n    onInit() {\r\n    }\r\n    onEnter() {\r\n        UIMgr.show(\"UIReady\");\r\n    }\r\n    onExit() {\r\n    }\r\n}\r\n//# sourceMappingURL=Game_Ready.js.map",
-  "references": [
-    "D:/Game/project/DressUp/Project_Laya2.5.0/DressUp_Laya2.5.0/src/script/Frame/Core.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"Game_Ready.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/State/Game_Ready.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,SAAS,EAAE,KAAK,EAA6B,MAAM,kBAAkB,CAAC;AAG/E,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,SAAS;IAAjD;;QAEI,SAAI,GAAG,YAAY,CAAC;IAiBxB,CAAC;IAfG,MAAM;IAKN,CAAC;IAED,OAAO;QAEH,KAAK,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC;IAC1B,CAAC;IAED,MAAM;IAEN,CAAC;CACJ\"}"
-}

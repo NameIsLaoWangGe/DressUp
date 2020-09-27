@@ -40,7 +40,6 @@ export default class UIReady extends UIBase {
     windowheight: number;
     FemaleRoot: Laya.Box;
 
-    ClockBtn: Laya.Image;//闹钟
     scaleDelta: number = 0;
 
     scaleDelta1: number = 0;//分享
@@ -83,10 +82,15 @@ export default class UIReady extends UIBase {
     AdDraw: Laya.Image;
     Charm: Laya.Image;
     Shop: Laya.Image;
+    Spinning:Laya.Image;
     onInit() {
         ADManager.TAPoint(TaT.PageEnter, "mainpage");
 
-        //UIMgr.show("UIRecommend");//每日推荐
+
+        this.Spinning=this.vars("Spinning") as Laya.Image;
+        this.btnEv("Spinning",()=>{
+            UIMgr.show("UISpinning");
+        })
 
         this.Shop = this.vars("Shop") as Laya.Image;
         this.btnEv("Shop", () => {
@@ -133,20 +137,18 @@ export default class UIReady extends UIBase {
             UIMgr.show("UIDuiHuan")
         })
 
-        if (GameDataController.ClothDataRefresh[40501] == "1" && GameDataController.ClothDataRefresh[40502] == "1" && GameDataController.ClothDataRefresh[40503] == "1") {
-            UIMgr.show("UIWeddingEgg");
-        }
-        else {
-            UIMgr.show("UIPickEgg");
-        }
+        UIMgr.show("UIChangE");
+        // if (GameDataController.ClothDataRefresh[40501] == "1" && GameDataController.ClothDataRefresh[40502] == "1" && GameDataController.ClothDataRefresh[40503] == "1") {
+        //     UIMgr.show("UIWeddingEgg");
+        // }
+        // else {
+        //     UIMgr.show("UIPickEgg");
+        // }
 
         this.BG = this.vars("BG") as Laya.Image;
         this.BG.on(Laya.Event.MOUSE_DOWN, this, this.onMouseDownListen)
         this.BG.on(Laya.Event.MOUSE_UP, this, this.onMouseUpListen)
         this.BG.on(Laya.Event.MOUSE_OUT, this, this.onMouseOutListen);
-
-        this.BG.on(Laya.Event.CLICK, this, this.refreshClock);
-
 
         this.Wing = this.vars("Wing") as Laya.Image;
         Laya.timer.frameLoop(1, this, () => {
@@ -190,13 +192,6 @@ export default class UIReady extends UIBase {
             ADManager.TAPoint(TaT.BtnClick, "paizhao_click");
         });
 
-        //xxxxxxxxxxxxxxxxxxxxxxx
-        this.ClockBtn = this.vars("ClockBtn");
-        this.refreshClock();
-        this.btnEv("ClockBtn", () => {
-            UIMgr.show("UITest");
-        });
-        //xxxxxxxxxxxxxxxxxxxxxxx
         this.ShowView = this.vars("ShowView");
         this.BtnBar = this.vars("BtnBar");
         this.ClothOpenBtn = this.vars("ClothOpenBtn");
@@ -271,25 +266,6 @@ export default class UIReady extends UIBase {
             }
         })
 
-
-
-        //this.FenxiangBtn=this.vars("FenxiangBtn")as Laya.Image;
-
-
-        // this.btnEv("FenxiangBtn",()=>{
-        //     //RecordManager.stopAutoRecord();
-        //     ADManager.TAPoint(TaT.BtnClick,"fenxiang_click");
-        //     RecordManager._share(()=>{
-        //         UIMgr.tip("分享成功");
-        //         this.FenxiangBtn.visible=false;
-        //         this.ClearLoop();
-        //     },()=>{
-        //         UIMgr.tip("分享失败！")
-        //     });
-        //     // Laya.timer.once(5000,this,this.Record); 
-        // })
-
-
         this.Pick = this.vars("Pick") as Laya.Image;
 
         this.btnEv("Pick", () => {
@@ -309,24 +285,6 @@ export default class UIReady extends UIBase {
         })
     }
 
-    refreshClock() {
-        var current: Date = new Date();
-        var hour = current.getHours()
-        Laya.timer.clear(this, this.ClockShake);
-        if (hour >= 12 && hour <= 14) {
-            this.ClockBtn.visible = true;
-            Laya.timer.frameLoop(1, this, this.ClockShake)
-        }
-        else {
-            this.ClockBtn.visible = false;
-        }
-    }
-
-    ClockShake() {
-        this.scaleDelta1 += 0.02;
-        var scaleValue: number = Math.sin(this.scaleDelta1);
-        this.ClockBtn.scale(scaleValue, scaleValue);
-    }
     MusicRot() {
         this.MusicBtn.rotation += 2;
     }

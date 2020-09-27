@@ -28,6 +28,10 @@ export default class UIDuiHuan extends UIBase{
         "555":40605,
         "123":70201,
         "321":70202,
+        "666":72001,
+        "777":72002,
+        "888":72003,
+        "999":72004,
     }
 
     onInit()
@@ -125,8 +129,8 @@ export default class UIDuiHuan extends UIBase{
     {
         this.GetBox.visible=true;
         Laya.timer.loop(10,this,this.GuangRot);
-        //this.Icon.skin="DuiHuanMa/"+this.str[this.InputText.text]+".png";
-        this.Icon.skin = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/DuiHuanMa/" + this.str[this.InputText.text] + ".png";
+        this.Icon.skin="Cloth/DuiHuanMa/"+this.str[this.InputText.text]+".png";
+        //this.Icon.skin = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/DuiHuanMa/" + this.str[this.InputText.text] + ".png";
         Laya.timer.once(3000,this,()=>{
             RecordManager.stopAutoRecord();//停止录屏
             this.CloseBtn.visible=true;

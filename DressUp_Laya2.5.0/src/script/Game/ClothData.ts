@@ -286,8 +286,8 @@ export default class ClothData extends Laya.Script
         {
             filename="Pet";
         }
-        //pathway = "Cloth/" + filename + "/" + this.IconPath1 + ".png";
-        pathway = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/" + filename + "/" + this.IconPath1 + ".png";
+        pathway = "Cloth/" + filename + "/" + this.IconPath1 + ".png";
+        //pathway = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/" + filename + "/" + this.IconPath1 + ".png";
         return pathway;
     }
 
@@ -331,8 +331,8 @@ export default class ClothData extends Laya.Script
         {
             filename = "ACC";
         }
-        //pathway = "Cloth/" + filename + "/" + this.IconPath2 + ".png";
-        pathway = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/" + filename + "/" + this.IconPath2 + ".png";
+        pathway = "Cloth/" + filename + "/" + this.IconPath2 + ".png";
+        //pathway = "https://h5.tomatojoy.cn/wx/mhdmx/zijie/1.0.8/Cloth/" + filename + "/" + this.IconPath2 + ".png";
         return pathway;
     }
     

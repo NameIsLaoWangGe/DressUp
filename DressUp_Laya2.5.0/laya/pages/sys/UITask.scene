@@ -1,8 +1,8 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":2,
-    "selecteID":64,
+    "selectedBox":54,
+    "selecteID":55,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
@@ -452,13 +452,14 @@
             "props":{"visible":false,"var":"GetReward","top":0,"right":0,"name":"GetReward","left":0,"bottom":0},
             "nodeParent":2,
             "label":"GetReward",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":54,
             "child":[
                 {
+                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ScratchersBg",
                     "props":{"top":0,"skin":"common/black.png","right":0,"name":"ScratchersBg","left":0,"bottom":0,"alpha":0.7},
@@ -474,6 +475,7 @@
                     "$HIDDEN":false
                 },
                 {
+                    "x":30,
                     "type":"Box",
                     "searchKey":"Box,GetBox,GetBox",
                     "props":{"y":0,"x":0,"width":720,"visible":true,"var":"GetBox","name":"GetBox","height":1280,"centerY":0,"centerX":0},
@@ -486,6 +488,7 @@
                     "compId":55,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":246,"x":346,"skin":"main/yincan.png"},
@@ -499,6 +502,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Guang,Guang",
                             "props":{"y":634,"x":363,"var":"Guang","skin":"main/guang.png","name":"Guang","anchorY":0.5,"anchorX":0.5},
@@ -512,6 +516,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,GetRewardADBtn,GetRewardADBtn",
                             "props":{"y":1013,"x":360,"width":262,"var":"GetRewardADBtn","skin":"main/anniu_kanship.png","pivotY":53,"pivotX":131,"name":"GetRewardADBtn","height":106},
@@ -525,6 +530,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,Icon",
                             "props":{"y":623,"x":360,"skin":"Cloth/Dress/40602.png","name":"Icon","anchorY":0.5,"anchorX":0.5},
@@ -538,6 +544,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image",
                             "props":{"y":128,"x":168.5,"skin":"main/biaoti.png"},
@@ -551,6 +558,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,GetRewardCloseBtn,GetRewardCloseBtn",
                             "props":{"y":76,"x":656,"width":79,"visible":false,"var":"GetRewardCloseBtn","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"GetRewardCloseBtn","height":79},
@@ -564,6 +572,7 @@
                                 ]
                         },
                         {
+                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,GetRewardShareBtn,GetRewardShareBtn",
                             "props":{"y":1013,"x":360,"width":262,"visible":false,"var":"GetRewardShareBtn","skin":"PK/anniu_fenxaing.png","pivotY":48,"pivotX":131,"name":"GetRewardShareBtn","height":96},
@@ -578,7 +587,7 @@
                         }],
                     "$HIDDEN":false
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
             "x":15,
@@ -594,7 +603,6 @@
             "compId":64,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ProbabilityBg",
                     "props":{"y":0,"x":0,"top":0,"skin":"common/black.png","right":0,"name":"ProbabilityBg","left":0,"bottom":0,"alpha":0.7},
@@ -610,7 +618,6 @@
                     "$HIDDEN":false
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
                     "props":{"width":451,"skin":"UI/dikuang.png","sizeGrid":"64,134,44,125","rotation":0,"height":449,"centerY":-50,"centerX":8},
@@ -623,7 +630,6 @@
                     "compId":75,
                     "child":[
                         {
-                            "x":45,
                             "type":"Image",
                             "searchKey":"Image,ProbabilityCloseBtn,ProbabilityCloseBtn",
                             "props":{"y":22,"x":422,"width":79,"var":"ProbabilityCloseBtn","skin":"sign/X.png","pivotY":40,"pivotX":40,"name":"ProbabilityCloseBtn","height":79},
@@ -637,7 +643,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":27,"x":132,"width":187,"valign":"middle","underline":true,"text":"中奖概率","italic":false,"height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
@@ -652,7 +657,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":106,"x":112,"width":187,"valign":"middle","text":"特等奖：2%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
@@ -666,7 +670,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":158,"x":113,"width":187,"valign":"middle","text":"一等奖：3%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
@@ -680,7 +683,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":212,"x":112,"width":216,"valign":"middle","text":"二等奖：30%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
@@ -694,7 +696,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":268,"x":110,"width":216,"valign":"middle","text":"再来一次：30%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},
@@ -708,7 +709,6 @@
                                 ]
                         },
                         {
-                            "x":45,
                             "type":"Label",
                             "searchKey":"Label",
                             "props":{"y":324,"x":110,"width":216,"valign":"middle","text":"谢谢惠顾：35%","height":56,"fontSize":35,"color":"#a956b9","bold":true,"align":"center"},

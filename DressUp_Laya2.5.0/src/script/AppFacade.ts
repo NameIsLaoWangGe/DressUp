@@ -28,6 +28,9 @@ import UITask from "./Game/UI/UITask";
 import UIWeddingEgg from "./Game/UI/UIWeddingEgg";
 import UIPickEgg from "./Game/UI/UIPickEgg";
 import UIWeddingShare from "./Game/UI/UIWeddingShare";
+import UISpinning from "./Game/UI/UISpinning";
+import UIChangE from "./Game/UI/UIChangE";
+import UIXiaoHM from "./Game/UI/UIXiaoHM";
 
 G["Game_Init"] = Game_Init;
 G["Game_Ready"] = Game_Ready;
@@ -57,6 +60,9 @@ G["UITask"]=UITask;
 G["UIWeddingEgg"]=UIWeddingEgg;
 G["UIPickEgg"]=UIPickEgg;
 G["UIWeddingShare"]=UIWeddingShare;
+G["UISpinning"]=UISpinning;
+G["UIChangE"]=UIChangE;
+G["UIXiaoHM"]=UIXiaoHM;
 export default class AppFacade extends Laya.View
 {
     constructor()
