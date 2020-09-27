@@ -8406,13 +8406,12 @@
                     }
                 }
                 _Particle._ParticleImgBase = _ParticleImgBase;
-                function _snow(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder, distance, rotationSpeed, speed, accelerated) {
+                function _snow(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder, distance, rotationSpeed, speed, windX) {
                     let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                     let _rotationSpeed = rotationSpeed ? Tools.randomOneNumber(rotationSpeed[0], rotationSpeed[1]) : Tools.randomOneNumber(0, 1);
                     _rotationSpeed = Tools.randomOneHalf() == 0 ? _rotationSpeed : -_rotationSpeed;
                     let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(1, 2.5);
-                    let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0, 0);
-                    let acc = 0;
+                    let _windX = windX ? Tools.randomOneNumber(windX[0], windX[1]) : 0;
                     let moveCaller = {
                         alpha: true,
                         move: false,
@@ -8422,6 +8421,7 @@
                     let distance0 = 0;
                     let distance1 = distance ? Tools.randomOneNumber(distance[0], distance[1]) : Tools.randomOneNumber(100, 300);
                     TimerAdmin._frameLoop(1, moveCaller, () => {
+                        Img.x += _windX;
                         Img.rotation += _rotationSpeed;
                         if (Img.alpha < 1 && moveCaller.alpha) {
                             Img.alpha += 0.05;
@@ -8432,18 +8432,16 @@
                             }
                         }
                         if (distance0 < distance1 && moveCaller.move) {
-                            acc += accelerated0;
-                            distance0 = Img.y += (speed0 + acc);
+                            distance0 = Img.y += speed0;
                             if (distance0 >= distance1) {
                                 moveCaller.move = false;
                                 moveCaller.vinish = true;
                             }
                         }
                         if (moveCaller.vinish) {
-                            acc -= accelerated0 / 2;
                             Img.alpha -= 0.03;
-                            Img.y += (speed0 + acc);
-                            if (Img.alpha <= 0 || (speed0 + acc) <= 0) {
+                            Img.y += speed0;
+                            if (Img.alpha <= 0 || speed0 <= 0) {
                                 Img.removeSelf();
                                 Laya.timer.clearAll(moveCaller);
                             }
@@ -10258,6 +10256,7 @@
                 ADManager.TAPoint(TaT.BtnClick, "pk_main");
             });
             this.effcets();
+            this.changeEffcets('open');
         }
         effcets() {
             let CEBox = this.vars('ChangeEffect');
@@ -10279,7 +10278,7 @@
                 Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
             });
             TimerAdmin._frameRandomLoop(50, 140, this, () => {
-                Effects._Particle._snow(SnowParent, new Laya.Point(Laya.stage.width / 2, 0), [Laya.stage.width / 2, 0], [20, 35], null, null, [Effects._SkinUrl.花4], [[180, 50, 50, 1], [255, 255, 100, 1]], null, [Laya.stage.width / 2 + 200, Laya.stage.width / 2 + 500]);
+                Effects._Particle._snow(SnowParent, new Laya.Point(Laya.stage.width / 2, 0), [Laya.stage.width / 2, 0], [20, 35], null, null, [Effects._SkinUrl.花4], [[180, 50, 50, 1], [255, 255, 100, 1]], null, [Laya.stage.width / 2 + 200, Laya.stage.width / 2 + 500], null, null, [-2, 2]);
             });
         }
         changeEffcets(type) {

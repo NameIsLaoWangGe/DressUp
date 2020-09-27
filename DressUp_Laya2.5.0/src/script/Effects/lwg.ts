@@ -466,15 +466,27 @@ export module lwg {
             }
 
             /**
-             * 下雪
-             * */
-            export function _snow(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, rotationSpeed?: [number, number], speed?: Array<number>, accelerated?: Array<number>): Laya.Image {
+             *
+             * @param {Laya.Sprite} parent 父节点
+             * @param {Laya.Point} [centerPoint] 父节点内坐标
+             * @param {Array<number>} [sectionWH] 坐标区间宽高[a,b]
+             * @param {Array<number>} [width] 宽区间[a,b]
+             * @param {Array<number>} [height] 高区间[a,b]
+             * @param {Array<number>} [rotation] 角度区间[a,b]
+             * @param {Array<string>} [urlArr] 角度区间[a,b]
+             * @param {Array<Array<number>>} [colorRGBA] 角度区间[a,b]
+             * @param {number} [zOder] 层级
+             * @param {Array<number>} [distance] 下落距离区间[a,b]
+             * @param {[number, number]} [rotationSpeed] 旋转区间[a,b]
+             * @param {Array<number>} [speed] 速度区间[a,b]
+             * @param {[number, number]} [windX] 风力（X轴偏移速度）区间[a,b]
+             */
+            export function _snow(parent: Laya.Sprite, centerPoint?: Laya.Point, sectionWH?: Array<number>, width?: Array<number>, height?: Array<number>, rotation?: Array<number>, urlArr?: Array<string>, colorRGBA?: Array<Array<number>>, zOder?: number, distance?: Array<number>, rotationSpeed?: [number, number], speed?: Array<number>, windX?: [number, number]): Laya.Image {
                 let Img = new _ParticleImgBase(parent, centerPoint, sectionWH, width, height, rotation, urlArr, colorRGBA, zOder);
                 let _rotationSpeed = rotationSpeed ? Tools.randomOneNumber(rotationSpeed[0], rotationSpeed[1]) : Tools.randomOneNumber(0, 1);
                 _rotationSpeed = Tools.randomOneHalf() == 0 ? _rotationSpeed : -_rotationSpeed;
                 let speed0 = speed ? Tools.randomOneNumber(speed[0], speed[1]) : Tools.randomOneNumber(1, 2.5);
-                let accelerated0 = accelerated ? Tools.randomOneNumber(accelerated[0], accelerated[1]) : Tools.randomOneNumber(0, 0);
-                let acc = 0;
+                let _windX = windX ? Tools.randomOneNumber(windX[0], windX[1]) : 0;
                 let moveCaller = {
                     alpha: true,
                     move: false,
@@ -484,6 +496,7 @@ export module lwg {
                 let distance0 = 0;
                 let distance1 = distance ? Tools.randomOneNumber(distance[0], distance[1]) : Tools.randomOneNumber(100, 300);
                 TimerAdmin._frameLoop(1, moveCaller, () => {
+                    Img.x += _windX;
                     Img.rotation += _rotationSpeed;
                     if (Img.alpha < 1 && moveCaller.alpha) {
                         Img.alpha += 0.05;
@@ -494,18 +507,16 @@ export module lwg {
                         }
                     }
                     if (distance0 < distance1 && moveCaller.move) {
-                        acc += accelerated0;
-                        distance0 = Img.y += (speed0 + acc);
+                        distance0 = Img.y += speed0;
                         if (distance0 >= distance1) {
                             moveCaller.move = false;
                             moveCaller.vinish = true;
                         }
                     }
                     if (moveCaller.vinish) {
-                        acc -= accelerated0 / 2;
                         Img.alpha -= 0.03;
-                        Img.y += (speed0 + acc);
-                        if (Img.alpha <= 0 || (speed0 + acc) <= 0) {
+                        Img.y += speed0;
+                        if (Img.alpha <= 0 || speed0 <= 0) {
                             Img.removeSelf();
                             Laya.timer.clearAll(moveCaller);
                         }

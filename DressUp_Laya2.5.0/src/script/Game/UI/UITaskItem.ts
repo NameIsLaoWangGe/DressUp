@@ -19,6 +19,7 @@ export default class UITaskItem extends Laya.Script {
             ADManager.ShowReward(() => {
                 EventMgr.notify(Task.EventType.watchAds, [this.owner['_dataSource']['name']]);
             });
+
         })
         this.BtnAds.on(Laya.Event.MOUSE_OUT, this, (e: Laya.Event) => {
             e.currentTarget.scale(1, 1);

@@ -274,7 +274,7 @@ export default class UIReady extends UIBase {
             ADManager.TAPoint(TaT.BtnClick, "pk_main");
         });
         this.effcets();
-        // this.changeEffcets('open');
+        this.changeEffcets('open');
     }
 
     effcets(): void {
@@ -300,7 +300,7 @@ export default class UIReady extends UIBase {
             Effects._Glitter._simpleInfinite(YueLiang, 0, 0, 809, 849, 0, 'ce/yueliangguang.png');
         })
         TimerAdmin._frameRandomLoop(50, 140, this, () => {
-            Effects._Particle._snow(SnowParent, new Laya.Point(Laya.stage.width / 2, 0), [Laya.stage.width / 2, 0], [20, 35], null, null, [Effects._SkinUrl.花4], [[180, 50, 50, 1], [255, 255, 100, 1]], null, [Laya.stage.width / 2 + 200, Laya.stage.width / 2 + 500]);
+            Effects._Particle._snow(SnowParent, new Laya.Point(Laya.stage.width / 2, 0), [Laya.stage.width / 2, 0], [20, 35], null, null, [Effects._SkinUrl.花4], [[180, 50, 50, 1], [255, 255, 100, 1]], null, [Laya.stage.width / 2 + 200, Laya.stage.width / 2 + 500], null, null, [-2, 2]);
         })
     }
 
