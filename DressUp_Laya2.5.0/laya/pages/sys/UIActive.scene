@@ -1,12 +1,12 @@
 {
     "x":0,
     "type":"View",
-    "selectedBox":636,
-    "selecteID":648,
+    "selectedBox":620,
+    "selecteID":621,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":664,
+    "maxID":668,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -45,21 +45,35 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"top":0,"skin":"Active/BG.png","right":0,"left":0,"bottom":0,"alpha":1},
+                    "props":{"width":720,"top":0,"skin":"Active/BG.png","right":0,"left":0,"height":1280,"bottom":0,"alpha":1},
                     "nodeParent":617,
                     "label":"Image",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":659,
                     "child":[
-                        ]
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"skin":"Active/shang.png"},
+                            "nodeParent":659,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":666,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"top":85,"skin":"Active/biaoti.png","centerX":0},
+                    "props":{"top":8,"skin":"Active/biaoti.png","centerX":0},
                     "nodeParent":617,
                     "label":"Image",
                     "isDirectory":false,
@@ -73,7 +87,7 @@
                     "x":30,
                     "type":"List",
                     "searchKey":"List,ActiveList",
-                    "props":{"width":651,"var":"ActiveList","spaceY":50,"height":980,"centerY":102,"centerX":0},
+                    "props":{"width":651,"var":"ActiveList","spaceY":20,"height":954,"centerY":-25,"centerX":0},
                     "nodeParent":617,
                     "label":"ActiveList",
                     "isOpen":true,
@@ -86,7 +100,7 @@
                             "x":45,
                             "type":"Box",
                             "searchKey":"Box,Item",
-                            "props":{"y":0,"x":0,"width":654,"renderType":"render","name":"Item","height":463},
+                            "props":{"y":0,"x":0,"width":654,"renderType":"render","name":"Item","height":449},
                             "nodeParent":620,
                             "label":"Item",
                             "isOpen":true,
@@ -102,11 +116,37 @@
                                     "props":{"skin":"Active/kuang.png","name":"Bg","centerY":0,"centerX":0},
                                     "nodeParent":621,
                                     "label":"Bg",
-                                    "isOpen":true,
+                                    "isOpen":false,
+                                    "isDirectory":true,
+                                    "isAniNode":false,
+                                    "hasChild":true,
+                                    "compId":623,
+                                    "child":[
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image",
+                                            "props":{"skin":"Active/bai.png","centerX":-8,"bottom":12},
+                                            "nodeParent":623,
+                                            "label":"Image",
+                                            "isDirectory":false,
+                                            "isAniNode":false,
+                                            "hasChild":false,
+                                            "compId":664,
+                                            "child":[
+                                                ]
+                                        }]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "searchKey":"Image",
+                                    "props":{"y":18,"x":-31,"skin":"Active/guang.png"},
+                                    "nodeParent":621,
+                                    "label":"Image",
                                     "isDirectory":false,
                                     "isAniNode":false,
                                     "hasChild":false,
-                                    "compId":623,
+                                    "compId":667,
                                     "child":[
                                         ]
                                 },
@@ -114,17 +154,16 @@
                                     "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,IconParent",
-                                    "props":{"y":22,"x":43,"width":129,"name":"IconParent","height":330},
+                                    "props":{"y":38,"x":28,"width":129,"scaleY":1.3,"scaleX":1.3,"name":"IconParent","height":330},
                                     "nodeParent":621,
                                     "label":"IconParent",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,
                                     "compId":663,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,IconAll",
                                             "props":{"skin":"Active/taozhuang1.png","name":"IconAll","centerY":0,"centerX":0},
@@ -142,20 +181,19 @@
                                     "x":60,
                                     "type":"Box",
                                     "searchKey":"Box,ClothShow",
-                                    "props":{"y":69,"x":185,"width":404,"name":"ClothShow","height":262},
+                                    "props":{"y":102,"x":233,"width":365,"name":"ClothShow","height":236},
                                     "nodeParent":621,
                                     "label":"ClothShow",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,
                                     "compId":636,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,1",
-                                            "props":{"top":0,"skin":"Active/daojukuang.png","name":"1","left":0},
+                                            "props":{"width":108,"top":0,"skin":"Active/daojukuang.png","name":"1","left":0,"height":108},
                                             "nodeParent":636,
                                             "label":"1",
                                             "isOpen":true,
@@ -165,7 +203,6 @@
                                             "compId":630,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"y":0,"x":0,"skin":"Cloth/ACC/20304.png"},
@@ -180,7 +217,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,2",
                                             "props":{"top":0,"skin":"Active/daojukuang.png","name":"2","centerX":0},
@@ -193,7 +229,6 @@
                                             "compId":638,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"y":0,"x":0,"skin":"Cloth/ACC/20304.png"},
@@ -208,7 +243,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,3",
                                             "props":{"y":0,"skin":"Active/daojukuang.png","right":0,"name":"3"},
@@ -221,7 +255,6 @@
                                             "compId":640,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"y":0,"x":0,"skin":"Cloth/ACC/20304.png"},
@@ -236,7 +269,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,4",
                                             "props":{"x":0,"skin":"Active/daojukuang.png","name":"4","left":0,"bottom":0},
@@ -249,7 +281,6 @@
                                             "compId":644,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"skin":"Cloth/ACC/20304.png"},
@@ -264,7 +295,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,5",
                                             "props":{"y":0,"skin":"Active/daojukuang.png","name":"5","centerX":0,"bottom":0},
@@ -277,7 +307,6 @@
                                             "compId":646,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"y":22.5,"x":12.5,"width":75,"skin":"Cloth/ACC/20304.png","height":55},
@@ -292,7 +321,6 @@
                                                 }]
                                         },
                                         {
-                                            "x":75,
                                             "type":"Image",
                                             "searchKey":"Image,6",
                                             "props":{"x":274,"skin":"Active/daojukuang.png","right":0,"name":"6","bottom":0},
@@ -305,7 +333,6 @@
                                             "compId":648,
                                             "child":[
                                                 {
-                                                    "x":90,
                                                     "type":"Image",
                                                     "searchKey":"Image",
                                                     "props":{"skin":"Cloth/ACC/20304.png"},
@@ -324,26 +351,38 @@
                                     "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,ADBtn",
-                                    "props":{"y":377,"x":429,"skin":"Active/kanshiping.png","sizeGrid":"0,0,0,0","name":"ADBtn"},
+                                    "props":{"y":349,"x":447,"skin":"Active/kanshiping.png","sizeGrid":"0,0,0,0","name":"ADBtn"},
                                     "nodeParent":621,
                                     "label":"ADBtn",
-                                    "isOpen":true,
+                                    "isOpen":false,
                                     "isDirectory":true,
                                     "isAniNode":false,
                                     "hasChild":true,
                                     "compId":653,
                                     "child":[
                                         {
-                                            "x":75,
                                             "type":"Label",
                                             "searchKey":"Label,TaskPre",
-                                            "props":{"y":12,"x":64,"width":80,"valign":"middle","text":"0/5","name":"TaskPre","height":43,"fontSize":40,"color":"#fd6892","bold":true,"align":"center"},
+                                            "props":{"y":12,"x":56,"width":80,"valign":"middle","text":"0/5","name":"TaskPre","height":43,"fontSize":40,"color":"#ffffff","bold":true,"align":"center"},
                                             "nodeParent":653,
                                             "label":"TaskPre",
                                             "isDirectory":false,
                                             "isAniNode":false,
                                             "hasChild":false,
                                             "compId":661,
+                                            "child":[
+                                                ]
+                                        },
+                                        {
+                                            "type":"Image",
+                                            "searchKey":"Image",
+                                            "props":{"y":20.5,"x":23,"skin":"Active/shipin.png"},
+                                            "nodeParent":653,
+                                            "label":"Image",
+                                            "isDirectory":false,
+                                            "isAniNode":false,
+                                            "hasChild":false,
+                                            "compId":665,
                                             "child":[
                                                 ]
                                         }]
@@ -369,7 +408,7 @@
                                     "x":60,
                                     "type":"Image",
                                     "searchKey":"Image,PackName",
-                                    "props":{"y":392.5,"x":43,"skin":"Active/Pack1.png","name":"PackName"},
+                                    "props":{"y":39,"x":334,"skin":"Active/Pack2.png","name":"PackName"},
                                     "nodeParent":621,
                                     "label":"PackName",
                                     "isDirectory":false,
@@ -385,7 +424,7 @@
                     "x":30,
                     "type":"Image",
                     "searchKey":"Image,CloseBtn,CloseBtn",
-                    "props":{"width":95,"var":"CloseBtn","top":27,"skin":"main/anniu_xia.png","rotation":90,"name":"CloseBtn","left":23,"height":95,"anchorY":0.5,"anchorX":0.5},
+                    "props":{"width":95,"var":"CloseBtn","top":7,"skin":"Active/fanhui.png","name":"CloseBtn","left":14,"height":95,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":617,
                     "label":"CloseBtn",
                     "isDirectory":false,

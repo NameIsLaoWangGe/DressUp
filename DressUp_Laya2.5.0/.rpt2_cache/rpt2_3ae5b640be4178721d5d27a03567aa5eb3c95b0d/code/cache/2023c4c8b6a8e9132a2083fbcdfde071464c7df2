@@ -1,0 +1,8 @@
+{
+  "code": "import { BaseState, EventMgr, UIMgr, GameMgr } from \"../../Frame/Core\";\r\nimport { GameEvent } from \"../Formula\";\r\nexport default class Game_Settle extends BaseState {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.name = \"Game_Settle\";\r\n    }\r\n    onInit() {\r\n    }\r\n    onEnter(args) {\r\n        Laya.SoundManager.stopMusic();\r\n        EventMgr.notify(GameEvent.save);\r\n        EventMgr.notify(GameEvent.pause, false);\r\n        UIMgr.interim1(() => {\r\n            GameMgr.fsm.to(\"Game_Ready\");\r\n        });\r\n    }\r\n    onExit() {\r\n    }\r\n}\r\n//# sourceMappingURL=Game_Settle.js.map",
+  "references": [
+    "C:/Users/tomato/Downloads/Baby/Baby/src/script/Frame/Core.ts",
+    "C:/Users/tomato/Downloads/Baby/Baby/src/script/Game/Formula.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"Game_Settle.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/State/Game_Settle.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,SAAS,EAAE,QAAQ,EAAW,KAAK,EAAE,OAAO,EAAE,MAAM,kBAAkB,CAAC;AAChF,OAAO,EAAE,SAAS,EAAE,MAAM,YAAY,CAAC;AAEvC,MAAM,CAAC,OAAO,OAAO,WAAY,SAAQ,SAAS;IAAlD;;QACI,SAAI,GAAG,aAAa,CAAC;IAkBzB,CAAC;IAhBG,MAAM;IAEN,CAAC;IAED,OAAO,CAAC,IAAU;QACd,IAAI,CAAC,YAAY,CAAC,SAAS,EAAE,CAAC;QAC9B,QAAQ,CAAC,MAAM,CAAC,SAAS,CAAC,IAAI,CAAC,CAAC;QAChC,QAAQ,CAAC,MAAM,CAAC,SAAS,CAAC,KAAK,EAAE,KAAK,CAAC,CAAC;QACxC,KAAK,CAAC,QAAQ,CAAC,GAAE,EAAE;YACf,OAAO,CAAC,GAAG,CAAC,EAAE,CAAC,YAAY,CAAC,CAAC;QACjC,CAAC,CAAC,CAAC;IACP,CAAC;IAED,MAAM;IAEN,CAAC;CACJ\"}"
+}

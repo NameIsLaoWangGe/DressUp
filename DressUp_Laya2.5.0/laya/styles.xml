@@ -20,4 +20,5 @@
    <item name="common/di.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=61,50,73,50" picType="0" scale="0"/>
    <item name="game/rt2.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=2,2,2,2" picType="0" scale="0"/>
    <item name="Cloth" type="" compress="0" pack="2" quality="80" props="" picType="0" scale="0"/>
+   <item name="main/di.png" type="Sprite" compress="0" pack="0" quality="80" props="sizeGrid=72,0,40,0" picType="0" scale="0"/>
 </res>

@@ -447,8 +447,15 @@ declare namespace TJ.Common {
     class PromiseWrap<T> {
         constructor(executor?: (resolve: (value?: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void);
         promise: Promise<T>;
-        resolve: (value?: T | PromiseLike<T>) => void;
-        reject: (reason?: any) => void;
+        pending: Promise<any>;
+        private resolve;
+        resolved: boolean;
+        value: T | PromiseLike<T>;
+        Resolve(value?: T | PromiseLike<T>): void;
+        private reject;
+        rejucted: boolean;
+        reason: any;
+        Reject(reason?: any): void;
     }
 }
 declare namespace TJ.Common {
@@ -489,6 +496,20 @@ declare namespace TJ.Common {
         Send(method?: "get" | "post", format?: "form" | "json"): Promise<{}>;
         DoSend(url: string, method: string, data: string): void;
     }
+}
+declare namespace TJ.API.Account {
+    class IAccount extends Common.Component.Interface {
+        Login(param: Param): Promise<void>;
+        SetUserInfo(param: Param): Promise<void>;
+        OnInit(): Promise<void>;
+    }
+    class Param {
+        force: boolean;
+        userId: {};
+        userInfo: {};
+    }
+    let autoLogin: boolean;
+    let loginPromiseWrap: Common.PromiseWrap<{}>;
 }
 declare namespace TJ.API.AdService {
     class IAdService extends Common.Component.Interface {
@@ -735,8 +756,32 @@ declare namespace TJ.Develop.Yun.Storage.Player {
     function SaveData(data: {}): Promise<void>;
     function ClearData(keys: string[]): Promise<void>;
 }
+declare namespace TJ.Develop.Yun {
+    let apiUrl: string;
+    class Result {
+        P: any;
+        E: string;
+    }
+    function GetResult(www: Common.WWW): Promise<any>;
+}
 declare namespace TJ.Develop.Yun.Config {
     function GameCfg(): Promise<any>;
+}
+declare namespace TJ.Develop.Yun.DouYin {
+    let apiUrl: string;
+    function ReportVideoIdInfo(videoIdInfo: {
+        videoId: string;
+        videoguid: string;
+    }): Promise<void>;
+    function GetVideosByTime(startTime: number, endTime: number): Promise<{
+        videoId: string;
+        createAt: number;
+    }[]>;
+    function ReportVideoInfo(videoInfo: {
+        videoId: string;
+        diggCount?: number;
+        coverUrl?: string;
+    }): Promise<void>;
 }
 declare namespace TJ.Develop.Yun.Location {
     let ip: string;
@@ -746,6 +791,77 @@ declare namespace TJ.Develop.Yun.Location {
     function NowTime(): number;
     let syncPromise: Promise<void>;
     function Sync(): Promise<void>;
+}
+declare namespace TJ.Develop.Yun.Login {
+    let apiUrl: string;
+}
+declare namespace TJ.Develop.Yun.Login.CLogin {
+    function QQAppRT(exInfo: {
+        code: string;
+    }): Promise<{
+        openid: string;
+        session_key: string;
+        unionid: string;
+        errcode: number;
+        errmsg: string;
+    }>;
+    function TTAppRT(exInfo: {
+        code: string;
+        anonymousCode: string;
+    }): Promise<{
+        session_key: string;
+        openid: string;
+        anonymous_openid: string;
+        errcode: number;
+        errmsg: string;
+    }>;
+    function WXLogin(exInfo: {
+        code: string;
+    }): Promise<{
+        openid: string;
+        session_key: string;
+        unionid: string;
+        errcode: number;
+        errmsg: string;
+    }>;
+    function VIVOAppRT(exInfo: {
+        token: string;
+    }): Promise<{
+        code: number;
+        msg: string;
+        data: {
+            openId: string;
+            nickName: string;
+            smallAvatar: string;
+            biggerAvatar: string;
+            gender: number;
+        };
+    }>;
+    function QTTAppRT(exInfo: {
+        ticket: string;
+        platform: string;
+    }): Promise<{
+        code: number;
+        message: string;
+        showErr: number;
+        currentTime: number;
+        data: {
+            open_id: string;
+            union_id: string;
+            nickname: string;
+            avatar: string;
+            wlx_platform: string;
+        };
+    }>;
+}
+declare namespace TJ.Develop.Yun.Login.Public {
+    function GetUserguid(userId: {}): Promise<string>;
+}
+declare namespace TJ.Develop.Yun.Player {
+    let apiUrl: string;
+}
+declare namespace TJ.Develop.Yun.Player.Player {
+    function ReportUserInfo(userInfo: {}): Promise<void>;
 }
 declare namespace TJ.Develop.Yun.Prefs.Player {
     function Get(key: string): any;
@@ -962,7 +1078,7 @@ declare namespace TJ.Platform.AppRt.Extern.HBS {
         fail: Function;
         complete: Function;
     }
-    class LoginSuccessResult {
+    class GameLoginResult {
         playerId: string;
         displayName: string;
         playerLevel: number;
@@ -970,13 +1086,13 @@ declare namespace TJ.Platform.AppRt.Extern.HBS {
         ts: string;
         gameAuthSign: string;
     }
-    class LoginParam extends CallbackParam {
+    class GameLoginParam extends CallbackParam {
         forceLogin: number;
         appid: string;
-        success: (res: LoginSuccessResult) => void;
+        success: (res: GameLoginResult) => void;
         fail: (data: string, code: number) => void;
     }
-    function GameLogin(param: LoginParam): void;
+    function GameLogin(param: GameLoginParam): void;
     function ExitApplication(param: CallbackParam): void;
     class LaunchOption {
         query: {};
@@ -1010,6 +1126,60 @@ declare namespace TJ.Platform.AppRt.Extern.Kwai {
     function Init(param: {
         appId: string;
     }): void;
+    class MediaRecoder {
+        private obj;
+        constructor(obj: any);
+        Init(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+        Destory(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+        Start(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+        Stop(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+        Pause(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+        Resume(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+        PublishVideo(param: {
+            callback: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+            mouldId?: string;
+        }): void;
+        OnError(param: {
+            listener: (error: {
+                code: number;
+                msg: string;
+            }) => void;
+        }): void;
+    }
+    function CreateMediaRecorder(): MediaRecoder;
     class RewardVideo {
         private rewardVideo;
         constructor(obj: any);
@@ -1113,7 +1283,7 @@ declare namespace TJ.Platform.AppRt.Extern.OPPO.QG {
     }
     function InitAdService(param: InitAdServiceParam): void;
     class BannerAd {
-        private bannerAd;
+        private obj;
         constructor(obj: any);
         Show(): void;
         Hide(): void;
@@ -1129,7 +1299,7 @@ declare namespace TJ.Platform.AppRt.Extern.OPPO.QG {
     }
     function CreateBannerAd(posId: string): BannerAd;
     class InsertAd {
-        private insertAd;
+        private obj;
         constructor(obj: any);
         Load(): void;
         Show(): void;
@@ -1146,7 +1316,7 @@ declare namespace TJ.Platform.AppRt.Extern.OPPO.QG {
         isEnded: boolean;
     }
     class RewardedVideoAd {
-        private videoAd;
+        private obj;
         constructor(obj: any);
         Load(): void;
         Show(): void;
@@ -1175,7 +1345,7 @@ declare namespace TJ.Platform.AppRt.Extern.OPPO.QG {
         interactionType: number;
     }
     class NativeAd {
-        private nativeAd;
+        private obj;
         constructor(obj: any);
         Load(): void;
         ReportAdShow(adId: string): void;
@@ -1189,6 +1359,36 @@ declare namespace TJ.Platform.AppRt.Extern.OPPO.QG {
         Destroy(): void;
     }
     function CreateNativeAd(posId: string): NativeAd;
+    class GameBannerAd {
+        private obj;
+        constructor(obj: any);
+        Show(): Promise<any>;
+        Hide(): Promise<any>;
+        OnLoad(callback: (res: CallbackResult) => void): void;
+        OffLoad(callback: Function): void;
+        OnError(callback: (res: CallbackResult) => void): void;
+        OffError(callback: Function): void;
+        Destroy(): Promise<any>;
+    }
+    function CreateGameBannerAd(param: {
+        adUnitId: string;
+    }): GameBannerAd;
+    class GamePortalAd {
+        private obj;
+        constructor(obj: any);
+        Load(): Promise<any>;
+        Show(): Promise<any>;
+        OnLoad(callback: (res: CallbackResult) => void): void;
+        OffLoad(callback: Function): void;
+        OnClose(callback: (res: CallbackResult) => void): void;
+        OffClose(callback: Function): void;
+        OnError(callback: (res: CallbackResult) => void): void;
+        OffError(callback: Function): void;
+        Destroy(): Promise<any>;
+    }
+    function CreateGamePortalAd(param: {
+        adUnitId: string;
+    }): GamePortalAd;
 }
 declare namespace TJ.Platform.AppRt.Extern.OPPO.QG {
     function InstallShortcut(param: CallbackParam): void;
@@ -1257,6 +1457,72 @@ declare namespace TJ.Platform.AppRt.Extern.QQ {
         success: (res: CallbackResult) => void;
         fail: (res: CallbackResult) => void;
         complete: (res: CallbackResult) => void;
+    }
+    class LoginSuccessResult extends CallbackResult {
+        code: string;
+    }
+    class LoginParam extends CallbackParam {
+        timeout?: number;
+        success: (res: LoginSuccessResult) => void;
+    }
+    function Login(param: LoginParam): void;
+    class UserInfo {
+        nickName: string;
+        avatarUrl: string;
+        gender: 0 | 1 | 2;
+        country: string;
+        province: string;
+        city: string;
+        language: "en" | "zh_CN" | "zh_TW";
+    }
+    class GetUserInfoSuccessResult extends CallbackResult {
+        userInfo: UserInfo;
+        rawData: string;
+        signature: string;
+        encryptedData: string;
+        iv: string;
+    }
+    class GetUserInfoParam extends CallbackParam {
+        withCredentials?: boolean;
+        lang?: "en" | "zh_CN" | "zh_TW";
+        success: (res: GetUserInfoSuccessResult) => void;
+    }
+    function GetUserInfo(param: LoginParam): void;
+    class UserInfoButtonStyle {
+        left: number;
+        top: number;
+        width: number;
+        height: number;
+        backgroundColor: string;
+        borderColor: string;
+        borderWidth: number;
+        borderRadius: number;
+        color: string;
+        textAlign: "left" | "center" | "right";
+        fontSize: number;
+        lineHeight: number;
+    }
+    class CreateUserInfoButtonParam {
+        type: "text" | "image";
+        text: string;
+        image: string;
+        style: UserInfoButtonStyle;
+        withCredentials: boolean;
+        lang?: "en" | "zh_CN" | "zh_TW";
+    }
+    function CreateUserInfoButton(param: CreateUserInfoButtonParam): UserInfoButton;
+    class UserInfoButton {
+        private userInfoButton;
+        constructor(obj: any);
+        readonly type: string;
+        readonly text: string;
+        readonly image: string;
+        readonly style: UserInfoButtonStyle;
+        Show(): any;
+        Hide(): any;
+        OnTap(callback: (res: GetUserInfoSuccessResult) => void): void;
+        OffTap(callback?: (res: any) => void): void;
+        Destroy(): void;
     }
     class ShowShareMenuParam extends CallbackParam {
         showShareItems: ("qq" | "qzone" | "wechatFriends" | "wechatMoment")[];
@@ -1518,12 +1784,16 @@ declare namespace TJ.Platform.AppRt.Extern.TT {
         ClipVideo(param: ClipVideoParam): void;
     }
     function GetGameRecorderManager(): GameRecorderManager;
+    class ShareAppMessageResult extends CallbackResult {
+        videoId?: string;
+    }
     class ShareAppMessageParamExtra {
         withVideoId: boolean;
         videoPath: string;
         videoTopics: string[];
         createChallenge: boolean;
         video_title: string;
+        cutTemplateId?: string;
     }
     class ShareAppMessageParam extends CallbackParam {
         channel: "article" | "video" | "token";
@@ -1533,8 +1803,12 @@ declare namespace TJ.Platform.AppRt.Extern.TT {
         imageUrl: string;
         query: string;
         extra: ShareAppMessageParamExtra;
+        success: (res: ShareAppMessageResult) => void;
     }
     function ShareAppMessage(param: ShareAppMessageParam): void;
+    function OnShareAppMessage(callback: (res: {
+        channel: "article" | "video" | "token";
+    }) => ShareAppMessageParam): void;
     function ReportAnalytics(eventName: string, data: {}): void;
     class ReferrerInfo {
         appId: string;
@@ -1593,6 +1867,7 @@ declare namespace TJ.Platform.AppRt.Extern.TT {
         appLaunchOptions: AppLaunchOptions[];
     }
     function ShowMoreGamesModal(param: ShowMoreGamesModalParam): void;
+    function SetMoreGamesInfo(param: ShowMoreGamesModalParam): void;
     function VibrateShort(parm: CallbackParam): void;
     function VibrateLong(parm: CallbackParam): void;
     class CheckFollowAwemeStateResult extends CallbackResult {
@@ -1937,16 +2212,9 @@ declare namespace TJ.Platform.AppRt.Extern.WX {
         image: string;
         style: UserInfoButtonStyle;
         withCredentials: boolean;
-        lang: "en" | "zh_CN" | "zh_TW";
+        lang?: "en" | "zh_CN" | "zh_TW";
     }
     function CreateUserInfoButton(param: CreateUserInfoButtonParam): UserInfoButton;
-    class UserInfoButtonOnTapResult extends CallbackResult {
-        userInfo: UserInfo;
-        rawData: string;
-        signature: string;
-        encryptedData: string;
-        iv: string;
-    }
     class UserInfoButton {
         private userInfoButton;
         constructor(obj: any);
@@ -1956,7 +2224,7 @@ declare namespace TJ.Platform.AppRt.Extern.WX {
         readonly style: UserInfoButtonStyle;
         Show(): any;
         Hide(): any;
-        OnTap(callback: (res: UserInfoButtonOnTapResult) => void): void;
+        OnTap(callback: (res: GetUserInfoSuccessResult) => void): void;
         OffTap(callback?: (res: any) => void): void;
         Destroy(): void;
     }
@@ -2187,6 +2455,70 @@ declare namespace TJ.Platform.AppRt.Extern.XIAOMI.QG {
     }
     function CreateRewardedVideoAd(posId: string): RewardedVideoAd;
 }
+declare namespace TJ.Platform.AppRt.Develop.HBS.Account {
+    function Login(): Promise<Extern.HBS.GameLoginResult>;
+    function GetUserInfo(): Promise<Extern.HBS.GameLoginResult>;
+}
+declare namespace TJ.Platform.AppRt.Develop.Kwai {
+    class MediaRecoder {
+        private _obj;
+        private readonly obj;
+        private recording;
+        readonly hasVideo: boolean;
+        constructor();
+        Start(): void;
+        Stop(share?: boolean): void;
+        Share(): void;
+    }
+}
+declare namespace TJ.Platform.AppRt.Develop.OPPO.Account {
+    function Login(): Promise<Extern.OPPO.QG.LoginResult>;
+    function GetUserInfo(): Promise<Extern.OPPO.QG.LoginResultData>;
+}
+declare namespace TJ.Platform.AppRt.Develop.OPPO.GameAd {
+    function ShowBanner(): void;
+    function RemoveBanner(): void;
+    function ShowPortal(): void;
+}
+declare namespace TJ.Platform.AppRt.Develop.QQ.Account {
+    function Login(): Promise<{
+        code: string;
+    }>;
+    function YLogin(): Promise<{
+        openid: string;
+        session_key: string;
+        unionid: string;
+        errcode: number;
+        errmsg: string;
+    }>;
+    function GetUserInfo(): Promise<Extern.QQ.UserInfo>;
+}
+declare namespace TJ.Platform.AppRt.Develop.QTT.Account {
+    function Login(): Promise<{
+        ticket: any;
+        platform: any;
+    }>;
+    function YLogin(): Promise<{
+        code: number;
+        message: string;
+        showErr: number;
+        currentTime: number;
+        data: {
+            open_id: string;
+            union_id: string;
+            nickname: string;
+            avatar: string;
+            wlx_platform: string;
+        };
+    }>;
+    function GetUserInfo(): Promise<{
+        open_id: string;
+        union_id: string;
+        nickname: string;
+        avatar: string;
+        wlx_platform: string;
+    }>;
+}
 declare namespace TJ.Platform.AppRt.Develop.TA {
     namespace Raw {
         let log: boolean;
@@ -2221,6 +2553,20 @@ declare namespace TJ.Platform.AppRt.Develop.TA {
     function Event_Level_Finish(id: string): void;
     function Event_Level_Fail(id: string): void;
 }
+declare namespace TJ.Platform.AppRt.Develop.TT.Account {
+    function Login(): Promise<{
+        code: string;
+        anonymousCode: string;
+    }>;
+    function YLogin(): Promise<{
+        session_key: string;
+        openid: string;
+        anonymous_openid: string;
+        errcode: number;
+        errmsg: string;
+    }>;
+    function GetUserInfo(): Promise<Extern.TT.UserInfo>;
+}
 declare namespace TJ.Platform.AppRt.Develop.TT.VideoRank {
     class VideoInfo {
         videoID: string;
@@ -2230,6 +2576,42 @@ declare namespace TJ.Platform.AppRt.Develop.TT.VideoRank {
     }
     function GetByLike(number_of_top: number): Promise<VideoInfo[]>;
     function GetByTime(number_of_top: number): Promise<VideoInfo[]>;
+}
+declare namespace TJ.Platform.AppRt.Develop.VIVO.Account {
+    function Login(): Promise<{
+        token: string;
+    }>;
+    function YLogin(): Promise<{
+        code: number;
+        msg: string;
+        data: {
+            openId: string;
+            nickName: string;
+            smallAvatar: string;
+            biggerAvatar: string;
+            gender: number;
+        };
+    }>;
+    function GetUserInfo(): Promise<{
+        openId: string;
+        nickName: string;
+        smallAvatar: string;
+        biggerAvatar: string;
+        gender: number;
+    }>;
+}
+declare namespace TJ.Platform.AppRt.Develop.WX.Account {
+    function Login(): Promise<{
+        code: string;
+    }>;
+    function YLogin(): Promise<{
+        openid: string;
+        session_key: string;
+        unionid: string;
+        errcode: number;
+        errmsg: string;
+    }>;
+    function GetUserInfo(): Promise<Extern.WX.UserInfo>;
 }
 declare namespace TJ.Platform.AppRt.Develop.Yun.Login {
     function OPPOLogin(param: {
@@ -2357,11 +2739,6 @@ declare namespace TJ.Platform.AppRt.DevKit.WX {
         userInfo: Extern.WX.UserInfo;
     }>;
 }
-declare namespace TJ.Platform.AppRt.DevKit.Yun {
-    let autoLogin: boolean;
-    let loginPromiseWrap: Common.PromiseWrap<{}>;
-    function SyncStorage(): Promise<void>;
-}
 declare namespace TJ.Platform.AppRt.SDK._4399 {
     class Manager extends Common.Component.Interface {
         OnInit(): void;
@@ -2482,6 +2859,8 @@ declare namespace TJ.Platform.iOS.Extern.APP {
         static sc: Common.iOS.SwiftClass;
         static Debug(fn: any, ...ps: any[]): void;
         static AppGuid(): string;
+        static UserAgreement(): void;
+        static PrivacyPolicy(): void;
     }
 }
 declare namespace TJ.Platform.iOS.Extern.GSA {

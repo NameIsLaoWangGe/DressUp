@@ -103,7 +103,7 @@ export default class RecordManager
         if (RecordManager.grv.videoPath)
         {
             let p = new TJ.Platform.AppRt.Extern.TT.ShareAppMessageParam();
-            p.extra.videoTopics = ["#学生党#梦幻大明星百变造型#", "番茄小游戏", "抖音小游戏"]
+            p.extra.videoTopics = ["#学生党#豆腐小姐姐#", "番茄小游戏", "抖音小游戏"]
             p.channel = "video";
             p.success = () =>
             {

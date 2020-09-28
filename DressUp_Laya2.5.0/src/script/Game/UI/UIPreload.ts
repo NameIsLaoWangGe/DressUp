@@ -5,7 +5,6 @@ import ConfigData from "../ConfigData";
 import ProgressBar from "./ProgressBar";
 import ZJADMgr from "../../ZJADMgr";
 import GameDataController from "../GameDataController";
-import { Task } from "./UITask";
 
 
 
@@ -110,7 +109,6 @@ export default class UIPreload extends UIBase
         new ZJADMgr();
 
         TJ.API.TA.log = true;
-        Task.init();
         
         ADManager.TAPoint(TaT.PageEnter,"UIPreload");
         let cfg = new ConfigData();

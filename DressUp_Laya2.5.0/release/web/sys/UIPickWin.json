@@ -1,1 +1,0 @@
-{"type":"View","props":{"width":720,"height":1280},"compId":2,"child":[{"type":"Image","props":{"top":0,"skin":"common/mask.png","right":0,"left":0,"bottom":0,"sizeGrid":"10,10,10,10"},"compId":3},{"type":"Box","props":{"width":720,"height":1280,"centerY":0,"centerX":0},"compId":5}],"loadList":["common/mask.png"],"loadList3D":[]}

@@ -14,38 +14,52 @@ export default class BubbleCon extends Laya.Box {
         this.x = this.parent["width"] / 2 - this.width / 2
         this.y = 400 //this.parent["height"] / 2 - this.height / 2
         console.log(BubbleCon.iconStr);
-        let icon = new Laya.Image(BubbleCon.iconStr)
+        // let icon = new Laya.Image(BubbleCon.iconStr)
+        let icon= new Laya.Image("Relation/jianying.png");
         //bg.sizeGrid = "sizeGrid=0,17,0,32";
-        icon.x = 29;
-        icon.y = 5;
-        icon.width = 80;
-        icon.height = 80;
-       
-
+        icon.x = 9;
+        icon.y = 0;
+        icon.width = 106;
+        icon.height = 142;
         this.addChild(icon)
-        let bg = new Laya.Image("DX/qipao_1.png")
+
+        let mark=new Laya.Image("DX/Duihua/touxiang.png");
+        mark.x=54
+        mark.y=49;
+        mark.anchorX=0.5;
+        mark.anchorY=0.5
+        icon.mask=mark;
+        
+
+
+        let bg = new Laya.Image("DX/Duihua/pipao.png")
         //bg.sizeGrid = "sizeGrid=0,17,0,32";
-        bg.x = 140;
+        bg.x = 116;
         bg.y = 0;
         bg.width = 540;
         bg.height = this.height;
-        bg.sizeGrid = "0,17,0,32";
+        bg.sizeGrid = "15,11,11,26";
 
         this.addChild(bg)
 
-        let proBg = new Laya.Image("resUI/img_main_qipaojindu.png")
+        let proBg = new Laya.Image("main/queding.png")
         this.addChild(proBg)
-        proBg.x = 600
-        proBg.y = 58
+        proBg.x = 602
+        proBg.y = 71
+        proBg.scaleX=0.5;
+        proBg.scaleY=0.5;
         
         let txt = new Laya.HTMLDivElement()
         this.addChild(txt)
-        txt.x = 170
-        txt.y = 32
+        txt.x = 147
+        txt.y = 15
+        txt.style.align="center";
+        txt.style.valign="middle"
         txt.style.width = 500
         txt.style.height = 60
-        txt.style.font = "Arial"
+        txt.style.font = "SimHei"
         txt.style.fontSize = 30
+        txt.style.color="#626262";
        
         txt.innerHTML = info.txt
 
@@ -77,7 +91,7 @@ export default class BubbleCon extends Laya.Box {
             scaleY:1
         },500,Laya.Ease.backOut,Laya.Handler.create(this,()=>{
             Laya.Tween.to(this,{
-                y:120
+                y:140
             },500,Laya.Ease.linearNone,Laya.Handler.create(this,()=>{
                 this.isShow || (this.y = -300)
                 this.bubbleRequest.initShow();

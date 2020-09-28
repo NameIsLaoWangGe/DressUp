@@ -54,6 +54,10 @@ export default class UIActive extends UIBase
         {
             data.push(GameDataController.ClothPackge2.cloths2);
         }
+        // if (GameDataController.ClothPackge2.cloths3.length > 0)
+        // {
+        //     data.push(GameDataController.ClothPackge2.cloths3);
+        // }
         // if (GameDataController.ClothPackge2.cloths4.length > 0)
         // {
         //     data.push(GameDataController.ClothPackge2.cloths4);

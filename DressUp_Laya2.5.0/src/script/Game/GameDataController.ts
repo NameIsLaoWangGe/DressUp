@@ -1,15 +1,17 @@
-import { UIMgr } from "../Frame/Core";
 import ClothData from "./ClothData"
+import { ManData } from "./ManConfigData";
 import { PickData } from "./PickJsonData";
-import BagListController from "./UI/Bag/BagListController";
-import { Tools } from "./UI/Tools";
-import UIReady from "./UI/UIReady";
 
 export default class GameDataController extends Laya.Script {
     public static get _ClothData(): Map<number, ClothData> {
         return this._clothData;
     }
     static _clothData: Map<number, ClothData> = new Map();
+
+    public static get _ManData(): Map<number, ManData> {
+        return this._manData;
+    }
+    static _manData: Map<number, ManData> = new Map();
 
     static HairData: ClothData[] = [];
     static DressData: ClothData[] = [];
@@ -21,15 +23,22 @@ export default class GameDataController extends Laya.Script {
     static PetData: ClothData[] = [];
 
     static PickData: PickData[] = [];
+    static ManData:ManData[]=[];
 
     static ClothPackge1: ClothPackgeData;//七日签到
     static ClothPackge2: ClothPackgeData;//抽屉特殊皮肤
-    static ClothPackge3: ClothPackgeData;//节日
+    static ClothPackge3: ClothPackgeData;//睡衣
     static ClothPackge4: ClothPackgeData;//每日推荐 
 
     static ClothDataAsy = {}//初始化表
 
+    static ManDataAsy = {};
+    static ManStarAsy={};
+
     static windowWidth: number;
+
+    static man:ManData=new ManData();//当前选中的角色
+    static paint:string;
 
     static GetFirstLoginTime() {
 
@@ -122,7 +131,7 @@ export default class GameDataController extends Laya.Script {
                     if ((data.GetType2.split('_'))[0] == "1")//签到获得
                     {
                         let str = this.ClothDataRefresh[Id];
-                        // console.log(str);
+                        console.log(str);
                         if (str != null) {
                             if (GameDataController.ClothDataRefresh[Id] == 1) {
                                 //console.log("当前衣服未解锁", Id);
@@ -147,10 +156,10 @@ export default class GameDataController extends Laya.Script {
                             return true;
                         }
                     }
-                    else if ((data.GetType2.split('_'))[0] == "3")//嫦娥
+                    else if ((data.GetType2.split('_'))[0] == "3")//睡衣
                     {
                         let str = this.ClothDataRefresh[Id];
-                        // console.log(str);
+                        console.log(str);
                         if (str != null) {
                             if (GameDataController.ClothDataRefresh[Id] == 1) {
                                 //console.log("当前衣服未解锁", Id);
@@ -165,7 +174,7 @@ export default class GameDataController extends Laya.Script {
                     else if ((data.GetType2.split('_'))[0] == "4")//每日推荐获得
                     {
                         let str = this.ClothDataRefresh[Id];
-                        // console.log(str);
+                        console.log(str);
                         if (str != null) {
                             if (GameDataController.ClothDataRefresh[Id] == 1) {
                                 //console.log("当前衣服未解锁", Id);
@@ -190,7 +199,7 @@ export default class GameDataController extends Laya.Script {
             else {
                 //不存在此套装 判断是否解锁
                 let str = this.ClothDataRefresh[Id];
-                // console.log(str);
+                console.log(str);
                 if (str != null) {
                     if (GameDataController.ClothDataRefresh[Id] == 1) {
                         //console.log("当前衣服未解锁", Id);
@@ -311,13 +320,6 @@ export default class GameDataController extends Laya.Script {
         return Laya.LocalStorage.getItem("TodayWinNum");
     }
 
-    static set ShopCharmValue(v: string) { //商店魅力值
-        Laya.LocalStorage.setItem("ShopCharmValue", v);
-    }
-    static get ShopCharmValue(): string {
-        return Laya.LocalStorage.getItem("ShopCharmValue");
-    }
-
     static set CharmValue(v: string) { //魅力值
         Laya.LocalStorage.setItem("CharmValue", v);
     }
@@ -325,69 +327,50 @@ export default class GameDataController extends Laya.Script {
         return Laya.LocalStorage.getItem("CharmValue");
     }
 
-    //未解锁的全部衣服
-    static Get_All_UnLock_Cloth() {
-        let arr = [];
-        for (let k in GameDataController.ClothDataAsy) {
-            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2) {
-                if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
-                    arr.push(k);
-                }
-            }
-        }
-        return arr;
-    }
-    //未解锁的高星衣服
-    static Get_All_UnLock_HighStarCloth() {
-        let arr = [];
-        for (let k in GameDataController.ClothDataAsy) {
-            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2&&GameDataController._ClothData.get(parseInt(k)).Star==3) {
-                if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
-                    arr.push(k);
-                }
-            }
-        }
-        let t=Tools.arrayRandomGetOut(arr,1);
-        let cloth:ClothData=GameDataController._ClothData.get(parseInt(t));
-        return cloth;
+
+    //0 解锁 1未解锁
+    static set ManDataRefresh(v: any)//用于存取信息的表 传入角色ID来获取角色是否解锁 0解锁 1未解锁
+    {
+        Laya.LocalStorage.setJSON("ManData", v);
     }
 
-    //未解锁的低星衣服
-    static Get_All_UnLock_LowStarCloth() {
-        let arr = [];
-        for (let k in GameDataController.ClothDataAsy) {
-            if (GameDataController.ClothDataAsy[k] == 1 && !GameDataController._ClothData.get(parseInt(k)).GetType2&&GameDataController._ClothData.get(parseInt(k)).Star==1||GameDataController._ClothData.get(parseInt(k)).Star==2) {
-                if (!((k == "10000") || (k == "10001") || (k == "10002"))) {
-                    arr.push(k);
+    static get ManDataRefresh(): any {
+        let a = Laya.LocalStorage.getJSON("ManData");
+        return a;
+    }
+
+    static set ManStarRefresh(v: any)//用于存取星级信息的表 传入角色ID来获取角色的星级
+    {
+        Laya.LocalStorage.setJSON("ManStar", v);
+    }
+
+    static get ManStarRefresh(): any {
+        let a = Laya.LocalStorage.getJSON("ManStar");
+        return a;
+    }
+
+    static ManCanUse(id: number) {
+        if (this._manData.has(id)) {
+            let str=GameDataController.ManDataRefresh[id];
+            if (str != null) {
+                if (GameDataController.ManDataRefresh[id] == 1) {
+                    //console.log("当前角色未解锁", Id);
+                    return false;
+                }
+                else {
+                    // console.log("当前角色已解锁", Id);
+                    return true;
                 }
             }
+            else{
+               return false; 
+            }
         }
-        let t=Tools.arrayRandomGetOut(arr,1);
-        let cloth:ClothData=GameDataController._ClothData.get(parseInt(t));
-        return cloth;
-    }
-    /**解锁*/
-    static unlock(data): void {
-            let dataall = GameDataController.ClothDataRefresh;
-            dataall[data.ID]=0;
-            GameDataController.ClothDataRefresh = dataall;
-            BagListController.Instance.showList();
-            BagListController.Instance.refresh();
-    }
-    //增加魅力值
-    static  AddCharmValue(num:number)
-    {
-        if(!GameDataController.ShopCharmValue)
-        {
-            //GameDataController.ShopCharmValue="0";
-            GameDataController.ShopCharmValue=num.toString();
+        else{
+            return false;
         }
-        else
-        {
-            let a=parseInt(GameDataController.ShopCharmValue);
-            GameDataController.ShopCharmValue=(a+num).toString();
-        }   
     }
+
 }
 
 export class ClothPackgeData extends Laya.Script//页面分级 一个页面包含多组数据

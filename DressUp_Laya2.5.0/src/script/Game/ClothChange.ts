@@ -93,10 +93,10 @@ export default class ClothChange extends Laya.Script {
 
         this.Star = this.FemaleRoot.getChildByName("Star") as Laya.Box;
 
+        // this.CharmValueChange();
     }
     _ClothChange(itemID: number, type: number)//将点击的装扮穿上
     {
-
         switch (type) {
             case clothtype.Hair:
                 this.HairChange(itemID);
@@ -137,11 +137,16 @@ export default class ClothChange extends Laya.Script {
                     this.Man.x = t.x;
                 })
             }, 4000, Laya.Ease.linearNone);
+            // if ((UIMgr.get("UIReady") as UIReady).FenxiangBtn.visible) {
+            //     (UIMgr.get("UIReady") as UIReady).UIWeddingShare.visible = true;
+            // }
+
             Laya.timer.once(6000, this, () => {
-                UIMgr.show("UIWeddingShare");
+               
+                (UIMgr.get("UIReady") as UIReady).UIWeddingShare.visible = true;
                 (UIMgr.get("UIReady") as UIReady).Pick.disabled=false;
-                // Laya.timer.once(500,this,RecordManager.stopAutoRecord)
-                // //RecordManager.stopAutoRecord();
+                Laya.timer.once(500,this,RecordManager.stopAutoRecord)
+                //RecordManager.stopAutoRecord();
             });
         }
         else {

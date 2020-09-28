@@ -1,7 +1,0 @@
-{
-  "code": "export default class ListItem extends Laya.Script {\r\n    onAwake() {\r\n        this.init();\r\n    }\r\n    init() {\r\n        console.log(\"ListItem Onawake\");\r\n        this.List = this.owner;\r\n        this.List.vScrollBarSkin = \"\";\r\n    }\r\n    show() {\r\n    }\r\n    ;\r\n    _show() {\r\n        this.show();\r\n    }\r\n    refresh() {\r\n    }\r\n    ;\r\n    _refresh() {\r\n        this.refresh();\r\n    }\r\n    hide() {\r\n        this.List.visible = false;\r\n    }\r\n    ;\r\n    _hide() {\r\n        this.hide();\r\n    }\r\n}\r\n//# sourceMappingURL=ListItem.js.map",
-  "references": [
-    "D:/NewProject/src/script/Game/ClothData.ts"
-  ],
-  "map": "{\"version\":3,\"file\":\"ListItem.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../../src/script/Game/UI/Bag/ListItem.ts\"],\"names\":[],\"mappings\":\"AAEA,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,IAAI,CAAC,MAAM;IAK7C,OAAO;QAEH,IAAI,CAAC,IAAI,EAAE,CAAC;IAChB,CAAC;IACD,IAAI;QAEA,OAAO,CAAC,GAAG,CAAC,kBAAkB,CAAC,CAAC;QAChC,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC,KAAkB,CAAC;QACpC,IAAI,CAAC,IAAI,CAAC,cAAc,GAAG,EAAE,CAAC;IAClC,CAAC;IACD,IAAI;IAGJ,CAAC;IAAA,CAAC;IACF,KAAK;QAED,IAAI,CAAC,IAAI,EAAE,CAAC;IAChB,CAAC;IACD,OAAO;IAGP,CAAC;IAAA,CAAC;IACF,QAAQ;QAEJ,IAAI,CAAC,OAAO,EAAE,CAAC;IACnB,CAAC;IACD,IAAI;QAEA,IAAI,CAAC,IAAI,CAAC,OAAO,GAAG,KAAK,CAAC;IAC9B,CAAC;IAAA,CAAC;IACF,KAAK;QAED,IAAI,CAAC,IAAI,EAAE,CAAC;IAChB,CAAC;CACJ\"}"
-}

@@ -1,0 +1,7 @@
+{
+  "code": "export default class PaintingItem extends Laya.Script {\r\n    onAwake() {\r\n        let item = this.owner;\r\n        this.painting = item.getChildByName(\"painting\");\r\n    }\r\n    fell(data, index) {\r\n        this.painting.skin = \"Cloth/ManPainting/\" + data[index] + \".png\";\r\n    }\r\n}\r\n//# sourceMappingURL=PaintingItem.js.map",
+  "references": [
+    "C:/Users/tomato/Downloads/Baby/Baby/src/script/Game/ManConfigData.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"PaintingItem.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/PaintingItem.ts\"],\"names\":[],\"mappings\":\"AAEA,MAAM,CAAC,OAAO,OAAO,YAAa,SAAQ,IAAI,CAAC,MAAM;IAIjD,OAAO;QAEH,IAAI,IAAI,GAAC,IAAI,CAAC,KAAiB,CAAC;QAChC,IAAI,CAAC,QAAQ,GAAC,IAAI,CAAC,cAAc,CAAC,UAAU,CAAe,CAAC;IAChE,CAAC;IAED,IAAI,CAAC,IAAa,EAAC,KAAY;QAE3B,IAAI,CAAC,QAAQ,CAAC,IAAI,GAAC,oBAAoB,GAAE,IAAI,CAAC,KAAK,CAAC,GAAC,MAAM,CAAC;IAChE,CAAC;CACJ\"}"
+}

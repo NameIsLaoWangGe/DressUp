@@ -24,13 +24,12 @@ import UICombine from "./Game/UI/UICombine";
 import UIDuiHuan from "./Game/UI/UIDuiHuan";
 import UINotice from "./Game/UI/UINotice";
 import UIDraw from "./Game/UI/UIDraw";
-import UITask from "./Game/UI/UITask";
-import UIWeddingEgg from "./Game/UI/UIWeddingEgg";
-import UIPickEgg from "./Game/UI/UIPickEgg";
-import UIWeddingShare from "./Game/UI/UIWeddingShare";
-import UISpinning from "./Game/UI/UISpinning";
-import UIChangE from "./Game/UI/UIChangE";
-import UIXiaoHM from "./Game/UI/UIXiaoHM";
+import UIPhone from "./Game/UI/UIPhone";
+import UIRelation from "./Game/UI/UIRelation";
+import UICollection from "./Game/UI/UICollection";
+import UIDateSucceed from "./Game/UI/UIDateSucceed";
+import UISure from "./Game/UI/UISure";
+import UIDateFail from "./Game/UI/UIDateFail";
 
 G["Game_Init"] = Game_Init;
 G["Game_Ready"] = Game_Ready;
@@ -56,13 +55,12 @@ G["UICombine"]=UICombine;
 G["UIDuiHuan"]=UIDuiHuan;
 G["UINotice"]=UINotice;
 G["UIDraw"]=UIDraw;
-G["UITask"]=UITask;
-G["UIWeddingEgg"]=UIWeddingEgg;
-G["UIPickEgg"]=UIPickEgg;
-G["UIWeddingShare"]=UIWeddingShare;
-G["UISpinning"]=UISpinning;
-G["UIChangE"]=UIChangE;
-G["UIXiaoHM"]=UIXiaoHM;
+G["UIPhone"]=UIPhone;
+G["UIRelation"]=UIRelation;
+G["UICollection"]=UICollection;
+G["UIDateSucceed"]=UIDateSucceed;
+G["UISure"]=UISure;
+G["UIDateFail"]=UIDateFail;
 export default class AppFacade extends Laya.View
 {
     constructor()

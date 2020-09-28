@@ -1,0 +1,8 @@
+{
+  "code": "import { OpenType, UIBase, UIMgr } from \"../../Frame/Core\";\r\nexport default class UIDateFail extends UIBase {\r\n    constructor() {\r\n        super(...arguments);\r\n        this._openType = OpenType.Attach;\r\n    }\r\n    onInit() {\r\n        this.BackBtn = this.vars(\"BackBtn\");\r\n        this.btnEv(\"BackBtn\", () => {\r\n            this.hide();\r\n            UIMgr.get(\"UIDraw\").onHide();\r\n        });\r\n    }\r\n    onShow() {\r\n        this.owner[\"failAni\"].play(0, true);\r\n    }\r\n    onHide() {\r\n    }\r\n}\r\n//# sourceMappingURL=UIDateFail.js.map",
+  "references": [
+    "C:/Users/tomato/Downloads/Baby/Baby/src/script/Frame/Core.ts",
+    "C:/Users/tomato/Downloads/Baby/Baby/src/script/Game/UI/UIDraw.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"UIDateFail.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/UI/UIDateFail.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,EAAE,KAAK,EAAE,MAAM,kBAAkB,CAAC;AAG3D,MAAM,CAAC,OAAO,OAAO,UAAW,SAAQ,MAAM;IAA9C;;QAEI,cAAS,GAAC,QAAQ,CAAC,MAAM,CAAC;IAmB9B,CAAC;IAjBG,MAAM;QAEF,IAAI,CAAC,OAAO,GAAC,IAAI,CAAC,IAAI,CAAC,SAAS,CAAC,CAAC;QAClC,IAAI,CAAC,KAAK,CAAC,SAAS,EAAC,GAAE,EAAE;YACrB,IAAI,CAAC,IAAI,EAAE,CAAC;YACX,KAAK,CAAC,GAAG,CAAC,QAAQ,CAAY,CAAC,MAAM,EAAE,CAAC;QAC7C,CAAC,CAAC,CAAA;IACN,CAAC;IAED,MAAM;QAED,IAAI,CAAC,KAAK,CAAC,SAAS,CAAyB,CAAC,IAAI,CAAC,CAAC,EAAC,IAAI,CAAC,CAAC;IAChE,CAAC;IACD,MAAM;IAGN,CAAC;CACJ\"}"
+}

@@ -1,1 +1,0 @@
-{"type":"View","props":{"width":720,"top":0,"right":0,"left":0,"height":1280,"bottom":0},"compId":2,"child":[{"type":"Image","props":{"width":500,"skin":"common/yellow.png","name":"Board","height":500,"centerY":0,"centerX":0,"sizeGrid":"10,10,10,10"},"compId":62}],"loadList":["common/yellow.png"],"loadList3D":[]}

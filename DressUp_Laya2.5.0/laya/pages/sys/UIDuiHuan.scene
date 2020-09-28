@@ -6,7 +6,7 @@
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":24,
+    "maxID":28,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -44,7 +44,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"y":341,"x":37,"skin":"main/kuang.png"},
+                    "props":{"y":341,"skin":"main/kuang.png","centerX":0},
                     "nodeParent":4,
                     "label":"Image",
                     "isDirectory":false,
@@ -58,10 +58,10 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,InputArea",
-                    "props":{"y":561,"x":75,"skin":"main/diban.png","name":"InputArea"},
+                    "props":{"y":570,"x":74.5,"width":571,"name":"InputArea","height":112},
                     "nodeParent":4,
                     "label":"InputArea",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -70,7 +70,7 @@
                         {
                             "type":"TextInput",
                             "searchKey":"TextInput,InputText,InputText",
-                            "props":{"y":-1,"x":14,"width":526,"var":"InputText","valign":"middle","promptColor":"#f198bc","prompt":" 在此输入","name":"InputText","height":116,"fontSize":40,"font":"Microsoft YaHei","color":"#f198bc","bold":true,"align":"center"},
+                            "props":{"y":-1,"x":14,"width":526,"var":"InputText","valign":"middle","promptColor":"#adadad","prompt":" 在此输入","name":"InputText","height":116,"fontSize":40,"font":"Microsoft YaHei","color":"#f198bc","bold":true,"align":"center"},
                             "nodeParent":6,
                             "label":"InputText",
                             "isDirectory":false,
@@ -89,17 +89,30 @@
                     "props":{"y":823,"x":229.5,"var":"SureBtn","skin":"main/queding.png","name":"SureBtn"},
                     "nodeParent":4,
                     "label":"SureBtn",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":7,
                     "child":[
-                        ]
+                        {
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":30.5,"x":72,"skin":"main/jh.png"},
+                            "nodeParent":7,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":24,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
                     "type":"Image",
                     "searchKey":"Image,BackBtn",
-                    "props":{"y":341,"x":629,"visible":false,"skin":"sign/X.png","name":"BackBtn"},
+                    "props":{"y":188,"x":60,"visible":false,"skin":"Active/fanhui.png","name":"BackBtn"},
                     "nodeParent":4,
                     "label":"BackBtn",
                     "isDirectory":false,
@@ -118,28 +131,13 @@
             "props":{"width":720,"visible":false,"var":"GetBox","name":"GetBox","height":1280,"centerY":0,"centerX":0},
             "nodeParent":2,
             "label":"GetBox",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":10,
             "child":[
                 {
-                    "x":30,
-                    "type":"Image",
-                    "searchKey":"Image",
-                    "props":{"y":246,"x":346,"skin":"main/yincan.png"},
-                    "nodeParent":10,
-                    "label":"Image",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":12,
-                    "child":[
-                        ]
-                },
-                {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Guang,Guang",
                     "props":{"y":634,"x":363,"var":"Guang","skin":"main/guang.png","name":"Guang","anchorY":0.5,"anchorX":0.5},
@@ -153,21 +151,45 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ADBtn,ADBtn",
-                    "props":{"y":960,"x":229,"var":"ADBtn","skin":"main/anniu_kanship.png","name":"ADBtn"},
+                    "props":{"y":960,"var":"ADBtn","skin":"main/queding.png","name":"ADBtn","centerX":0},
                     "nodeParent":10,
                     "label":"ADBtn",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":11,
                     "child":[
-                        ]
+                        {
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":34,"x":38,"skin":"Active/shipin.png"},
+                            "nodeParent":11,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":26,
+                            "child":[
+                                ]
+                        },
+                        {
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":30,"x":71,"width":100,"skin":"common/kannguanggaoipng.png","height":34},
+                            "nodeParent":11,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":27,
+                            "child":[
+                                ]
+                        }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Icon",
                     "props":{"y":623,"x":360,"skin":"Cloth/Dress/40602.png","name":"Icon","anchorY":0.5,"anchorX":0.5},
@@ -181,10 +203,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"y":128,"x":168.5,"skin":"main/biaoti.png"},
+                    "props":{"y":134,"x":57,"skin":"main/biaoti.png"},
                     "nodeParent":10,
                     "label":"Image",
                     "isDirectory":false,
@@ -195,10 +216,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CloseBtn,CloseBtn",
-                    "props":{"y":36,"x":616,"visible":false,"var":"CloseBtn","skin":"sign/X.png","name":"CloseBtn"},
+                    "props":{"y":73,"x":57,"visible":false,"var":"CloseBtn","skin":"Active/fanhui.png","name":"CloseBtn"},
                     "nodeParent":10,
                     "label":"CloseBtn",
                     "isDirectory":false,
@@ -209,18 +229,31 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,ShareBtn",
-                    "props":{"y":965,"x":229,"visible":false,"skin":"PK/anniu_fenxaing.png","name":"ShareBtn"},
+                    "props":{"y":960,"visible":false,"skin":"main/queding.png","name":"ShareBtn","centerX":0},
                     "nodeParent":10,
                     "label":"ShareBtn",
-                    "isDirectory":false,
+                    "isOpen":true,
+                    "isDirectory":true,
                     "isAniNode":true,
-                    "hasChild":false,
+                    "hasChild":true,
                     "compId":23,
                     "child":[
-                        ]
+                        {
+                            "type":"Image",
+                            "searchKey":"Image",
+                            "props":{"y":30.5,"x":39,"skin":"main/fenxaing.png"},
+                            "nodeParent":23,
+                            "label":"Image",
+                            "isDirectory":false,
+                            "isAniNode":true,
+                            "hasChild":false,
+                            "compId":25,
+                            "child":[
+                                ]
+                        }],
+                    "$HIDDEN":true
                 }],
             "$HIDDEN":false
         }],

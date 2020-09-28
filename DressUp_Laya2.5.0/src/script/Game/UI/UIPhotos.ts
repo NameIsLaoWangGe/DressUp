@@ -21,13 +21,16 @@ export default class UIPhotos extends UIBase
         this.TweenskewY = this.vars("TweenskewY")
 
         this.btnEv("BackHome", this.TweenOff);
-        this.btnEv("ChangeLeft",this.ChangeLastPhoto);
-        this.btnEv("ChangeRight",this.ChangeNextPhoto);
-
+        this.btnEv("ChangeLeft", this.ChangeLastPhoto);
+        this.btnEv("ChangeRight", this.ChangeNextPhoto);
+        this.btnEv("Bg", () =>
+        {
+            this.TweenOff();
+        },this,false,false);
     }
     onShow()
     {
-        ADManager.TAPoint(TaT.PageEnter,"xiangcepage")
+        ADManager.TAPoint(TaT.PageEnter, "xiangcepage")
 
         this.TweenskewY.skewY = -90;
         this._PhotosChange.InitMes();
@@ -61,7 +64,7 @@ export default class UIPhotos extends UIBase
     }
     onHide()
     {
-        ADManager.TAPoint(TaT.PageLeave,"xiangcepage");
+        ADManager.TAPoint(TaT.PageLeave, "xiangcepage");
         this.hide();
     }
 }

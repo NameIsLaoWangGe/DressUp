@@ -1,12 +1,11 @@
 {
-    "x":0,
     "type":"View",
-    "selectedBox":18,
-    "selecteID":24,
+    "selectedBox":2,
+    "selecteID":4,
     "searchKey":"View",
     "props":{"width":720,"top":0,"sceneColor":"#000000","right":0,"left":0,"height":1280,"bottom":0},
     "nodeParent":-1,
-    "maxID":70,
+    "maxID":61,
     "label":"View",
     "isOpen":true,
     "isDirectory":true,
@@ -15,10 +14,9 @@
     "compId":2,
     "child":[
         {
-            "x":15,
             "type":"Image",
             "searchKey":"Image",
-            "props":{"top":0,"skin":"main/BG.png","right":0,"left":0,"bottom":0},
+            "props":{"top":0,"skin":"Active/BG.png","right":0,"left":0,"bottom":0},
             "nodeParent":2,
             "label":"Image",
             "isOpen":true,
@@ -31,77 +29,9 @@
             "$HIDDEN":false
         },
         {
-            "x":15,
-            "type":"Box",
-            "searchKey":"Box,First,First",
-            "props":{"y":0,"x":0,"width":720,"var":"First","name":"First","height":1280,"centerY":0,"centerX":0},
-            "nodeParent":2,
-            "label":"First",
-            "isOpen":false,
-            "isDirectory":true,
-            "isAniNode":true,
-            "hasChild":true,
-            "compId":64,
-            "child":[
-                {
-                    "type":"Image",
-                    "searchKey":"Image",
-                    "props":{"y":213,"x":157,"skin":"Combine/1/17.png"},
-                    "nodeParent":64,
-                    "label":"Image",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":65,
-                    "child":[
-                        ]
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,ConfirmBtn",
-                    "props":{"y":885,"x":207,"var":"ConfirmBtn","skin":"Combine/1/18.png"},
-                    "nodeParent":64,
-                    "label":"ConfirmBtn",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":66,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":33,"x":79,"width":130,"skin":"Combine/1/sure.png","height":62},
-                            "nodeParent":66,
-                            "label":"Image",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":67,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image",
-                    "props":{"y":738,"x":56.5,"skin":"Combine/1/welcome.png"},
-                    "nodeParent":64,
-                    "label":"Image",
-                    "isDirectory":false,
-                    "isAniNode":true,
-                    "hasChild":false,
-                    "compId":68,
-                    "child":[
-                        ]
-                }],
-            "$HIDDEN":true
-        },
-        {
-            "x":15,
             "type":"Box",
             "searchKey":"Box,HeCheng",
-            "props":{"width":720,"visible":false,"var":"HeCheng","height":1280,"centerY":0,"centerX":0},
+            "props":{"width":720,"var":"HeCheng","height":1280,"centerY":0,"centerX":0},
             "nodeParent":2,
             "label":"HeCheng",
             "isOpen":false,
@@ -113,7 +43,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"y":0,"x":0,"width":720,"skin":"main/BG.png","height":1280},
+                    "props":{"y":0,"x":0,"width":720,"skin":"Active/BG.png","height":1280},
                     "nodeParent":4,
                     "label":"Image",
                     "isDirectory":false,
@@ -126,7 +56,22 @@
                 {
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"y":304,"x":122,"width":476,"skin":"Combine/2/shux.png","height":33},
+                    "props":{"y":122,"x":57,"skin":"Combine/2/8.png"},
+                    "nodeParent":4,
+                    "label":"Image",
+                    "isOpen":true,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":6,
+                    "child":[
+                        ],
+                    "$HIDDEN":false
+                },
+                {
+                    "type":"Image",
+                    "searchKey":"Image",
+                    "props":{"y":304,"skin":"Combine/2/shux.png","centerX":0},
                     "nodeParent":4,
                     "label":"Image",
                     "isDirectory":false,
@@ -142,7 +87,7 @@
                     "props":{"y":616,"x":241.5,"width":204,"skin":"Combine/2/120.png","name":"Wan","height":156},
                     "nodeParent":4,
                     "label":"Wan",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -164,7 +109,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,Mask,Mask",
-                            "props":{"x":1,"width":203,"var":"Mask","skin":"Combine/aaa.png","name":"Mask","height":159,"centerY":100},
+                            "props":{"width":203,"var":"Mask","skin":"Combine/aaa.png","name":"Mask","height":159,"centerY":100},
                             "nodeParent":9,
                             "label":"Mask",
                             "isDirectory":false,
@@ -192,10 +137,10 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,CombineBtn,CombineBtn",
-                    "props":{"y":995,"x":265,"width":181,"var":"CombineBtn","skin":"Combine/2/jinbijiesuo.png","name":"CombineBtn","height":115},
+                    "props":{"y":1006,"x":241,"width":226,"var":"CombineBtn","skin":"Active/kanshiping.png","name":"CombineBtn","height":102},
                     "nodeParent":4,
                     "label":"CombineBtn",
-                    "isOpen":false,
+                    "isOpen":true,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -204,7 +149,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":39,"x":47,"skin":"Combine/2/hecheng.png"},
+                            "props":{"y":37,"x":67,"width":125,"skin":"Combine/2/hecheng.png","height":31},
                             "nodeParent":12,
                             "label":"Image",
                             "isDirectory":false,
@@ -217,7 +162,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":40,"x":11,"visible":true,"skin":"Combine/bofang.png"},
+                            "props":{"y":37.5,"x":31,"skin":"Combine/bofang.png"},
                             "nodeParent":12,
                             "label":"Image",
                             "isDirectory":false,
@@ -243,11 +188,11 @@
                 },
                 {
                     "type":"Image",
-                    "searchKey":"Image,Fu,Fu",
-                    "props":{"y":530,"x":532,"var":"Fu","skin":"Combine/2/119.png","name":"Fu","anchorY":0.5,"anchorX":0.5},
+                    "searchKey":"Image,Caifu,Caifu",
+                    "props":{"y":525,"x":520,"width":138,"var":"Caifu","skin":"Combine/2/119.png","name":"Caifu","height":182,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":4,
-                    "label":"Fu",
-                    "isOpen":true,
+                    "label":"Caifu",
+                    "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
                     "hasChild":true,
@@ -256,7 +201,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,ad",
-                            "props":{"y":168,"x":128,"visible":true,"skin":"Combine/bofang.png","name":"ad"},
+                            "props":{"y":155,"x":116,"skin":"Combine/bofang.png","name":"ad"},
                             "nodeParent":15,
                             "label":"ad",
                             "isDirectory":false,
@@ -269,10 +214,10 @@
                 },
                 {
                     "type":"Image",
-                    "searchKey":"Image,QiZhi,QiZhi",
-                    "props":{"y":750,"x":165,"var":"QiZhi","skin":"Combine/2/14.png","name":"QiZhi","anchorY":0.5,"anchorX":0.5},
+                    "searchKey":"Image,Zhihui,Zhihui",
+                    "props":{"y":750,"x":165,"width":111,"var":"Zhihui","skin":"Combine/2/118.png","name":"Zhihui","height":188,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":4,
-                    "label":"QiZhi",
+                    "label":"Zhihui",
                     "isOpen":false,
                     "isDirectory":true,
                     "isAniNode":true,
@@ -282,7 +227,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,ad",
-                            "props":{"y":158,"x":94,"visible":true,"skin":"Combine/bofang.png","name":"ad"},
+                            "props":{"y":161,"x":89,"skin":"Combine/bofang.png","name":"ad"},
                             "nodeParent":16,
                             "label":"ad",
                             "isDirectory":false,
@@ -296,7 +241,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,Aiqing,Aiqing",
-                    "props":{"y":757,"x":525,"var":"Aiqing","skin":"Combine/2/117.png","name":"Aiqing","anchorY":0.5,"anchorX":0.5},
+                    "props":{"y":757,"x":525,"width":133,"var":"Aiqing","skin":"Combine/2/117.png","name":"Aiqing","height":174,"anchorY":0.5,"anchorX":0.5},
                     "nodeParent":4,
                     "label":"Aiqing",
                     "isOpen":false,
@@ -308,7 +253,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image,ad",
-                            "props":{"y":154,"x":133,"visible":true,"skin":"Combine/bofang.png","name":"ad"},
+                            "props":{"y":147,"x":111,"skin":"Combine/bofang.png","name":"ad"},
                             "nodeParent":17,
                             "label":"ad",
                             "isDirectory":false,
@@ -362,7 +307,7 @@
                 {
                     "type":"Image",
                     "searchKey":"Image,HCCloseBtn",
-                    "props":{"y":34,"x":598,"visible":false,"skin":"sign/X.png","name":"HCCloseBtn"},
+                    "props":{"y":122,"x":616,"visible":false,"skin":"sign/X.png","name":"HCCloseBtn"},
                     "nodeParent":4,
                     "label":"HCCloseBtn",
                     "isDirectory":false,
@@ -371,77 +316,22 @@
                     "compId":52,
                     "child":[
                         ]
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,FuHei,FuHei",
-                    "props":{"y":203,"x":343,"var":"FuHei","skin":"Combine/2/fuhei.png","name":"FuHei","anchorY":0.5,"anchorX":0.5},
-                    "nodeParent":4,
-                    "label":"FuHei",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":61,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image,ad",
-                            "props":{"y":136,"x":145,"visible":true,"skin":"Combine/bofang.png","name":"ad"},
-                            "nodeParent":61,
-                            "label":"ad",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":62,
-                            "child":[
-                                ]
-                        }]
-                },
-                {
-                    "type":"Image",
-                    "searchKey":"Image,Title,Title",
-                    "props":{"y":102,"x":169,"width":383,"var":"Title","skin":"Combine/2/8.png","name":"Title","height":183},
-                    "nodeParent":4,
-                    "label":"Title",
-                    "isOpen":false,
-                    "isDirectory":true,
-                    "isAniNode":true,
-                    "hasChild":true,
-                    "compId":6,
-                    "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":51.5,"x":29,"skin":"Combine/2/xuanze.png"},
-                            "nodeParent":6,
-                            "label":"Image",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":7,
-                            "child":[
-                                ]
-                        }],
-                    "$HIDDEN":false
                 }],
-            "$HIDDEN":true
+            "$HIDDEN":false
         },
         {
-            "x":15,
             "type":"Box",
             "searchKey":"Box,DanSheng",
             "props":{"width":720,"visible":false,"var":"DanSheng","height":1280,"centerY":0,"centerX":0},
             "nodeParent":2,
             "label":"DanSheng",
-            "isOpen":true,
+            "isOpen":false,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":18,
             "child":[
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Guanghuan",
                     "props":{"y":600,"x":360,"skin":"main/guang.png","name":"Guanghuan","anchorY":0.5,"anchorX":0.5},
@@ -455,10 +345,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,StartBtn,StartBtn",
-                    "props":{"y":1042,"x":393,"visible":true,"var":"StartBtn","skin":"Combine/2/6.png","name":"StartBtn"},
+                    "props":{"y":1019,"x":393,"width":250,"visible":true,"var":"StartBtn","skin":"Active/kanshiping.png","name":"StartBtn","height":113},
                     "nodeParent":18,
                     "label":"StartBtn",
                     "isOpen":false,
@@ -470,7 +359,7 @@
                         {
                             "type":"Text",
                             "searchKey":"Text",
-                            "props":{"y":40,"x":53,"text":"立即分享","italic":false,"fontSize":30,"font":"Microsoft YaHei","color":"#ffffff","bold":true},
+                            "props":{"y":41.5,"x":65,"text":"立即分享","italic":false,"fontSize":30,"font":"Microsoft YaHei","color":"#ffffff","bold":true},
                             "nodeParent":20,
                             "label":"Text",
                             "isDirectory":false,
@@ -482,34 +371,20 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image",
-                    "props":{"y":115,"x":145.5,"width":425,"skin":"Combine/3/8.png","height":195},
+                    "props":{"y":149,"x":93.5,"skin":"Combine/3/8.png"},
                     "nodeParent":18,
                     "label":"Image",
-                    "isOpen":false,
-                    "isDirectory":true,
+                    "isOpen":true,
+                    "isDirectory":false,
                     "isAniNode":true,
-                    "hasChild":true,
+                    "hasChild":false,
                     "compId":22,
                     "child":[
-                        {
-                            "type":"Image",
-                            "searchKey":"Image",
-                            "props":{"y":59.5,"x":80,"skin":"Combine/3/11.png"},
-                            "nodeParent":22,
-                            "label":"Image",
-                            "isDirectory":false,
-                            "isAniNode":true,
-                            "hasChild":false,
-                            "compId":23,
-                            "child":[
-                                ]
-                        }]
+                        ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,Role",
                     "props":{"y":628,"x":349,"skin":"Active/taozhuang3.png","scaleY":1.7,"scaleX":1.7,"name":"Role","anchorY":0.5,"anchorX":0.5},
@@ -523,10 +398,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CloseBtn",
-                    "props":{"y":37,"x":598,"visible":false,"skin":"sign/X.png","name":"CloseBtn"},
+                    "props":{"y":115,"x":606,"visible":false,"skin":"sign/X.png","name":"CloseBtn"},
                     "nodeParent":18,
                     "label":"CloseBtn",
                     "isDirectory":false,
@@ -537,10 +411,9 @@
                         ]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,GetAwardBtn",
-                    "props":{"y":1042,"x":97,"skin":"Combine/2/jinbijiesuo.png","name":"GetAwardBtn"},
+                    "props":{"y":1019,"x":67,"skin":"Combine/3/6.png","name":"GetAwardBtn"},
                     "nodeParent":18,
                     "label":"GetAwardBtn",
                     "isOpen":false,
@@ -552,7 +425,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":39,"x":51,"skin":"Combine/zhijielingqu.png"},
+                            "props":{"y":43.5,"x":71,"skin":"Combine/zhijielingqu.png"},
                             "nodeParent":44,
                             "label":"Image",
                             "isDirectory":false,
@@ -566,7 +439,7 @@
                         {
                             "type":"Image",
                             "searchKey":"Image",
-                            "props":{"y":38,"x":51,"visible":false,"skin":"Combine/buxiexie.png"},
+                            "props":{"y":42.5,"x":67,"visible":false,"skin":"Combine/buxiexie.png"},
                             "nodeParent":44,
                             "label":"Image",
                             "isDirectory":false,
@@ -579,7 +452,6 @@
                         }]
                 },
                 {
-                    "x":30,
                     "type":"Image",
                     "searchKey":"Image,CheckBtn",
                     "props":{"y":1165,"x":112.5,"skin":"common/buxuan.png","name":"CheckBtn","alpha":0.7},
@@ -618,9 +490,126 @@
                                 ]
                         }]
                 }],
-            "$HIDDEN":false
+            "$HIDDEN":true
         }],
     "animations":[
+        {
+            "nodes":[
+                {
+                    "target":16,
+                    "keyframes":{
+                        "y":[
+                            {
+                                "value":743,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"y",
+                                "index":0
+                            },
+                            {
+                                "value":506,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"y",
+                                "index":30
+                            },
+                            {
+                                "value":743,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"y",
+                                "index":60
+                            }],
+                        "x":[
+                            {
+                                "value":171,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"x",
+                                "index":0
+                            },
+                            {
+                                "value":294,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"x",
+                                "index":30
+                            },
+                            {
+                                "value":171,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"x",
+                                "index":60
+                            }],
+                        "rotation":[
+                            {
+                                "value":0,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"rotation",
+                                "index":0
+                            },
+                            {
+                                "value":74,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"rotation",
+                                "index":30
+                            },
+                            {
+                                "value":0,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":16,
+                                "key":"rotation",
+                                "index":60
+                            }]
+                    }
+                },
+                {
+                    "target":35,
+                    "keyframes":{
+                        "visible":[
+                            {
+                                "value":false,
+                                "tweenMethod":"linearNone",
+                                "tween":false,
+                                "target":35,
+                                "key":"visible",
+                                "index":0
+                            },
+                            {
+                                "value":true,
+                                "tweenMethod":"linearNone",
+                                "tween":false,
+                                "target":35,
+                                "key":"visible",
+                                "index":30
+                            },
+                            {
+                                "value":false,
+                                "tweenMethod":"linearNone",
+                                "tween":false,
+                                "target":35,
+                                "key":"visible",
+                                "index":35
+                            }]
+                    }
+                }],
+            "name":"ZhihuiAni",
+            "id":1,
+            "frameRate":60,
+            "action":0
+        },
         {
             "nodes":[
                 {
@@ -628,7 +617,7 @@
                     "keyframes":{
                         "y":[
                             {
-                                "value":515,
+                                "value":525,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -636,7 +625,7 @@
                                 "index":0
                             },
                             {
-                                "value":465.5,
+                                "value":478,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -644,7 +633,7 @@
                                 "index":30
                             },
                             {
-                                "value":515,
+                                "value":525,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -653,7 +642,7 @@
                             }],
                         "x":[
                             {
-                                "value":165,
+                                "value":181,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -661,7 +650,7 @@
                                 "index":0
                             },
                             {
-                                "value":294.5,
+                                "value":295,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -669,7 +658,7 @@
                                 "index":30
                             },
                             {
-                                "value":165,
+                                "value":181,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -686,7 +675,7 @@
                                 "index":0
                             },
                             {
-                                "value":41,
+                                "value":37,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":14,
@@ -759,6 +748,123 @@
         {
             "nodes":[
                 {
+                    "target":15,
+                    "keyframes":{
+                        "y":[
+                            {
+                                "value":525,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"y",
+                                "index":0
+                            },
+                            {
+                                "value":495,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"y",
+                                "index":30
+                            },
+                            {
+                                "value":525,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"y",
+                                "index":60
+                            }],
+                        "x":[
+                            {
+                                "value":540,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"x",
+                                "index":0
+                            },
+                            {
+                                "value":380.5,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"x",
+                                "index":30
+                            },
+                            {
+                                "value":540,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"x",
+                                "index":60
+                            }],
+                        "rotation":[
+                            {
+                                "value":0,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"rotation",
+                                "index":0
+                            },
+                            {
+                                "value":-86,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"rotation",
+                                "index":30
+                            },
+                            {
+                                "value":0,
+                                "tweenMethod":"linearNone",
+                                "tween":true,
+                                "target":15,
+                                "key":"rotation",
+                                "index":60
+                            }]
+                    }
+                },
+                {
+                    "target":35,
+                    "keyframes":{
+                        "visible":[
+                            {
+                                "value":false,
+                                "tweenMethod":"linearNone",
+                                "tween":false,
+                                "target":35,
+                                "key":"visible",
+                                "index":0
+                            },
+                            {
+                                "value":true,
+                                "tweenMethod":"linearNone",
+                                "tween":false,
+                                "target":35,
+                                "key":"visible",
+                                "index":30
+                            },
+                            {
+                                "value":false,
+                                "tweenMethod":"linearNone",
+                                "tween":false,
+                                "target":35,
+                                "key":"visible",
+                                "index":35
+                            }]
+                    }
+                }],
+            "name":"CaifuAni",
+            "id":3,
+            "frameRate":60,
+            "action":0
+        },
+        {
+            "nodes":[
+                {
                     "target":17,
                     "keyframes":{
                         "y":[
@@ -771,7 +877,7 @@
                                 "index":0
                             },
                             {
-                                "value":466,
+                                "value":494,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":17,
@@ -796,7 +902,7 @@
                                 "index":0
                             },
                             {
-                                "value":403,
+                                "value":416,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":17,
@@ -821,7 +927,7 @@
                                 "index":0
                             },
                             {
-                                "value":-84,
+                                "value":-71,
                                 "tweenMethod":"linearNone",
                                 "tween":true,
                                 "target":17,
@@ -870,393 +976,6 @@
                 }],
             "name":"AiqingAni",
             "id":4,
-            "frameRate":60,
-            "action":0
-        },
-        {
-            "nodes":[
-                {
-                    "target":16,
-                    "keyframes":{
-                        "y":[
-                            {
-                                "value":757,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"y",
-                                "index":0
-                            },
-                            {
-                                "value":473,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"y",
-                                "index":30
-                            },
-                            {
-                                "value":757,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"y",
-                                "index":61
-                            }],
-                        "x":[
-                            {
-                                "value":154,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"x",
-                                "index":0
-                            },
-                            {
-                                "value":282.5,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"x",
-                                "index":30
-                            },
-                            {
-                                "value":154,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"x",
-                                "index":61
-                            }],
-                        "rotation":[
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"rotation",
-                                "index":0
-                            },
-                            {
-                                "value":85,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"rotation",
-                                "index":30
-                            },
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":16,
-                                "key":"rotation",
-                                "index":61
-                            }]
-                    }
-                },
-                {
-                    "target":35,
-                    "keyframes":{
-                        "visible":[
-                            {
-                                "value":false,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":0
-                            },
-                            {
-                                "value":true,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":30
-                            },
-                            {
-                                "value":false,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":35
-                            }]
-                    }
-                }],
-            "name":"QiZhiAni",
-            "id":5,
-            "frameRate":60,
-            "action":0
-        },
-        {
-            "nodes":[
-                {
-                    "target":15,
-                    "keyframes":{
-                        "y":[
-                            {
-                                "value":541,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"y",
-                                "index":0
-                            },
-                            {
-                                "value":463,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"y",
-                                "index":30
-                            },
-                            {
-                                "value":541,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"y",
-                                "index":60
-                            }],
-                        "x":[
-                            {
-                                "value":541,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"x",
-                                "index":0
-                            },
-                            {
-                                "value":396,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"x",
-                                "index":30
-                            },
-                            {
-                                "value":541,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"x",
-                                "index":60
-                            }],
-                        "rotation":[
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"rotation",
-                                "index":0
-                            },
-                            {
-                                "value":-77,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"rotation",
-                                "index":30
-                            },
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":15,
-                                "key":"rotation",
-                                "index":60
-                            }]
-                    }
-                },
-                {
-                    "target":35,
-                    "keyframes":{
-                        "visible":[
-                            {
-                                "value":false,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":0
-                            },
-                            {
-                                "value":true,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":30
-                            },
-                            {
-                                "value":false,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":35
-                            }]
-                    }
-                }],
-            "name":"FuAni",
-            "id":6,
-            "frameRate":60,
-            "action":0
-        },
-        {
-            "nodes":[
-                {
-                    "target":61,
-                    "keyframes":{
-                        "y":[
-                            {
-                                "value":902,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"y",
-                                "index":0
-                            },
-                            {
-                                "value":484,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"y",
-                                "index":30
-                            },
-                            {
-                                "value":902,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"y",
-                                "index":60
-                            }],
-                        "x":[
-                            {
-                                "value":353.5,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"x",
-                                "index":0
-                            },
-                            {
-                                "value":271,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"x",
-                                "index":30
-                            },
-                            {
-                                "value":353.5,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"x",
-                                "index":60
-                            }],
-                        "rotation":[
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"rotation",
-                                "index":0
-                            },
-                            {
-                                "value":79,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"rotation",
-                                "index":30
-                            },
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"rotation",
-                                "index":60
-                            }],
-                        "centerY":[
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"centerY",
-                                "index":0
-                            }],
-                        "centerX":[
-                            {
-                                "value":0,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"centerX",
-                                "index":0
-                            }],
-                        "anchorY":[
-                            {
-                                "value":0.5,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"anchorY",
-                                "index":0
-                            }],
-                        "anchorX":[
-                            {
-                                "value":0.5,
-                                "tweenMethod":"linearNone",
-                                "tween":true,
-                                "target":61,
-                                "key":"anchorX",
-                                "index":0
-                            }]
-                    }
-                },
-                {
-                    "target":35,
-                    "keyframes":{
-                        "visible":[
-                            {
-                                "value":false,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":0
-                            },
-                            {
-                                "value":true,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":30
-                            },
-                            {
-                                "value":false,
-                                "tweenMethod":"linearNone",
-                                "tween":false,
-                                "target":35,
-                                "key":"visible",
-                                "index":35
-                            }]
-                    }
-                }],
-            "name":"FuHeiAni",
-            "id":7,
             "frameRate":60,
             "action":0
         }]

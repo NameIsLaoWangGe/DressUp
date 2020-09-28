@@ -4,15 +4,18 @@ import { EventMgr } from "../Frame/Core";
 import { clothtype } from "./ClothChange";
 import { LC } from "./Formula";
 import PickJsonData from "./PickJsonData";
+import ManConfigData from "./ManConfigData";
 
 export default class ConfigData extends Laya.Script
 {
     pic=new PickJsonData();
+    man=new ManConfigData();
     LoadJson()
     {
         
         this.LoadJson2();
         this.pic.LoadPickJson();
+        this.man.LoadManJson();
     }
     LoadJson2()
     {
@@ -226,7 +229,7 @@ export default class ConfigData extends Laya.Script
             }
             GameDataController.ClothPackge1 = pack1;//七日签到
             GameDataController.ClothPackge2 = pack2;//抽屉特殊皮肤
-            GameDataController.ClothPackge3 = pack3;//节日
+            GameDataController.ClothPackge3 = pack3;//睡衣
             GameDataController.ClothPackge4 = pack4;//每日推荐
 
             GameDataController._clothData.set(temp.ID, temp);
@@ -241,15 +244,10 @@ export default class ConfigData extends Laya.Script
             {
                 Laya.LocalStorage.setJSON("ClothData", GameDataController.ClothDataAsy);
                 Laya.LocalStorage.setItem("firstuse", "1");
-                // for (let i = 1; i < 7; i++) {
-                //     GameDataController.BgdatapackSet(i,1);
-                    
-                // }
             }
             else
             {
                 let Update = {};
-                let oldClothData = Laya.LocalStorage.getJSON("ClothData");
                 let newClothData = GameDataController.ClothDataAsy;
                 for (let k in newClothData)
                 {
@@ -264,13 +262,14 @@ export default class ConfigData extends Laya.Script
                         Update[k] = 1;
                     }
                 }
-                Laya.LocalStorage.setJSON("ClothData", Update);
+                Laya.LocalStorage.setJSON("ClothData", Update); 
             }
            
         }
         else
         {
             Laya.LocalStorage.setJSON("ClothData", GameDataController.ClothDataAsy);
+            Laya
             Laya.LocalStorage.setItem("firstuse", "1");
         }
         console.log("===========》");
@@ -1387,6 +1386,7 @@ export default class ConfigData extends Laya.Script
             Star: "3",
             Gender: "2",
             num: "5",
+            Type2: "3_1_1",
             Type: "0",
             Position: "28.0,331.0,0",
             Label1: "Label_4:2000",
@@ -1403,6 +1403,7 @@ export default class ConfigData extends Laya.Script
             Star: "3",
             Gender: "2",
             num: "5",
+            Type2: "3_1_2",
             Type: "1",
             Position: "17.0,62.0,0",
             Label1: "Label_1:7000",
@@ -1419,6 +1420,7 @@ export default class ConfigData extends Laya.Script
             Star: "3",
             Gender: "2",
             num: "5",
+            Type2: "3_1_3",
             Type: "6",
             Position: "23.0,-366.0,0",
             Label1: "Label_1:1100",
@@ -1787,116 +1789,6 @@ export default class ConfigData extends Laya.Script
             Icon: "70201_icon",
             IconPath1: "70201",
         },  
-        {
-            ID: "71001",
-            Name: "嫦娥青丝",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            Type: "0",
-            Type2:"3_1_1",
-            Position: "34.0,218.0,0",
-            Position2: "69,126,0",
-            Label1: "Label_3:1500",
-            Label2: "Label_5:750",
-            Sort1: "6",
-            Sort2: "-10",
-            Icon: "71001_icon",
-            IconPath1: "71001_1",
-            IconPath2: "71001_2",
-        },
-        {
-            ID: "71002",
-            Name: "嫦娥霓裳",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            num: "5",
-            Type: "1",
-            Type2:"3_1_2",
-            Position: "17.0,-41.0,0",
-            Label1: "Label_1:7000",
-            Label2: "Label_2:3500",
-            Sort1: "5",
-            Icon: "71002_icon",
-            IconPath1: "71002",
-        },
-        {
-            ID: "71003",
-            Name: "月兔",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            Type: "7",
-            Type2:"3_1_3",
-            Position: "-189.0,206.0,0",
-            Label1: "Label_1:4000",
-            Label2: "Label_2:2000",
-            Sort1: "-6",
-            IconPath1: "71003",
-        },
-        {
-            ID: "72001",
-            Name: "小红帽",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            Type: "0",
-            Position: "19.0,348.0,0",
-            Position2: "17,271,0",
-            Label1: "Label_3:1500",
-            Label2: "Label_5:750",
-            Sort1: "6",
-            Sort2: "1",
-            Icon: "72001_icon",
-            IconPath1: "72001_1",
-            IconPath2: "72001_2",
-        },
-        {
-            ID: "72002",
-            Name: "小红帽",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            num: "5",
-            Type: "1",
-            Position: "12.0,119.0,0",
-            Position2: "16.0,66.0,0",
-            Label1: "Label_1:7000",
-            Label2: "Label_2:3500",
-            Sort1: "5",
-            Sort2: "3",
-            Icon: "71002_icon",
-            IconPath1: "72002_1",
-            IconPath2: "72002_2",
-        },
-        {
-            ID: "72003",
-            Name: "小红帽",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            Type: "5",
-            Position: "23.8,-205.0,0",
-            Label1: "Label_1:1600",
-            Label2: "Label_5:800",
-            Sort1: "3",
-            IconPath1: "72003",
-        },
-        {
-            ID: "72004",
-            Name: "小红帽",
-            Price: "1",
-            Star: "3",
-            Gender: "2",
-            num: "5",
-            Type: "6",
-            Position: "27.0,-323.0,0",
-            Label1: "Label_1:1100",
-            Label2: "Label_2:550",
-            Sort1: "4",
-            IconPath1: "72004", 
-        }
     ]
 }
 

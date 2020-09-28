@@ -1,0 +1,7 @@
+{
+  "code": "import { BaseState, UIMgr, GameMgr } from \"../../Frame/Core\";\r\nexport default class Game_Main extends BaseState {\r\n    constructor() {\r\n        super(...arguments);\r\n        this.name = \"Game_Main\";\r\n    }\r\n    onInit() {\r\n    }\r\n    onEnter(args) {\r\n        UIMgr.show(\"UIMain\");\r\n        GameMgr.playMusic(\"bgm\");\r\n    }\r\n    onExit() {\r\n    }\r\n}\r\n//# sourceMappingURL=Game_Main.js.map",
+  "references": [
+    "C:/Users/tomato/Downloads/Baby/NewProject/src/script/Frame/Core.ts"
+  ],
+  "map": "{\"version\":3,\"file\":\"Game_Main.js\",\"sourceRoot\":\"\",\"sources\":[\"../../../../../src/script/Game/State/Game_Main.ts\"],\"names\":[],\"mappings\":\"AAAA,OAAO,EAAE,SAAS,EAAE,KAAK,EAAE,OAAO,EAAE,MAAM,kBAAkB,CAAC;AAE7D,MAAM,CAAC,OAAO,OAAO,SAAU,SAAQ,SAAS;IAAhD;;QACI,SAAI,GAAG,WAAW,CAAC;IAavB,CAAC;IAXG,MAAM;IACN,CAAC;IAED,OAAO,CAAC,IAAU;QACd,KAAK,CAAC,IAAI,CAAC,QAAQ,CAAC,CAAC;QACrB,OAAO,CAAC,SAAS,CAAC,KAAK,CAAC,CAAC;IAC7B,CAAC;IAED,MAAM;IAEN,CAAC;CACJ\"}"
+}

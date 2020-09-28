@@ -80,7 +80,7 @@ export default class SkinItem extends Laya.Script {
         this.Select.visible = false;
         this.type2 = data.GetType2;
         this.Star.skin = "Btnbar/xing" + data.Star + ".png";
-        // console.log(data.ID + "" + data.Star);
+        console.log(data.ID + "" + data.Star);
         this.Lock.visible = !GameDataController.ClothCanUse(data.ID);
 
         
@@ -93,8 +93,8 @@ export default class SkinItem extends Laya.Script {
         // {
         //     this.Adimage.visible = GameDataController.ClothDataRefresh[data.ID] == 1;
         // }
-        if (data.GetType2 != null || data.ID == 50404 || data.ID == 40601 || data.ID == 40602 || data.ID == 40603 || data.ID == 40604 || data.ID == 40605||data.ID==70201||data.ID==70202||data.ID==72001||data.ID==72002||data.ID==72003||data.ID==72004)//如果是套装则无法通过看广告获取 翅膀和白雪公主//小红帽无法通过看广告获取
-        // if(data.GetType2 != null || data.ID == 50404)
+        // if (data.GetType2 != null || data.ID == 50404 || data.ID == 40601 || data.ID == 40602 || data.ID == 40603 || data.ID == 40604 || data.ID == 40605||data.ID==70201||data.ID==70202)//如果是套装则无法通过看广告获取 翅膀和白雪公主无法通过看广告获取
+        if(data.GetType2 != null || data.ID == 50404)
         {
             this.Adimage.visible = false;
             this.smallLock.visible = true;
@@ -103,7 +103,7 @@ export default class SkinItem extends Laya.Script {
             this.Adimage.visible = true;
             this.smallLock.visible = false;
         }
-        // console.log(GameDataController.ClothDataRefresh[data.ID], data.ID);
+        console.log(GameDataController.ClothDataRefresh[data.ID], data.ID);
 
 
         switch (this.type) {
@@ -181,7 +181,6 @@ export default class SkinItem extends Laya.Script {
         // {
 
         // }
-
         if (this.Lock.visible)//当前上锁
         {
             if (this.Adimage.visible)//需要看广告
@@ -197,19 +196,6 @@ export default class SkinItem extends Laya.Script {
 
                     ClothChange.Instance.CharmValueChange();
                     (UIMgr.get("UIReady")as UIReady).CharmValueShow();
-                }, () => {
-                    UIMgr.show("UITip", () => {
-                        this.Select.visible = true;
-                        ClothChange.Instance._ClothChange(this.ID, this.type);
-                        BagListController.Instance.getlist(this.type)._refresh();
-                        let dataall = GameDataController.ClothDataRefresh;
-                        dataall[this.ID] = 0;
-                        GameDataController.ClothDataRefresh = dataall;
-                        UIMgr.tip("恭喜获得一件装扮");
-
-                        ClothChange.Instance.CharmValueChange();
-                        (UIMgr.get("UIReady")as UIReady).CharmValueShow();
-                    })
                 })
             }
             else {

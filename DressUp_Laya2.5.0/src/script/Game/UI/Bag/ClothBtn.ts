@@ -3,36 +3,23 @@ import BagListController from "./BagListController";
 export default class ClothBtn extends Laya.Script
 {
     Btn: Laya.Image;
-    icon: Laya.Image;
     data: string;
     index: number;
     ID: number;
     onAwake()
     {
         this.Btn = this.owner.getChildAt(0) as Laya.Image;
-        this.icon = this.owner.getChildAt(1) as Laya.Image;
         this.Btn.on(Laya.Event.CLICK, this, this.click)
     }
 
     fell(mes: string, index: number)
     {
         this.data = mes;
-        this.Btn.skin = this.data + ".png";
-        this.icon.skin = this.data + "1.png";
         this.index = index;
-        this.icon.visible = false;
         this.ID = index;
         if (this.ID > 1)
         {
             this.ID += 1;
-        }
-        if (BagListController.Instance.SelectIndex == this.ID )
-        {
-            this.icon.visible = true;
-        }
-        else
-        {
-            this.icon.visible = false;
         }
     }
 
@@ -66,5 +53,6 @@ export default class ClothBtn extends Laya.Script
                 break
         }
 
+        BagListController.Instance.CTT.play();
     }
 }
